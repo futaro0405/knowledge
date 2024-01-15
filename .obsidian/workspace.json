@@ -1,31 +1,27 @@
 {
   "main": {
-    "id": "c20fa0aef4b5b2fa",
+    "id": "ba179361cf19898e",
     "type": "split",
     "children": [
       {
-        "id": "edeafa7945c674e0",
+        "id": "243cd29c6436c096",
         "type": "tabs",
         "children": [
           {
-            "id": "9669e55168a99cbf",
+            "id": "54ddd494eff8df9c",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "knowledge/ruby on rails/basic.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "memos_view",
+              "state": {}
             }
           },
           {
-            "id": "eca0c0f3e51c5035",
+            "id": "f28fc14a327d9c0c",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "knowledge/javascript/defer.md",
+                "file": "2024/01-January/3rd/2024-01-15.md",
                 "mode": "source",
                 "source": false
               }
@@ -38,15 +34,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "822f09c65c38152d",
+    "id": "a9e036e270a75008",
     "type": "split",
     "children": [
       {
-        "id": "afedc489a848ef08",
+        "id": "72fa8a38df136206",
         "type": "tabs",
         "children": [
           {
-            "id": "8d222cde6752e92d",
+            "id": "4250a769dbaebf9b",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -56,7 +52,7 @@
             }
           },
           {
-            "id": "75fe63649462eaef",
+            "id": "2696249af269eff5",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -71,7 +67,7 @@
             }
           },
           {
-            "id": "6d032e41c35c5e5e",
+            "id": "0bad621c0d4ed57a",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -82,27 +78,27 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 217.5
   },
   "right": {
-    "id": "22ac07fe42e64e6f",
+    "id": "93add0328c0067f8",
     "type": "split",
     "children": [
       {
-        "id": "ba5dbf70f1459d76",
+        "id": "dafd44608523e9b5",
         "type": "tabs",
         "children": [
           {
-            "id": "c01912049c2161fa",
+            "id": "6ad71924d6ce7d23",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "knowledge/javascript/defer.md",
-                "collapseAll": false,
-                "extraContext": false,
+                "file": "2024/01-January/3rd/2024-01-15.md",
+                "collapseAll": true,
+                "extraContext": true,
                 "sortOrder": "alphabetical",
-                "showSearch": false,
+                "showSearch": true,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
@@ -110,19 +106,27 @@
             }
           },
           {
-            "id": "6b5e16b10bdba83e",
+            "id": "09ec6725bc10594a",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          },
+          {
+            "id": "0187e1a8683bb40c",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "knowledge/javascript/defer.md",
+                "file": "2024/01-January/3rd/2024-01-15.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "1776694aab8506e1",
+            "id": "e53562115d07c978",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -133,21 +137,21 @@
             }
           },
           {
-            "id": "5a9dd3d4a3e6d22d",
+            "id": "09cba8c05c6ea208",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "knowledge/javascript/defer.md"
+                "file": "2024/01-January/3rd/2024-01-15.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 463.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -160,53 +164,43 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "8d222cde6752e92d",
+  "active": "f28fc14a327d9c0c",
   "lastOpenFiles": [
-    "knowledge/ruby on rails/basic.md",
-    "knowledge/javascript/defer.md",
-    "knowledge/ruby on rails",
     "daily-note/2024-01-15.md",
-    "knowledge/javascript/webcomponents.md",
-    "knowledge/Obsidian.md",
-    "knowledge/ruby/module/module_overview.md",
-    "knowledge/git/image/img_rm.png",
-    "knowledge/git/image/img_reset.png",
-    "knowledge/git/image/img_diff.png",
-    "knowledge/git/image/img_checkout.png",
-    "knowledge/git/image/img_01.png",
-    "knowledge/git/index.md",
-    "knowledge/git/image.png",
-    "knowledge/git/image-2.png",
-    "knowledge/git/image-1.png",
-    "knowledge/git/image",
-    "knowledge/git/git_02.md",
-    "knowledge/git",
-    "git/image-2.png",
-    "git/image-1.png",
-    "git/git_02.md",
-    "git/image",
-    "git/index.md",
-    "git",
-    "新しいフォルダー",
-    "knowledge/ruby/regular_expression/01_regular_expression.md",
-    "knowledge/ruby/regular_expression",
-    "knowledge/ruby/method/Method-visibility.md",
-    "knowledge/ruby/method",
-    "knowledge/ruby/class/ruby-book/test/gate_test.rb",
-    "knowledge/ruby/class/ruby-book/lib/ticket.rb",
-    "knowledge/ruby/class/01_class.md",
-    "knowledge/ruby/011_pattern_match/03_andmore.md",
-    "knowledge/ruby/011_pattern_match/02_usecase.md",
-    "knowledge/ruby/011_pattern_match/01_pattern_match.md",
-    "knowledge/ruby/010_yield_and_proc/003_proc_andmore.md",
-    "knowledge/ruby/010_yield_and_proc/002_proc.md",
-    "knowledge/ruby/010_yield_and_proc/001_yield_and_method.md",
-    "knowledge/ruby/009_exception/04_exception_andmore.md",
-    "knowledge/ruby/009_exception/03_exception_bestPractice.md",
-    "knowledge/ruby/009_exception/02_intentional_exception.md",
-    "knowledge/ruby/009_exception/01_exception.md",
-    "knowledge/ruby/008_module/04_single_module.md",
-    "knowledge/ruby/008_module/05_maintaining_state.md",
-    "knowledge/ruby/008_module/03_namespace.md"
+    "2024/01-January/3rd/2024-01-15.md",
+    "knowledge/ruby on rails/basic.md",
+    "knowledge/Ruby-on-Rails/Rails-basic.md",
+    "2024/01-January/3rd/2024-01-14.md",
+    "knowledge/githubActions.md",
+    "knowledge/Ruby-on-Rails",
+    "knowledge/rest/index.md",
+    "knowledge/rest",
+    "knowledge/react",
+    "knowledge/DB/basic.md",
+    "knowledge/DB",
+    "delete.md",
+    "knowledge/フレームワーク.md",
+    "knowledge/Ruby.md",
+    "knowledge/Ruby on Rails.md",
+    "2024/01-January/3rd",
+    "2024/01-January",
+    "2024",
+    "knowledge/daily-note",
+    "knowledge/README.md",
+    "daily-note",
+    "knowledge",
+    "2024/01-1月/2/2024-01-13.md",
+    "2024/01-1月/2/2024-01-12.md",
+    "Untitled.md",
+    "2024/01-January/3rd/weekly-3rd.md",
+    "2024/01-January/2nd/2024-01-12.md",
+    "2024/01-January/2nd/2024-01-08.md",
+    "template/templete-weekly.md",
+    "2024/01-January/2nd/2024-01-14.md",
+    "template/template-daily.md",
+    "2024/01-January/2nd/weekly-2nd.md",
+    "2024/01-January/1st/weekly-1st.md",
+    "2024/01-January/1st/2024-01-01.md",
+    "2024/01-January/-1st/weekly-1st.md"
   ]
 }
