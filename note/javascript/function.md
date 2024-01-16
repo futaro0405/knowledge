@@ -98,209 +98,108 @@ fn("a", "b", "c");
 #### 例
 
 ```
-
 function fn(x, y, z) {
-
   console.log(x);
-
   console.log(y);
-
   console.log(z);
-
 }
-
 const array = [1, 2, 3];
-
   
-
 fn(...array);
-
 fn(array[0], array[1], array[2]);
-
 ```
-
 ### arguments
-
 `arguments`という変数を使用することで可変長引数を扱うことができる。
-
 `arguments`は関数に渡された引数がすべて入った`Array-like`なオブジェクトで、配列のようにインデックスで要素にアクセスできるが`Array`のメソッドは利用できない特性がある。
-
-  
-
 #### 例
 
 ```
-
 function fn() {
-
   console.log(arguments[0]);
-
   console.log(arguments[1]);
-
   console.log(arguments[2]);
-
 }
-
 fn("a","b","c");
-
 ```
-
 Rest parametersが利用できる環境では`arguments`変数を使うべきでない。
-
 - Arrow Functionでは利用できない。
-
 - Array-likeオブジェクトであるため、Arrayメソッドが利用できない
-
 - 関数が可変長変数を受け付けるかを判断しずらい
-
-  
-
 ## 関数の引数と分割代入
-
 関数の引数に分割代入を使用することで以下のように定義できる。
-
 ```
-
 function printUserId({ id }) {
-
   console.log(id);
-
 }
-
 const user = {
-
   id: 42
-
 };
-
 printUserId(user);
-
 # 配列を用いた分割代入
-
 function print([first, second]) {
-
   console.log(first); // 1
-
   console.log(second); // 2
-
 }
-
 const array = [1, 2];
-
 print(array);
-
 ```
 
 ## 関数はオブジェクト
 
 関数はオブジェクトの一種。関数名の`()`をつけることで関数として処理を呼び出せる。
-
 `()`をつけなければ関数をオブジェクトとして参照できる。
-
 関数は他の値と同じように変数へ代入したり、関数の引数として渡すことが可能。
-
 関数が値として扱えることを、ファーストクラスファンクション（第一級関数）という。
-
 ### 例
-
 ```
-
 function fn() {
-
   console.log("fn呼び出し");
-
 }
-
 const myFunc = fn;
-
 myFunc();
-
 ```
 
 ## 関数式
-
 関数を変数として代入する式。
-
 名前を持たない関数を匿名関数（または無名関数）と呼ぶ。
-
 ```
-
 // 関数式は変数名で参照できるため、"関数名"を省略できる（匿名関数）
-
 const 変数名 = function() {
-
 }
-
 // 関数宣言では"関数名"は省略できない
-
 function 関数名() {
-
 }
-
 ```
-
 関数式で関数名を定義することはできるがこの関数名を関数外から呼び出すことはできない。
-
 関数の中で再帰的に関数を呼び出す際に用いられる。
-
 ```
 
 const factorial = function innerFact(n) {
-
   if (n === 0) {
-
     return 1;
-
   }
-
-  
-
   return n * innerFact(n - 1);
-
 };
 
-  
-
 console.log(factorial(3));
-
 ```
 
 ## Arrow Function
-
 `=>`を使い、匿名関数を定義する。
-
 省略記法があり、次の場合に短縮してかける。
-
 - 関数の仮引数が1つのとき()は省略
-
 - 関数の処理が1つの式である場合に、ブロックとreturn文を省略
-
-  
-
 ### 例
-
 ```
-
 const 変数名 = () => {
-
   return 戻り値;
-
 }
-
 // 省略形
-
 const fn = () =>{};
-
 const fn = (x) =>{};
-
 const fn = x =>{};
-
 const fn = (x, y) =>{};
 
-  
-
 const fn = x =>{ return x * x; };
-
 const fn = x => x * x;
-
 ```

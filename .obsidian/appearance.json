@@ -1,5 +1,8 @@
 {
   "cssTheme": "Obsidian Nord",
   "accentColor": "",
-  "theme": "obsidian"
+  "theme": "obsidian",
+  "interfaceFontFamily": "メイリオ",
+  "textFontFamily": "メイリオ",
+  "monospaceFontFamily": "游ゴシック"
 }
