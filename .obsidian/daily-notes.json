@@ -1,3 +1,4 @@
 {
-  "format": "[daily-note]/YYYY-MM-DD"
+  "format": "YYYY/MM-MMMM/YYYY-MM-DD",
+  "folder": ""
 }

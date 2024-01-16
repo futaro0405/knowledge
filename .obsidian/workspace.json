@@ -4,31 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "243cd29c6436c096",
+        "id": "5f6fed16fa5cbdd0",
         "type": "tabs",
         "children": [
           {
-            "id": "54ddd494eff8df9c",
-            "type": "leaf",
-            "state": {
-              "type": "memos_view",
-              "state": {}
-            }
-          },
-          {
-            "id": "f28fc14a327d9c0c",
+            "id": "ef9763e599e471bf",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2024/01-January/3rd/2024-01-15.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -94,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "2024/01-January/3rd/2024-01-15.md",
+                "file": "README.md",
                 "collapseAll": true,
                 "extraContext": true,
                 "sortOrder": "alphabetical",
@@ -109,7 +100,7 @@
             "id": "09ec6725bc10594a",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "memos_view",
               "state": {}
             }
           },
@@ -119,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "2024/01-January/3rd/2024-01-15.md",
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -142,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "2024/01-January/3rd/2024-01-15.md"
+                "file": "README.md"
               }
             }
           }
@@ -164,13 +155,18 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "f28fc14a327d9c0c",
+  "active": "ef9763e599e471bf",
   "lastOpenFiles": [
+    "2024/01-January/2024-01-14.md",
+    "2024/01-January/2024-01-15.md",
+    "2024/01-January/2024-01-16.md",
+    "2024/01-January",
+    "2024",
+    "README.md",
+    "daily-note/2024-01-16.md",
     "daily-note/2024-01-15.md",
-    "2024/01-January/3rd/2024-01-15.md",
     "knowledge/ruby on rails/basic.md",
     "knowledge/Ruby-on-Rails/Rails-basic.md",
-    "2024/01-January/3rd/2024-01-14.md",
     "knowledge/githubActions.md",
     "knowledge/Ruby-on-Rails",
     "knowledge/rest/index.md",
@@ -183,24 +179,18 @@
     "knowledge/Ruby.md",
     "knowledge/Ruby on Rails.md",
     "2024/01-January/3rd",
-    "2024/01-January",
-    "2024",
     "knowledge/daily-note",
     "knowledge/README.md",
     "daily-note",
     "knowledge",
     "2024/01-1月/2/2024-01-13.md",
     "2024/01-1月/2/2024-01-12.md",
-    "Untitled.md",
     "2024/01-January/3rd/weekly-3rd.md",
     "2024/01-January/2nd/2024-01-12.md",
     "2024/01-January/2nd/2024-01-08.md",
     "template/templete-weekly.md",
     "2024/01-January/2nd/2024-01-14.md",
     "template/template-daily.md",
-    "2024/01-January/2nd/weekly-2nd.md",
-    "2024/01-January/1st/weekly-1st.md",
-    "2024/01-January/1st/2024-01-01.md",
-    "2024/01-January/-1st/weekly-1st.md"
+    "2024/01-January/2nd/weekly-2nd.md"
   ]
 }
