@@ -4,11 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "e5527b96128869e9",
+        "id": "f47c7b4c78a09672",
         "type": "tabs",
         "children": [
           {
-            "id": "41f72d10dd49bfd4",
+            "id": "d2afc4bd09281a0c",
+            "type": "leaf",
+            "state": {
+              "type": "memos_view",
+              "state": {}
+            }
+          },
+          {
+            "id": "5e905259e7635526",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -18,29 +26,9 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "a23b0aac84c3a0bc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/Ruby-on-Rails/MVC.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "ceafbae15ede3bbc",
-            "type": "leaf",
-            "state": {
-              "type": "memos_view",
-              "state": {}
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -106,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/MVC.md",
+                "file": "2024/01-January/2024-01-16.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/MVC.md",
+                "file": "2024/01-January/2024-01-16.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -146,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/MVC.md"
+                "file": "2024/01-January/2024-01-16.md"
               }
             }
           }
@@ -168,11 +156,13 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "ceafbae15ede3bbc",
+  "active": "5e905259e7635526",
   "lastOpenFiles": [
-    "2024/01-January/2024-01-16.md",
-    "note/Ruby-on-Rails/Model.md",
     "note/Ruby-on-Rails/MVC.md",
+    "2024/01-January/2024-01-16.md",
+    "2024/01-January/2024-01-14.md",
+    "README.md",
+    "note/Ruby-on-Rails/Model.md",
     "note/Ruby-on-Rails/View.md",
     "note/Ruby-on-Rails/Controller.md",
     "note/docker/rails&postgresql.md",
@@ -190,7 +180,6 @@
     "note/githubActions.md",
     "note/DB/basic.md",
     "note/Obsidian.md",
-    "README.md",
     "note/ruby/class/ruby-book/test/gate_test.rb",
     "note/ruby/class/ruby-book/lib/ticket.rb",
     "note/ruby/class/ruby-book/lib/gate.rb",
@@ -201,7 +190,6 @@
     "note/ruby/module/module_overview.md",
     "note/ruby/method/Method-visibility.md",
     "note/ruby/class/ruby-book",
-    "note/ruby/class/01_class.md",
     "note/git/image/img_rm.png",
     "note/git/image/img_diff.png",
     "note/git/image/img_reset.png",
