@@ -27,7 +27,7 @@ git diff <ファイル名>
 # "git add" した後の変更分
 git diff --staged
 ```
-!["git diff" command image ](image/img_diff.png)
+!["git diff" command image ](img_diff.png)
 
 ## 変更履歴を確認する
 ```
@@ -52,7 +52,7 @@ git rm <ディレクトリ名>
 git rm --cached <ファイル名>
 ```
 
-!["git rm" command image](image/img_rm.png)
+!["git rm" command image](img_rm.png)
 
 ## ファイルの移動を記録する
 ```
@@ -91,7 +91,7 @@ git checkout -- .
 ```
 `--`をつけているのはブランチ名とファイル名がかぶったときにGitがわからなくならないため
 
-!["git checkout" command image](image/img_checkout.png)
+!["git checkout" command image](img_checkout.png)
 
 ## ステージした変更を取り消す
 ```
@@ -102,14 +102,14 @@ git reset HEAD <ディレクトリ名>
 git reset HEAD .
 ```
 指定した変更をステージから取り消すだけなので、ワークツリーのファイルには影響を与えない
-![](image/img_reset.png)
+![](img_reset.png)
 
 ## 直前のコミットをやり直す
 ```
 git commit --amend
 ```
 リモートリポジトリにPushしたコミットはやり直してはいけない。
-![How to redo the last commit](image/img_01.png)
+![How to redo the last commit](img_01.png)
 
 ## リモートを表示する
 ```

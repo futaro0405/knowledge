@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "f47c7b4c78a09672",
+        "id": "e3caeb7f7f18e7b7",
         "type": "tabs",
         "children": [
           {
-            "id": "d2afc4bd09281a0c",
+            "id": "124369c17a0c3a58",
             "type": "leaf",
             "state": {
               "type": "memos_view",
@@ -16,14 +16,14 @@
             }
           },
           {
-            "id": "5e905259e7635526",
+            "id": "476e5ed2ffc932ff",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2024/01-January/2024-01-16.md",
+                "file": "daily/2024-02-14.md",
                 "mode": "source",
-                "source": false
+                "source": true
               }
             }
           }
@@ -38,7 +38,7 @@
     "type": "split",
     "children": [
       {
-        "id": "72fa8a38df136206",
+        "id": "d75c32f0f7bb3180",
         "type": "tabs",
         "children": [
           {
@@ -49,6 +49,14 @@
               "state": {
                 "sortOrder": "alphabetical"
               }
+            }
+          },
+          {
+            "id": "0bad621c0d4ed57a",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
             }
           },
           {
@@ -64,14 +72,6 @@
                 "extraContext": false,
                 "sortOrder": "alphabetical"
               }
-            }
-          },
-          {
-            "id": "0bad621c0d4ed57a",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {}
             }
           }
         ]
@@ -89,35 +89,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "6ad71924d6ce7d23",
-            "type": "leaf",
-            "state": {
-              "type": "backlink",
-              "state": {
-                "file": "2024/01-January/2024-01-16.md",
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical",
-                "showSearch": false,
-                "searchQuery": "",
-                "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
-          {
-            "id": "0187e1a8683bb40c",
-            "type": "leaf",
-            "state": {
-              "type": "outgoing-link",
-              "state": {
-                "file": "2024/01-January/2024-01-16.md",
-                "linksCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
-          {
             "id": "e53562115d07c978",
             "type": "leaf",
             "state": {
@@ -134,15 +105,53 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "2024/01-January/2024-01-16.md"
+                "file": "daily/2024-02-14.md"
+              }
+            }
+          },
+          {
+            "id": "5be4d6d4df9db415",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "62a86482ea848f19",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "daily/2024-02-14.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "25b1683484372939",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "daily/2024-02-14.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 463.5,
+    "width": 352.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -156,51 +165,55 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "5e905259e7635526",
+  "active": "476e5ed2ffc932ff",
   "lastOpenFiles": [
-    "note/Ruby-on-Rails/MVC.md",
-    "2024/01-January/2024-01-16.md",
-    "2024/01-January/2024-01-14.md",
-    "README.md",
-    "note/Ruby-on-Rails/Model.md",
-    "note/Ruby-on-Rails/View.md",
-    "note/Ruby-on-Rails/Controller.md",
-    "note/docker/rails&postgresql.md",
-    "note/docker/docker&alpine&mysql.md",
-    "note/rest/index.md",
-    "note/javascript/webcomponents.md",
-    "note/javascript/variables.md",
-    "note/javascript/object.md",
-    "note/javascript/loop.md",
-    "note/javascript/function.md",
-    "note/javascript/destructuring_assignment.md",
-    "note/javascript/defer.md",
-    "note/javascript/comment.md",
-    "note/git/branch作成.md",
-    "note/githubActions.md",
-    "note/DB/basic.md",
-    "note/Obsidian.md",
-    "note/ruby/class/ruby-book/test/gate_test.rb",
-    "note/ruby/class/ruby-book/lib/ticket.rb",
-    "note/ruby/class/ruby-book/lib/gate.rb",
-    "note/ruby/class/ruby-book/test",
-    "note/ruby/class/ruby-book/lib",
-    "note/ruby/repeat-process/control-structure.md",
-    "note/ruby/regular_expression/01_regular_expression.md",
-    "note/ruby/module/module_overview.md",
-    "note/ruby/method/Method-visibility.md",
-    "note/ruby/class/ruby-book",
-    "note/git/image/img_rm.png",
-    "note/git/image/img_diff.png",
-    "note/git/image/img_reset.png",
-    "note/git/image/img_checkout.png",
-    "note/git/image/img_01.png",
-    "note/ruby/repeat-process",
-    "note/ruby/module",
-    "note/ruby/regular_expression",
-    "note/ruby/method",
-    "note/git/image.png",
-    "note/git/image-2.png",
-    "note/git/image-1.png"
+    "daily/2024-02-14.md",
+    "daily/delete.md",
+    "note/日時の扱い.md",
+    "note/国際化.md",
+    "note/validates.md",
+    "note/Untitled.md",
+    "note/Untitled 1.md",
+    "note/Ruby on Rails.md",
+    "note/RESTful.md",
+    "note/README.md",
+    "note/Pasted image 20240208215612.png",
+    "note/Pasted image 20240130215115.png",
+    "note/loadmap.md",
+    "note/2024-01-22.md",
+    "note/Ruby-on-Rails/users.md",
+    "note/Ruby-on-Rails/session-user.md",
+    "note/Ruby-on-Rails/routes404.md",
+    "note/Ruby-on-Rails/datafilter.md",
+    "note/note/ruby/class/ruby-book/test/gate_test.rb",
+    "note/note/ruby/class/ruby-book/lib/ticket.rb",
+    "note/note/ruby/class/ruby-book/lib/gate.rb",
+    "note/note/ruby/class/ruby-book/test",
+    "note/note/ruby/class/ruby-book/lib",
+    "note/note/ruby/repeat-process/control-structure.md",
+    "note/note/ruby/regular_expression/01_regular_expression.md",
+    "note/note/ruby/module/module_overview.md",
+    "note/note/ruby/method/Method-visibility.md",
+    "note/note/ruby/class/ruby-book",
+    "note/note/ruby/class/01_class.md",
+    "note/note/ruby/011_pattern_match/03_andmore.md",
+    "note/note/ruby/011_pattern_match/02_usecase.md",
+    "note/note/ruby/011_pattern_match/01_pattern_match.md",
+    "note/note/ruby/010_yield_and_proc/003_proc_andmore.md",
+    "note/note/ruby/010_yield_and_proc/002_proc.md",
+    "note/note/git/image/img_rm.png",
+    "note/note/git/image/img_reset.png",
+    "note/note/git/image/img_diff.png",
+    "note/note/git/image/img_checkout.png",
+    "note/note/git/image/img_01.png",
+    "note/note/ruby/repeat-process",
+    "note/note/ruby/regular_expression",
+    "note/note/ruby/module",
+    "note/note/ruby/method",
+    "note/note/git/image.png",
+    "note/note/git/image-2.png",
+    "note/note/git/image-1.png",
+    "Untitled 1.canvas",
+    "Untitled.canvas"
   ]
 }
