@@ -4,27 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "e78c9bae65e1a979",
+        "id": "946a007fafe7a2c1",
         "type": "tabs",
         "children": [
           {
-            "id": "124369c17a0c3a58",
+            "id": "9e71fedbcc2e2b6c",
             "type": "leaf",
             "state": {
-              "type": "memos_view",
-              "state": {}
-            }
-          },
-          {
-            "id": "f01bd7ee7e001e75",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "note/Ruby-on-Rails/find,find_by,where.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -100,7 +95,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "note/Ruby-on-Rails/find,find_by,where.md"
+              }
             }
           },
           {
@@ -117,6 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "note/Ruby-on-Rails/find,find_by,where.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -133,9 +131,25 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "note/Ruby-on-Rails/find,find_by,where.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
+            }
+          }
+        ],
+        "currentTab": 2
+      },
+      {
+        "id": "ee8b39abda2b598b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e3103bdd79859567",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
             }
           }
         ]
@@ -155,8 +169,17 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "f01bd7ee7e001e75",
+  "active": "9e71fedbcc2e2b6c",
   "lastOpenFiles": [
+    "note/Ruby-on-Rails/datafilter.md",
+    "note/Ruby-on-Rails/Controller.md",
+    "note/Ruby-on-Rails/routes404.md",
+    "note/Ruby-on-Rails/session-user.md",
+    "note/Ruby-on-Rails/Ruby on Rails.md",
+    "note/Ruby-on-Rails/users.md",
+    "note/Ruby-on-Rails/View.md",
+    "note/githubActions.md",
+    "note/2024-01-22.md",
     "note/Ruby-on-Rails/find,find_by,where.md",
     "daily/2024-02-14.md",
     "daily/delete.md",
@@ -171,11 +194,6 @@
     "note/Pasted image 20240208215612.png",
     "note/Pasted image 20240130215115.png",
     "note/loadmap.md",
-    "note/2024-01-22.md",
-    "note/Ruby-on-Rails/users.md",
-    "note/Ruby-on-Rails/session-user.md",
-    "note/Ruby-on-Rails/routes404.md",
-    "note/Ruby-on-Rails/datafilter.md",
     "note/note/ruby/class/ruby-book/test/gate_test.rb",
     "note/note/ruby/class/ruby-book/lib/ticket.rb",
     "note/note/ruby/class/ruby-book/lib/gate.rb",
@@ -187,10 +205,6 @@
     "note/note/ruby/method/Method-visibility.md",
     "note/note/ruby/class/ruby-book",
     "note/note/ruby/class/01_class.md",
-    "note/note/ruby/011_pattern_match/03_andmore.md",
-    "note/note/ruby/011_pattern_match/02_usecase.md",
-    "note/note/ruby/011_pattern_match/01_pattern_match.md",
-    "note/note/ruby/010_yield_and_proc/003_proc_andmore.md",
     "note/note/git/image/img_rm.png",
     "note/note/git/image/img_reset.png",
     "note/note/git/image/img_diff.png",
