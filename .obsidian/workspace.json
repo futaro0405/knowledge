@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md",
+                "file": "note/Ruby-on-Rails/Controller.md",
                 "mode": "source",
                 "source": false
               }
@@ -96,7 +96,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md"
+                "file": "note/Ruby-on-Rails/Controller.md"
               }
             }
           },
@@ -114,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md",
+                "file": "note/Ruby-on-Rails/Controller.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -131,7 +131,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md",
+                "file": "note/Ruby-on-Rails/Controller.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -171,6 +171,7 @@
   },
   "active": "9e71fedbcc2e2b6c",
   "lastOpenFiles": [
+    "note/Ruby-on-Rails/find,find_by,where.md",
     "note/Ruby-on-Rails/datafilter.md",
     "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/routes404.md",
@@ -180,7 +181,6 @@
     "note/Ruby-on-Rails/View.md",
     "note/githubActions.md",
     "note/2024-01-22.md",
-    "note/Ruby-on-Rails/find,find_by,where.md",
     "daily/2024-02-14.md",
     "daily/delete.md",
     "note/日時の扱い.md",
