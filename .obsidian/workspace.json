@@ -8,7 +8,15 @@
         "type": "tabs",
         "children": [
           {
-            "id": "9e71fedbcc2e2b6c",
+            "id": "22c42cad2b5006c4",
+            "type": "leaf",
+            "state": {
+              "type": "memos_view",
+              "state": {}
+            }
+          },
+          {
+            "id": "019764378a25b2ab",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,7 +27,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -78,6 +87,7 @@
       {
         "id": "dafd44608523e9b5",
         "type": "tabs",
+        "dimension": 42.40196078431372,
         "children": [
           {
             "id": "e53562115d07c978",
@@ -143,6 +153,7 @@
       {
         "id": "ee8b39abda2b598b",
         "type": "tabs",
+        "dimension": 57.59803921568627,
         "children": [
           {
             "id": "e3103bdd79859567",
@@ -151,12 +162,21 @@
               "type": "graph",
               "state": {}
             }
+          },
+          {
+            "id": "090223baa0ae48ce",
+            "type": "leaf",
+            "state": {
+              "type": "timeline",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 359.5
+    "width": 298.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -166,14 +186,15 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-memos:Memos": false
+      "obsidian-memos:Memos": false,
+      "obsidian-day-planner:Timeline": false
     }
   },
-  "active": "9e71fedbcc2e2b6c",
+  "active": "019764378a25b2ab",
   "lastOpenFiles": [
+    "40_works-daily/2024-02-22.md",
     "40_works-daily/2024-02-23.md",
     "config/template/daily-template.md",
-    "40_works-daily/2024-02-22.md",
     "note/Ruby-on-Rails/Controller.md",
     "daily/delete.md",
     "daily/2024-02-14.md",

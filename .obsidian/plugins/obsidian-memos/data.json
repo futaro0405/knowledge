@@ -1,6 +1,6 @@
 {
   "StartDate": "Sunday",
-  "InsertAfter": "# Journal",
+  "InsertAfter": "## Journal",
   "UserName": "MEMO",
   "ProcessEntriesBelow": "",
   "Language": "en",
@@ -10,7 +10,7 @@
   "ShareFooterEnd": "✍️ by {UserName}",
   "DefaultPrefix": "List",
   "UseDailyOrPeriodic": "Daily",
-  "InsertDateFormat": "Dataview",
+  "InsertDateFormat": "Tasks",
   "DefaultEditorLocation": "Bottom",
   "UseButtonToShowEditor": false,
   "FocusOnEditor": true,
