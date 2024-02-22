@@ -8,14 +8,27 @@
         "type": "tabs",
         "children": [
           {
-            "id": "afc7bbc9238c1095",
+            "id": "3824d7103f9ab6b2",
             "type": "leaf",
             "state": {
               "type": "memos_view",
               "state": {}
             }
+          },
+          {
+            "id": "63f28577fc44a830",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "40_works-daily/2024-02-22.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -92,7 +105,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "40_works-daily/2024-02-22.md"
+              }
             }
           },
           {
@@ -109,6 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "40_works-daily/2024-02-22.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,6 +141,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "40_works-daily/2024-02-22.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -173,7 +190,7 @@
       "obsidian-day-planner:Timeline": false
     }
   },
-  "active": "afc7bbc9238c1095",
+  "active": "63f28577fc44a830",
   "lastOpenFiles": [
     "40_works-daily/2024-02-22.md",
     "40_works-daily/2024-02-23.md",
