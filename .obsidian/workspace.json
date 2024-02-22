@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "40_works-daily/2024-02-22.md",
                 "mode": "source",
                 "source": false
               }
@@ -96,7 +96,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md"
+                "file": "40_works-daily/2024-02-22.md"
               }
             }
           },
@@ -114,7 +114,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "40_works-daily/2024-02-22.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -131,7 +131,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "40_works-daily/2024-02-22.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -171,9 +171,15 @@
   },
   "active": "9e71fedbcc2e2b6c",
   "lastOpenFiles": [
+    "40_works-daily/2024-02-23.md",
+    "config/template/daily-template.md",
+    "40_works-daily/2024-02-22.md",
+    "note/Ruby-on-Rails/Controller.md",
+    "daily/delete.md",
+    "daily/2024-02-14.md",
+    "40_works-daily",
     "note/Ruby-on-Rails/find,find_by,where.md",
     "note/Ruby-on-Rails/datafilter.md",
-    "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/routes404.md",
     "note/Ruby-on-Rails/session-user.md",
     "note/Ruby-on-Rails/Ruby on Rails.md",
@@ -181,8 +187,6 @@
     "note/Ruby-on-Rails/View.md",
     "note/githubActions.md",
     "note/2024-01-22.md",
-    "daily/2024-02-14.md",
-    "daily/delete.md",
     "note/日時の扱い.md",
     "note/国際化.md",
     "note/validates.md",
@@ -201,10 +205,7 @@
     "note/note/ruby/class/ruby-book/lib",
     "note/note/ruby/repeat-process/control-structure.md",
     "note/note/ruby/regular_expression/01_regular_expression.md",
-    "note/note/ruby/module/module_overview.md",
-    "note/note/ruby/method/Method-visibility.md",
     "note/note/ruby/class/ruby-book",
-    "note/note/ruby/class/01_class.md",
     "note/note/git/image/img_rm.png",
     "note/note/git/image/img_reset.png",
     "note/note/git/image/img_diff.png",
@@ -213,7 +214,6 @@
     "note/note/ruby/repeat-process",
     "note/note/ruby/regular_expression",
     "note/note/ruby/module",
-    "note/note/ruby/method",
     "note/note/git/image.png",
     "note/note/git/image-2.png",
     "note/note/git/image-1.png",
