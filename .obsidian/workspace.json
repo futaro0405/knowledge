@@ -8,7 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "3824d7103f9ab6b2",
+            "id": "63f28577fc44a830",
             "type": "leaf",
             "state": {
               "type": "memos_view",
@@ -16,12 +16,12 @@
             }
           },
           {
-            "id": "63f28577fc44a830",
+            "id": "6eadf37f9de9e1a7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_works-daily/2024-02-22.md",
+                "file": "40_works-daily/2024-02-28.md",
                 "mode": "source",
                 "source": false
               }
@@ -106,7 +106,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_works-daily/2024-02-22.md"
+                "file": "40_works-daily/2024-02-28.md"
               }
             }
           },
@@ -124,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_works-daily/2024-02-22.md",
+                "file": "40_works-daily/2024-02-28.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -141,7 +141,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_works-daily/2024-02-22.md",
+                "file": "40_works-daily/2024-02-28.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -186,12 +186,13 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-memos:Memos": false,
-      "obsidian-day-planner:Timeline": false
+      "obsidian-day-planner:Timeline": false,
+      "obsidian-memos:Memos": false
     }
   },
-  "active": "63f28577fc44a830",
+  "active": "6eadf37f9de9e1a7",
   "lastOpenFiles": [
+    "40_works-daily/2024-02-28.md",
     "40_works-daily/2024-02-22.md",
     "40_works-daily/2024-02-23.md",
     "config/template/daily-template.md",
@@ -225,7 +226,6 @@
     "note/note/ruby/class/ruby-book/test",
     "note/note/ruby/class/ruby-book/lib",
     "note/note/ruby/repeat-process/control-structure.md",
-    "note/note/ruby/regular_expression/01_regular_expression.md",
     "note/note/ruby/class/ruby-book",
     "note/note/git/image/img_rm.png",
     "note/note/git/image/img_reset.png",
