@@ -4,35 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "4f23be60ffb6eeb3",
+        "id": "b95629bf9df49657",
         "type": "tabs",
         "children": [
           {
-            "id": "2e474f914a7d1229",
+            "id": "78e71f5880a5909d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "f1b1dcc702dcd385",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "Action mailer.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -110,7 +97,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md"
+                "file": "Action mailer.md"
               }
             }
           },
@@ -128,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "Action mailer.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -145,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "Action mailer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -195,16 +182,16 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "f1b1dcc702dcd385",
+  "active": "78e71f5880a5909d",
   "lastOpenFiles": [
-    "Action mailer.md",
+    "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/Model.md",
+    "Action mailer.md",
     "40_works-daily/2024-03-04.md",
     "40_works-daily/2024-02-28.md",
     "40_works-daily/2024-02-22.md",
     "40_works-daily/2024-02-23.md",
     "config/template/daily-template.md",
-    "note/Ruby-on-Rails/Controller.md",
     "daily/delete.md",
     "daily/2024-02-14.md",
     "40_works-daily",
