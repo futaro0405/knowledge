@@ -4,15 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "946a007fafe7a2c1",
+        "id": "4f23be60ffb6eeb3",
         "type": "tabs",
         "children": [
           {
-            "id": "63f28577fc44a830",
+            "id": "2e474f914a7d1229",
             "type": "leaf",
             "state": {
-              "type": "memos_view",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "note/Ruby-on-Rails/Model.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -65,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 217.5,
-    "collapsed": true
+    "width": 217.5
   },
   "right": {
     "id": "93add0328c0067f8",
@@ -93,7 +96,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "note/Ruby-on-Rails/Model.md"
+              }
             }
           },
           {
@@ -110,6 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "note/Ruby-on-Rails/Model.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -126,6 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "note/Ruby-on-Rails/Model.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -175,8 +182,9 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "63f28577fc44a830",
+  "active": "2e474f914a7d1229",
   "lastOpenFiles": [
+    "40_works-daily/2024-03-04.md",
     "40_works-daily/2024-02-28.md",
     "40_works-daily/2024-02-22.md",
     "40_works-daily/2024-02-23.md",
@@ -210,7 +218,6 @@
     "note/note/ruby/class/ruby-book/lib/gate.rb",
     "note/note/ruby/class/ruby-book/test",
     "note/note/ruby/class/ruby-book/lib",
-    "note/note/ruby/repeat-process/control-structure.md",
     "note/note/ruby/class/ruby-book",
     "note/note/git/image/img_rm.png",
     "note/note/git/image/img_reset.png",
