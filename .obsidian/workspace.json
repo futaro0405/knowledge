@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "f1b1dcc702dcd385",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Action mailer.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -97,7 +110,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md"
+                "file": "Action mailer.md"
               }
             }
           },
@@ -115,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
+                "file": "Action mailer.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,7 +145,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
+                "file": "Action mailer.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -182,8 +195,10 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "2e474f914a7d1229",
+  "active": "f1b1dcc702dcd385",
   "lastOpenFiles": [
+    "note/Ruby-on-Rails/Model.md",
+    "Action mailer.md",
     "40_works-daily/2024-03-04.md",
     "40_works-daily/2024-02-28.md",
     "40_works-daily/2024-02-22.md",
@@ -209,10 +224,8 @@
     "note/Untitled 1.md",
     "note/Ruby on Rails.md",
     "note/RESTful.md",
-    "note/README.md",
     "note/Pasted image 20240208215612.png",
     "note/Pasted image 20240130215115.png",
-    "note/loadmap.md",
     "note/note/ruby/class/ruby-book/test/gate_test.rb",
     "note/note/ruby/class/ruby-book/lib/ticket.rb",
     "note/note/ruby/class/ruby-book/lib/gate.rb",
