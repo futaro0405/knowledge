@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Action mailer.md",
+                "file": "40_works-daily/2024-03-05.md",
                 "mode": "source",
                 "source": false
               }
@@ -97,7 +97,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Action mailer.md"
+                "file": "40_works-daily/2024-03-05.md"
               }
             }
           },
@@ -115,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Action mailer.md",
+                "file": "40_works-daily/2024-03-05.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Action mailer.md",
+                "file": "40_works-daily/2024-03-05.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -184,9 +184,10 @@
   },
   "active": "78e71f5880a5909d",
   "lastOpenFiles": [
+    "Action mailer.md",
+    "40_works-daily/2024-03-05.md",
     "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/Model.md",
-    "Action mailer.md",
     "40_works-daily/2024-03-04.md",
     "40_works-daily/2024-02-28.md",
     "40_works-daily/2024-02-22.md",
@@ -210,7 +211,6 @@
     "note/Untitled.md",
     "note/Untitled 1.md",
     "note/Ruby on Rails.md",
-    "note/RESTful.md",
     "note/Pasted image 20240208215612.png",
     "note/Pasted image 20240130215115.png",
     "note/note/ruby/class/ruby-book/test/gate_test.rb",
