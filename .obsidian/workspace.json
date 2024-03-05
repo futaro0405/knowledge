@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "note/Ruby-on-Rails/find,find_by,where.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 217.5,
-    "collapsed": true
+    "width": 217.5
   },
   "right": {
     "id": "93add0328c0067f8",
@@ -98,7 +97,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md"
+                "file": "note/Ruby-on-Rails/find,find_by,where.md"
               }
             }
           },
@@ -116,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "note/Ruby-on-Rails/find,find_by,where.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -133,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "note/Ruby-on-Rails/find,find_by,where.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -185,10 +184,10 @@
   },
   "active": "78e71f5880a5909d",
   "lastOpenFiles": [
+    "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/Model.md",
     "40_works-daily/2024-03-05.md",
     "Action mailer.md",
-    "note/Ruby-on-Rails/Controller.md",
     "40_works-daily/2024-03-04.md",
     "40_works-daily/2024-02-28.md",
     "40_works-daily/2024-02-22.md",
