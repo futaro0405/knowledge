@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_works-daily/2024-03-05.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 217.5
+    "width": 217.5,
+    "collapsed": true
   },
   "right": {
     "id": "93add0328c0067f8",
@@ -97,7 +98,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_works-daily/2024-03-05.md"
+                "file": "note/Ruby-on-Rails/Model.md"
               }
             }
           },
@@ -115,7 +116,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_works-daily/2024-03-05.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,7 +133,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_works-daily/2024-03-05.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -184,8 +185,8 @@
   },
   "active": "78e71f5880a5909d",
   "lastOpenFiles": [
-    "Action mailer.md",
     "40_works-daily/2024-03-05.md",
+    "Action mailer.md",
     "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/Model.md",
     "40_works-daily/2024-03-04.md",
