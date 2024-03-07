@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md",
+                "file": "40_works-daily/2024-03-07.md",
                 "mode": "source",
                 "source": false
               }
@@ -97,7 +97,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md"
+                "file": "40_works-daily/2024-03-07.md"
               }
             }
           },
@@ -115,7 +115,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md",
+                "file": "40_works-daily/2024-03-07.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,7 +132,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/find,find_by,where.md",
+                "file": "40_works-daily/2024-03-07.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -184,6 +184,8 @@
   },
   "active": "78e71f5880a5909d",
   "lastOpenFiles": [
+    "note/Ruby-on-Rails/find,find_by,where.md",
+    "40_works-daily/2024-03-07.md",
     "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/Model.md",
     "40_works-daily/2024-03-05.md",
@@ -196,7 +198,6 @@
     "daily/delete.md",
     "daily/2024-02-14.md",
     "40_works-daily",
-    "note/Ruby-on-Rails/find,find_by,where.md",
     "note/Ruby-on-Rails/datafilter.md",
     "note/Ruby-on-Rails/routes404.md",
     "note/Ruby-on-Rails/session-user.md",
@@ -210,7 +211,6 @@
     "note/validates.md",
     "note/Untitled.md",
     "note/Untitled 1.md",
-    "note/Ruby on Rails.md",
     "note/Pasted image 20240208215612.png",
     "note/Pasted image 20240130215115.png",
     "note/note/ruby/class/ruby-book/test/gate_test.rb",
