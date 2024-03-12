@@ -18,8 +18,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "cb320c96df879a7f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "erb2slim.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -97,7 +110,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md"
+                "file": "erb2slim.md"
               }
             }
           },
@@ -115,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
+                "file": "erb2slim.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -132,7 +145,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
+                "file": "erb2slim.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -182,10 +195,11 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "6de94bd8940fc487",
+  "active": "cb320c96df879a7f",
   "lastOpenFiles": [
-    "note/Ruby-on-Rails/Controller.md",
     "note/Ruby-on-Rails/Model.md",
+    "erb2slim.md",
+    "note/Ruby-on-Rails/Controller.md",
     "40_works-daily/2024-03-12.md",
     "40_works-daily/2024-03-07.md",
     "note/Ruby-on-Rails/find,find_by,where.md",
@@ -210,7 +224,6 @@
     "note/日時の扱い.md",
     "note/国際化.md",
     "note/validates.md",
-    "note/Untitled.md",
     "note/Pasted image 20240208215612.png",
     "note/Pasted image 20240130215115.png",
     "note/note/ruby/class/ruby-book/test/gate_test.rb",
