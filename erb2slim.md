@@ -38,8 +38,34 @@ end
 NoMethodError: undefined method exists? for File:Class
 ```
 発生原因
-`html2slm`内で使用しているexists?メソッドがRuby3.2から削除されたため
+`html2slm`内で使用しているFile.exists?メソッドがRuby3.2から削除されたため
 
 https://docs.ruby-lang.org/ja/2.3.0/method/File/s/exists=3f.html
 
 対処法
+`html2slm`のFile.exists?を書き換える
+
+`--trace`を追加して実行してエラーが発生しているファイルを特定する
+```
+erb2slim app/views/layouts/application.html.erb --trace
+```
+
+中身を修正する
+```
+vim /usr/local/bundle/gems/html2slim-0.2.0/lib/html2slim/converter.rb
+```
+
+```ruby
+...
+erb = File.exist?(file) ? open(file).read : file
+...
+```
+
+対処法2
+本家の`html2slm`を使用することにこだわりがなければRuby3に対応した`html2slim-ruby3`を使用する
+
+https://rubygems.org/gems/html2slim-ruby3
+
+```Gemfile
+gem 'html2slim-ruby3'
+```
