@@ -69,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 217.5,
-    "collapsed": true
+    "width": 217.5
   },
   "right": {
     "id": "93add0328c0067f8",
@@ -183,13 +182,13 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "4250a769dbaebf9b",
+  "active": "6de94bd8940fc487",
   "lastOpenFiles": [
     "note/Ruby-on-Rails/Controller.md",
+    "note/Ruby-on-Rails/Model.md",
     "40_works-daily/2024-03-12.md",
     "40_works-daily/2024-03-07.md",
     "note/Ruby-on-Rails/find,find_by,where.md",
-    "note/Ruby-on-Rails/Model.md",
     "40_works-daily/2024-03-05.md",
     "Action mailer.md",
     "40_works-daily/2024-03-04.md",
