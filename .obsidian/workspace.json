@@ -11,12 +11,8 @@
             "id": "6de94bd8940fc487",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "memos_view",
+              "state": {}
             }
           },
           {
@@ -31,8 +27,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -82,8 +77,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 217.5,
-    "collapsed": true
+    "width": 217.5
   },
   "right": {
     "id": "93add0328c0067f8",
@@ -196,7 +190,7 @@
       "obsidian-memos:Memos": false
     }
   },
-  "active": "cb320c96df879a7f",
+  "active": "6de94bd8940fc487",
   "lastOpenFiles": [
     "note/Ruby-on-Rails/Model.md",
     "erb2slim.md",
