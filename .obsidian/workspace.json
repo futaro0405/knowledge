@@ -21,7 +21,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/erb2slim.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "mode": "source",
                 "source": false
               }
@@ -118,7 +118,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/erb2slim.md"
+                "file": "note/Ruby-on-Rails/Model.md"
               }
             }
           },
@@ -136,7 +136,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/erb2slim.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -153,7 +153,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/erb2slim.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -205,8 +205,8 @@
   },
   "active": "cb320c96df879a7f",
   "lastOpenFiles": [
-    "slim.md",
     "note/Ruby-on-Rails/erb2slim.md",
+    "slim.md",
     "note/Ruby-on-Rails/Controller.md",
     "40_works-daily/2024-03-13.md",
     "note/Ruby-on-Rails/Model.md",
