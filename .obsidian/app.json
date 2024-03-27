@@ -1,1 +1,12 @@
-{}
+{
+  "livePreview": false,
+  "foldHeading": false,
+  "foldIndent": false,
+  "showIndentGuide": false,
+  "spellcheck": false,
+  "tabSize": 2,
+  "promptDelete": false,
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": true,
+  "showInlineTitle": false
+}
