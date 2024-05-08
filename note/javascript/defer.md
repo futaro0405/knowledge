@@ -1,3 +1,6 @@
+---
+tags: javascript
+---
 deferとDOMContentLoadedを自分なりにかみ砕いてみた
 ブラウザがHTMLをロード中に`<script>`タグに遭遇すると、DOM構築を中断しスクリプトを実行する
 スクリプトの実行が完了次第、HTMLのロードを再開する

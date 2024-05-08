@@ -1,6 +1,6 @@
 {
-  "format": "",
-  "folder": "40_works-daily",
-  "template": "config/template/daily-template",
-  "autorun": true
+  "folder": "",
+  "format": "[daily-note]/YYYY/MM-MMMM/YYYY-MM-DD",
+  "autorun": false,
+  "template": "config/templates/template-daily"
 }

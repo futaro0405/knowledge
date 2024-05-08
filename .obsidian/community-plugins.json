@@ -1,7 +1,11 @@
 [
-  "obsidian-memos",
-  "obsidian-git",
   "calendar",
+  "cm-editor-syntax-highlight-obsidian",
+  "various-complements",
+  "obsidian-charts",
   "dataview",
-  "obsidian-day-planner"
+  "table-editor-obsidian",
+  "templater-obsidian",
+  "obsidian-day-planner",
+  "obsidian-git"
 ]

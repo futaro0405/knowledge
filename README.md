@@ -1,1 +1,1 @@
-# knowledge
+DailyNote and KnowledgeNote

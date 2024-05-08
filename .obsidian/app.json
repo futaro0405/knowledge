@@ -1,1 +1,18 @@
-{}
+{
+  "alwaysUpdateLinks": true,
+  "newFileLocation": "current",
+  "attachmentFolderPath": "./",
+  "useMarkdownLinks": false,
+  "showUnsupportedFiles": true,
+  "promptDelete": false,
+  "vimMode": false,
+  "foldHeading": true,
+  "showIndentGuide": false,
+  "tabSize": 2,
+  "spellcheck": false,
+  "showInlineTitle": false,
+  "livePreview": false,
+  "strictLineBreaks": false,
+  "propertiesInDocument": "visible",
+  "foldIndent": false
+}

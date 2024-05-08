@@ -1,3 +1,7 @@
+---
+tags: docker
+---
+
 ```
 docker run --rm -ti -v ./rails-practice:/app ruby:3.2.2-alpine sh
 ```

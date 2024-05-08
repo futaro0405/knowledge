@@ -1,3 +1,6 @@
+---
+tags: javascript
+---
 ## while
 ```
 while (条件式){

@@ -1,3 +1,6 @@
+---
+tags: git
+---
 ## ローカルブランチ削除
 ```
 git branch -d BranchName

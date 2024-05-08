@@ -1,3 +1,6 @@
+---
+tags: git
+---
 # Git tutorial
 ## 変更をステージに追加する
 ```

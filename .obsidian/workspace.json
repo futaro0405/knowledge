@@ -4,43 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "801358a78f7255ee",
+        "id": "68ec99f6cfb90c35",
         "type": "tabs",
         "children": [
           {
-            "id": "6de94bd8940fc487",
-            "type": "leaf",
-            "state": {
-              "type": "memos_view",
-              "state": {}
-            }
-          },
-          {
-            "id": "cb320c96df879a7f",
+            "id": "4cae4b76343628ce",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
+                "file": "There is 1 other session using the database.md",
                 "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "5f94fac112cee11c",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "slim.md",
-                "mode": "source",
-                "source": false
+                "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -50,7 +29,7 @@
     "type": "split",
     "children": [
       {
-        "id": "d75c32f0f7bb3180",
+        "id": "72fa8a38df136206",
         "type": "tabs",
         "children": [
           {
@@ -61,14 +40,6 @@
               "state": {
                 "sortOrder": "alphabetical"
               }
-            }
-          },
-          {
-            "id": "0bad621c0d4ed57a",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {}
             }
           },
           {
@@ -85,12 +56,20 @@
                 "sortOrder": "alphabetical"
               }
             }
+          },
+          {
+            "id": "0bad621c0d4ed57a",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 217.5
+    "width": 205.5
   },
   "right": {
     "id": "93add0328c0067f8",
@@ -99,8 +78,45 @@
       {
         "id": "dafd44608523e9b5",
         "type": "tabs",
-        "dimension": 42.40196078431372,
+        "dimension": 33.46153846153846,
         "children": [
+          {
+            "id": "6ad71924d6ce7d23",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "There is 1 other session using the database.md",
+                "collapseAll": true,
+                "extraContext": true,
+                "sortOrder": "alphabetical",
+                "showSearch": true,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "09ec6725bc10594a",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          },
+          {
+            "id": "0187e1a8683bb40c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "There is 1 other session using the database.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
           {
             "id": "e53562115d07c978",
             "type": "leaf",
@@ -118,12 +134,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/Model.md"
+                "file": "There is 1 other session using the database.md"
               }
             }
           },
           {
-            "id": "5be4d6d4df9db415",
+            "id": "59c3d9f6d061b152",
             "type": "leaf",
             "state": {
               "type": "calendar",
@@ -131,64 +147,34 @@
             }
           },
           {
-            "id": "62a86482ea848f19",
+            "id": "a08aec21d09d69f0",
             "type": "leaf",
             "state": {
-              "type": "backlink",
-              "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical",
-                "showSearch": false,
-                "searchQuery": "",
-                "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
-          {
-            "id": "25b1683484372939",
-            "type": "leaf",
-            "state": {
-              "type": "outgoing-link",
-              "state": {
-                "file": "note/Ruby-on-Rails/Model.md",
-                "linksCollapsed": false,
-                "unlinkedCollapsed": true
-              }
+              "type": "advanced-tables-toolbar",
+              "state": {}
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 5
       },
       {
-        "id": "ee8b39abda2b598b",
+        "id": "a3202b247e1f6fd3",
         "type": "tabs",
-        "dimension": 57.59803921568627,
+        "dimension": 66.53846153846153,
         "children": [
           {
-            "id": "e3103bdd79859567",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
-            }
-          },
-          {
-            "id": "090223baa0ae48ce",
+            "id": "13566acc8b236f3d",
             "type": "leaf",
             "state": {
               "type": "timeline",
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 298.5,
+    "width": 319.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -199,59 +185,56 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-day-planner:Timeline": false,
-      "obsidian-memos:Memos": false
+      "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "cb320c96df879a7f",
+  "active": "4cae4b76343628ce",
   "lastOpenFiles": [
-    "note/Ruby-on-Rails/erb2slim.md",
-    "slim.md",
-    "note/Ruby-on-Rails/Controller.md",
-    "40_works-daily/2024-03-13.md",
-    "note/Ruby-on-Rails/Model.md",
-    "40_works-daily/2024-03-12.md",
-    "40_works-daily/2024-03-07.md",
-    "note/Ruby-on-Rails/find,find_by,where.md",
-    "40_works-daily/2024-03-05.md",
-    "Action mailer.md",
-    "40_works-daily/2024-03-04.md",
-    "40_works-daily/2024-02-28.md",
-    "40_works-daily/2024-02-22.md",
-    "40_works-daily/2024-02-23.md",
-    "config/template/daily-template.md",
-    "daily/delete.md",
-    "daily/2024-02-14.md",
-    "40_works-daily",
-    "note/Ruby-on-Rails/datafilter.md",
-    "note/Ruby-on-Rails/routes404.md",
-    "note/Ruby-on-Rails/session-user.md",
-    "note/Ruby-on-Rails/Ruby on Rails.md",
-    "note/Ruby-on-Rails/users.md",
-    "note/Ruby-on-Rails/View.md",
-    "note/githubActions.md",
-    "note/2024-01-22.md",
-    "note/日時の扱い.md",
+    "note/ruby-on-rails/Model.md",
+    "note/ruby-on-rails/Controller.md",
+    "note/git/branch作成.md",
+    "note/git/git_02.md",
+    "note/git/rename.md",
+    "note/git/index.md",
+    "note/git/githubActions.md",
+    "note/git/delete-branch.md",
+    "note/git/backVersion.md",
+    "daily-note/2024/05-May/2024-05-03.md",
+    "daily-note/2024/04-April/2024-04-26.md",
+    "daily-note/2024/05-May",
+    "daily-note/2024/04-April/2024-04-29.md",
+    "daily-note/2024/04-April/2024-04-28.md",
+    "daily-note/2024/04-April/2024-04-27.md",
+    "daily-note/2024/04-April/2024-04-19.md",
+    "daily-note/2024/04-April/2024-04-20.md",
+    "daily-note/2024/04-April/2024-04-25.md",
+    "daily-note/2024/04-April/2024-04-24.md",
+    "daily-note/2024/04-April/2024-04-23.md",
+    "There is 1 other session using the database.md",
+    "duplicate key value violates unique constraint.md",
+    "README.md",
+    "daily-note/2024/04-April/2024-04-22.md",
+    "daily-note/2024/04-April/2024-04-21.md",
+    "note/ruby-on-rails/findメソッドその他.md",
+    "note/ruby-on-rails/users.md",
+    "note/LoadMap",
     "note/Pasted image 20240208215612.png",
     "note/Pasted image 20240130215115.png",
-    "note/note/ruby/class/ruby-book/test/gate_test.rb",
-    "note/note/ruby/class/ruby-book/lib/ticket.rb",
-    "note/note/ruby/class/ruby-book/lib/gate.rb",
-    "note/note/ruby/class/ruby-book/test",
-    "note/note/ruby/class/ruby-book/lib",
-    "note/note/ruby/class/ruby-book",
-    "note/note/git/image/img_rm.png",
-    "note/note/git/image/img_reset.png",
-    "note/note/git/image/img_diff.png",
-    "note/note/git/image/img_checkout.png",
-    "note/note/git/image/img_01.png",
-    "note/note/ruby/repeat-process",
-    "note/note/ruby/regular_expression",
-    "note/note/ruby/module",
-    "note/note/git/image.png",
-    "note/note/git/image-2.png",
-    "note/note/git/image-1.png",
-    "Untitled 1.canvas",
-    "Untitled.canvas"
+    "note/git/image-2.png",
+    "note/git/image-1.png",
+    "note/git/image.png",
+    "note/others",
+    "401_/public",
+    "401_",
+    "401_/public/pdf/良いコード_悪いコードで学ぶ設計入門.pdf",
+    "public/images/image-xdb.png",
+    "public/images/image-login-02.png",
+    "public/images/image-login-01.png",
+    "401_/public/pdf",
+    "public/images",
+    "public",
+    "note/ruby-on-rails",
+    "note/twitter/public/images/image-login-02.png",
+    "Pasted image 20240309161632.png"
   ]
 }

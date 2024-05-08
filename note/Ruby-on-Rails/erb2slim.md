@@ -1,3 +1,6 @@
+---
+tags: ruby-on-Rails slim
+---
 erb2slimを使うためのセットアップ
 `slim-rails`
 Ruby on Railsのデフォルトテンプレートエンジンは`erb`

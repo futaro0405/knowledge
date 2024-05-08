@@ -1,3 +1,6 @@
+---
+tags: docker
+---
 # docker delete
 ## 一括削除
 ```bash

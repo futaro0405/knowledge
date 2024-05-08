@@ -1,3 +1,6 @@
+---
+tags: javascript
+---
 ## 分割代入（Destructuring assignment）
 配列から値を取り出し、あるいはオブジェクトからプロパティを取り出して別の変数に代入する式。
 ```

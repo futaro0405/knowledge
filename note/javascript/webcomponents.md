@@ -1,3 +1,6 @@
+---
+tags: javascript
+---
 HTMLの要素をカプセル化し再利用可能なパーツにするためのプラウザのAPI群。  
 Reactコンポーネントみたいなものを素のJSで作るイメージ。
 ## web componetsを構成する技術

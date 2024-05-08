@@ -1,8 +1,14 @@
 {
-  "cssTheme": "Obsidian Nord",
-  "accentColor": "",
+  "accentColor": "#e4e665",
   "theme": "obsidian",
+  "cssTheme": "Solarized",
+  "baseFontSize": 16,
+  "showViewHeader": true,
   "interfaceFontFamily": "メイリオ",
   "textFontFamily": "メイリオ",
-  "monospaceFontFamily": "游ゴシック"
+  "monospaceFontFamily": "メイリオ",
+  "enabledCssSnippets": [
+    "custom"
+  ],
+  "baseFontSizeAction": true
 }
