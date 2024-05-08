@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
   "accentColor": "#e4e665",
+=======
+  "cssTheme": "Solarized",
+  "accentColor": "#92d996",
+>>>>>>> c5a12d351cd6c58cfdae06a1155632239d6561e6
   "theme": "obsidian",
   "cssTheme": "Solarized",
   "baseFontSize": 16,
