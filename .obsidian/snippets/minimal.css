@@ -1,0 +1,39 @@
+.cm-header {
+  margin: 0;
+  padding: 0;
+}
+.HyperMD-header-1,
+.markdown-preview-view h1 {
+  padding-top: 8px !important;
+  padding-bottom: 5px !important;
+  color: #ffdd00;
+}
+
+.HyperMD-header-2,
+.markdown-preview-view h2 {
+  padding-top: 10px !important;
+  padding-bottom: 5px !important;
+  color: #ffdd00;
+  font-size: 24px;
+}
+
+.HyperMD-header-3,
+.markdown-preview-view h3 {
+  padding-top: 8px !important;
+  padding-bottom: 5px !important;
+  color: #ffdd00;
+}
+
+.HyperMD-header-4,
+.markdown-preview-view h4 {
+  padding-top: 8px !important;
+  padding-bottom: 5px !important;
+  color: #ffdd00;
+}
+
+.HyperMD-header-5,
+.markdown-preview-view h5 {
+  padding-top: 8px !important;
+  padding-bottom: 5px !important;
+  color: #ffdd00;
+}

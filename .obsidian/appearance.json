@@ -1,11 +1,12 @@
 {
-  "accentColor": "#ffea00",
+  "accentColor": "#ffdd00",
   "cssTheme": "Minimal",
   "baseFontSize": 17,
   "interfaceFontFamily": "メイリオ",
   "textFontFamily": "メイリオ",
   "monospaceFontFamily": "メイリオ",
   "enabledCssSnippets": [
-    "custom"
+    "custom",
+    "minimal"
   ]
 }
