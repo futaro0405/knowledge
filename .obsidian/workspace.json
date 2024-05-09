@@ -32,22 +32,9 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "859d599f96873f04",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "権限昇格.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -99,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "権限昇格.md"
+                "file": "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md"
               }
             }
           }
@@ -124,7 +111,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "権限昇格.md",
+                "file": "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -141,7 +128,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "権限昇格.md",
+                "file": "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -203,10 +190,10 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "859d599f96873f04",
+  "active": "2d2a39cea8295a56",
   "lastOpenFiles": [
-    "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
     "権限昇格.md",
+    "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
     "クロスサイト・リクエストフォージェリ.md",
     "daily/2024/May/09.md",
     "note/webSecurty",
