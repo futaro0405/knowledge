@@ -4,18 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "10e072df9b736df4",
+        "id": "42b53ae64590a853",
         "type": "tabs",
         "children": [
           {
-            "id": "efd7a62633264469",
+            "id": "65640c8866b10adb",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "40_work/K社/daily-report/0509.md",
-                "mode": "preview",
-                "backlinks": true,
+                "mode": "source",
+                "backlinks": false,
                 "source": true
               }
             }
@@ -167,9 +167,12 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "efd7a62633264469",
+  "active": "65640c8866b10adb",
   "lastOpenFiles": [
-    "There is 1 other session using the database.md",
-    "40_work/K社/daily-report/0509.md"
+    "public/images/image-xdb.png",
+    "public/images/image-login-02.png",
+    "public/images/image-login-01.png",
+    "40_work/K社/daily-report/0509.md",
+    "There is 1 other session using the database.md"
   ]
 }
