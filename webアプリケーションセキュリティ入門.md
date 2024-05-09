@@ -1,9 +1,23 @@
 ## OSコマンドインジェクション
-OSコマンドインジェクションとは、シェル（/bin/sh)呼び出し可能な機能を悪用して攻撃者が勝手にコマンドをサーバー上で実行できる脆弱性のこと
-
+OSコマンドインジェクションとは、シェル（/bin/sh)呼び出し可能な機能を悪用して攻撃者が勝手にコマンドをサーバー上で実行できる脆弱性のこと。
+### 具体例
+#### 脆弱なスクリプト
 ```sh
-Open3.capture3("cmd #{params[:p]}", :stdin_data=>"foo\nbar\nbaz\n")
+system("/usr/sbin/sendmail <mail.txt #{mail}");
 ```
-[Ruby 3.3 リファレンスマニュアル-Open3-capture3](https://docs.ruby-lang.org/ja/latest/method/Open3/m/capture3.html)より
-`;`はコマンドを続けて実行することを意味する。
-`params[:p]`に`; xxx`を実行した場合`xxx`コマンドが実行できる。
+
+`mail='a@example.jp; cat /etc/password';`を設定した場合
+```sh
+/usr/sbin/sendmail <mail.txt a@example.jp; cat /etc/password
+```
+sendmailに続いて`cat /etc/password`が実行される
+### 影響
+- 任意のコマンドが実行されてしまうため影響は非常に大きい
+- wgetコマンド等を利用し攻撃スクリプトを外部からダウンロードされる
+- 外部からは攻撃できないが、内部からは攻撃できる脆弱性による権限昇格からの権限奪取
+- ファイルの改ざん、削除、作成
+- システムの停止
+- 外部サーバーに対する攻撃（踏み台）
+### 対策
+- 外部コマンドを起動する実装を避ける
+- シェルの呼び出し機能のある関数を避ける
