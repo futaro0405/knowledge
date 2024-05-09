@@ -162,11 +162,14 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "workspaces:Manage workspace layouts": false,
-      "templater-obsidian:Templater": false,
       "table-editor-obsidian:Advanced Tables Toolbar": false,
-      "obsidian-day-planner:Timeline": false
+      "obsidian-day-planner:Timeline": false,
+      "templater-obsidian:Templater": false
     }
   },
-  "active": "f4b275a57871f0e0",
-  "lastOpenFiles": []
+  "active": "efd7a62633264469",
+  "lastOpenFiles": [
+    "There is 1 other session using the database.md",
+    "40_work/K社/daily-report/0509.md"
+  ]
 }
