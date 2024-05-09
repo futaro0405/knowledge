@@ -4,18 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "42b53ae64590a853",
+        "id": "108d45107c2adc61",
         "type": "tabs",
         "children": [
           {
-            "id": "65640c8866b10adb",
+            "id": "fbffacd74e3e6998",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/0509.md",
+                "file": "daily/2024/May/09.md",
                 "mode": "source",
-                "backlinks": false,
+                "backlinks": true,
                 "source": true
               }
             }
@@ -65,6 +65,16 @@
               "type": "bookmarks",
               "state": {}
             }
+          },
+          {
+            "id": "a1cb3205b49c8912",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "daily/2024/May/09.md"
+              }
+            }
           }
         ]
       }
@@ -79,6 +89,7 @@
       {
         "id": "f5391acd8a69a641",
         "type": "tabs",
+        "dimension": 38.23529411764706,
         "children": [
           {
             "id": "625995d4644550b2",
@@ -86,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/0509.md",
+                "file": "daily/2024/May/09.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +114,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/0509.md",
+                "file": "daily/2024/May/09.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -121,23 +132,21 @@
             }
           },
           {
-            "id": "a1cb3205b49c8912",
-            "type": "leaf",
-            "state": {
-              "type": "outline",
-              "state": {
-                "file": "40_work/K社/daily-report/0509.md"
-              }
-            }
-          },
-          {
             "id": "7c8c139ddf554a46",
             "type": "leaf",
             "state": {
               "type": "calendar",
               "state": {}
             }
-          },
+          }
+        ],
+        "currentTab": 3
+      },
+      {
+        "id": "47d5064c7bc45a1d",
+        "type": "tabs",
+        "dimension": 61.76470588235294,
+        "children": [
           {
             "id": "6905d44fa85e508f",
             "type": "leaf",
@@ -150,8 +159,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -167,12 +175,19 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "65640c8866b10adb",
+  "active": "fbffacd74e3e6998",
   "lastOpenFiles": [
+    "daily/2024/May/10.md",
+    "daily/2024/May/09.md",
+    "daily/2024/May",
+    "daily/2024",
+    "daily",
+    "daily-note/2024/05-May/2024-05-09.md",
+    "40_work/K社/daily-report/0509.md",
+    "daily-note/2024/05-May",
     "public/images/image-xdb.png",
     "public/images/image-login-02.png",
     "public/images/image-login-01.png",
-    "40_work/K社/daily-report/0509.md",
     "There is 1 other session using the database.md"
   ]
 }
