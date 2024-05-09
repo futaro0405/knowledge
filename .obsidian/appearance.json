@@ -4,5 +4,8 @@
   "baseFontSize": 17,
   "interfaceFontFamily": "メイリオ",
   "textFontFamily": "メイリオ",
-  "monospaceFontFamily": "メイリオ"
+  "monospaceFontFamily": "メイリオ",
+  "enabledCssSnippets": [
+    "custom"
+  ]
 }
