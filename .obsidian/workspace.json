@@ -27,7 +27,7 @@
               "type": "markdown",
               "state": {
                 "file": "40_work/K社/daily-report/0509.md",
-                "mode": "source",
+                "mode": "preview",
                 "backlinks": true,
                 "source": false
               }
@@ -192,6 +192,8 @@
   },
   "active": "2d2a39cea8295a56",
   "lastOpenFiles": [
+    "40_work/K社/lecture.md",
+    "40_work/K社/daily-report/0509.md",
     "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
     "権限昇格.md",
     "クロスサイト・リクエストフォージェリ.md",
@@ -207,7 +209,6 @@
     "daily/2024",
     "daily",
     "daily-note/2024/05-May/2024-05-09.md",
-    "40_work/K社/daily-report/0509.md",
     "daily-note/2024/05-May",
     "public/images/image-xdb.png",
     "public/images/image-login-02.png",
