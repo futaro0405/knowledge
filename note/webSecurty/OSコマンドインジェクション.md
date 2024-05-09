@@ -21,3 +21,8 @@ sendmailに続いて`cat /etc/password`が実行される
 ### 対策
 - 外部コマンドを起動する実装を避ける
 - シェルの呼び出し機能のある関数を避ける
+	- Open3.capture3('command', parameter) # コマンドとパラメータを分離する
+	- kernel#open()やFile.read()はパイプ記号でコマンドを起動できる
+		- 例：File.read("|cat /etc/passwd")
+- 外部からのパラメータをコマンドラインに渡さない
+	- 例：sendmailコマンドの`-t`オプション
