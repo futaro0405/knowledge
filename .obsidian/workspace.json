@@ -19,30 +19,8 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "85b87afea8380ab0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Untitled.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "fb4176a07a467f3a",
-            "type": "leaf",
-            "state": {
-              "type": "weekly",
-              "state": {}
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -94,7 +72,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled.md"
+                "file": "daily/2024/May/09.md"
               }
             }
           }
@@ -119,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Untitled.md",
+                "file": "daily/2024/May/09.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -136,7 +114,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Untitled.md",
+                "file": "daily/2024/May/09.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -197,10 +175,10 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "85b87afea8380ab0",
+  "active": "fbffacd74e3e6998",
   "lastOpenFiles": [
-    "daily/2024/May/09.md",
     "Untitled.md",
+    "daily/2024/May/09.md",
     "note/webSecurty",
     "2024-W19.md",
     "daily/2024/May/11.md",
