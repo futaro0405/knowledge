@@ -16,7 +16,7 @@
                 "file": "daily/2024/May/09.md",
                 "mode": "source",
                 "backlinks": false,
-                "source": true
+                "source": false
               }
             }
           }
@@ -177,8 +177,12 @@
   },
   "active": "fbffacd74e3e6998",
   "lastOpenFiles": [
-    "daily/2024/May/10.md",
+    "daily/2024/May/11.md",
     "daily/2024/May/09.md",
+    "daily/2024/May/10.md",
+    "config/templates/template-daily.md",
+    "config/templates/templete-weekly.md",
+    "AWS.md",
     "daily/2024/May",
     "daily/2024",
     "daily",

@@ -5,7 +5,7 @@
   "zoomLevel": 1,
   "timelineIcon": "dice",
   "endLabel": "All done",
-  "startHour": 5,
+  "startHour": 8,
   "timelineDateFormat": "YYYY-MM-DD",
   "centerNeedle": true,
   "plannerHeading": "Day planner",
