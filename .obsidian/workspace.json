@@ -41,7 +41,7 @@
               "state": {
                 "file": "40_work/K社/daily-report/0510.md",
                 "mode": "preview",
-                "backlinks": true,
+                "backlinks": false,
                 "source": true
               }
             }
