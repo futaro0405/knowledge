@@ -2,3 +2,32 @@
   margin: 0;
   padding: 0;
 }
+.HyperMD-header-1,
+.markdown-preview-view h1 {
+  color: #FFC500;
+  font-size: 34px;
+}
+
+.HyperMD-header-2,
+.markdown-preview-view h2 {
+  color: #FFC500;
+  font-size: 30px;
+}
+
+.HyperMD-header-3,
+.markdown-preview-view h3 {
+  color: #FFC500;
+  font-size: 26px;
+}
+
+.HyperMD-header-4,
+.markdown-preview-view h4 {
+  color: #FFC500;
+  font-size: 22px;
+}
+
+.HyperMD-header-5,
+.markdown-preview-view h5 {
+  color: #FFC500;
+  font-size: 18px;
+}

@@ -1,9 +1,8 @@
 {
-  "theme": "moonstone",
   "lightStyle": "minimal-light-tonal",
   "darkStyle": "minimal-dark-tonal",
-  "lightScheme": "minimal-nord-light",
-  "darkScheme": "minimal-nord-dark",
+  "lightScheme": "minimal-macos-light",
+  "darkScheme": "minimal-macos-dark",
   "editorFont": "",
   "lineHeight": 1.5,
   "lineWidth": 40,
@@ -17,7 +16,7 @@
   "iframeWidth": "iframe-default-width",
   "mapWidth": "map-default-width",
   "chartWidth": "chart-default-width",
-  "colorfulHeadings": true,
+  "colorfulHeadings": false,
   "colorfulFrame": true,
   "colorfulActiveStates": true,
   "trimNames": true,
@@ -28,9 +27,10 @@
   "focusMode": false,
   "underlineInternal": true,
   "underlineExternal": true,
-  "useSystemTheme": false,
   "folding": false,
   "lineNumbers": false,
   "readableLineLength": true,
-  "devBlockWidth": false
+  "devBlockWidth": false,
+  "theme": "moonstone",
+  "useSystemTheme": false
 }

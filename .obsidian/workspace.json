@@ -1,55 +1,52 @@
 {
   "main": {
-    "id": "ba179361cf19898e",
+    "id": "d6dc192156e63da3",
     "type": "split",
     "children": [
       {
-        "id": "68ec99f6cfb90c35",
+        "id": "9eb0b26c4f236c08",
         "type": "tabs",
         "children": [
           {
-<<<<<<< HEAD
-            "id": "4cae4b76343628ce",
-=======
-            "id": "f440595bcb1c8879",
-            "type": "leaf",
-            "state": {
-              "type": "memos_view",
-              "state": {}
-            }
-          },
-          {
-            "id": "bb59b474f6cd0bf0",
->>>>>>> c5a12d351cd6c58cfdae06a1155632239d6561e6
+            "id": "5bb2d24d580db411",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-<<<<<<< HEAD
                 "file": "There is 1 other session using the database.md",
-=======
-                "file": "40_works-daily/2024-04-01.md",
->>>>>>> c5a12d351cd6c58cfdae06a1155632239d6561e6
+                "mode": "source",
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "96c97fabb69d2200",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "ソフトウェアテスト技法.md",
                 "mode": "source",
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "a9e036e270a75008",
+    "id": "40a1fa462353e1b1",
     "type": "split",
     "children": [
       {
-        "id": "72fa8a38df136206",
+        "id": "3ca540d41e2bce14",
         "type": "tabs",
         "children": [
           {
-            "id": "4250a769dbaebf9b",
+            "id": "fa63169fe2e61de9",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -59,7 +56,7 @@
             }
           },
           {
-            "id": "2696249af269eff5",
+            "id": "0b3e051e39cc92c0",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -74,7 +71,7 @@
             }
           },
           {
-            "id": "0bad621c0d4ed57a",
+            "id": "ba7c670e9f5bfad3",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -85,98 +82,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 205.5
+    "width": 300
   },
   "right": {
-    "id": "93add0328c0067f8",
+    "id": "a1ee19909990d62f",
     "type": "split",
     "children": [
       {
-        "id": "dafd44608523e9b5",
+        "id": "e1b3ba48559f233d",
         "type": "tabs",
-        "dimension": 33.46153846153846,
         "children": [
           {
-            "id": "6ad71924d6ce7d23",
+            "id": "ec20c6efece423ee",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "There is 1 other session using the database.md",
-                "collapseAll": true,
-                "extraContext": true,
-                "sortOrder": "alphabetical",
-                "showSearch": true,
-                "searchQuery": "",
-                "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
-          {
-            "id": "09ec6725bc10594a",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {}
-            }
-          },
-          {
-            "id": "0187e1a8683bb40c",
-            "type": "leaf",
-            "state": {
-              "type": "outgoing-link",
-              "state": {
-                "file": "There is 1 other session using the database.md",
-                "linksCollapsed": false,
-                "unlinkedCollapsed": true
-              }
-            }
-          },
-          {
-            "id": "e53562115d07c978",
-            "type": "leaf",
-            "state": {
-              "type": "tag",
-              "state": {
-                "sortOrder": "frequency",
-                "useHierarchy": true
-              }
-            }
-          },
-          {
-            "id": "09cba8c05c6ea208",
-            "type": "leaf",
-            "state": {
-              "type": "outline",
-              "state": {
-<<<<<<< HEAD
-                "file": "There is 1 other session using the database.md"
-=======
-                "file": "40_works-daily/2024-04-01.md"
->>>>>>> c5a12d351cd6c58cfdae06a1155632239d6561e6
-              }
-            }
-          },
-          {
-            "id": "59c3d9f6d061b152",
-            "type": "leaf",
-            "state": {
-              "type": "calendar",
-              "state": {}
-            }
-          },
-          {
-            "id": "a08aec21d09d69f0",
-            "type": "leaf",
-            "state": {
-<<<<<<< HEAD
-              "type": "advanced-tables-toolbar",
-              "state": {}
-=======
-              "type": "backlink",
-              "state": {
-                "file": "40_works-daily/2024-04-01.md",
+                "file": "ソフトウェアテスト技法.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -188,28 +110,48 @@
             }
           },
           {
-            "id": "25b1683484372939",
+            "id": "873339ef8aaacfc8",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_works-daily/2024-04-01.md",
+                "file": "ソフトウェアテスト技法.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
->>>>>>> c5a12d351cd6c58cfdae06a1155632239d6561e6
             }
-          }
-        ],
-        "currentTab": 5
-      },
-      {
-        "id": "a3202b247e1f6fd3",
-        "type": "tabs",
-        "dimension": 66.53846153846153,
-        "children": [
+          },
           {
-            "id": "13566acc8b236f3d",
+            "id": "78e4f21bda2d92d4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "736d9d1c83c309f3",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "ソフトウェアテスト技法.md"
+              }
+            }
+          },
+          {
+            "id": "04491987bee1ee26",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "d0e9aedfec764051",
             "type": "leaf",
             "state": {
               "type": "timeline",
@@ -220,7 +162,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 319.5,
+    "width": 300,
     "collapsed": true
   },
   "left-ribbon": {
@@ -231,109 +173,26 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "workspaces:Manage workspace layouts": false
+      "workspaces:Manage workspace layouts": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-day-planner:Timeline": false,
+      "templater-obsidian:Templater": false
     }
   },
-<<<<<<< HEAD
-  "active": "4cae4b76343628ce",
+  "active": "fa63169fe2e61de9",
   "lastOpenFiles": [
-    "note/ruby-on-rails/Model.md",
-    "note/ruby-on-rails/Controller.md",
-    "note/git/branch作成.md",
-    "note/git/git_02.md",
-    "note/git/rename.md",
-    "note/git/index.md",
-    "note/git/githubActions.md",
-    "note/git/delete-branch.md",
-    "note/git/backVersion.md",
-    "daily-note/2024/05-May/2024-05-03.md",
-    "daily-note/2024/04-April/2024-04-26.md",
-    "daily-note/2024/05-May",
-    "daily-note/2024/04-April/2024-04-29.md",
-    "daily-note/2024/04-April/2024-04-28.md",
-    "daily-note/2024/04-April/2024-04-27.md",
-    "daily-note/2024/04-April/2024-04-19.md",
-    "daily-note/2024/04-April/2024-04-20.md",
-    "daily-note/2024/04-April/2024-04-25.md",
-    "daily-note/2024/04-April/2024-04-24.md",
-    "daily-note/2024/04-April/2024-04-23.md",
+    "software-test-design.pdf",
+    "everydayrailsrspec-jp.pdf",
+    "Rspec.md",
+    "ソフトウェアテスト技法.md",
     "There is 1 other session using the database.md",
-    "duplicate key value violates unique constraint.md",
-    "README.md",
-    "daily-note/2024/04-April/2024-04-22.md",
-    "daily-note/2024/04-April/2024-04-21.md",
-    "note/ruby-on-rails/findメソッドその他.md",
-    "note/ruby-on-rails/users.md",
-    "note/LoadMap",
-    "note/Pasted image 20240208215612.png",
-    "note/Pasted image 20240130215115.png",
-    "note/git/image-2.png",
-    "note/git/image-1.png",
-    "note/git/image.png",
-    "note/others",
-    "401_/public",
-    "401_",
-    "401_/public/pdf/良いコード_悪いコードで学ぶ設計入門.pdf",
-    "public/images/image-xdb.png",
-    "public/images/image-login-02.png",
-    "public/images/image-login-01.png",
-    "401_/public/pdf",
-    "public/images",
-    "public",
-    "note/ruby-on-rails",
-    "note/twitter/public/images/image-login-02.png",
-    "Pasted image 20240309161632.png"
-=======
-  "active": "bb59b474f6cd0bf0",
-  "lastOpenFiles": [
-    "40_works-daily/2024-03-27.md",
-    "40_works-daily/2024-04-01.md",
-    "40_works-daily/2024-03-12.md",
-    "40_works-daily/2024-03-13.md",
-    "40_works-daily/2024-03-05.md",
-    "40_works-daily/2024-03-07.md",
-    "40_works-daily/2024-03-14.md",
-    "40_works-daily/2024-03-18.md",
-    "40_works-daily/2024-03-19.md",
-    "config/template/daily-template.md",
+    "note/docker/docker&alpine&mysql.md",
+    "note/docker/rails&postgresql.md",
     "note/docker/cache.md",
-    "note/docker/bundler-version.md",
-    "README.md",
-    "slim.md",
-    "Untitled.canvas",
-    "Untitled 1.canvas",
-    "note/Pasted image 20240208215612.png",
-    "note/Pasted image 20240130215115.png",
-    "note/Ruby-on-Rails/users.md",
-    "note/Ruby-on-Rails/routes404.md",
-    "note/Ruby-on-Rails/MVC.md",
-    "note/Ruby-on-Rails/Model.md",
-    "note/Ruby-on-Rails/datafilter.md",
-    "note/Ruby-on-Rails/Controller.md",
-    "note/Ruby-on-Rails/erb2slim.md",
-    "note/Ruby-on-Rails/find,find_by,where.md",
-    "Action mailer.md",
-    "40_works-daily/2024-03-04.md",
-    "40_works-daily/2024-02-28.md",
-    "40_works-daily/2024-02-22.md",
-    "40_works-daily",
-    "note/note/ruby/class/ruby-book/test/gate_test.rb",
-    "note/note/ruby/class/ruby-book/lib/ticket.rb",
-    "note/note/ruby/class/ruby-book/lib/gate.rb",
-    "note/note/ruby/class/ruby-book/test",
-    "note/note/ruby/class/ruby-book/lib",
-    "note/note/ruby/class/ruby-book",
-    "note/note/git/image/img_rm.png",
-    "note/note/git/image/img_reset.png",
-    "note/note/git/image/img_diff.png",
-    "note/note/git/image/img_checkout.png",
-    "note/note/git/image/img_01.png",
-    "note/note/ruby/repeat-process",
-    "note/note/ruby/regular_expression",
-    "note/note/ruby/module",
-    "note/note/git/image.png",
-    "note/note/git/image-2.png",
-    "note/note/git/image-1.png"
->>>>>>> c5a12d351cd6c58cfdae06a1155632239d6561e6
+    "note/docker/bundler-versionでエラー.md",
+    "note/ruby-on-rails/Stimulus.md",
+    "duplicate key value violates unique constraint.md",
+    "AWS.md",
+    "README.md"
   ]
 }

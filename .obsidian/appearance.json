@@ -1,19 +1,11 @@
 {
-<<<<<<< HEAD
-  "accentColor": "#e4e665",
-=======
-  "cssTheme": "Solarized",
-  "accentColor": "#92d996",
->>>>>>> c5a12d351cd6c58cfdae06a1155632239d6561e6
+  "accentColor": "#ffc800",
+  "cssTheme": "Minimal",
   "theme": "obsidian",
-  "cssTheme": "Solarized",
-  "baseFontSize": 16,
-  "showViewHeader": true,
-  "interfaceFontFamily": "メイリオ",
-  "textFontFamily": "メイリオ",
-  "monospaceFontFamily": "メイリオ",
   "enabledCssSnippets": [
     "custom"
   ],
-  "baseFontSizeAction": true
+  "interfaceFontFamily": "メイリオ",
+  "textFontFamily": "メイリオ",
+  "monospaceFontFamily": "メイリオ"
 }
