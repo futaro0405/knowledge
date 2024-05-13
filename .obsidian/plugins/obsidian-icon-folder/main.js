@@ -3345,6 +3345,221 @@ function migrate$1(plugin) {
         }
     });
 }
+IconCache.instance = new IconCache();
+IconCache.getInstance = () => {
+    return IconCache.instance;
+};
+
+/**
+ * Checks if the file type is equal to the `for` property of the custom rule.
+ * @param rule CustomRule that will be checked.
+ * @param fileType CustomRuleFileType that will be checked. Can be either `file` or `folder`.
+ * @returns Boolean whether the custom rule `for` matches the file type or not.
+ */
+const doesMatchFileType = (rule, fileType) => {
+    return (rule.for === 'everything' ||
+        (rule.for === 'files' && fileType === 'file') ||
+        (rule.for === 'folders' && fileType === 'folder'));
+};
+/**
+ * Determines whether a given file or folder matches a specified custom rule.
+ * @param plugin Plugin instance.
+ * @param rule CustomRule to check against the file or folder.
+ * @param file TAbstractFile to check against the custom rule.
+ * @returns Promise that resolves to `true` if the file matches the rule, `false` otherwise.
+ */
+const isApplicable = (plugin, rule, file) => __awaiter(void 0, void 0, void 0, function* () {
+    const metadata = yield plugin.app.vault.adapter.stat(file.path);
+    if (!metadata) {
+        return false;
+    }
+    const fileType = metadata.type;
+    const doesMatch = doesMatchFileType(rule, fileType);
+    if (!doesMatch) {
+        return false;
+    }
+    return doesMatchPath(rule, file.path);
+});
+/**
+ * Removes the icon from the custom rule from all the files and folders, if applicable.
+ * @param plugin IconFolderPlugin instance.
+ * @param rule CustomRule where the icons will be removed based on this rule.
+ */
+const removeFromAllFiles = (plugin, rule) => __awaiter(void 0, void 0, void 0, function* () {
+    const nodesWithIcon = document.querySelectorAll(`[${config.ICON_ATTRIBUTE_NAME}="${rule.icon}"]`);
+    for (let i = 0; i < nodesWithIcon.length; i++) {
+        const node = nodesWithIcon[i];
+        // Parent element is the node which contains the data path.
+        const parent = node.parentElement;
+        if (!parent) {
+            continue;
+        }
+        const dataPath = parent.getAttribute('data-path');
+        if (!dataPath) {
+            continue;
+        }
+        const fileType = (yield plugin.app.vault.adapter.stat(dataPath)).type;
+        if (doesMatchPath(rule, dataPath) && doesMatchFileType(rule, fileType)) {
+            dom.removeIconInNode(parent);
+            IconCache.getInstance().invalidate(dataPath);
+        }
+    }
+});
+/**
+ * Gets all the custom rules sorted by their order property in ascending order.
+ * @param plugin IconFolderPlugin instance.
+ * @returns CustomRule array sorted by their order property in ascending order.
+ */
+const getSortedRules = (plugin) => {
+    return plugin.getSettings().rules.sort((a, b) => a.order - b.order);
+};
+/**
+ * Tries to add all specific custom rule icons to all registered files and directories.
+ * It does that by calling the {@link add} function. Custom rules should have the lowest
+ * priority and will get ignored if an icon already exists in the file or directory.
+ * @param plugin IconFolderPlugin instance.
+ * @param rule CustomRule that will be applied, if applicable, to all files and folders.
+ */
+const addToAllFiles = (plugin, rule) => __awaiter(void 0, void 0, void 0, function* () {
+    const fileItems = yield getFileItems(plugin, rule);
+    for (const fileItem of fileItems) {
+        yield add$2(plugin, rule, fileItem.file, getFileItemTitleEl(fileItem));
+    }
+});
+/**
+ * Tries to add the icon of the custom rule to a file or folder. This function also checks
+ * if the file type matches the `for` property of the custom rule.
+ * @param plugin IconFolderPlugin instance.
+ * @param rule CustomRule that will be used to check if the rule is applicable to the file
+ * or directory.
+ * @param file TAbstractFile that will be used to possibly create the icon for.
+ * @param container HTMLElement where the icon will be added if the custom rules matches.
+ * @returns A promise that resolves to `true` if the icon was added, `false` otherwise.
+ */
+const add$2 = (plugin, rule, file, container) => __awaiter(void 0, void 0, void 0, function* () {
+    if (container && dom.doesElementHasIconNode(container)) {
+        return false;
+    }
+    // Checks if the file or directory already has an icon.
+    const hasIcon = plugin.getIconNameFromPath(file.path);
+    if (hasIcon) {
+        return false;
+    }
+    const doesMatch = yield isApplicable(plugin, rule, file);
+    if (doesMatch) {
+        IconCache.getInstance().set(file.path, {
+            iconNameWithPrefix: rule.icon,
+            inCustomRule: true,
+        });
+        dom.createIconNode(plugin, file.path, rule.icon, {
+            color: rule.color,
+            container,
+        });
+        return true;
+    }
+    return false;
+});
+/**
+ * Determines whether a given rule exists in a given path.
+ * @param rule Rule to check for.
+ * @param path Path to check in.
+ * @returns True if the rule exists in the path, false otherwise.
+ */
+const doesMatchPath = (rule, path) => {
+    const toMatch = rule.useFilePath ? path : path.split('/').pop();
+    try {
+        // Rule is in some sort of regex.
+        const regex = new RegExp(rule.rule);
+        if (toMatch.match(regex)) {
+            return true;
+        }
+    }
+    catch (_a) {
+        // Rule is not in some sort of regex, check for basic string match.
+        return toMatch.includes(rule.rule);
+    }
+    return false;
+};
+/**
+ * Gets all the file items that can be applied to the specific custom rule.
+ * @param plugin Instance of IconFolderPlugin.
+ * @param rule Custom rule that will be checked for.
+ * @returns A promise that resolves to an array of file items that match the custom rule.
+ */
+const getFileItems = (plugin, rule) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = [];
+    for (const fileExplorer of plugin.getRegisteredFileExplorers()) {
+        const files = Object.values(fileExplorer.fileItems);
+        for (const fileItem of files) {
+            if (yield isApplicable(plugin, rule, fileItem.file)) {
+                result.push(fileItem);
+            }
+        }
+    }
+    return result;
+});
+var customRule = {
+    getFileItems,
+    doesMatchPath,
+    doesMatchFileType,
+    getSortedRules,
+    removeFromAllFiles,
+    add: add$2,
+    addToAllFiles,
+    isApplicable,
+};
+
+function migrate$1(plugin) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // Migration for inheritance to custom rule.
+        if (plugin.getSettings().migrated === 3) {
+            let hasRemovedInheritance = false;
+            for (const [key, value] of Object.entries(plugin.getData())) {
+                if (key === 'settings' || typeof value !== 'object') {
+                    continue;
+                }
+                const folderData = value;
+                const inheritanceIcon = folderData.inheritanceIcon;
+                if (!inheritanceIcon) {
+                    continue;
+                }
+                const folderIconName = folderData.iconName;
+                // Clean up old data.
+                if (folderData.iconColor && folderIconName) {
+                    delete folderData.inheritanceIcon;
+                }
+                else if (folderIconName) {
+                    delete plugin.getData()[key];
+                    plugin.getData()[key] = folderIconName;
+                }
+                else if (!folderIconName) {
+                    delete plugin.getData()[key];
+                }
+                const folderPath = key + '\\/[\\w\\d\\s]+';
+                const newRule = {
+                    icon: inheritanceIcon,
+                    rule: `${folderPath}\\.(?:\\w+\\.)*\\w+`,
+                    for: 'files',
+                    order: 0,
+                    useFilePath: true,
+                };
+                // Reorder existing custom rules so that the new inheritance custom rule
+                // is at the top.
+                plugin.getSettings().rules.map((rule) => {
+                    rule.order++;
+                });
+                plugin.getSettings().rules.unshift(newRule);
+                // Apply the custom rule.
+                yield customRule.addToAllFiles(plugin, newRule);
+                hasRemovedInheritance = true;
+            }
+            if (hasRemovedInheritance) {
+                new obsidian.Notice(`[${config.PLUGIN_NAME}] Inheritance has been removed and replaced with custom rules.`);
+            }
+            plugin.getSettings().migrated++;
+        }
+    });
+}
 
 const migrate = (plugin) => __awaiter(void 0, void 0, void 0, function* () {
     // eslint-disable-next-line

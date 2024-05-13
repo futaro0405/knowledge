@@ -39899,10 +39899,10 @@ var DiscardModal = class extends import_obsidian24.Modal {
 init_polyfill_buffer();
 var import_obsidian26 = require("obsidian");
 
-// node_modules/.pnpm/obsidian-community-lib@https+++codeload.github.com+Vinzent03+obsidian-community-lib+tar.gz+e6_dmashd4lm54vdqd2gnfngnqe2m/node_modules/obsidian-community-lib/dist/index.js
+// node_modules/.pnpm/github.com+Vinzent03+obsidian-community-lib@e663de4f95c879b40613090da78ea599ff621d24_@codemir_kbfcpig3uak7df3ohthcqq53p4/node_modules/obsidian-community-lib/dist/index.js
 init_polyfill_buffer();
 
-// node_modules/.pnpm/obsidian-community-lib@https+++codeload.github.com+Vinzent03+obsidian-community-lib+tar.gz+e6_dmashd4lm54vdqd2gnfngnqe2m/node_modules/obsidian-community-lib/dist/utils.js
+// node_modules/.pnpm/github.com+Vinzent03+obsidian-community-lib@e663de4f95c879b40613090da78ea599ff621d24_@codemir_kbfcpig3uak7df3ohthcqq53p4/node_modules/obsidian-community-lib/dist/utils.js
 init_polyfill_buffer();
 var feather = __toESM(require_feather());
 var import_obsidian25 = require("obsidian");
@@ -44106,11 +44106,6 @@ var ObsidianGit = class extends import_obsidian31.Plugin {
       callback: async () => this.removeRemote()
     });
     this.addCommand({
-      id: "set-upstream-branch",
-      name: "Set upstream branch",
-      callback: async () => this.setUpstreamBranch()
-    });
-    this.addCommand({
       id: "delete-repo",
       name: "CAUTION: Delete repository",
       callback: async () => {
@@ -44920,23 +44915,18 @@ var ObsidianGit = class extends import_obsidian31.Plugin {
       return true;
     }
     if (!(await this.gitManager.branchInfo()).tracking) {
-      new import_obsidian31.Notice("No upstream branch is set. Please select one.");
-      return await this.setUpstreamBranch();
+      new import_obsidian30.Notice("No upstream branch is set. Please select one.");
+      const remoteBranch = await this.selectRemoteBranch();
+      if (remoteBranch == void 0) {
+        this.displayError("Aborted. No upstream-branch is set!", 1e4);
+        this.setState(0 /* idle */);
+        return false;
+      } else {
+        await this.gitManager.updateUpstreamBranch(remoteBranch);
+        return true;
+      }
     }
     return true;
-  }
-  async setUpstreamBranch() {
-    const remoteBranch = await this.selectRemoteBranch();
-    if (remoteBranch == void 0) {
-      this.displayError("Aborted. No upstream-branch is set!", 1e4);
-      this.setState(0 /* idle */);
-      return false;
-    } else {
-      await this.gitManager.updateUpstreamBranch(remoteBranch);
-      this.displayMessage(`Set upstream branch to ${remoteBranch}`);
-      this.setState(0 /* idle */);
-      return true;
-    }
   }
   async setUpAutoBackup() {
     if (this.settings.setLastSaveToLastCommit) {
