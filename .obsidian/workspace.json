@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ソフトウェアテスト技法.md",
+                "file": "There is 1 other session using the database.md",
                 "mode": "source",
                 "source": true
               }
@@ -179,9 +179,11 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "fa63169fe2e61de9",
+  "active": "96c97fabb69d2200",
   "lastOpenFiles": [
+    "ソフトウェアテスト技法.md",
     "権限昇格.md",
+    "There is 1 other session using the database.md",
     "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
     "note/webSecurty",
     "daily/2024/May/13.md",
@@ -194,8 +196,6 @@
     "software-test-design.pdf",
     "everydayrailsrspec-jp.pdf",
     "Rspec.md",
-    "ソフトウェアテスト技法.md",
-    "There is 1 other session using the database.md",
     "note/docker/docker&alpine&mysql.md",
     "note/docker/rails&postgresql.md",
     "note/docker/cache.md",
