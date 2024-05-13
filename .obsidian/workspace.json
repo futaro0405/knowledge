@@ -8,43 +8,19 @@
         "type": "tabs",
         "children": [
           {
-            "id": "2ef6bcf552475db0",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
-              }
-            }
-          },
-          {
-            "id": "24490c7a799f1265",
+            "id": "4079e80ef89ad027",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "daily/2024/May/13.md",
-                "mode": "source",
-                "backlinks": false,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "65cffb63c12c21f2",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Rspec.md",
-                "mode": "source",
+                "file": "40_work/K社/daily-report/0513.md",
+                "mode": "preview",
                 "backlinks": true,
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -96,7 +72,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "daily/2024/May/13.md"
+                "file": "40_work/K社/daily-report/0513.md"
               }
             }
           }
@@ -129,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "daily/2024/May/13.md",
+                "file": "40_work/K社/daily-report/0513.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "daily/2024/May/13.md",
+                "file": "40_work/K社/daily-report/0513.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -198,12 +174,12 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "24490c7a799f1265",
+  "active": "4079e80ef89ad027",
   "lastOpenFiles": [
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "daily/2024/May/13.md",
-    "40_work/K社/daily-report/0513.md",
     "Rspec.md",
+    "40_work/K社/daily-report/0513.md",
     "config/templates/template-daily.md",
     "config/templates/daily-goal.md",
     "40_work/K社/daily-report/0510.md",
