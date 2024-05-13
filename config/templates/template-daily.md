@@ -6,4 +6,3 @@ tags: {{Date:wo}} {{Date:YYYYMM}}
 # Daily Report({{date:YYYY-MM-DD}})
 text text text text text text text text text text text text
 # Memos
-# Day planner
