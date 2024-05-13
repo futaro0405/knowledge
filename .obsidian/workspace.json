@@ -15,12 +15,26 @@
               "state": {
                 "file": "40_work/K社/daily-report/0513.md",
                 "mode": "source",
-                "backlinks": true,
+                "backlinks": false,
                 "source": false
               }
             }
+          },
+          {
+            "id": "24490c7a799f1265",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Rspec.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": true
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -72,7 +86,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/daily-report/0513.md"
+                "file": "Rspec.md"
               }
             }
           }
@@ -97,7 +111,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/0513.md",
+                "file": "Rspec.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +128,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/0513.md",
+                "file": "Rspec.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -176,10 +190,11 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "2ef6bcf552475db0",
+  "active": "24490c7a799f1265",
   "lastOpenFiles": [
-    "40_work/K社/daily-report/0510.md",
     "40_work/K社/daily-report/0513.md",
+    "Rspec.md",
+    "40_work/K社/daily-report/0510.md",
     "40_work/K社/daily-report/0509.md",
     "40_work/K社/lecture.md",
     "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
