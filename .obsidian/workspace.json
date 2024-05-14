@@ -21,7 +21,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/git/branch作成.md",
+                "file": "note/ruby-on-rails/Model.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -95,7 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/git/branch作成.md",
+                "file": "note/ruby-on-rails/Model.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -112,7 +112,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/git/branch作成.md",
+                "file": "note/ruby-on-rails/Model.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -135,7 +135,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/git/branch作成.md"
+                "file": "note/ruby-on-rails/Model.md"
               }
             }
           },
@@ -178,6 +178,7 @@
   },
   "active": "8cf3d6900615992f",
   "lastOpenFiles": [
+    "note/git/branch作成.md",
     "note/git/backVersion.md",
     "40_work/K社/daily-report/0513.md",
     "40_work/K社/daily-report/0514.md",
