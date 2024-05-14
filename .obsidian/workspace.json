@@ -11,26 +11,16 @@
             "id": "5bb2d24d580db411",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "40_work/K社/daily-report/0513.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
+              "type": "empty",
+              "state": {}
             }
           },
           {
             "id": "8cf3d6900615992f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "40_work/K社/daily-report/0514.md",
-                "mode": "preview",
-                "backlinks": false,
-                "source": true
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ],
@@ -100,7 +90,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/0514.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -117,7 +106,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/0514.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -139,9 +127,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "40_work/K社/daily-report/0514.md"
-              }
+              "state": {}
             }
           },
           {
