@@ -13,20 +13,22 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "There is 1 other session using the database.md",
+                "file": "40_work/K社/daily-report/0513.md",
                 "mode": "source",
+                "backlinks": true,
                 "source": true
               }
             }
           },
           {
-            "id": "96c97fabb69d2200",
+            "id": "8cf3d6900615992f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "There is 1 other session using the database.md",
+                "file": "40_work/K社/daily-report/0514.md",
                 "mode": "source",
+                "backlinks": false,
                 "source": true
               }
             }
@@ -98,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "There is 1 other session using the database.md",
+                "file": "40_work/K社/daily-report/0514.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +117,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "There is 1 other session using the database.md",
+                "file": "40_work/K社/daily-report/0514.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +140,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "There is 1 other session using the database.md"
+                "file": "40_work/K社/daily-report/0514.md"
               }
             }
           },
@@ -179,11 +181,15 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "96c97fabb69d2200",
+  "active": "8cf3d6900615992f",
   "lastOpenFiles": [
+    "40_work/K社/daily-report/0513.md",
+    "40_work/K社/daily-report/0514.md",
+    "Untitled 1.md",
+    "Untitled.md",
+    "There is 1 other session using the database.md",
     "ソフトウェアテスト技法.md",
     "権限昇格.md",
-    "There is 1 other session using the database.md",
     "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
     "note/webSecurty",
     "daily/2024/May/13.md",
