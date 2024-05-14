@@ -8,28 +8,16 @@
         "type": "tabs",
         "children": [
           {
-            "id": "5bb2d24d580db411",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
             "id": "8cf3d6900615992f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "note/ruby-on-rails/Model.md",
-                "mode": "preview",
-                "backlinks": true,
-                "source": true
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -95,7 +83,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/ruby-on-rails/Model.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -112,7 +100,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/ruby-on-rails/Model.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -135,7 +123,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/ruby-on-rails/Model.md"
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
               }
             }
           },
@@ -178,6 +166,7 @@
   },
   "active": "8cf3d6900615992f",
   "lastOpenFiles": [
+    "note/ruby-on-rails/Model.md",
     "note/git/branch作成.md",
     "note/git/backVersion.md",
     "40_work/K社/daily-report/0513.md",
