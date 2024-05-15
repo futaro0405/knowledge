@@ -19,8 +19,22 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "5ada7e391a343177",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "daily/2024/May/15.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -79,6 +93,7 @@
       {
         "id": "e1b3ba48559f233d",
         "type": "tabs",
+        "dimension": 39.58333333333333,
         "children": [
           {
             "id": "ec20c6efece423ee",
@@ -86,7 +101,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/05/0515.md",
+                "file": "daily/2024/May/15.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/05/0515.md",
+                "file": "daily/2024/May/15.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +141,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/daily-report/05/0515.md"
+                "file": "daily/2024/May/15.md"
               }
             }
           },
@@ -137,7 +152,15 @@
               "type": "calendar",
               "state": {}
             }
-          },
+          }
+        ],
+        "currentTab": 4
+      },
+      {
+        "id": "1ccf7a29cb1502b2",
+        "type": "tabs",
+        "dimension": 60.416666666666664,
+        "children": [
           {
             "id": "d0e9aedfec764051",
             "type": "leaf",
@@ -150,8 +173,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 235.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -167,12 +189,17 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "0bea2ae778eda5c3",
+  "active": "5ada7e391a343177",
   "lastOpenFiles": [
+    "40_work/K社/wiki/lecture.md",
+    "daily/2024/May/15.md",
+    "40_work/K社/wiki/検品.md",
+    "40_work/K社/memo.md",
+    "40_work/K社/課題/JS課題01.md",
+    "40_work/K社/daily-report/05/0515.md",
     "40_work/K社/daily-report/05/0507.md",
     "40_work/K社/daily-report/04/0409.md",
     "40_work/K社/daily-report/05",
-    "40_work/K社/daily-report/05/0515.md",
     "40_work/K社/daily-report/04",
     "40_work/K社/daily-report/05/0514.md",
     "40_work/K社/daily-report/Untitled.md",
@@ -198,9 +225,6 @@
     "note/docker/rails&postgresql.md",
     "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
-    "note/ruby-on-rails/Stimulus.md",
-    "duplicate key value violates unique constraint.md",
-    "AWS.md",
-    "README.md"
+    "note/ruby-on-rails/Stimulus.md"
   ]
 }
