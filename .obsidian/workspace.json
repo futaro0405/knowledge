@@ -8,12 +8,15 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8cf3d6900615992f",
+            "id": "0bea2ae778eda5c3",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "40_work/K社/daily-report/0515.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": true
               }
             }
           }
@@ -76,7 +79,6 @@
       {
         "id": "e1b3ba48559f233d",
         "type": "tabs",
-        "dimension": 30.19230769230769,
         "children": [
           {
             "id": "ec20c6efece423ee",
@@ -84,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "40_work/K社/daily-report/0515.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "40_work/K社/daily-report/0515.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "40_work/K社/daily-report/0515.md"
               }
             }
           },
@@ -135,15 +137,7 @@
               "type": "calendar",
               "state": {}
             }
-          }
-        ],
-        "currentTab": 4
-      },
-      {
-        "id": "32c463a0650a48d1",
-        "type": "tabs",
-        "dimension": 69.8076923076923,
-        "children": [
+          },
           {
             "id": "d0e9aedfec764051",
             "type": "leaf",
@@ -156,7 +150,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -172,13 +167,12 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "04491987bee1ee26",
+  "active": "0bea2ae778eda5c3",
   "lastOpenFiles": [
-    "note/ruby-on-rails/Model.md",
-    "note/git/branch作成.md",
-    "note/git/backVersion.md",
-    "40_work/K社/daily-report/0513.md",
     "40_work/K社/daily-report/0514.md",
+    "40_work/K社/daily-report/0515.md",
+    "40_work/K社/daily-report/Untitled.md",
+    "40_work/K社/daily-report/0513.md",
     "Untitled 1.md",
     "Untitled.md",
     "There is 1 other session using the database.md",
