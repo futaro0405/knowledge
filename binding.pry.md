@@ -32,7 +32,7 @@ docker ps
 ```
 
 ```tarminal
-docker attach <container>
+docker attach <container name or id>
 ```
 
 
@@ -46,3 +46,5 @@ exit
 ```terminal
 <Ctrl + P>,<Ctrl + Q>
 ```
+
+[binding.pryキホンのキ](https://tech.smarthr.jp/entry/2021/11/08/143649)
