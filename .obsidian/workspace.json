@@ -11,9 +11,12 @@
             "id": "8cf3d6900615992f",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "There is 1 other session using the database.md",
+                "mode": "preview",
+                "backlinks": true,
+                "source": true
               }
             }
           }
@@ -84,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "There is 1 other session using the database.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -101,7 +104,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "There is 1 other session using the database.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,7 +127,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "There is 1 other session using the database.md"
               }
             }
           },
@@ -172,8 +175,9 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "04491987bee1ee26",
+  "active": "8cf3d6900615992f",
   "lastOpenFiles": [
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/ruby-on-rails/Model.md",
     "note/git/branch作成.md",
     "note/git/backVersion.md",
@@ -192,7 +196,6 @@
     "daily/2024/May",
     "daily/2024",
     "daily",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "software-test-design.pdf",
     "everydayrailsrspec-jp.pdf",
     "Rspec.md",
