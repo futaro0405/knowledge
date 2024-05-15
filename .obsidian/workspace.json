@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "binding.pry.md",
+                "file": "40_work/K社/memo.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": false
@@ -70,8 +70,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "a1ee19909990d62f",
@@ -88,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "binding.pry.md",
+                "file": "40_work/K社/memo.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +104,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "binding.pry.md",
+                "file": "40_work/K社/memo.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -128,7 +127,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "binding.pry.md"
+                "file": "40_work/K社/memo.md"
               }
             }
           },
@@ -179,12 +178,12 @@
   },
   "active": "0bea2ae778eda5c3",
   "lastOpenFiles": [
-    "40_work/K社/daily-report/05/0515.md",
-    "binding.pry.md",
-    "401_/public/pdf/software-test-design.pdf",
-    "daily/2024/May/15.md",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/検品.md",
+    "binding.pry.md",
+    "40_work/K社/daily-report/05/0515.md",
+    "401_/public/pdf/software-test-design.pdf",
+    "daily/2024/May/15.md",
     "40_work/K社/memo.md",
     "40_work/K社/課題/JS課題01.md",
     "40_work/K社/daily-report/05/0507.md",
@@ -195,7 +194,6 @@
     "40_work/K社/daily-report/Untitled.md",
     "40_work/K社/daily-report/05/0513.md",
     "Untitled 1.md",
-    "binding.pry.md",
     "There is 1 other session using the database.md",
     "ソフトウェアテスト技法.md",
     "権限昇格.md",
