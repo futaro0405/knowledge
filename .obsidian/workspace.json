@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/memo.md",
+                "file": "old/daily-note/2024/05-May/2024-05-03.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": false
@@ -87,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/memo.md",
+                "file": "old/daily-note/2024/05-May/2024-05-03.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/memo.md",
+                "file": "old/daily-note/2024/05-May/2024-05-03.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -127,7 +127,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/memo.md"
+                "file": "old/daily-note/2024/05-May/2024-05-03.md"
               }
             }
           },
@@ -178,13 +178,14 @@
   },
   "active": "0bea2ae778eda5c3",
   "lastOpenFiles": [
+    "old/daily-note/2024/04-April/2024-04-29.md",
+    "40_work/K社/memo.md",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/検品.md",
     "binding.pry.md",
     "40_work/K社/daily-report/05/0515.md",
     "401_/public/pdf/software-test-design.pdf",
     "daily/2024/May/15.md",
-    "40_work/K社/memo.md",
     "40_work/K社/課題/JS課題01.md",
     "40_work/K社/daily-report/05/0507.md",
     "40_work/K社/daily-report/04/0409.md",
