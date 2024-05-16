@@ -29,7 +29,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/RSpec/Rspec.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
@@ -103,7 +103,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/Rspec.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -120,7 +120,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/Rspec.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -143,7 +143,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/Rspec.md"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           },
@@ -192,11 +192,11 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "fa63169fe2e61de9",
+  "active": "89b1990914548bf5",
   "lastOpenFiles": [
     "note/RSpec",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "note/RSpec/Rspec.md",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
     "Untitled.md",
     "401_/public/pdf/良いコード_悪いコードで学ぶ設計入門.pdf",
     "401_/public/pdf/software-test-design.pdf",
