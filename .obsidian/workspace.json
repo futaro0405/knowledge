@@ -194,9 +194,9 @@
   },
   "active": "89b1990914548bf5",
   "lastOpenFiles": [
-    "note/RSpec",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/RSpecによるRailsテスト入門.md",
+    "note/RSpec",
     "Untitled.md",
     "401_/public/pdf/良いコード_悪いコードで学ぶ設計入門.pdf",
     "401_/public/pdf/software-test-design.pdf",
@@ -230,7 +230,6 @@
     "daily/2024/May/09.md",
     "daily/2024/May",
     "daily/2024",
-    "daily",
-    "everydayrailsrspec-jp.pdf"
+    "daily"
   ]
 }
