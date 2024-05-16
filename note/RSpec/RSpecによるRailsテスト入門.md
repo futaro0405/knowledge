@@ -32,4 +32,17 @@ group :development, :test do
 	gem 'rspec-rails' 
 end
 ```
-
+### テストデータベース
+必要に応じてコードを追加
+#### SQLite
+```yml:config/database.yml
+test:
+	<<: *default
+	detabase: db/test.sqlite3
+```
+#### MySQL,PostgreSQL
+```yml:config/database.yml
+test:
+	<<: *default
+	detabase: projects_test
+```
