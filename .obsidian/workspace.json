@@ -11,27 +11,11 @@
             "id": "d36ec22785f0ff0f",
             "type": "leaf",
             "state": {
-              "type": "pdf",
-              "state": {
-                "file": "401_/public/pdf/software-test-design.pdf"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "id": "ba2b6d6efbb6ce9a",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "3e68f2e5a40639e5",
-            "type": "leaf",
-            "state": {
               "type": "markdown",
               "state": {
-                "file": "ソフトウェアテスト技法.md",
-                "mode": "source",
-                "backlinks": false,
+                "file": "40_work/K社/daily-report/05/0515.md",
+                "mode": "preview",
+                "backlinks": true,
                 "source": true
               }
             }
@@ -86,8 +70,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "a1ee19909990d62f",
@@ -96,7 +79,7 @@
       {
         "id": "e1b3ba48559f233d",
         "type": "tabs",
-        "dimension": 39.58333333333333,
+        "dimension": 39.583333333333336,
         "children": [
           {
             "id": "ec20c6efece423ee",
@@ -104,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ソフトウェアテスト技法.md",
+                "file": "40_work/K社/daily-report/05/0515.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,7 +104,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ソフトウェアテスト技法.md",
+                "file": "40_work/K社/daily-report/05/0515.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -144,7 +127,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ソフトウェアテスト技法.md"
+                "file": "40_work/K社/daily-report/05/0515.md"
               }
             }
           },
@@ -162,7 +145,7 @@
       {
         "id": "1ccf7a29cb1502b2",
         "type": "tabs",
-        "dimension": 60.416666666666664,
+        "dimension": 60.41666666666667,
         "children": [
           {
             "id": "d0e9aedfec764051",
@@ -193,7 +176,7 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "3e68f2e5a40639e5",
+  "active": "d36ec22785f0ff0f",
   "lastOpenFiles": [
     "401_/public/pdf/software-test-design.pdf",
     "ソフトウェアテスト技法.md",
