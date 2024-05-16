@@ -61,8 +61,14 @@ RSpecの出力をドキュメント形式に変更する
 ```
 
 ### 試す
-
 RSpecの起動
 ```
 bundle exec rspec
 ```
+
+### binstub
+binstubを作成して短いコマンドで実行できるようにする
+```bash
+bundle binstubs rspec-core
+```
+このコマンドを実行することでbinディレクトリ内にrspecの実行ファイルが作成される。
