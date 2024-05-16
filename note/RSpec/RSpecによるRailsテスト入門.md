@@ -206,5 +206,13 @@ Userオブジェクトを作成し、そのオブジェクトを`expect`に渡�
 
 ### バリデーションをテストする
 
-```ruby:spec/models/user_spec.rb 1 # 名がなければ無効な状態であること 2 it "is invalid without a first name" do 3 user = User.new(first_name: nil) 4 user.valid? 5 expect(user.errors[:first_name]).to include("can't be blank") 6 end
+```ruby:spec/models/user_spec.rb
+# 名がなければ無効な状態であること
+it "is invalid without a first name" do
+		user = User.new(first_name: nil)
+		user.valid?
+		expect(user.errors[:first_name]).to include("can't be blank")
+end
 ```
+
+作成したUserに対し、
