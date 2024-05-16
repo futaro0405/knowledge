@@ -178,5 +178,27 @@ end
 ```
 
 ```ruby:expect構文
-# 2と1を⾜すと3になること it "adds 2 and 1 to make 3" do expect(2 + 1).to eq 3 end
+# 2と1を⾜すと3になること
+it "adds 2 and 1 to make 3" do
+		expect(2 + 1).to eq 3
+end
 ```
+
+実際のexapleではどうなるか
+```ruby:spec/models/user_spec.rb
+RSpec.describe User, type: :model do 4
+		# 姓、名、メール、パスワードがあれば有効な状態であること
+		it "is valid with a first name, last name, email, and password" do
+				user = User.new(
+						first_name: "Aaron",
+						last_name: "Sumner",
+						email: "tester@example.com",
+						password: "dottle-nouveau-pavilion-tights-furze",
+				)
+				expect(user).to be_valid
+		end
+end
+```
+
+`be_valid`というRSpecのmatcherを使ってmodelが有効な状態を理解できているかを検証している。
+User
