@@ -16,7 +16,13 @@
                 "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
               }
             }
-          },
+          }
+        ]
+      },
+      {
+        "id": "9d05de3c8420316c",
+        "type": "tabs",
+        "children": [
           {
             "id": "89b1990914548bf5",
             "type": "leaf",
@@ -25,13 +31,12 @@
               "state": {
                 "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "mode": "source",
-                "backlinks": true,
+                "backlinks": false,
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -81,7 +86,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "a1ee19909990d62f",
@@ -189,6 +195,8 @@
   },
   "active": "89b1990914548bf5",
   "lastOpenFiles": [
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
     "40_work/K社/memo.md",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/検品.md",
@@ -208,8 +216,6 @@
     "40_work/K社/daily-report/05/0509.md",
     "40_work/K社/daily-report/05/0508.md",
     "40_work/K社/daily-report/05/0507.md",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec",
     "Untitled.md",
     "401_/public/pdf/良いコード_悪いコードで学ぶ設計入門.pdf",
@@ -220,7 +226,6 @@
     "Pasted image 20240515173153.png",
     "old/daily-note/2024/05-May/2024-05-03.md",
     "old/daily-note/2024/04-April/2024-04-29.md",
-    "binding.pry.md",
     "40_work/K社/daily-report/05",
     "40_work/K社/daily-report/04",
     "note/webSecurty",

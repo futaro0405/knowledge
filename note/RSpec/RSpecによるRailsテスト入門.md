@@ -46,3 +46,23 @@ test:
 	<<: *default
 	detabase: projects_test
 ```
+
+### RSpecの設定
+RSpecのインストールする
+```bash
+bin/rails generate rspec:install
+```
+
+RSpecの出力をドキュメント形式に変更する
+
+```.rspec
+--require spec_helper
+--format documentation
+```
+
+### 試す
+
+RSpecの起動
+```
+bundle exec rspec
+```
