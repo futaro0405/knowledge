@@ -72,3 +72,38 @@ binstubを作成して短いコマンドで実行できるようにする
 bundle binstubs rspec-core
 ```
 このコマンドを実行することでbinディレクトリ内にrspecの実行ファイルが作成される。
+
+### ジェネレータ
+`rails generate`コマンドをカスタマイズする
+
+```config/application.rb
+require_relative "boot"
+require "rails/all"
+
+# Rails が最初から書いているコメントは省略 ...
+Bundler.require(*Rails.groups)
+
+module Projects
+		class Application < Rails::Application
+				config.load_defaults 7.1
+				config.autoload_lib(ignore: %w(assets tasks))
+
+				config.generators do |g|
+						g.test_framework :rspec,
+						fixtures: false,
+						view_specs: false,
+						helper_specs: false,
+						routing_specs: false
+				end
+		end
+end
+```
+
+- `fixtures: false`
+	- テストデータベースにレコードを作成するファイルの作成をスキッ
+- `view_specs: false`
+	- ビュースペックを作成しない
+- `helper_specs: false`
+	- ヘルパーファイル⽤のスペックを作成しない
+- `routing_specs: false`
+	- config/routes.rb⽤のスペックファイルの作成を省略
