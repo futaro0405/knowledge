@@ -139,9 +139,14 @@ end
 ベストプラクティス
 - 期待する結果をまとめて記述（describe）している。
 	- このケースではUserモデルがどんなモデルなのか、そしてどんな振る舞いをするのかということを説明している
-- example（it で始まる1⾏）⼀つにつき、結果を⼀つだけ期待している。
-	- 私がfirst_name、last_name、emailのバリデーションをそれぞれ分けてテストしている点に注意してください。こうすれば、exampleが失敗したときに問題が起きたバリデーションを特定できます。原因調査のためにRSpecの出⼒結果を調べる必要はありません。少なくともそこまで細かく調べずに済むはずです。
+- example（itで始まる1⾏）ひとつにつき、結果をひとつだけ期待している。
+	- 私がfirst_name、last_name、emailのバリデーションをそれぞれ分けてテストしている点に注意。こうすれば、exampleが失敗したときに問題が起きたバリデーションを特定できる。原因調査のためにRSpecの出力結果を調べる必要はない。少なくともそこまで細かく調べずに済む。
 - どのexampleも明示的である。
 	- 技術的なことを言うと、itのあとに続く説明用の文字列は必須ではありません。しかし、省略してしまうとスペックが読みにくくなります。
 - 各exampleの説明は動詞で始まっている。shouldではない。
-	- 期待する結果を声に出して読んでみましょう。User is invalid without a first name（名がなければユーザーは無効な状態である）、User is invalid without a last name（姓がなければユーザーは無効な状態である）、User returns a user’s full name as a string（ユーザーは文字列としてユーザーのフルネームを返す）。可読性は非常に重要であり、RSpecのキーとなる機能です
+	- 期待する結果を声に出して読んでみましょう。
+		- User is invalid without a first name（名がなければユーザーは無効な状態である）
+		- User is invalid without a last name（姓がなければユーザーは無効な状態である）
+		- User returns a user’s full name as a string（ユーザーは文字列としてユーザーのフルネームを返す）
+	- 可読性は非常に重要であり、RSpecのキーとなる機能
+
