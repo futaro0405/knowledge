@@ -14,13 +14,27 @@
               "type": "markdown",
               "state": {
                 "file": "40_work/K社/daily-report/05/0515.md",
-                "mode": "preview",
+                "mode": "source",
                 "backlinks": true,
                 "source": true
               }
             }
+          },
+          {
+            "id": "6c4ad5c363849d79",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "40_work/K社/daily-report/05/0516.md",
+                "mode": "preview",
+                "backlinks": false,
+                "source": true
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -87,7 +101,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/05/0515.md",
+                "file": "40_work/K社/daily-report/05/0516.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/05/0515.md",
+                "file": "40_work/K社/daily-report/05/0516.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -127,7 +141,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/daily-report/05/0515.md"
+                "file": "40_work/K社/daily-report/05/0516.md"
               }
             }
           },
@@ -176,14 +190,15 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "d36ec22785f0ff0f",
+  "active": "6c4ad5c363849d79",
   "lastOpenFiles": [
+    "40_work/K社/daily-report/05/0515.md",
+    "40_work/K社/daily-report/05/0516.md",
     "401_/public/pdf/software-test-design.pdf",
     "ソフトウェアテスト技法.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "40_work/K社/daily-report/05/0515.md",
     "old/daily-note/2024/05-May/2024-05-03.md",
     "old/daily-note/2024/04-April/2024-04-29.md",
     "40_work/K社/memo.md",
