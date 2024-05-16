@@ -150,3 +150,33 @@ end
 		- User returns a user’s full name as a string（ユーザーは文字列としてユーザーのフルネームを返す）
 	- 可読性は非常に重要であり、RSpecのキーとなる機能
 
+### model specを作成
+Model specを作成するためのファイルを生成する
+```bash
+bin/rails g rspec:model user
+```
+
+`spec/models/user_rspec.rb`ファイルが作成される
+
+```ruby:spec/models/user_spec.rb
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+		pending "add some examples to (or delete) #{__FILE__}"
+end
+```
+
+`bundle exec rspec`コマンドで実行
+### RSpec構文
+RSpecは`should`構文から`expect`構文にアップデートされた
+
+```ruby:should構文
+# 2と1を⾜すと3になること
+it "adds 2 and 1 to make 3" do
+		(2 + 1).should eq 3
+end
+```
+
+```ruby:expect構文
+# 2と1を⾜すと3になること it "adds 2 and 1 to make 3" do expect(2 + 1).to eq 3 end
+```
