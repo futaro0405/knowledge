@@ -211,8 +211,17 @@ Userオブジェクトを作成し、そのオブジェクトを`expect`に渡�
 it "is invalid without a first name" do
 		user = User.new(first_name: nil)
 		user.valid?
+
 		expect(user.errors[:first_name]).to include("can't be blank")
 end
 ```
 
-作成したUserに対し、`valid?`メソッドを呼び出し
+作成したUserに対し、`valid?`メソッドを呼び出すと有効（`valid`）にならずエラーメッセージがついていることを期待（`expect`）する。
+
+ここまででエラーが出ていない。
+誤判定でないことを証明するための2つの方法を試す。
+1つ目は`to`を`to_not`に変える。
+`to_not`と`not_to`は同じ
+
+2つ目はUser Modelのfirst_nameバリデーションをコメントアウトすること
+
