@@ -215,4 +215,4 @@ it "is invalid without a first name" do
 end
 ```
 
-作成したUserに対し、
+作成したUserに対し、`valid?`メソッドを呼び出し
