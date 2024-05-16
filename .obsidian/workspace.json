@@ -11,30 +11,32 @@
             "id": "d36ec22785f0ff0f",
             "type": "leaf",
             "state": {
+              "type": "pdf",
+              "state": {
+                "file": "401_/public/pdf/software-test-design.pdf"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "f970adaaccd7a31c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ee01eec8dae2dd20",
+            "type": "leaf",
+            "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/05/0515.md",
+                "file": "ソフトウェアテスト技法.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
               }
             }
-          },
-          {
-            "id": "6c4ad5c363849d79",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "40_work/K社/daily-report/05/0516.md",
-                "mode": "preview",
-                "backlinks": false,
-                "source": true
-              }
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -84,7 +86,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "a1ee19909990d62f",
@@ -101,7 +104,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/05/0516.md",
+                "file": "ソフトウェアテスト技法.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +121,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/05/0516.md",
+                "file": "ソフトウェアテスト技法.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -141,7 +144,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/daily-report/05/0516.md"
+                "file": "ソフトウェアテスト技法.md"
               }
             }
           },
@@ -190,12 +193,12 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "6c4ad5c363849d79",
+  "active": "ee01eec8dae2dd20",
   "lastOpenFiles": [
-    "40_work/K社/daily-report/05/0515.md",
-    "40_work/K社/daily-report/05/0516.md",
     "401_/public/pdf/software-test-design.pdf",
     "ソフトウェアテスト技法.md",
+    "40_work/K社/daily-report/05/0516.md",
+    "40_work/K社/daily-report/05/0515.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
@@ -227,7 +230,6 @@
     "daily",
     "everydayrailsrspec-jp.pdf",
     "Rspec.md",
-    "note/docker/docker&alpine&mysql.md",
-    "note/docker/rails&postgresql.md"
+    "note/docker/docker&alpine&mysql.md"
   ]
 }
