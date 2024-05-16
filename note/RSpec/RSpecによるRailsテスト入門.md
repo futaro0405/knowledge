@@ -201,4 +201,10 @@ end
 ```
 
 `be_valid`というRSpecのmatcherを使ってmodelが有効な状態を理解できているかを検証している。
-User
+Userオブジェクトを作成し、そのオブジェクトを`expect`に渡しmatcherと比較している。
+`bundle exec rspec`コマンドから実行
+
+### バリデーションをテストする
+
+```ruby:spec/models/user_spec.rb 1 # 名がなければ無効な状態であること 2 it "is invalid without a first name" do 3 user = User.new(first_name: nil) 4 user.valid? 5 expect(user.errors[:first_name]).to include("can't be blank") 6 end
+```
