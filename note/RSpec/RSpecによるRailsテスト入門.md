@@ -1,0 +1,227 @@
+## サンプルアプリケーションのセットアップ
+
+### ソースコードのダウンロード
+```
+git clone https://github.com/JunichiIto/everydayrails-rspec-jp-2024.git
+```
+
+### ディレクトリの移動
+```
+cd everydayrails-rspec-jp-2024
+```
+
+### 使⽤する Ruby バージョンを指定
+```
+rbenv local 3.3.0
+```
+
+### gem のインストールやデータベースのセットアップ等
+```
+bin/setup
+```
+
+### サーバーの起動
+```
+bin/rails s
+```
+
+## RSpecセットアップ
+### Gemfile
+```Gemfile
+group :development, :test do
+	gem 'rspec-rails' 
+end
+```
+### テストデータベース
+必要に応じてコードを追加
+#### SQLite
+```yml:config/database.yml
+test:
+	<<: *default
+	detabase: db/test.sqlite3
+```
+#### MySQL,PostgreSQL
+```yml:config/database.yml
+test:
+	<<: *default
+	detabase: projects_test
+```
+
+### RSpecの設定
+RSpecのインストールする
+```bash
+bin/rails generate rspec:install
+```
+
+RSpecの出力をドキュメント形式に変更する
+
+```.rspec
+--require spec_helper
+--format documentation
+```
+
+### 試す
+RSpecの起動
+```
+bundle exec rspec
+```
+
+### binstub
+binstubを作成して短いコマンドで実行できるようにする
+```bash
+bundle binstubs rspec-core
+```
+このコマンドを実行することでbinディレクトリ内にrspecの実行ファイルが作成される。
+
+### ジェネレータ
+`rails generate`コマンドをカスタマイズする
+
+```config/application.rb
+require_relative "boot"
+require "rails/all"
+
+# Rails が最初から書いているコメントは省略 ...
+Bundler.require(*Rails.groups)
+
+module Projects
+		class Application < Rails::Application
+				config.load_defaults 7.1
+				config.autoload_lib(ignore: %w(assets tasks))
+
+				config.generators do |g|
+						g.test_framework :rspec,
+								fixtures: false,
+								view_specs: false,
+								helper_specs: false,
+								routing_specs: false,
+						g.factory_bot false
+				end
+		end
+end
+```
+
+- `fixtures: false`
+	- テストデータベースにレコードを作成するファイルの作成をスキッ
+- `view_specs: false`
+	- ビュースペックを作成しない
+- `helper_specs: false`
+	- ヘルパーファイル⽤のスペックを作成しない
+- `routing_specs: false`
+	- config/routes.rb⽤のスペックファイルの作成を省略
+- `g.factory_bot false`
+	- Factory Botのジェネレータを⼀時的に無効化
+
+## model spec
+Model specの基本構成
+
+```User modelの要件
+describe User do
+		# 姓、名、メール、パスワードがあれば有効な状態であること
+		it "is valid with a first name, last name, email, and password"
+		
+		# 名がなければ無効な状態であること
+		it "is invalid without a first name"
+		
+		# 姓がなければ無効な状態であること
+		it "is invalid without a last name"
+		
+		# メールアドレスがなければ無効な状態であること
+		it "is invalid without an email address"
+		
+		# 重複したメールアドレスなら無効な状態であること
+		it "is invalid with a duplicate email address"
+		
+		# ユーザーのフルネームを⽂字列として返すこと
+		it "returns a user's full name as a string"
+end
+```
+
+ベストプラクティス
+- 期待する結果をまとめて記述（describe）している。
+	- このケースではUserモデルがどんなモデルなのか、そしてどんな振る舞いをするのかということを説明している
+- example（itで始まる1⾏）ひとつにつき、結果をひとつだけ期待している。
+	- 私がfirst_name、last_name、emailのバリデーションをそれぞれ分けてテストしている点に注意。こうすれば、exampleが失敗したときに問題が起きたバリデーションを特定できる。原因調査のためにRSpecの出力結果を調べる必要はない。少なくともそこまで細かく調べずに済む。
+- どのexampleも明示的である。
+	- 技術的なことを言うと、itのあとに続く説明用の文字列は必須ではありません。しかし、省略してしまうとスペックが読みにくくなります。
+- 各exampleの説明は動詞で始まっている。shouldではない。
+	- 期待する結果を声に出して読んでみましょう。
+		- User is invalid without a first name（名がなければユーザーは無効な状態である）
+		- User is invalid without a last name（姓がなければユーザーは無効な状態である）
+		- User returns a user’s full name as a string（ユーザーは文字列としてユーザーのフルネームを返す）
+	- 可読性は非常に重要であり、RSpecのキーとなる機能
+
+### model specを作成
+Model specを作成するためのファイルを生成する
+```bash
+bin/rails g rspec:model user
+```
+
+`spec/models/user_rspec.rb`ファイルが作成される
+
+```ruby:spec/models/user_spec.rb
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+		pending "add some examples to (or delete) #{__FILE__}"
+end
+```
+
+`bundle exec rspec`コマンドで実行
+### RSpec構文
+RSpecは`should`構文から`expect`構文にアップデートされた
+
+```ruby:should構文
+# 2と1を⾜すと3になること
+it "adds 2 and 1 to make 3" do
+		(2 + 1).should eq 3
+end
+```
+
+```ruby:expect構文
+# 2と1を⾜すと3になること
+it "adds 2 and 1 to make 3" do
+		expect(2 + 1).to eq 3
+end
+```
+
+実際のexapleではどうなるか
+```ruby:spec/models/user_spec.rb
+RSpec.describe User, type: :model do 4
+		# 姓、名、メール、パスワードがあれば有効な状態であること
+		it "is valid with a first name, last name, email, and password" do
+				user = User.new(
+						first_name: "Aaron",
+						last_name: "Sumner",
+						email: "tester@example.com",
+						password: "dottle-nouveau-pavilion-tights-furze",
+				)
+				expect(user).to be_valid
+		end
+end
+```
+
+`be_valid`というRSpecのmatcherを使ってmodelが有効な状態を理解できているかを検証している。
+Userオブジェクトを作成し、そのオブジェクトを`expect`に渡しmatcherと比較している。
+`bundle exec rspec`コマンドから実行
+
+### バリデーションをテストする
+
+```ruby:spec/models/user_spec.rb
+# 名がなければ無効な状態であること
+it "is invalid without a first name" do
+		user = User.new(first_name: nil)
+		user.valid?
+
+		expect(user.errors[:first_name]).to include("can't be blank")
+end
+```
+
+作成したUserに対し、`valid?`メソッドを呼び出すと有効（`valid`）にならずエラーメッセージがついていることを期待（`expect`）する。
+
+ここまででエラーが出ていない。
+誤判定でないことを証明するための2つの方法を試す。
+1つ目は`to`を`to_not`に変える。
+`to_not`と`not_to`は同じ
+
+2つ目はUser Modelのfirst_nameバリデーションをコメントアウトすること
+
