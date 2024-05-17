@@ -1,66 +1,35 @@
 {
   "main": {
-    "id": "d6dc192156e63da3",
+    "id": "cd0fd22b99265716",
     "type": "split",
     "children": [
       {
-<<<<<<< HEAD
-        "id": "9eb0b26c4f236c08",
+        "id": "1d11bab6600488d0",
         "type": "tabs",
         "children": [
           {
-            "id": "8cf3d6900615992f",
-=======
-        "id": "d3c88d3d0f8d9103",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "4f254ede6f11380f",
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
+            "id": "dcc87b2c754700dd",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-<<<<<<< HEAD
-                "file": "There is 1 other session using the database.md",
-                "mode": "preview",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "9935e40140e46bf8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "conflict-files-obsidian-git.md",
-=======
-                "file": "40_work/K社/wiki/lecture.md",
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
-                "mode": "preview",
-                "backlinks": true,
-                "source": true
-              }
+              "type": "empty",
+              "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "40a1fa462353e1b1",
+    "id": "e2780b099c7c6eb6",
     "type": "split",
     "children": [
       {
-        "id": "3ca540d41e2bce14",
+        "id": "7da5b3d1e0274222",
         "type": "tabs",
         "children": [
           {
-            "id": "fa63169fe2e61de9",
+            "id": "69698dce683856a4",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -70,12 +39,12 @@
             }
           },
           {
-            "id": "0b3e051e39cc92c0",
+            "id": "eba38722308c7caf",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "サーベイ",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -85,7 +54,7 @@
             }
           },
           {
-            "id": "ba7c670e9f5bfad3",
+            "id": "864be4a1cd902304",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -99,29 +68,27 @@
     "width": 300
   },
   "right": {
-    "id": "a1ee19909990d62f",
+    "id": "68912b955d876372",
     "type": "split",
     "children": [
       {
-        "id": "e1b3ba48559f233d",
+        "id": "4aa208d509045265",
         "type": "tabs",
-<<<<<<< HEAD
-        "dimension": 30.19230769230769,
-=======
-        "dimension": 39.583333333333336,
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
         "children": [
           {
-            "id": "ec20c6efece423ee",
+            "id": "6f7fa158e812d498",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "1abc52c2975de0d2",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-<<<<<<< HEAD
-                "file": "conflict-files-obsidian-git.md",
-=======
-                "file": "40_work/K社/wiki/lecture.md",
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -133,23 +100,18 @@
             }
           },
           {
-            "id": "873339ef8aaacfc8",
+            "id": "ec318ff4857e951a",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-<<<<<<< HEAD
-                "file": "conflict-files-obsidian-git.md",
-=======
-                "file": "40_work/K社/wiki/lecture.md",
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "78e4f21bda2d92d4",
+            "id": "5d2e46b09af15574",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -160,44 +122,10 @@
             }
           },
           {
-            "id": "736d9d1c83c309f3",
+            "id": "df4ae8ead2457672",
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-<<<<<<< HEAD
-                "file": "conflict-files-obsidian-git.md"
-=======
-                "file": "40_work/K社/wiki/lecture.md"
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
-              }
-            }
-          },
-          {
-            "id": "04491987bee1ee26",
-            "type": "leaf",
-            "state": {
-              "type": "calendar",
-              "state": {}
-            }
-          }
-        ],
-        "currentTab": 4
-      },
-      {
-        "id": "32c463a0650a48d1",
-        "type": "tabs",
-<<<<<<< HEAD
-        "dimension": 69.8076923076923,
-=======
-        "dimension": 60.41666666666667,
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
-        "children": [
-          {
-            "id": "d0e9aedfec764051",
-            "type": "leaf",
-            "state": {
-              "type": "timeline",
               "state": {}
             }
           }
@@ -205,98 +133,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "templater-obsidian:Templater": false,
+      "obsidian-day-planner:Timeline": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "workspaces:Manage workspace layouts": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false,
-      "obsidian-day-planner:Timeline": false,
-      "templater-obsidian:Templater": false
+      "workspaces:Manage workspace layouts": false
     }
   },
-<<<<<<< HEAD
-  "active": "9935e40140e46bf8",
-  "lastOpenFiles": [
-    "conflict-files-obsidian-git.md",
-    "There is 1 other session using the database.md",
-    "daily/2024/May/15.md",
-    "binding.pry.md",
-    "Pasted image 20240515174335.png",
-    "Pasted image 20240515173153.png",
-    "401_/public/pdf/software-test-design.pdf",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "note/ruby-on-rails/Model.md",
-    "note/git/branch作成.md",
-    "note/git/backVersion.md",
-    "40_work/K社/daily-report/0513.md",
-    "40_work/K社/daily-report/0514.md",
-    "Untitled 1.md",
-    "Untitled.md",
-    "ソフトウェアテスト技法.md",
-    "権限昇格.md",
-    "note/webSecurty/Railsエンジニアのためのウェブセキュリティ入門.md",
-=======
-  "active": "4f254ede6f11380f",
-  "lastOpenFiles": [
-    "40_work/K社/wiki/検品.md",
-    "40_work/K社/daily-report/05/0507.md",
-    "40_work/K社/daily-report/05/0508.md",
-    "40_work/K社/daily-report/05/0509.md",
-    "40_work/K社/daily-report/05/0510.md",
-    "40_work/K社/daily-report/05/0513.md",
-    "40_work/K社/daily-report/05/0514.md",
-    "40_work/K社/daily-report/05/0515.md",
-    "40_work/K社/daily-report/05/0516.md",
-    "40_work/K社/wiki/lecture.md",
-    "40_work/K社/memo.md",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "40_work/K社/daily-report/04/0416.md",
-    "40_work/K社/daily-report/04/0417.md",
-    "40_work/K社/daily-report/04/0418.md",
-    "40_work/K社/daily-report/04/0419.md",
-    "40_work/K社/daily-report/04/0422.md",
-    "40_work/K社/daily-report/04/0423.md",
-    "40_work/K社/daily-report/04/0424.md",
-    "40_work/K社/daily-report/04/0425.md",
-    "40_work/K社/daily-report/04/0426.md",
-    "note/RSpec",
-    "Untitled.md",
-    "401_/public/pdf/良いコード_悪いコードで学ぶ設計入門.pdf",
-    "401_/public/pdf/software-test-design.pdf",
-    "ソフトウェアテスト技法.md",
-    "Pasted image 20240515174335.png",
-    "Pasted image 20240515173153.png",
-    "old/daily-note/2024/05-May/2024-05-03.md",
-    "old/daily-note/2024/04-April/2024-04-29.md",
-    "40_work/K社/daily-report/05",
-    "40_work/K社/daily-report/04",
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
-    "note/webSecurty",
-    "daily/2024/May",
-    "daily/2024",
-<<<<<<< HEAD
-    "daily",
-    "software-test-design.pdf",
-    "everydayrailsrspec-jp.pdf",
-    "Rspec.md",
-    "note/docker/docker&alpine&mysql.md",
-    "note/docker/rails&postgresql.md",
-    "note/docker/cache.md",
-    "note/docker/bundler-versionでエラー.md",
-    "note/ruby-on-rails/Stimulus.md",
-    "duplicate key value violates unique constraint.md",
-    "AWS.md",
-    "README.md"
-=======
-    "daily"
->>>>>>> 5f3c354327619e565c1ddcbc7079774e6b1a9a01
-  ]
+  "active": "dcc87b2c754700dd",
+  "lastOpenFiles": []
 }
