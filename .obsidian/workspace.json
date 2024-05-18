@@ -1,32 +1,32 @@
 {
   "main": {
-    "id": "d6dc192156e63da3",
+    "id": "cd0fd22b99265716",
     "type": "split",
     "children": [
       {
-        "id": "d3c88d3d0f8d9103",
+        "id": "048296edb6a1c92b",
         "type": "tabs",
         "children": [
           {
-            "id": "4f254ede6f11380f",
+            "id": "5df5ef93e9a1e5ed",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/05/0516.md",
-                "mode": "source",
+                "file": "ソフトウェアテスト技法.md",
+                "mode": "preview",
                 "backlinks": true,
                 "source": true
               }
             }
           },
           {
-            "id": "f5073c01cad9c7e5",
+            "id": "dcc87b2c754700dd",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/05/0517.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -40,15 +40,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "40a1fa462353e1b1",
+    "id": "e2780b099c7c6eb6",
     "type": "split",
     "children": [
       {
-        "id": "3ca540d41e2bce14",
+        "id": "7da5b3d1e0274222",
         "type": "tabs",
         "children": [
           {
-            "id": "fa63169fe2e61de9",
+            "id": "69698dce683856a4",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -58,12 +58,12 @@
             }
           },
           {
-            "id": "0b3e051e39cc92c0",
+            "id": "eba38722308c7caf",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "サーベイ",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -73,7 +73,7 @@
             }
           },
           {
-            "id": "ba7c670e9f5bfad3",
+            "id": "864be4a1cd902304",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -87,21 +87,28 @@
     "width": 300
   },
   "right": {
-    "id": "a1ee19909990d62f",
+    "id": "68912b955d876372",
     "type": "split",
     "children": [
       {
-        "id": "e1b3ba48559f233d",
+        "id": "4aa208d509045265",
         "type": "tabs",
-        "dimension": 39.583333333333336,
         "children": [
           {
-            "id": "ec20c6efece423ee",
+            "id": "6f7fa158e812d498",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "1abc52c2975de0d2",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/05/0517.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,19 +120,19 @@
             }
           },
           {
-            "id": "873339ef8aaacfc8",
+            "id": "ec318ff4857e951a",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/05/0517.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "78e4f21bda2d92d4",
+            "id": "5d2e46b09af15574",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -136,99 +143,41 @@
             }
           },
           {
-            "id": "736d9d1c83c309f3",
+            "id": "df4ae8ead2457672",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/daily-report/05/0517.md"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
-            }
-          },
-          {
-            "id": "04491987bee1ee26",
-            "type": "leaf",
-            "state": {
-              "type": "calendar",
-              "state": {}
-            }
-          }
-        ],
-        "currentTab": 4
-      },
-      {
-        "id": "1ccf7a29cb1502b2",
-        "type": "tabs",
-        "dimension": 60.41666666666667,
-        "children": [
-          {
-            "id": "d0e9aedfec764051",
-            "type": "leaf",
-            "state": {
-              "type": "timeline",
-              "state": {}
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 235.5,
+    "width": 300,
     "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "templater-obsidian:Templater": false,
+      "obsidian-day-planner:Timeline": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "workspaces:Manage workspace layouts": false,
-      "table-editor-obsidian:Advanced Tables Toolbar": false,
-      "obsidian-day-planner:Timeline": false,
-      "templater-obsidian:Templater": false
+      "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "f5073c01cad9c7e5",
+  "active": "69698dce683856a4",
   "lastOpenFiles": [
-    "40_work/K社/daily-report/05/0516.md",
-    "40_work/K社/daily-report/05/0517.md",
-    "40_work/K社/wiki/lecture.md",
-    "concern.md",
-    "40_work/K社/wiki/検品.md",
-    "40_work/K社/daily-report/05/0507.md",
-    "40_work/K社/daily-report/05/0508.md",
-    "40_work/K社/daily-report/05/0509.md",
-    "40_work/K社/daily-report/05/0510.md",
-    "40_work/K社/daily-report/05/0513.md",
-    "40_work/K社/daily-report/05/0514.md",
-    "40_work/K社/daily-report/05/0515.md",
-    "40_work/K社/memo.md",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "40_work/K社/daily-report/04/0416.md",
-    "40_work/K社/daily-report/04/0417.md",
-    "40_work/K社/daily-report/04/0418.md",
-    "40_work/K社/daily-report/04/0419.md",
-    "40_work/K社/daily-report/04/0422.md",
-    "40_work/K社/daily-report/04/0423.md",
-    "40_work/K社/daily-report/04/0424.md",
-    "40_work/K社/daily-report/04/0425.md",
-    "40_work/K社/daily-report/04/0426.md",
-    "note/RSpec",
-    "Untitled.md",
-    "401_/public/pdf/良いコード_悪いコードで学ぶ設計入門.pdf",
     "401_/public/pdf/software-test-design.pdf",
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "ソフトウェアテスト技法.md",
-    "Pasted image 20240515174335.png",
-    "Pasted image 20240515173153.png",
-    "old/daily-note/2024/05-May/2024-05-03.md",
-    "40_work/K社/daily-report/05",
-    "40_work/K社/daily-report/04",
-    "note/webSecurty",
-    "daily/2024/May",
-    "daily/2024",
-    "daily"
+    "note/ruby-on-rails/concern.md"
   ]
 }
