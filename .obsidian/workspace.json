@@ -11,9 +11,12 @@
             "id": "10ed8071314b3e21",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "There is 1 other session using the database.md",
+                "mode": "preview",
+                "backlinks": true,
+                "source": true
               }
             }
           }
@@ -110,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "There is 1 other session using the database.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "There is 1 other session using the database.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -150,7 +153,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "There is 1 other session using the database.md"
               }
             }
           }
@@ -175,12 +178,12 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "10ed8071314b3e21",
+  "active": "69698dce683856a4",
   "lastOpenFiles": [
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/RSpecによるRailsテスト入門.md",
     "ソフトウェアテスト技法.md",
     "Untitled.md",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "401_/public/pdf/software-test-design.pdf",
     "note/ruby-on-rails/concern.md"
   ]
