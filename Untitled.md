@@ -49,7 +49,3 @@ class Repost < ApplicationRecord
   has_one :notification, as: :action, dependent: :destroy
 end
 ```
-
-```
-
-```
