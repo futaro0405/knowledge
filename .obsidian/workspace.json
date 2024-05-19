@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "There is 1 other session using the database.md",
+                "file": "old/daily-note/2024/04-April/2024-04-29.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -113,7 +113,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "There is 1 other session using the database.md",
+                "file": "old/daily-note/2024/04-April/2024-04-29.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -130,7 +130,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "There is 1 other session using the database.md",
+                "file": "old/daily-note/2024/04-April/2024-04-29.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -153,7 +153,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "There is 1 other session using the database.md"
+                "file": "old/daily-note/2024/04-April/2024-04-29.md"
               }
             }
           }
@@ -178,8 +178,9 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "69698dce683856a4",
+  "active": "10ed8071314b3e21",
   "lastOpenFiles": [
+    "There is 1 other session using the database.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/RSpecによるRailsテスト入門.md",
     "ソフトウェアテスト技法.md",
