@@ -601,8 +601,30 @@ end
 
 
 ## 意味のあるテストデータの作成
+これまではシンプルなテストデータでしたが、複雑なテストシナリオになったときテストデータを簡単にするRubyライブラリを使用して実装していく
 
 ### ファクトリ対フィクスチャ
+#### フィクスチャ
+railsにデフォルトで提供されている機能。
+フィクスチャはYAML形式のファイルでサンプルデータを作成する。
+
+```yaml:projects.yml
+death_star:
+	name: "Death Star"
+	description: "Create the universe's ultimate battle station"
+	due_on: 2016-08-29
+	
+rogue_one:
+	name: "Steal Death Star plans"
+	description: "Destroy the Empire's new battle station"
+	due_on: 2016-08-29
+```
+
+テストの中で`projects(:rogue_one)`と呼び出すだけで、全属性がセットされた新しいProjectが使えるようになる。
+フィクスチャは比較的速く、Railsに最初から付いてきます。
+あなたのアプリケーションやテストスイートに余計なものを追加する必要がない。
+
+とはいえ、フィクスチャは実行中のテストでどのようなデータが作成されているかを確認するとき、テストとは
 
 ### Factory Bot をインストールする
 
