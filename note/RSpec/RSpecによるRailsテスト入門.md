@@ -1148,3 +1148,21 @@ RSpec.configure do |config|
 	config.include Devise::Test::ControllerHelpers, type: :controller
 end
 ```
+
+この状態でテストを実⾏してもまだ失敗します。
+ですが、失敗メッセージには新しい情報が載っています。
+つまり、ちょっとは前に進んだということです。
+どちらのテストも基本的に同じ理由、すなわち、成功を表す200レスポンスではなく、リダイレクトを表す302レスポンスが返ってきているために失敗しているのです。
+失敗するのはindexアクションがユーザーのログインを要求しているにもかかわらず、私たちはまだそれをテスト内でシミュレートしていないからです。
+
+すでにDeviseのヘルパーはテストスイートに組み込んであるので、ログイン状態をシミュレートすることができます。
+具体的にはテストユーザーを作成し、それからそのユーザーでログインするようにテストに伝えます。
+テストユーザーは両方のテストで有効になるようbeforeブロックで作成し、それからログイン状態をシミュレートするためにsign_inヘルパーを使います。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe ProjectsController, type: :controller do
+	describe "#index" do 5 before do
+@user = FactoryBot.create(:user) 7 end 8 9 # 正常にレスポンスを返すこと 10 it "responds successfully" do 11 sign_in @user 12 get :index 13 expect(response).to be_successful 14 end 15 16 # 200レスポンスを返すこと 17 it "returns a 200 response" do 18 sign_in @user 19 get :index 20 expect(response).to have_http_status "200" 21 end 22 end 23 end
+```
