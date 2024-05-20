@@ -509,5 +509,7 @@ RSpec.describe Note, type: :model do
 end
 ```
 
-before(:each)はdescribeまたはcontextブロック内の各（each）テストの前に実⾏
-before(:example) というエイリアスを使うも可
+- before(:each)はdescribeまたはcontextブロック内の各（each）テストの前に実⾏。before(:example) というエイリアスを使うも可。
+- before(:all)はdescribeまたはcontextブロック内の全（all）テスト前に⼀回だけ実⾏。かわりにbefore(:context)というエイリアスを使うも可。
+- before(:suite)はテストスイート全体の全ファイルを実⾏する前に実⾏。
+
