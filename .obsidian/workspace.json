@@ -43,7 +43,7 @@
               "type": "markdown",
               "state": {
                 "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "preview",
+                "mode": "source",
                 "backlinks": true,
                 "source": true
               }
@@ -124,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -141,7 +141,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -164,7 +164,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           }
@@ -189,11 +189,11 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "c0483f606369ef05",
+  "active": "b10040ce9fd717f8",
   "lastOpenFiles": [
-    "40_work/K社/daily-report/05/0520.md",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
+    "40_work/K社/daily-report/05/0520.md",
     "40_work/K社/daily-report/05/0517.md",
     "old/daily-note/2024/04-April/2024-04-29.md",
     "There is 1 other session using the database.md",

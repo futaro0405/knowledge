@@ -225,3 +225,39 @@ end
 
 2つ目はUser Modelのfirst_nameバリデーションをコメントアウトすること
 
+Rspecを再実行すると、失敗が表示される。これはRSpecに対して名を持たないユーザーは無効であると伝えたが、アプリケーション側がその使用を実装していないことを意味する
+
+`:last_name`のバリデーションも同じようなアプローチでテストしてみる
+
+```ruby:spec/models/user_spec.rb
+it "is invalid without a last name" do
+	user = User.new(last_name: nil)
+	user.valid?
+
+	expect(user.errors[:last_name]).to include("can't be blank")
+end
+```
+
+もっと複雑なテストを書いてみる
+
+```ruby:spec/models/user_spec.rb
+it "is invalid with a duplicate email address" do
+	User.create(
+		first_name: "Joe",
+		last_name: "Tester",
+		email: "tester@example.com",
+		password: "dottle-nouveau-pavilion-tights-furze",
+	)
+
+	user = User.new(
+		first_name: "Jane",
+		last_name: "Tester",
+		email: "tester@example.com",
+		password: "dottle-nouveau-pavilion-tights-furze",
+	)
+	user.valid?
+
+	expect(user.errors[:email]).to include("has already been taken")
+end
+```
+
