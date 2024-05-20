@@ -686,7 +686,24 @@ FactoryBot.define do
 end
 ```
 
-テスト内でFactoryBot.create(:user)と書くと新しいゆー
+テスト内でFactoryBot.create(:user)と書くと新しいユーザーを作成できる。
+このコードを書くとsupec全体でファクトリが使えるようになる。
+
+```ruby:spec/models/user_spec.rb
+require 'rails_helper'
+
+describe User do
+	# 有効なファクトリを持つこと
+	it "has a valid factory" do
+		expect(FactoryBot.build(:user)).to be_valid
+	end
+
+# 他のスペックが並ぶ ... 
+end
+```
+
+`FactoryBot.build`を使ったため新しいユーザーはインスタンス化されるだけで保存されない。
+
 
 ### シーケンスを使ってユニークなデータを⽣成する
 
