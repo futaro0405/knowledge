@@ -513,3 +513,59 @@ end
 - before(:all)はdescribeまたはcontextブロック内の全（all）テスト前に⼀回だけ実⾏。かわりにbefore(:context)というエイリアスを使うも可。
 - before(:suite)はテストスイート全体の全ファイルを実⾏する前に実⾏。
 
+exampleの実行後に後片付けが必要になるのであれば（たとえば外部サービスとの接続を切断する場合など）、afterフックを使って各exampleのあと（after）に後⽚付けすることも可。
+beforeと同様、afterにもeach、all、suiteのオプションがある。
+RSpecの場合、デフォルトでデータベースの後片付けをやってくれるので、私はafterを使うことはほとんどありません。
+
+```ruby:spec/models/note_spec.rb
+require 'rails_helper'
+
+RSpec.describe Note, type: :model do
+	before do
+		@user = User.create(
+			first_name: "Joe",
+			last_name: "Tester",
+			email: "joetester@example.com",
+			password: "dottle-nouveau-pavilion-tights-furze",
+		)
+
+		@project = @user.projects.create(
+			name: "Test Project",
+		)
+	end
+
+	# ユーザー、プロジェクト、メッセージがあれば有効な状態であること
+	it "is valid with a user, project, and message" do
+		note = Note.new(
+			message: "This is a sample note.",
+			user: @user,
+			project: @project,
+		)
+		expect(note).to be_valid
+	end
+
+	# メッセージがなければ無効な状態であること
+	it "is invalid without a message" do
+		note = Note.new(message: nil)
+		note.valid?
+
+		expect(note.errors[:message]).to include("can't be blank")
+	end
+
+	# ⽂字列に⼀致するメッセージを検索する
+	describe "search message for a term" do
+		before do
+			@note1 = @project.notes.create(
+				message: "This is the first note.",
+				user: @user,
+			)
+			@note2 = @project.notes.create(
+				message: "This is the second note.",
+				user: @user,
+			)
+			@note3 = @project.notes.create(
+				message: "First, preheat the oven.",
+				user: @user,
+			)
+		end 50 51 # ⼀致するデータが⾒つかるとき 52 context "when a match is found" do 53 # 検索⽂字列に⼀致するメモを返すこと 54 it "returns notes that match the search term" do 55 expect(Note.search("first")).to include(@note1, @note3) 56 end 57 end 58 59 # ⼀致するデータが1件も⾒つからないとき 60 context "when no match is found" do 61 # 空のコレクションを返すこと 62 it "returns an empty collection" do 63 expect(Note.search("message")).to be_empty 64 end 65 end 66 end 67 end
+```
