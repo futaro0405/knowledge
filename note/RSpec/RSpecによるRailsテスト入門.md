@@ -686,7 +686,7 @@ FactoryBot.define do
 end
 ```
 
-テスト内でFactoryBot.create(:user)
+テスト内でFactoryBot.create(:user)と書くと新しいゆー
 
 ### シーケンスを使ってユニークなデータを⽣成する
 
