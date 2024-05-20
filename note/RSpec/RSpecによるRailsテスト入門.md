@@ -1097,7 +1097,54 @@ end
 
 特定のHTTPレスポンスコードが返ってきているかどうかも確認できます。
 この場合であれば200 OKのレスポンスが返ってきてほしいはずです。
+```ruby:spec/controllers/home_controller_spec.rb
+# 200レスポンスを返すこと
+it "returns a 200 response" do
+	get :index
+	expect(response).to have_http_status "200"
+end
 ```
-```
-spec/controllers/home_controller_spec.rb 1 # 200レスポンスを返すこと 2 it "returns a 200 response" do 3 get :index 4 expect(response).to have_http_status "200" 5 end
 
+### 認証が必要なコントローラスペック
+今度はProjectコントローラ用に新しいコントローラスペックを作りましょう。再度ジェネレータを使ってください。
+
+```bash
+bin/rails g rspec:controller projects --controller-specs --no-request-specs
+```
+
+それから先ほどのhome_controller_spec.rbと同じスペックを追加し ます。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe ProjectsController, type: :controller do
+	describe "#index" do
+		# 正常にレスポンスを返すこと
+		it "responds successfully" do
+			get :index
+			expect(response).to be_successful
+		end
+	
+		# 200レスポンスを返すこと
+		it "returns a 200 response" do
+			get :index
+			expect(response).to have_http_status "200"
+		end
+	end
+end
+```
+
+スペックを実行すると、Deviseのヘルパーが見つからないというメッセージが表示されます。
+Deviseは認証が必要なコントローラのアクションに対して、ユーザーのログイン状態をシミュレートするヘルパーを提供しています。
+そのヘルパーはまだ追加されていません。
+失敗メッセージにはこの問題に対処する方法が少し詳しく載っています。
+テストスイートにこのヘルパーモジュールを組み込みましょう。spec/rails_helper.rbを開き、次のような設定を追加してください。
+
+```ruby:spec/rails_helper.rb
+RSpec.configure do |config|
+	# 設定ブロックの他の処理は省略 ...
+
+	# コントローラスペックで Devise のテストヘルパーを使⽤する
+	config.include Devise::Test::ControllerHelpers, type: :controller
+end
+```
