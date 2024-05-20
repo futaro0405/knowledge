@@ -634,7 +634,6 @@ rogue_one:
 このような理由からファクトリを使う。
 
 ### Factory Bot をインストールする
-#### Gemfile
 `rspec-rails`の下にgemを追加する
 
 ```Gemfile
@@ -645,7 +644,49 @@ group :development, :test do
 end
 ```
 
+ジェネレータを使い作られるモデルに対して自動的にファクトリを作成するようにRailsを設定する。
+`fixtures: false`を削除
+
+```ruby:config/application.rb
+config.generators do |g|
+	g.test_framework :rspec,
+		view_specs: false,
+		helper_specs: false,
+		routing_specs: false
+end
+```
+
 ### アプリケーションにファクトリを追加する
+Userモデルのファクトリを追加。
+
+```bash
+bin/rails g factory_bot:model user
+```
+
+以下のようなファイルが作成される。
+
+```ruby:spec/factories/users.rb
+FactoryBot.define do
+	factory :user do
+
+	end
+end
+```
+
+不足している情報を追加
+
+```ruby:spec/factories/users.rb
+FactoryBot.define do
+	factory :user do
+		first_name { "Aaron" }
+		last_name { "Sumner" }
+		email { "tester@example.com" }
+		password { "dottle-nouveau-pavilion-tights-furze" }
+	end
+end
+```
+
+テスト内でFactoryBot.create(:user)
 
 ### シーケンスを使ってユニークなデータを⽣成する
 
