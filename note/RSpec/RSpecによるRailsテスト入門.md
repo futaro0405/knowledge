@@ -1163,6 +1163,73 @@ end
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-	describe "#index" do 5 before do
-@user = FactoryBot.create(:user) 7 end 8 9 # 正常にレスポンスを返すこと 10 it "responds successfully" do 11 sign_in @user 12 get :index 13 expect(response).to be_successful 14 end 15 16 # 200レスポンスを返すこと 17 it "returns a 200 response" do 18 sign_in @user 19 get :index 20 expect(response).to have_http_status "200" 21 end 22 end 23 end
+	describe "#index" do
+		before do
+			@user = FactoryBot.create(:user)
+		end
+		
+		# 正常にレスポンスを返すこと
+		it "responds successfully" do
+			sign_in @user
+			get :index
+			expect(response).to be_successful
+		end
+
+		# 200レスポンスを返すこと
+		it "returns a 200 response" do
+			sign_in @user
+			get :index
+			expect(response).to have_http_status "200"
+		end
+	end
+end
 ```
+
+さあ、これでスペックはパスするはずです。
+なぜなら、indexアクションには認証済みのユーザーでアクセスしていることになるからです。
+ここでちょっとテストをパスさせるためにどうしたのかを考えてみましょう。
+テストがパスしたのは必要な変更を加えたあとです。
+最初はログインしていなかったので、テストは失敗していました。
+アプリケーションセキュリティの観点からすると、認証されていないユーザー（ゲストと呼んでもいいでしょう）がアクセスしたら強制的にリダイレクトされることもテストすべきではないでしょうか。
+ここからテストを拡張して、このシナリオを追加することは可能です。
+こういうケースはdescribeとcontextのブロックを使うと、テストを整理しやすくなります。
+というわけで、次のように変更してみましょう。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe ProjectsController, type: :controller do
+	describe "#index" do
+		# 認証済みのユーザーとして
+		context "as an authenticated user" do
+			before do
+				@user = FactoryBot.create(:user)
+			end
+
+			# 正常にレスポンスを返すこと
+			it "responds successfully" do
+				sign_in @user
+				get :index
+
+			 expect(response).to be_successful
+			end
+
+			# 200レスポンスを返すこと
+			it "returns a 200 response" do
+				sign_in @user
+				get :index
+				expect(response).to have_http_status "200"
+			end
+		end
+
+		# ゲストとして
+		context "as a guest" do
+			# テストをここに書く
+		end
+	end
+end
+```
+
+ここではindexアクションのdescribeブロック内に、⼆つのcontextを追加しました。
+1つ目は認証済みのユーザーを扱うcontextです。
+テストユーザーを作成する before ブロック がこの context ブロックの内側で⼊れ⼦になっている点に注意してください。それから、スペ ックを実⾏して正しく変更できていることを確認してください。
