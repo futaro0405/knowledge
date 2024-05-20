@@ -1310,4 +1310,76 @@ end
 ```
 
 今回はテストごとに@projectを作成しました。
-最初の context ではログインしたユーザー がプロジェクトのオーナーになっています。⼆つ⽬の context では別のユーザーがオーナー になっています。このテストにはもう⼀つ新しい部分があります。それはプロジェクトの id をコントローラアクションの param 値として渡さなければいけない点です。 テストを実⾏してパスすることを確認してください。
+最初のcontextではログインしたユーザーがプロジェクトのオーナーになっています。
+⼆つ⽬のcontextでは別のユーザーがオーナーになっています。
+このテストにはもう⼀つ新しい部分があります。
+それはプロジェクトのidをコントローラアクションのparam値として渡さなければいけない点です。
+テストを実⾏してパスすることを確認してください。
+
+### ユーザー⼊⼒をテストする
+ここまではHTTPのGETリクエストしか使ってきませんでした。
+ですがもちろん、ユーザーはPOSTやPATCH、DESTROYといったリクエストでコントローラにアクセスしてくることもあります。
+そこで、それぞれについてexampleを追加していきましょう。
+最初はPOSTから始めます。
+ログイン済みのユーザーであれば新しいプロジェクトが作成でき、ゲストであればアクションへのアクセスを拒否されることを検証します。
+では、それぞれについてcontextを追加しましょう。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+describe "#create" do
+	# 認証済みのユーザーとして
+	context "as an authenticated user" do
+		before do
+			@user = FactoryBot.create(:user)
+		end
+
+		# プロジェクトを追加できること
+		it "adds a project" do
+			project_params = FactoryBot.attributes_for(:project)
+			sign_in @user
+			expect {
+				post :create, params: { project: project_params }
+			}.to change(@user.projects, :count).by(1)
+		end
+	end
+
+	# ゲストとして
+	context "as a guest" do
+		# 302レスポンスを返すこと
+		it "returns a 302 response" do
+			project_params = FactoryBot.attributes_for(:project)
+			post :create, params: { project: project_params }
+			expect(response).to have_http_status "302"
+		end
+
+		# サインイン画⾯にリダイレクトすること
+		it "redirects to the sign-in page" do
+			project_params = FactoryBot.attributes_for(:project)
+			post :create, params: { project: project_params }
+			expect(response).to redirect_to "/users/sign_in"
+		end
+	end
+end
+```
+
+"as a guest"のcontextはindexアクションで書いたテストとよく似ています。
+ただし、ここではPOST経由でparamsを渡しています。
+とはいえ、各テストで期待される結果はindexアクションのときと同じです。
+次にupdateアクションのテストを⾒てみましょう。
+ここでは次のようなテストシナリオが書いてあります。
+ユーザーは⾃分のプロジェクトは編集できますが、他⼈のプロジェクトは編集できません。
+ゲストはどのプロジェクトも編集できません。
+テストはちょっと複雑になってきていますが、これまでに説明した内容だけで構成されています。
+まず、認可されたユーザーのスペックから始めましょう。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+describe "#update" do
+	# 認可されたユーザーとして
+	context "as an authorized user" do
+		before do
+			@user = FactoryBot.create(:user)
+			@project = FactoryBot.create(:project, owner: @user)
+		end
+
+		# プロジェクトを更新できること
+it "updates a project" do 11 project_params = FactoryBot.attributes_for(:project,
+```
