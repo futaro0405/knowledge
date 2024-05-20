@@ -1059,3 +1059,45 @@ class HomeController < ApplicationController
 end
 ```
 
+コントローラのテストを作成するためにRSpecが提供しているジェネレータを使います。
+
+```bash
+bin/rails g rspec:controller home --controller-specs --no-request-specs
+```
+
+次のような定型コードが作成されます。
+
+```ruby:spec/controllers/home_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe HomeController, type: :controller do
+end
+```
+
+コントローラがブラウザのリクエストに対して正常にレスポンスを返すことを確認します。
+
+```ruby:spec/controllers/home_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe HomeController, type: :controller do
+	describe "#index" do
+		# 正常にレスポンスを返すこと
+		it "responds successfully" do
+			get :index
+			expect(response).to be_successful
+		end
+	end
+end
+```
+
+`response`はブラウザに返すべきアプリケーションの全データを保持しているオブジェクトです。
+この中にはHTTPレスポンスコードも含まれます。
+`be_successful`はレスポンスステータスが成功（200レスポンス）か、それ以外（たとえば500エラー）であるかをチェックします。
+ここではコントローラのテストだけを実行したいので、`bundle exec rspec spec/controllers` を使って実⾏します。
+
+特定のHTTPレスポンスコードが返ってきているかどうかも確認できます。
+この場合であれば200 OKのレスポンスが返ってきてほしいはずです。
+```
+```
+spec/controllers/home_controller_spec.rb 1 # 200レスポンスを返すこと 2 it "returns a 200 response" do 3 get :index 4 expect(response).to have_http_status "200" 5 end
+
