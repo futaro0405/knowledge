@@ -1381,5 +1381,66 @@ describe "#update" do
 		end
 
 		# プロジェクトを更新できること
-it "updates a project" do 11 project_params = FactoryBot.attributes_for(:project,
+		it "updates a project" do
+			project_params = FactoryBot.attributes_for(:project, name: "New Project Name")
+			sign_in @user
+			patch :update, params: { id: @project.id, project: project_params }
+			expect(@project.reload.name).to eq "New Project Name"
+		end
+	end
+
+	# 認可されていないユーザーとゲストユーザーのテストはいったんスキップ ... 
+end
+```
+
+ここに出てくるテストは⼀つだけです。
+既存のプロジェクトの更新が成功したかどうかを検証しています。
+最初にユーザーを作成し、それからそのユーザーをプロジェクトにアサインしています。
+それからテストの内部でアクションに渡すプロジェクトの属性値を作成しています。
+この属性値はユーザーがプロジェクトの編集画⾯で⼊⼒する値を想定したものです。
+FactoryBot.attributes_for(:project)はプロジェクトファクトリからテスト⽤の属性値をハッシュとして作成します。
+ここではテストの結果をわかりやすくするために、ファクトリに定義されたnameのデフォルト値を独⾃の値で上書きしています。
+それからユーザーのログインをシミュレートし、元のプロジェクトのidと⼀緒に新しいプロジェクトの属性値をparamsとしてPATCHリクエストで送信しています。
+最後にテストで使った@projectの新しい値を検証します。
+reloadメソッドを使うのはデータベース上の値を読み込むためです。
+こうしないと、メモリに保存された値が再利⽤されてしまい、値の変更が反映されません。
+ここではアクションで渡した値がプロジェクトに設定されていることを検証します。
+続いて認可されていないユーザーがプロジェクトを更新しようとしたときのテストを⾒てみましょう。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+describe "#update" do
+	# 認可されたユーザーのテストは省略 ...
+
+	# 認可されていないユーザーとして
+	context "as an unauthorized user" do
+		before do
+			@user = FactoryBot.create(:user)
+			other_user = FactoryBot.create(:user)
+			@project = FactoryBot.create(:project,
+				owner: other_user,
+				name: "Same Old Name"
+			)
+		end
+
+		# プロジェクトを更新できないこと
+		it "does not update the project" do
+			project_params = FactoryBot.attributes_for(:project,
+				name: "New Name")
+			sign_in @user
+			patch :update, params: { id: @project.id, project: project_params }
+			expect(@project.reload.name).to eq "Same Old Name"
+		end
+
+		# ダッシュボードへリダイレクトすること
+		it "redirects to the dashboard" do
+			project_params = FactoryBot.attributes_for(:project)
+			sign_in @user
+			patch :update, params: { id: @project.id, project: project_params }
+			expect(response).to redirect_to root_path
+		end
+	end
+
+	# ゲストユーザーのテストは省略 ...
+end
+
 ```
