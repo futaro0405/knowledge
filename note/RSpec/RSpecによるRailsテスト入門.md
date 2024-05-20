@@ -883,7 +883,46 @@ end
 新しいファクトリを定義するときは毎回プロジェクトの全属性を再定義しなければいけません。
 これはつまり、Projectモデルの属性を変更したときは毎回複数のファクトリ定義を変更する必要が出てくるということを意味しています。
 FactoryBotには重複を減らすテクニックが2つあります。
-1つ目はファクトリの継承を使ってユニークな属性だけを変えることです。
+1つ目は __ファクトリの継承__ を使ってユニークな属性だけを変えることです。
+
+```ruby:spec/factories/projects.rb
+FactoryBot.define do
+	factory :project do
+		sequence(:name) { |n| "Test Project #{n}" }
+		description { "Sample project for testing purposes" }
+		due_on { 1.week.from_now }
+		association :owner
+
+		# 昨⽇が締め切りのプロジェクト
+		factory :project_due_yesterday do
+			due_on { 1.day.ago }
+		end
+
+		# 今⽇が締め切りのプロジェクト
+		factory :project_due_today do
+			due_on { Date.current.in_time_zone }
+		end
+
+		# 明⽇が締め切りのプロジェクト
+		factory :project_due_tomorrow do
+			due_on { 1.day.from_now }
+		end
+	end
+end
+```
+
+⾒た⽬には少しトリッキーかもしれませんが、これが継承の使い⽅です。
+`:project_due_yesterday`と`:project_due_today`と`:project_due_tomorrow`の各ファクトリは継承元となる`:project`ファクトリの内部で入れ子になっています。
+構造だけを抜き出すと次のようになり ます。
+
+```
+factory :project
+	factory :project_due_yesterday
+	factory :project_due_today
+	factory :project_due_tomorrow
+```
+
+
 
 ### コールバック
 
