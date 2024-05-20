@@ -267,3 +267,14 @@ Projectモデルに対して複雑なテストを作成してみる
 bin/rails g rspec:model project
 ```
 
+```ruby:spec/models/project_spec.rb
+require 'rails_helper'
+
+RSpec.describe Project, type: :model do
+	# ユーザー単位では重複したプロジェクト名を許可しないこと
+	it "does not allow duplicate project names per user" do
+	user = User.create(
+		first_name: "Joe",
+		last_name: "Tester",
+		email: "joetester@example.com", 10 password: "dottle-nouveau-pavilion-tights-furze", 11 ) 12 13 user.projects.create( 14 name: "Test Project", 15 ) 16 17 new_project = user.projects.build( 18 name: "Test Project", 19 ) 20 21 new_project.valid? 22 expect(new_project.errors[:name]).to include("has already been taken") 23 end 24 25 # ⼆⼈のユーザーが同じ名前を使うことは許可すること 26 it "allows two users to share a project name" do 27 user = User.create( 28 first_name: "Joe",
+```
