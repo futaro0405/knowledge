@@ -4,16 +4,26 @@
     "type": "split",
     "children": [
       {
-        "id": "d91f8b70f03f03d8",
+        "id": "d7efb72ca8bd016f",
         "type": "tabs",
         "children": [
           {
-            "id": "10ed8071314b3e21",
+            "id": "c0483f606369ef05",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+              }
+            }
+          },
+          {
+            "id": "f5d7a8223afa8f72",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "old/daily-note/2024/04-April/2024-04-29.md",
+                "file": "40_work/K社/daily-report/05/0520.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -23,17 +33,17 @@
         ]
       },
       {
-        "id": "c15d06edfdc100dc",
+        "id": "d91f8b70f03f03d8",
         "type": "tabs",
         "children": [
           {
-            "id": "dcc87b2c754700dd",
+            "id": "b10040ce9fd717f8",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "source",
+                "mode": "preview",
                 "backlinks": true,
                 "source": true
               }
@@ -89,7 +99,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "68912b955d876372",
@@ -113,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "old/daily-note/2024/04-April/2024-04-29.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -130,7 +141,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "old/daily-note/2024/04-April/2024-04-29.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -153,7 +164,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "old/daily-note/2024/04-April/2024-04-29.md"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           }
@@ -178,11 +189,14 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "10ed8071314b3e21",
+  "active": "b10040ce9fd717f8",
   "lastOpenFiles": [
-    "There is 1 other session using the database.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/RSpecによるRailsテスト入門.md",
+    "40_work/K社/daily-report/05/0520.md",
+    "40_work/K社/daily-report/05/0517.md",
+    "old/daily-note/2024/04-April/2024-04-29.md",
+    "There is 1 other session using the database.md",
     "ソフトウェアテスト技法.md",
     "Untitled.md",
     "401_/public/pdf/software-test-design.pdf",
