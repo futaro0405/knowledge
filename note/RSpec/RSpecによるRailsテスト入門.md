@@ -567,5 +567,25 @@ RSpec.describe Note, type: :model do
 				message: "First, preheat the oven.",
 				user: @user,
 			)
-		end 50 51 # ⼀致するデータが⾒つかるとき 52 context "when a match is found" do 53 # 検索⽂字列に⼀致するメモを返すこと 54 it "returns notes that match the search term" do 55 expect(Note.search("first")).to include(@note1, @note3) 56 end 57 end 58 59 # ⼀致するデータが1件も⾒つからないとき 60 context "when no match is found" do 61 # 空のコレクションを返すこと 62 it "returns an empty collection" do 63 expect(Note.search("message")).to be_empty 64 end 65 end 66 end 67 end
+		end
+
+		# ⼀致するデータが⾒つかるとき
+		context "when a match is found" do
+			# 検索⽂字列に⼀致するメモを返すこと
+			it "returns notes that match the search term" do
+				expect(Note.search("first")).to include(@note1, @note3)
+			end
+		end
+
+		# ⼀致するデータが1件も⾒つからないとき
+		context "when no match is found" do
+			# 空のコレクションを返すこと
+			it "returns an empty collection" do
+				expect(Note.search("message")).to be_empty
+			end
+		end
+	end
+end
 ```
+
+セットアップ処理をbeforeブロックに移動したため、各ユーザーはインスタンス変数にアサインする必要がある。そうしないとテストの中で変数名を指定してデータにアクセスできない。
