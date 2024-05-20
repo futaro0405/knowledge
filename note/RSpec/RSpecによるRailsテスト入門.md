@@ -770,10 +770,48 @@ FactoryBot.define do
 end
 ```
 
+```ruby:spec/factories/users.rb
+FactoryBot.define do
+	factory :user, aliases: [:owner] do
+		first_name { "Aaron" }
+		last_name { "Sumner" }
+		sequence(:email) { |n| "tester#{n}@example.com" }
+		password { "dottle-nouveau-pavilion-tights-furze" }
+	end
+end
+```
+
+メモだけのテストの場合でも以下のように使える
+
+```ruby:spec/models/note_spec.rb
+require 'rails_helper'
+
+RSpec.describe Note, type: :model do
+	# ファクトリで関連するデータを⽣成する
+	it "generates associated data from a factory" do
+		note = FactoryBot.create(:note)
+
+		puts "This note's project is #{note.project.inspect}"
+		puts "This note's user is #{note.user.inspect}"
+	end
+end
+```
+
+この方法ではユーザーが2つ作成される
+この理由はメモのファクトリが関連するプロジェクトを作成する際に関連するユーザー（プロジェクトに関連するowner）を作成し、それから2番⽬のユーザー（メモに関連するユーザー）を作成する
+
 
 
 ### ファクトリ内の重複をなくす
-
+```ruby:spec/factories/notes.rb
+FactoryBot.define do
+	factory :note do
+		message { "My important note." }
+		association :project
+		user { project.owner }
+	end
+end
+```
 
 ### コールバック
 
