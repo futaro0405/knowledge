@@ -800,9 +800,6 @@ end
 この方法ではユーザーが2つ作成される
 この理由はメモのファクトリが関連するプロジェクトを作成する際に関連するユーザー（プロジェクトに関連するowner）を作成し、それから2番⽬のユーザー（メモに関連するユーザー）を作成する
 
-
-
-### ファクトリ内の重複をなくす
 ```ruby:spec/factories/notes.rb
 FactoryBot.define do
 	factory :note do
@@ -812,6 +809,52 @@ FactoryBot.define do
 	end
 end
 ```
+
+### ファクトリ内の重複をなくす
+
+FactoryBotでは同じ型を作成するファクトリを複数定義することもできる。
+たとえば、スケジュールどおりのプロジェクトとスケジュールから遅れているプロジェクトをテストしたいのであれば、別々の名前を付けてプロジェクトファクトリの引数に渡すことができます。
+その際はそのファクトリを使って作成するインスタンスのクラス名と、既存のファクトリと異なるインスタンスの属性値（この例でいうとdue_on属性の値）も指定します。
+
+```ruby:spec/factories/projects.rb
+FactoryBot.define do
+	factory :project do
+		sequence(:name) { |n| "Test Project #{n}" }
+		description { "Sample project for testing purposes" }
+		due_on { 1.week.from_now }
+		association :owner
+	end
+
+	# 昨⽇が締め切りのプロジェクト
+	factory :project_due_yesterday, class: Project do
+		sequence(:name) { |n| "Test Project #{n}" }
+		description { "Sample project for testing purposes" }
+		due_on { 1.day.ago }
+		association :owner
+	end
+
+	# 今⽇が締め切りのプロジェクト
+	factory :project_due_today, class: Project do
+		sequence(:name) { |n| "Test Project #{n}" }
+		description { "Sample project for testing purposes" }
+		due_on { Date.current.in_time_zone }
+		association :owner
+	end
+
+	# 明⽇が締め切りのプロジェクト
+	factory :project_due_tomorrow, class: Project do
+		sequence(:name) { |n| "Test Project #{n}" }
+		description { "Sample project for testing purposes" }
+		due_on { 1.day.from_now }
+		association :owner
+	end
+end
+```
+
+
+
+
+
 
 ### コールバック
 
