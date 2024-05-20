@@ -433,10 +433,44 @@ end
 
 ### マッチャについて詳しく
 これまで４つのマッチャ（ `be_valid`、`eq`、`include`、`be_empty` ）
-| macther           |     | 提供               |
-| ---------- | --- | ------------------ |
-| `be_valid` |     | rspec-rails gem    |
-| `eq`       |     | rspec-expectations |
-| `include`  |     | rspec-expectations |
-| `be_empty` |     | rspec-expectations |
+| macther    | 提供               |
+| ---------- | ------------------ |
+| `be_valid` | rspec-rails gem    |
+| `eq`       | rspec-expectations |
+| `include`  | rspec-expectations |
+| `be_empty` | rspec-expectations |
 
+### `describe`、`context`、`before`、`after`を使ってスペックを DRY にする
+さきほどのNoteモデルのsペックに注目する
+`describe`ブロックを`describe Note`ブロックの中に作成する
+検索機能にフォーカスするため
+
+```ruby:spec/models/note_spec.rb
+require 'rails_helper'
+
+RSpec.describe Note, type: :model do
+	# バリデーション⽤のスペックが並ぶ
+	# ⽂字列に⼀致するメッセージを検索する
+	describe "search message for a term" do
+		# 検索⽤の example が並ぶ ...
+	end
+end
+```
+2つの`context`ブロックを加えてさらにexampleを切り分ける
+
+```ruby:spec/models/note_spec.rb
+require 'rails_helper'
+	RSpec.describe Note, type: :model do
+		# 他のスペックが並ぶ
+		# ⽂字列に⼀致するメッセージを検索する
+		describe "search message for a term" do
+			# ⼀致するデータが⾒つかるとき
+			context "when a match is found" do
+				# ⼀致する場合の example が並ぶ ...
+			end
+			# ⼀致するデータが1件も⾒つからないとき
+			context "when no match is found" do
+				# ⼀致しない場合の example が並ぶ ...
+			end
+			19 end 20 end
+```
