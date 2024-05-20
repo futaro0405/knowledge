@@ -261,3 +261,9 @@ it "is invalid with a duplicate email address" do
 end
 ```
 
+Projectモデルに対して複雑なテストを作成してみる
+
+```bash
+bin/rails g rspec:model project
+```
+
