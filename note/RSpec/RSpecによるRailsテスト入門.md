@@ -1015,7 +1015,26 @@ __create_list__ メソッドではモデルを作成するために関連する�
 今回はメモの作成に必要なProjectモデルを使っています。
 プロジェクトファクトリに新しく定義した __with_notes__ トレイトは、新しいプロジェクトを作成した後にメモファクトリを使って5つの新しいメモを追加します。
 それではスペック内でこのトレイトを使う⽅法を⾒てみましょう。
-最初はトレイトなしのファクトリを使って みます。
+最初はトレイトなしのファクトリを使ってみます。
+
+```ruby:spec/models/project_spec.rb
+# たくさんのメモが付いていること
+it "can have many notes" do
+	project = FactoryBot.create(:project)
+
+	expect(project.notes.length).to eq 5
+end
+```
+
+このテストは失敗します。
+なぜならメモの数が5件ではなくゼロだからです。
+
+そこで __with_notes__ トレイトでセットアップした新しいコールバックを使って、このテス トをパスさせましょう。
+```ruby:spec/models/project_spec.rb
+# たくさんのメモが付いていること
+it "can have many notes" do
+	project = FactoryBot.create(:project, :with_notes) expect(project.notes.length).to eq 5 end
+```
 
 
 ### ファクトリを安全に使うには
