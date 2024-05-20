@@ -723,8 +723,54 @@ end
 
 ### シーケンスを使ってユニークなデータを⽣成する
 FactoryBotではシーケンスを使ってこのようなユニークバリデーションを持つフィールドを扱うことができる。
-シーケンスはファクトリから新しいオブジェクトを
+シーケンスはファクトリから新しいオブジェクトを作成するたびにカウンタの値を1つずつ増やしながら、ユニークにならなければならない属性に値を設定する。
+
+```ruby:spec/factories/users.rb
+FactoryBot.define do
+	factory :user do
+		first_name { "Aaron" }
+		last_name { "Sumner" }
+		sequence(:email) { |n| "tester#{n}@example.com" }
+		password { "dottle-nouveau-pavilion-tights-furze" }
+	end
+end
+```
+
+新しいユーザーを作成するたびにユニークで連続したメールアドレスを設定できる。
+
 ### ファクトリで関連を扱う
+FactoryBotは他のモデルとの関連を扱う場合に便利
+
+```bash
+bin/rails g factory_bot:model note
+```
+
+```ruby:spec/factories/notes.rb
+FactoryBot.define do
+	factory :note do
+		message { "My important note." }
+		association :project
+		association :user
+	end
+end
+```
+
+```bash
+ bin/rails g factory_bot:model project
+```
+
+```ruby:spec/factories/projects.rb
+FactoryBot.define do
+	factory :project do
+		sequence(:name) { |n| "Project #{n}" }
+		description { "A test project." }
+		due_on { 1.week.from_now }
+		association :owner
+	end
+end
+```
+
+
 
 ### ファクトリ内の重複をなくす
 
