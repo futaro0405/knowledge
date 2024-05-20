@@ -924,9 +924,62 @@ factory :project
 
 継承を使うと`class: Project`の指定もなくすことができます。
 なぜならこの構造からFactoryBotは⼦ファクトリでProjectクラスを使うことがわかるからです。
-この場合、スペッ ク側は何も変更しなくてもそのままでパスします。
-重複を減らすための⼆つ⽬のテクニックはトレイト（trait）を使ってテストデータを構築することです。
-このアプローチでは属性値の集合 をファクトリで定義します。まず、プロジ ェクトファクトリの中⾝を更新しましょう。
+この場合、スペック側は何も変更しなくてもそのままでパスします。
+重複を減らすための⼆つ⽬のテクニックは __トレイト（trait）__ を使ってテストデータを構築することです。
+このアプローチでは属性値の集合をファクトリで定義します。
+
+```ruby:spec/factories/projects.rb
+FactoryBot.define do
+	factory :project do
+		sequence(:name) { |n| "Test Project #{n}" }
+		description { "Sample project for testing purposes" }
+		due_on { 1.week.from_now }
+		association :owner
+
+		# 締め切りが昨⽇
+		trait :due_yesterday do
+			due_on { 1.day.ago }
+		end
+
+		# 締め切りが今⽇
+		trait :due_today do
+			due_on { Date.current.in_time_zone } 
+		end
+
+		# 締め切りが明⽇
+		trait :due_tomorrow do
+			due_on { 1.day.from_now }
+		end
+	end
+end
+```
+
+トレイトを使うためにはスペックを変更する必要があります。
+利⽤したいトレイトを使って次のようにファクトリから新しいプロジェクトを作成してください。
+
+```ruby:spec/models/project_spec.rb
+describe "late status" do
+	# 締切⽇が過ぎていれば遅延していること
+	it "is late when the due date is past today" do
+		project = FactoryBot.create(:project, :due_yesterday)
+		expect(project).to be_late
+	end
+
+	# 締切⽇が今⽇ならスケジュールどおりであること
+	it "is on time when the due date is today" do
+		project = FactoryBot.create(:project, :due_today)
+		expect(project).to_not be_late
+	end
+
+	# 締切⽇が未来ならスケジュールどおりであること
+	it "is on time when the due date is in the future" do
+		project = FactoryBot.create(:project, :due_tomorrow)
+		expect(project).to_not be_late
+	end
+end
+```
+
+トレイトを使うことの本当の利点は、複数のトレイトを組み合わせて複雑なオブジェクト を構築できる点です。トレイトについてはこの後の章でテストデータに関する要件がもっと 複雑になってきたときに再度説明します。
 
 ### コールバック
 
