@@ -851,10 +851,35 @@ FactoryBot.define do
 end
 ```
 
+上で定義した新しいファクトリをProjectモデルのスペックで使うことができます。
+ここでは魔法のマッチャ`be_late`が登場します。
+`be_late`はRSpecに定義されているマッチャではありません。
+ですがRSpecは賢いので、projectにlateまたはlate?という名前の属性やメソッドが存在し、それが真偽値を返すようになっていれば`be_late`はメソッドや属性の戻り値がtrueになっていることを検証してくれるのです。
 
+```ruby:spec/models/project_spec.rb
+# 遅延ステータス
+describe "late status" do
+	# 締切⽇が過ぎていれば遅延していること
+	it "is late when the due date is past today" do
+		project = FactoryBot.create(:project_due_yesterday)
+		expect(project).to be_late
+	end
 
+	# 締切⽇が今⽇ならスケジュールどおりであること
+	it "is on time when the due date is today" do
+		project = FactoryBot.create(:project_due_today)
+		expect(project).to_not be_late
+	end
 
+	# 締切⽇が未来ならスケジュールどおりであること
+	it "is on time when the due date is in the future" do
+		project = FactoryBot.create(:project_due_tomorrow)
+		expect(project).to_not be_late
+	end
+end
+```
 
+新しく作ったファクトリには⼤量の重複があります。新しいファクトリを定義す るときは毎回プロジェクトの全属性を再定義しなければいけません。これはつまり、Project モデルの属性を変更したときは毎回複数のファクトリ定義を変更する必要が出てくる、とい うことを意味しています。 Factory Bot には重複を減らすテクニックが⼆つあります。⼀つ⽬は ファクトリの継承 を 使ってユニークな属性だけを変えることです。
 
 ### コールバック
 
