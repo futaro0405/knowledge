@@ -1232,4 +1232,82 @@ end
 
 ここではindexアクションのdescribeブロック内に、⼆つのcontextを追加しました。
 1つ目は認証済みのユーザーを扱うcontextです。
-テストユーザーを作成する before ブロック がこの context ブロックの内側で⼊れ⼦になっている点に注意してください。それから、スペ ックを実⾏して正しく変更できていることを確認してください。
+テストユーザーを作成するbeforeブロックがこのcontextブロックの内側で入れ子になっている点に注意してください。
+それから、スペックを実行して正しく変更できていることを確認してください。
+続いて認証されていないユーザーの場合をテストしましょう。
+"as a guest"のcontextを変更し、次のようなテストを追加してください。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+# ゲストとして
+context "as a guest" do
+	# 302レスポンスを返すこと
+	it "returns a 302 response" do
+		get :index
+		expect(response).to have_http_status "302"
+	end
+
+	# サインイン画⾯にリダイレクトすること
+	it "redirects to the sign-in page" do
+		get :index
+		expect(response).to redirect_to "/users/sign_in"
+	end
+end
+```
+
+最初のスペックは難しくないはずです。
+have_http_statusマッチャはすでに使っていますし、302というレスポンスコードもちょっと前の失敗メッセージに出てきました。
+⼆つ⽬のスペックではredirect_toという新しいマッチャを使っています。
+ここではコントローラが認証されていないリクエストの処理を中断し、Deviseが提供しているログイン画⾯に移動させていることを検証しています。
+同じテクニックはアプリケーションの認可機能（つまり、ログイン済みのユーザーが、やりたいことをできるかどうかの判断）にも適⽤できます。
+これはコントローラの3⾏⽬で処理されています。
+
+```
+before_action :project_owner?, except: %i[ index new create ] 
+```
+
+このアプリケーションではユーザーがプロジェクトのオーナーであることを要求します。
+では、新しいテストを追加しましょう。
+今回はshowアクションのテストです。
+⼀つのdescribeブロックと⼆つのcontextブロックを追加してください。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+require 'rails_helper'
+RSpec.describe ProjectsController, type: :controller do
+	# インデックスのテストが並ぶ ...
+	describe "#show" do
+		# 認可されたユーザーとして
+		context "as an authorized user" do
+			before do
+				@user = FactoryBot.create(:user)
+				@project = FactoryBot.create(:project, owner: @user)
+			end
+
+			# 正常にレスポンスを返すこと
+			it "responds successfully" do
+				sign_in @user
+				get :show, params: { id: @project.id }
+				expect(response).to be_successful
+			end
+		end
+
+		# 認可されていないユーザーとして
+		context "as an unauthorized user" do
+			before do
+				@user = FactoryBot.create(:user)
+				other_user = FactoryBot.create(:user)
+				@project = FactoryBot.create(:project, owner: other_user)
+			end
+
+			# ダッシュボードにリダイレクトすること
+			it "redirects to the dashboard" do
+				sign_in @user
+				get :show, params: { id: @project.id }
+				expect(response).to redirect_to root_path
+			end
+		end
+	end
+end
+```
+
+今回はテストごとに@projectを作成しました。
+最初の context ではログインしたユーザー がプロジェクトのオーナーになっています。⼆つ⽬の context では別のユーザーがオーナー になっています。このテストにはもう⼀つ新しい部分があります。それはプロジェクトの id をコントローラアクションの param 値として渡さなければいけない点です。 テストを実⾏してパスすることを確認してください。
