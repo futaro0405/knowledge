@@ -322,5 +322,40 @@ end
 ```
 
 ```ruby:app/models/project.rb
+validates :name, presence: true, uniqueness: { scope: :user_id }
+```
 
+### インスタンスメソッドをテストする
+`@user.name`を呼び出すとフルネームが出力されるようにする
+
+```ruby:app/models/user.rb
+def name
+	[first_name, last_name].join(' ')
+end
+```
+
+バリデーションのexampleと同じ基本的なテクニックでこの機能のexampleを作ることができる
+
+```ruby:spec/models/user_spec.rb
+it "returns a user's full name as a string" do
+	user = User.new(
+		first_name: "John",
+		last_name: "Doe",
+		email: "johndoe@example.com",
+	)
+
+	expect(user.name).to eq "John Doe"
+end
+```
+
+### クラスメソッドとスコープをテストする
+渡された文字列でメモ（note）を検索する機能を用意する
+
+```ruby:app/models/note.rb
+scope :search, ->(term) {
+	where("LOWER(message) LIKE ?", "%#{term.downcase}%")
+}
+```
+
+```spec/models/note_spec.rb 1 require 'rails_helper' 2 3 RSpec.describe Note, type: :model do 4 # 検索⽂字列に⼀致するメモを返すこと 5 it "returns notes that match the search term" do 6 user = User.create( 7 first_name: "Joe", 8 last_name: "Tester", 9 email: "joetester@example.com", 10 password: "dottle-nouveau-pavilion-tights-furze", 11 ) 12 13 project = user.projects.create( 14 name: "Test Project", 15 ) 16 17 note1 = project.notes.create( 18 message: "This is the first note.", 19 user: user, 20 ) 21 note2 = project.notes.create( 22 message: "This is the second note.", 23 user: user, 24 ) 25 note3 = project.notes.create( 26 message: "First, preheat the oven.", 27 user: user, 28 ) 29 30 expect(Note.search("first")).to include(note1, note3) 31 expect(Note.search("first")).to_not include(note2) 32 end 33 end
 ```
