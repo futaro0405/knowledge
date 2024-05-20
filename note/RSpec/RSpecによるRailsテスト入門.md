@@ -457,20 +457,34 @@ RSpec.describe Note, type: :model do
 end
 ```
 2つの`context`ブロックを加えてさらにexampleを切り分ける
+exampleのアウトラインを作ると同じようなexampleをひとまとめにして分類できる
+```ruby:spec/models/note_spec.rb
+require 'rails_helper'
+
+RSpec.describe Note, type: :model do
+	# 他のスペックが並ぶ
+
+	# ⽂字列に⼀致するメッセージを検索する
+	describe "search message for a term" do
+		# ⼀致するデータが⾒つかるとき
+		context "when a match is found" do
+			# ⼀致する場合の example が並ぶ ...
+		end
+		# ⼀致するデータが1件も⾒つからないとき
+		context "when no match is found" do
+			# ⼀致しない場合の example が並ぶ ...
+		end
+	end
+end
+```
+
+beforeフックを利用してspecのリファクタリングを完了させる。
+beforeブロックの中に書かれたコードは内側の各テストが実行される前に実行される。また、beforeブロックはdescribeやcontextブロックによってスコープが限定される。
 
 ```ruby:spec/models/note_spec.rb
 require 'rails_helper'
-	RSpec.describe Note, type: :model do
-		# 他のスペックが並ぶ
-		# ⽂字列に⼀致するメッセージを検索する
-		describe "search message for a term" do
-			# ⼀致するデータが⾒つかるとき
-			context "when a match is found" do
-				# ⼀致する場合の example が並ぶ ...
-			end
-			# ⼀致するデータが1件も⾒つからないとき
-			context "when no match is found" do
-				# ⼀致しない場合の example が並ぶ ...
-			end
-			19 end 20 end
+
+RSpec.describe Note, type: :model do
+	before do
+		# このファイルの全テストで使⽤するテストデータをセットアップする 7 end 8 9 # バリデーションのテストが並ぶ 10 11 # ⽂字列に⼀致するメッセージを検索する 12 describe "search message for a term" do 13 14 before do 15 # 検索機能の全テストに関連する追加のテストデータをセットアップする 16 end 17 18 # ⼀致するデータが⾒つかるとき 19 context "when a match is found" do
 ```
