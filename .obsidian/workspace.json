@@ -30,8 +30,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
         "id": "d91f8b70f03f03d8",
@@ -125,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/05/0520.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -142,7 +141,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/05/0520.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -165,7 +164,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/daily-report/05/0520.md"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           }
@@ -190,10 +189,10 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "f5d7a8223afa8f72",
+  "active": "b10040ce9fd717f8",
   "lastOpenFiles": [
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
     "40_work/K社/daily-report/05/0520.md",
     "40_work/K社/daily-report/05/0517.md",
     "old/daily-note/2024/04-April/2024-04-29.md",
