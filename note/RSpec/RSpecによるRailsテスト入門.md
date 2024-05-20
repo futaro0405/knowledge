@@ -1033,10 +1033,29 @@ end
 ```ruby:spec/models/project_spec.rb
 # たくさんのメモが付いていること
 it "can have many notes" do
-	project = FactoryBot.create(:project, :with_notes) expect(project.notes.length).to eq 5 end
+	project = FactoryBot.create(:project, :with_notes) 
+	
+	expect(project.notes.length).to eq 5
+end
 ```
 
+これでテストがパスします。
+なぜなら、コールバックによってプロジェクトに関連する5つのメモが作成されるからです。
+実際のアプリケーションでこういう仕組みを使っていると、ちょっと情報量の乏しいテストに見えるかもしれません。
+ですが、今回の使用例はコールバックが正しく設定されているか確認するのに役立ちますし、この先でもっと複雑なテストを作り始める前のちょうどいい練習にもなります。
+とくに、Railsのモデルが入れ子になった他のモデルを属性として持っている場合、コールバックはそうしたモデルのテストデータを作るのに便利です。
+ここではFactoryBotのコールバックについてごく簡単な内容しか説明していません。
 
-### ファクトリを安全に使うには
+## コントローラスペック
 
-### まとめ
+### コントローラスペックの基本
+Homeコントローラはまだサインインしていない⼈のために、アプリケーションのホームページを返す仕事です。
+
+```ruby:app/controllers/home_controller.rb
+class HomeController < ApplicationController
+	skip_before_action :authenticate_user!
+	def index
+	end
+end
+```
+
