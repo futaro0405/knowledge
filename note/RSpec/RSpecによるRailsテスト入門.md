@@ -357,5 +357,41 @@ scope :search, ->(term) {
 }
 ```
 
-```spec/models/note_spec.rb 1 require 'rails_helper' 2 3 RSpec.describe Note, type: :model do 4 # 検索⽂字列に⼀致するメモを返すこと 5 it "returns notes that match the search term" do 6 user = User.create( 7 first_name: "Joe", 8 last_name: "Tester", 9 email: "joetester@example.com", 10 password: "dottle-nouveau-pavilion-tights-furze", 11 ) 12 13 project = user.projects.create( 14 name: "Test Project", 15 ) 16 17 note1 = project.notes.create( 18 message: "This is the first note.", 19 user: user, 20 ) 21 note2 = project.notes.create( 22 message: "This is the second note.", 23 user: user, 24 ) 25 note3 = project.notes.create( 26 message: "First, preheat the oven.", 27 user: user, 28 ) 29 30 expect(Note.search("first")).to include(note1, note3) 31 expect(Note.search("first")).to_not include(note2) 32 end 33 end
+```ruby:spec/models/note_spec.rb
+require 'rails_helper'
+
+RSpec.describe Note, type: :model do
+	# 検索⽂字列に⼀致するメモを返すこと
+	it "returns notes that match the search term" do
+		user = User.create(
+			first_name: "Joe",
+			last_name: "Tester",
+			email: "joetester@example.com",
+			password: "dottle-nouveau-pavilion-tights-furze",
+		)
+		project = user.projects.create(
+			name: "Test Project",
+		)
+		note1 = project.notes.create(
+			message: "This is the first note.",
+			user: user,
+		)
+		note2 = project.notes.create(
+			message: "This is the second note.",
+			user: user,
+		)
+		note3 = project.notes.create(
+			message: "First, preheat the oven.",
+			user: user,
+		)
+
+		expect(Note.search("first")).to include(note1, note3)
+		expect(Note.search("first")).to_not include(note2)
+	end
+end
 ```
+
+`search`スコープは検索文字列に一致するメモのコレクションを返す
+
+### 失敗をテストする
+結果が返ってこない文字列で検索
