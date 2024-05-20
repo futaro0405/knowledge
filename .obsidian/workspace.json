@@ -23,14 +23,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/05/0507.md",
+                "file": "40_work/K社/daily-report/05/0520.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "d91f8b70f03f03d8",
@@ -123,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "40_work/K社/daily-report/05/0520.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -140,7 +141,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "40_work/K社/daily-report/05/0520.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -163,7 +164,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+                "file": "40_work/K社/daily-report/05/0520.md"
               }
             }
           }
@@ -188,12 +189,16 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "b10040ce9fd717f8",
+  "active": "f5d7a8223afa8f72",
   "lastOpenFiles": [
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
-    "40_work/K社/daily-report/05/0507.md",
     "40_work/K社/daily-report/05/0520.md",
+    "40_work/K社/daily-report/04/0424.md",
+    "40_work/K社/daily-report/04/0425.md",
+    "40_work/K社/daily-report/04/0426.md",
+    "40_work/K社/daily-report/04/0422.md",
+    "40_work/K社/daily-report/05/0507.md",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
     "40_work/K社/daily-report/05/0517.md",
     "old/daily-note/2024/04-April/2024-04-29.md",
     "There is 1 other session using the database.md",
