@@ -704,6 +704,22 @@ end
 
 `FactoryBot.build`を使ったため新しいユーザーはインスタンス化されるだけで保存されない。
 
+以下のexampleではテストオブジェクトのemail属性が重複しないことを確認する
+
+```ruby:spec/models/user_spec.rb
+# 重複したメールアドレスなら無効な状態であること
+it "is invalid with a duplicate email address" do
+	FactoryBot.create(:user, email: "aaron@example.com")
+	user = FactoryBot.build(:user, email: "aaron@example.com")
+	user.valid?
+
+	expect(user.errors[:email]).to include("has already been taken")
+end
+```
+
+これを検証するためには1つ目のUserがデータベースに保存されている必要がある。
+エクスペクテーションを実行する前に`FactoryBot.create`を使って同じメールアドレスのuserを最初に保存している。
+
 
 ### シーケンスを使ってユニークなデータを⽣成する
 
