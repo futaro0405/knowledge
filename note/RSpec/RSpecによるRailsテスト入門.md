@@ -509,3 +509,5 @@ RSpec.describe Note, type: :model do
 end
 ```
 
+before(:each)はdescribeまたはcontextブロック内の各（each）テストの前に実⾏
+before(:example) というエイリアスを使うも可
