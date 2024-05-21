@@ -2352,6 +2352,58 @@ end
 最初に、こうしたテストはどのように使い分けるべきなのでしょうか？
 JSON（またはXML）の出力はコントローラスペックで直接テストすることができます。
 
-みなさん自身のアプリケーションでしか使われない専用のシンプルなメソッドであれば、この方法でじゅんかもしれません。
+みなさん自身のアプリケーションでしか使われない専用のシンプルなメソッドであれば、この方法で十分かもしれません。
 ⼀⽅、より堅牢なAPIを構築するのであれば、第6章で説明したシステムスペックによく似た統合テストが必要になってきます。
-ですが、違うと
+
+ですが、違うところもいくつかあります。
+RSpecの場合、今回の新しいAPI関連のテストは`spec/requests`ディレクトリに配置するのがベストです。
+これまでに書いたシステムスペックとは区別しましょう。
+リクエストスペックではCapybaraも使いません。
+Capybaraはブラウザの操作をシミュレートするだけであり、プログラム上のやりとりは特にシミュレートしないからです。
+かわりに、コントローラのレスポンスをテストする際に使ったHTTP動詞に対応するメソッド（get 、post 、delete 、patch）を使います。
+本書のサンプルアプリケーションにはユーザーのプロジェクト一覧にアクセスしたり、新しいプロジェクトを作成したりするための簡単なAPIが含まれています。
+どちらのエンドポイントもトークンによる認証を使います。
+サンプルコードは`app/controllers/api/projects_controller.rb`で確認できます。
+あまり難しいことはやっていませんが、先ほども述べたとおり、本書はテストの本であって、堅牢なAPIを設計するための本ではありません。
+
+### GETリクエストをテストする
+最初の例では、最初に紹介したエンドポイントにフォーカスします。
+このエンドポイントは認証完了後、クライアントにユーザーのプロジェクト一覧を含むJSONデータを返します。
+RSpecにはリクエストスペック用のジェネレータがあるので、これを使ってどういったコードが作成されるのか見てみましょう。
+コマンドラインから次のコマンドを実行してください。
+
+```bash
+bin/rails g rspec:request projects_api 
+```
+
+新しく作られた`spec/requests/projects_apis_spec.rb`を開き、中を見てください。
+
+```ruby:spec/requests/projects_apis_spec.rb
+require 'rails_helper'
+
+RSpec.describe "ProjectsApis", type: :request do
+	describe "GET /projects_apis" do
+		it "works! (now write some real specs)" do
+			get projects_apis_path
+
+			expect(response).to have_http_status(200)
+		end
+	end
+end
+```
+
+一見すると、コントローラスペックにそっくりですね。
+しかし、すぐに思いますが、リクエストスペックではコントローラスペック以上にできることがたくさんあります。
+
+RSpecはファイル名を複数形にしていますが、APIが複数形になるのはちょっと不自然なように思います（つまり、project APIsにするか、project APIにするか）。
+なので、私はいつも最初にファイル名をリネームします。
+というわけで、ファイル名を`spec/requests/projects_api_spec.rb`に変更し、新しいテストを追加してください。
+
+```ruby:spec/requests/projects_api_spec.rb
+require 'rails_helper'
+
+RSpec.describe 'Projects API', type: :request do
+	# 1件のプロジェクトを読み出すこと
+	it 'loads a project' do
+		user = FactoryBot.create(:user) 7 FactoryBot.create(:project, 8 name: "Sample Project") 9 FactoryBot.create(:project, 10 name: "Second Sample Project", 11 owner: user) 12 13 get api_projects_path, params: { 14 user_email: user.email, 15 user_token: user.authentication_token 16 } 17 18 expect(response).to have_http_status(:success) 19 json = JSON.parse(response.body) 20 expect(json.length).to eq 1 21 project_id = json[0]["id"] 22 23 get api_project_path(project_id), params: { 24 user_email: user.email, 25 user_token: user.authentication_token 26 } 27 28 expect(response).to have_http_status(:success) 29 json = JSON.parse(response.body) 30 expect(json["name"]).to eq "Second Sample Project" 31 # などなど 32 end
+```
