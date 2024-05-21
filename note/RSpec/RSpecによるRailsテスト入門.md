@@ -1577,4 +1577,44 @@ end
 ユーザーはプロジェクトを作成、または編集するために有効な属性値を送信したので、Railsは正常にレコードを作成、または更新できました。
 ですが、モデルスペックの場合と同じように、何か正しくないことがコントローラ内で起こったときも意図した通りの動きになるか検証するのは良い考えです。
 今回の場合だと、もしプロジェクトの作成、または編集時にバリデーションエラーが発⽣したら、何が起きるでしょうか？
-こういうケースの⼀例として、認可済みのユーザーが create アクションにアクセスした ときのテストを少し変更してみましょう。まず、テストを⼆つの新しい context に分割するこ とから始めます。⼀つは有効な属性値で、もう⼀つは無効な属性値です。既存のテストは最 初の context に移動し、無効な属性については新しくテストを追加します。
+こういうケースの⼀例として、認可済みのユーザーがcreateアクションにアクセスしたときのテストを少し変更してみましょう。
+まず、テストを⼆つの新しいcontextに分割することから始めます。
+⼀つは有効な属性値で、もう⼀つは無効な属性値です。
+既存のテストは最初のcontextに移動し、無効な属性については新しくテストを追加します。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+describe "#create" do
+	# 認可済みのユーザーとして
+	context "as an authenticated user" do
+		before do
+		@user = FactoryBot.create(:user)
+	end
+
+	# 有効な属性値の場合
+	context "with valid attributes" do
+		# プロジェクトを追加できること
+		it "adds a project" do
+			project_params = FactoryBot.attributes_for(:project)
+			sign_in @user
+			expect {
+				post :create, params: { project: project_params }
+			}.to change(@user.projects, :count).by(1)
+			end
+		end
+
+		# 無効な属性値の場合
+		context "with invalid attributes" do
+			# プロジェクトを追加できないこと
+			it "does not add a project" do
+				project_params = FactoryBot.attributes_for(:project, :invalid)
+				sign_in @user
+				expect {
+					post :create, params: { project: project_params }
+				}.to_not change(@user.projects, :count)
+			end
+		end
+	end
+
+	# 他の context は省略 ...
+end
+```
