@@ -2900,7 +2900,79 @@ RSpec.describe Note, type: :model do
 		note = Note.new(message: nil) 
 		note.valid?
 
-expect(note.errors[:message]).to include("can't be blank") 22 end
+		expect(note.errors[:message]).to include("can't be blank")
+	end
 
-# ⽂字列に⼀致するメッセージを検索する 25 describe "search message for a term" do 26 let(:note1) { 27 FactoryBot.create(:note, 28 project: project, 29 user: user, 30 message: "This is the first note.", 31 ) 32 } 33 34 let(:note2) { 35 FactoryBot.create(:note, 36 project: project, 37 user: user, 38 message: "This is the second note.", 39 ) 40 } 41 42 let(:note3) { 43 FactoryBot.create(:note, 44 project: project, 45 user: user, 46 message: "First, preheat the oven.", 47 ) 48 } 49 50 # ⼀致するデータが⾒つかるとき 51 context "when a match is found" do 52 # 検索⽂字列に⼀致するメモを返すこと 53 it "returns notes that match the search term" do 54 expect(Note.search("first")).to include(note1, note3) 55 end 56 end 57 58 # ⼀致するデータが1件も⾒つからないとき
+	# ⽂字列に⼀致するメッセージを検索する
+	describe "search message for a term" do
+		let(:note1) {
+			FactoryBot.create(:note,
+				project: project,
+				user: user,
+				message: "This is the first note.", 
+			)
+		}
+
+		let(:note2) {
+			FactoryBot.create(:note,
+				project: project,
+				user: user,
+				message: "This is the second note.",
+			) 
+		}
+
+		let(:note3) {
+			FactoryBot.create(:note,
+				project: project,
+				user: user,
+				message: "First, preheat the oven.",
+			)
+		}
+
+		# ⼀致するデータが⾒つかるとき
+		context "when a match is found" do
+			# 検索⽂字列に⼀致するメモを返すこと
+			it "returns notes that match the search term" do
+				expect(Note.search("first")).to include(note1, note3)
+			end
+		end
+
+		# ⼀致するデータが1件も⾒つからないとき
+		context "when no match is found" do
+			# 空のコレクションを返すこと
+			it "returns an empty collection" do
+				expect(Note.search("message")).to be_empty
+			end
+		end
+	end
+end
+```
+
+コードがちょっときれいになりましたね。
+なぜならbeforeブロックでインスタンス変数をセットアップする必要がなくなったからです。
+実行してみると一発でテストがパスします！
+しかし1つ問題があります。
+ためしに`returns an empty collection`のテストで次の一行（訳 注: `expect(Note.count).to eq 3`）を追加してみましょう。
+
+```ruby:spec/models/note_spec.rb
+# ⼀致するデータが1件も⾒つからないとき
+context "when no match is found" do
+	# 空のコレクションを返すこと
+	it "returns an empty collection" do
+		expect(Note.search("message")).to be_empty
+		expect(Note.count).to eq 3
+	end
+end
+```
+
+続けてスペックを実行します。
+```
+Failures:
+	1) Note search message for a term when no match is found returns an empty collection
+		Failure/Error: expect(Note.count).to eq 3
+			expected: 3
+			got: 0
+			
+			(compared using ==)
+		# ./spec/models/note_spec.rb:56:in `block (4 levels) in <top (required)>'
 ```
