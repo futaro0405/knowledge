@@ -1852,8 +1852,48 @@ end
 ```ruby:spec/system/projects_spec.rb
 require 'rails_helper'
 
-RSpec.describe "Projects", type: :system do 4 before do 5 driven_by(:rack_test) 6 end
+RSpec.describe "Projects", type: :system do
+	before do
+		driven_by(:rack_test)
+	end
 
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		user = FactoryBot.create(:user)
 
-# ユーザーは新しいプロジェクトを作成する 9 scenario "user creates a new project" do 10 user = FactoryBot.create(:user) 11 12 visit root_path 13 click_link "Sign in" 14 fill_in "Email", with: user.email 15 fill_in "Password", with: user.password 16 click_button "Log in" 17 18 expect { 19 click_link "New Project" 20 fill_in "Name", with: "Test Project" 21 fill_in "Description", with: "Trying out Capybara" 22 click_button "Create Project" 23 24 expect(page).to have_content "Project was successfully created" 25 expect(page).to have_content "Test Project" 26 expect(page).to have_content "Owner: #{user.name}" 27 }.to change(user.projects, :count).by(1) 28 end 29 end
+		visit root_path
+		click_link "Sign in"
+		fill_in "Email", with: user.email
+		fill_in "Password", with: user.password
+		click_button "Log in"
+
+		expect {
+			click_link "New Project"
+			fill_in "Name", with: "Test Project"
+			fill_in "Description", with: "Trying out Capybara"
+			click_button "Create Project"
+
+			expect(page).to have_content "Project was successfully created"
+			expect(page).to have_content "Test Project"
+			expect(page).to have_content "Owner: #{user.name}"
+		}.to change(user.projects, :count).by(1)
+	end
+end
 ```
+
+このSpecのステップを順番に見ていくと、最初に新しいテストユーザーを作成し、次にログイン画面からそのユーザーでログインしています。
+それからアプリケーションの利用者が使うものとまったく同じWebフォームを使って新しいプロジェクトを作成しています。
+
+これはシステムスペックとコントローラスペックの重要な違いです。
+コントローラスペックではユーザーインターフェースを無視して、パラメータを直接コントローラのメソッドに送信します。
+
+この場合のメソッドは複数のコントローラと複数のアクションになります。
+具体的には`home#index`、`sessions#new`、`projects#index`、`projects#new`、それに`projects#create`です。
+しかし、結果は同じになります。
+新しいプロジェクトが作成され、アプリケーションはそのプロジェクト画⾯へリダイレクトし、処理の成功を伝えるフラッシュメッセージが表⽰され、ユーザーはプロジェクトのオーナーとして表⽰されます。
+ひとつのスペックで全部できています！
+ここでexpect{}の部分に少し着⽬してください。
+この中ではブラウザ上でテストしたいステップを明⽰的に記述し、それから、結果の表⽰が期待どおりになっていることを検証しています。
+ここで使われているのはCapybaraのDSLです。
+⾃然な英⽂になっているかというとそうでもありませんが、それでも理解はしやすいはずです。
+expect{}ブロックの最後ではchangeマッチャを使って最後の重要なテスト、つまり「ユーザーがオーナーになっているプロジェクトが本当に増えたかどうか」を検証しています。
