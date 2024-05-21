@@ -2036,5 +2036,47 @@ Failures:
 ```ruby
 scenario "guest adds a project" do
 	visit projects_path
-	save_and_open_page 4 click_link "New Project" 5 end
+	save_and_open_page
+	click_link "New Project"
+end
 ```
+
+この状態でテストを実行すると、同じ理由でテストは失敗するものの、新しい情報が手に入ります。
+
+```
+File saved to
+	/Users/asumner/code/examples/projects/tmp/capybara/capybara-201702142134493032685652.html.
+Please install the launchy gem to open the file automatically.
+	guest adds a project (FAILED - 1)
+```
+
+ コマンドライン、または使用しているマシンのGUIから保存されたファイルをブラウザ上で開いてください。
+
+なるほど！ボタンにアクセスできないのは、ユーザーがログインしていなかったからですね。
+プロジェクト一覧画面ではなく、ログイン画面にリダイレクトされていたわけです。
+
+この機能はとても便利ですが、毎回手作業でファイルを開く必要はありません。
+コンソール出力にも書いてあるとおり、__Launchy gem__ をインストールすれば自動的に開くようになります。
+Gemfileにこのgemを追加し、`bundle install`を実⾏してください。
+
+```Gemfile
+group :test do
+	# Railsで元から追加されている gem は省略
+	
+	gem 'launchy'
+end
+```
+
+こうすれば`save_and_open_page`をSpec内で呼びだしたときに、Launchyが保存されたHTMLを自動的に開いてくれます。
+
+ブラウザを起動する必要がない場合や、ブラウザを起動できないコンテナ環境などでは代わりに`save_page`メソッドを使ってください。
+このメソッドを使うとHTMLファイルが`tmp/capybara`に保存されます。
+ブラウザは起動しません。
+`save_and_open_page`や`save_page`はデバッグ用のメソッドです。
+システムスペックがパスするようになったら、それ以上のチェックは不要です。
+なので、不要になったタイミングでこのメソッド呼び出しは全部削除してください。
+削除しないままバージョン管理ツールにコミットしてしまわないよう注意しましょう。
+
+### JavaScriptを使った操作をテストする
+というわけで、私たちはシステムスペックを使ってプロジェクトを追加するUIが期待どおりに動作することを検証しました。
+ここで紹介した方法を使えば、Web画面上の操作の大半をテストすることができます。ここまでCapybaraはシンプルなブラウザシミュレータ（つまりドライバ）を使って、テストに書かれたタスクをじしてきました。このドライバは Rack::Test というドライバで、速くて信頼性が⾼いのですが、JavaScript の実⾏はサポートし ていません。 本書のサンプルアプリケーションでは1箇所だけ JavaScript に依存する機能があります。そ れはタスクの隣にあるチェックボックスをクリックするとそのタスクが完了状態になる、と
