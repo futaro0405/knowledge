@@ -2751,7 +2751,56 @@ RSpec.describe "Projects", type: :system do
 		sign_in user
 
 		# 残りのシナリオが続く ...
-		
+
 	end
 end
 ```
+
+ではシステムスペックを実行して、何が起きるか見てみましょう。
+
+```
+Projects
+	user creates a new project (FAILED - 1)
+	
+Failures:
+	1) Projects user creates a new project
+		Failure/Error: click_link "New Project"
+
+		Capybara::ElementNotFound:
+			Unable to find link "New Project"
+
+		# スタックトレースは省略 ...
+```
+
+いったい何が起こったかわかりますか？
+もしわからなければ、`save_and_open_page`メソッドを各スペックで失敗している`click_link`メソッドの直前で呼び出してください（訳注： 真っ白の画面が立ち上がりますが、後述する理由により、これは想定通りの挙動です）。
+これはどうやら独自に作ったログインヘルパーと、ヘルパーに切り出す前の元のステップでは、ログイン後にユーザーのホームページに遷移する副作用があったようです。
+しかし、Deviseのヘルパーメソッドではセッションを作成するだけなので、どこからワークフローを開始するのかテスト内で明示的に記述しなければなりません（訳注: `sign_in user`に続けて、`visit root_path` を追加します）。
+
+```ruby:spec/system/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		user = FactoryBot.create(:user)
+		sign_in user
+
+		visit root_path
+
+		# 残りのシナリオが続く ...
+
+	end
+end
+```
+
+このあとも同じようなコードを書いていく点に注意してください。
+独自のサポートメソッドのような仕組みを利用する場合、テスト内で明示的に次のステップを記述するのは基本的によい考えです。
+そうすることで、ワークフローが文書化されます。
+繰り返しになりますが、今回のサンプルコードではユーザーがログイン済みになっていることは、あくまでセットアップ上の要件にすぎません。
+ログインのステップ自体はテスト上の重要な機能になっているわけではない、という点を押さえておきましょう。
+今回使ったDeviseのヘルパーメソッドはこのあとのテストでも使っていきます。
+
+### letで遅延読み込みする
+私たちはここまでに`before`ブロックを使ってテストをDRYにしてきました。
+`before`ブロ ックを使うと describe や context ブロックの内部で、各テストの実⾏前に共通のインスタ ンス変数をセットアップできます。この⽅法も悪くはないのですが、まだ解決できていない 問題が⼆つあります。第⼀に、before の中に書いたコードは describe や context の内部に 書いたテストを実⾏するたびに 毎回 実⾏されます。これはテストに予期しない影響を及ぼ す恐れがあります。また、そうした問題が起きない場合でも、使う必要のないデータを作成 してテストを遅くする原因になることもあります。第⼆に、要件が増えるにつれてテストの 可読性を悪くします。 こうした問題に対処するため、RSpec は let というメソッドを提供しています。let は呼ば れたときに初めてデータを読み込む、遅延読み込み を実現するメソッドです。let は before
