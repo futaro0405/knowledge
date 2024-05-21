@@ -4,16 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "d7efb72ca8bd016f",
+        "id": "ca9fd707a3f7f0c5",
         "type": "tabs",
         "children": [
           {
-            "id": "c0483f606369ef05",
+            "id": "f8e794e20044fcef",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
                 "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "95ca78e5fdecd1c7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "70aa6806d3a84a15",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
               }
             }
           }
@@ -91,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -131,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           }
@@ -156,10 +175,17 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "c0483f606369ef05",
+  "active": "70aa6806d3a84a15",
   "lastOpenFiles": [
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
+    "duplicate key value violates unique constraint.md",
+    "everydayrailsrspec-jp.pdf",
+    "ソフトウェアテスト技法.md",
+    "Untitled.md",
+    "権限昇格.md",
+    "Pasted image 20240515174335.png",
+    "Pasted image 20240515173153.png",
     "40_work/K社/daily-report/05/0520.md",
     "40_work/K社/daily-report/04/0424.md",
     "40_work/K社/daily-report/04/0425.md",
@@ -169,8 +195,6 @@
     "40_work/K社/daily-report/05/0517.md",
     "old/daily-note/2024/04-April/2024-04-29.md",
     "There is 1 other session using the database.md",
-    "ソフトウェアテスト技法.md",
-    "Untitled.md",
     "401_/public/pdf/software-test-design.pdf",
     "note/ruby-on-rails/concern.md"
   ]
