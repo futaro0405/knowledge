@@ -18,15 +18,19 @@
             }
           },
           {
-            "id": "f5d7a8223afa8f72",
+            "id": "4a739efb3d378442",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "40_work/K社/daily-report/05/0521.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": true
+              }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
         "id": "d91f8b70f03f03d8",
@@ -95,7 +99,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "68912b955d876372",
@@ -119,6 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,6 +141,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -156,7 +163,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+              }
             }
           }
         ]
@@ -180,11 +189,12 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "f5d7a8223afa8f72",
+  "active": "b10040ce9fd717f8",
   "lastOpenFiles": [
-    "note/RSpec/RSpecによるRailsテスト入門.md",
-    "40_work/K社/daily-report/05/0520.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
+    "40_work/K社/daily-report/05/0521.md",
+    "40_work/K社/daily-report/05/0520.md",
     "40_work/K社/daily-report/04/0424.md",
     "40_work/K社/daily-report/04/0425.md",
     "40_work/K社/daily-report/04/0426.md",

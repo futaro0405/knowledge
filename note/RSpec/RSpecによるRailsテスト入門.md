@@ -1451,3 +1451,14 @@ end
 最後はゲストユーザーのcontextです。
 これはとてもシンプルです。
 
+```ruby:spec/controllers/projects_controller_spec.rb
+describe "#update" do
+	# 認可されている場合と認可されていない場合の context は省略 ... 
+
+	# ゲストとして
+	context "as a guest" do 6 before do 7 @project = FactoryBot.create(:project)
+end
+
+# 302レスポンスを返すこと 11 it "returns a 302 response" do 12 project_params = FactoryBot.attributes_for(:project) 13 patch :update, params: { id: @project.id, project: project_params } 14 expect(response).to have_http_status "302" 15 end 16 17 # サインイン画⾯にリダイレクトすること 18 it "redirects to the sign-in page" do 19 project_params = FactoryBot.attributes_for(:project) 20 patch :update, params: { id: @project.id, project: project_params } 21 expect(response).to redirect_to "/users/sign_in" 22 end 23 end 24 end
+```
+
