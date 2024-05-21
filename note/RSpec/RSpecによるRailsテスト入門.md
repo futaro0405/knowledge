@@ -2565,7 +2565,31 @@ end
 API⽤のコントローラとは異なり、このコントローラでは標準的なメールアドレスとパスワードの認証システムを使っています。
 なので、この仕組みがちゃんと機能するように、ちょっとした追加の設定がここでも必要になります。
 今回はDeviseのsign_inヘルパーをリクエストスペックに追加します。
-[Deviseのwikiページにあるサンプルコード]()を参考にしてこの設定を有効にしてみましょう。
+[Deviseのwikiページにあるサンプルコード](https://github.com/plataformatec/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs- tagged-with-type:-:request))を参考にしてこの設定を有効にしてみましょう。
 まず、`spec/support/request_spec_helper.rb`という新しいファイルを作成します。
 
-https://github.com/plataformatec/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs- tagged-with-type:-:request)
+```ruby:spec/support/request_spec_helper.rb
+module RequestSpecHelper
+	include Warden::Test::Helpers
+
+	def self.included(base)
+		base.before(:each) { Warden.test_mode! }
+		base.after(:each) { Warden.test_reset! }
+	end
+
+	def sign_in(resource)
+		login_as(resource, scope: warden_scope(resource))
+	end
+
+	def sign_out(resource)
+		logout(warden_scope(resource))
+	end
+
+	private
+
+	def warden_scope(resource)
+		resource.class.name.underscore.to_sym
+	end
+end
+```
+
