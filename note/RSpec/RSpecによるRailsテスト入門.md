@@ -2213,4 +2213,11 @@ beforeブロックを削除したあともこれまでと同様にChromeが起�
 
 ### ヘッドレスドライバを使う
 テストの実行中にブラウザのウィンドウが開くのはあまり望ましくないケースがよくあります。
-たとえば、GitHub Actionsや Travis CI、Jenkins のような __継続的インテグレーション（CI）__ 環境で実行する場合、先ほど作ったテストは CLI（コマンドラインインターフェース）上で実 ⾏する必要があります。ですが、CLI 上では新しいウィンドウを開くことはできません。こう いった要件に対応するため、Capybara は ヘッドレス ドライバを使えるようになっています。 そこで Chrome のヘッドレスモードを使ってテストを実⾏するよう、spec/support/capybara.rb を編集して次のようにドライバを変更してください。
+たとえば、GitHub Actionsや Travis CI、Jenkins のような __継続的インテグレーション（CI）__ 環境で実行する場合、先ほど作ったテストは __CLI（コマンドラインインターフェース）__ 上で実行する必要があります。
+ですが、CLI上では新しいウィンドウを開くことはできません。
+こういった要件に対応するため、Capybaraはヘッドレスドライバを使えるようになっています。
+そこでChromeのヘッドレスモードを使ってテストを実行するよう、`spec/support/capybara.rb`を編集して次のようにドライバを変更してください。
+
+```ruby:spec/support/capybara.rb
+config.before(:each, type: :system, js: true) do driven_by :selenium_chrome_headless end
+```
