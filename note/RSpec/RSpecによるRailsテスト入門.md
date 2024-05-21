@@ -2688,3 +2688,70 @@ RSpec.describe "Projects", type: :system do
 	end
 end
 ```
+
+これでログインのステップが重複している2つのスペックをシンプルにすることができます。
+また、この先で同じステップが必要になるスペックでも、このヘルパーメソッドを使うことができます。
+たとえば、プロジェクトのシステムスペックは次のように書き換えられます。
+
+```ruby:spec/system/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		user = FactoryBot.create(:user)
+		sign_in_as user
+
+		expect {
+			click_link "New Project"
+			fill_in "Name", with: "Test Project"
+			fill_in "Description", with: "Trying out Capybara"
+			click_button "Create Project"
+		}.to change(user.projects, :count).by(1)
+
+		expect(page).to have_content "Project was successfully created"
+		expect(page).to have_content "Test Project"
+		expect(page).to have_content "Owner: #{user.name}"
+	end
+end
+```
+
+共通のワークフローをサポートモジュールに切り出す方法は、コードの重複を減らすお気に入りの方法の1つで、とくに、システムスペックでよく使います。
+モジュール内のメソッド名は、コードを読んだときに目的がぱっとわかるような名前にしてください。
+もしメソッドの処理を理解するために、いちいちファイルを切り替える必要があるのなら、それはかえってテストを不便にしてしまっています。
+
+ここで適用したような変更は過去にもやっています。
+それが何だかわかりますか？
+Deviseはログインのステップを完全に省略できるヘルパーメソッドを提供しています。
+これを使えば、特定のユーザーに対して即座にセッションを作成できます。
+これを使えばUIの操作をシミュレートするよりずっと速いですし、ユーザーがログイン済みになっていることがテストを実行する上での重要な要件になっている場合は大変便利です。
+別の見方をすれば、ここでテストしたいのはプロジェクトの機能であって、ユーザーの機能やログインの機能ではない、ということもできます。
+これを有効化するために `rails_helper.rb`を開き、他のDeviseの設定に続けて次のようなコードを追加してください（訳注: `Devise::Test::IntegrationHelpers` の行を追加します）。
+
+```ruby:spec/rails_helper.rb
+RSpec.configure do |config|
+	# 他の設定は省略 ... 
+	
+	# Devise のヘルパーメソッドをテスト内で使⽤する
+	config.include Devise::Test::ControllerHelpers, type: :controller
+	config.include RequestSpecHelper, type: :request
+	config.include Devise::Test::IntegrationHelpers, type: :system
+end
+```
+
+これで今回独自に作った`sign_in_as`メソッドを呼び出す部分は、Deviseの`sign_in`ヘルパーで置き換えることができます。
+
+```ruby:spec/system/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		user = FactoryBot.create(:user)
+		sign_in user
+
+		# 残りのシナリオが続く ...
+		
+	end
+end
+```
