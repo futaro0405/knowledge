@@ -3038,12 +3038,77 @@ let!(:note3) {
 しかし`let!`にまったく問題がないわけでもありません。
 
 まず、この変更でテストデータが遅延読み込みされない元の状態に戻ってきてしまいました。
-この点は今回⼤した問題にはなっていません。
-テストデータを使う`example`は、どちらも正しく実⾏するために3件全部のメモが必要です。
+この点は今回大した問題にはなっていません。
+テストデータを使う`example`は、どちらも正しく実行するために3件全部のメモが必要です。
+
 とはいえ、多少注意する必要はあります。
-なぜならすべてのテストが余計なデータを持つことになり、予期しない副作⽤を引き起こすかもしれないからです。
-次に、コードを読む際は`let`と`let!`の⾒分けが付きにくく、うっかり読み間違えてしまう可能性があります。
-繰り返しになりますが、私たちは読みやすいテストスイートを作ろうと努⼒しています。
-もし、みなさんがこのわずかな違いを確認するためにコードを読み返すようであれば、beforeとインスタンス変数に戻すことも検討してください。
-別にテストで必要なデータを直接テスト内でセットアップしてしまっても、なんら問題はない³⁷のです。
-こうした選択肢をいろいろ試し、あなたとあなたのチームにとって最適な⽅法を⾒つけてください。
+なぜならすべてのテストが余計なデータを持つことになり、予期しない副作用を引き起こすかもしれないからです。
+次に、コードを読む際は`let`と`let!`の見分けが付きにくく、うっかり読み間違えてしまう可能性があります。
+繰り返しになりますが、私たちは読みやすいテストスイートを作ろうと努力しています。
+もし、みなさんがこのわずかな違いを確認するためにコードを読み返すようであればbeforeとインスタンス変数に戻すことも検討してください。
+別にテストで必要なデータを直接テスト内でセットアップしてしまっても、なんら問題はないのです。
+こうした選択肢をいろいろ試し、あなたとあなたのチームにとって最適な方法を見つけてください。
+
+### shared_context（contextの共有）
+`let`を使うと複数のテストで必要な共通のテストデータを簡単にセットアップすることができます。
+⼀⽅、`shared_context`を使うと複数のテストファイルで必要なセットアップを行うことができます。
+タスクコントローラのスペックを見てください。
+ここで各テストの前に実行されているbeforeブロックが`shared_context`に抜き出す候補のひとつになります。
+ですがその前に、インスタンス変数のかわりに`let`を使うようにリファクタリングしておいた方が良さそうです。
+というわけで、スペックを次のように変更してください。
+
+```ruby:spec/controllers/tasks_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe TasksController, type: :controller do
+	let(:user) { FactoryBot.create(:user) }
+	let(:project) { FactoryBot.create(:project, owner: user) }
+	let(:task) { project.tasks.create!(name: "Test task") }
+
+	describe "#show" do
+		# JSON形式でレスポンスを返すこと
+		it "responds with JSON formatted output" do
+			sign_in user
+			get :show, format: :json,
+			params: { project_id: project.id, id: task.id }
+			expect(response.content_type).to include "application/json"
+		end
+	end
+
+	describe "#create" do
+		# JSON形式でレスポンスを返すこと
+		it "responds with JSON formatted output" do
+			new_task = { name: "New test task" }
+			sign_in user
+			post :create, format: :json,
+			params: { project_id: project.id, task: new_task }
+
+			expect(response.content_type).to include "application/json"
+		end
+
+		# 新しいタスクをプロジェクトに追加すること
+		it "adds a new task to the project" do
+			new_task = { name: "New test task" }
+			sign_in user
+
+			expect {
+				post :create, format: :json,
+				params: { project_id: project.id, task: new_task }
+			}.to change(project.tasks, :count).by(1)
+		end
+
+		# 認証を要求すること
+		it "requires authentication" do
+			new_task = { name: "New test task" }
+
+			# ここではあえてログインしない ...
+
+			expect {
+				post :create, format: :json,
+				params: { project_id: project.id, task: new_task }
+			}.to_not change(project.tasks, :count)
+			expect(response).to_not be_successful
+end
+end
+end
+```
