@@ -1919,10 +1919,34 @@ require 'rails_helper' RSpec.describe "Projects", type: :system do
 また、もうひとつの代替案として、`describe`や`context`ブロックを使い、ブロック内のテストが`as a user`（ユーザーとして）であることを明示するのも良いかもしれません。
 このようにいくつかの選択肢がありますが、本書では`scenario`を使うことにします。
 
+
 システムスペックでは1つの`example`、もしくは1つのシナリオで複数のエクスペクテーションを書くのは全く問題ありません。
+
 一般的にシステムスペックの実行には時間がかかります。
 これまでに書いてきたモデルやコントローラの小さな`example`に比べると、セットアップや実行にずっと時間がかかります。
 
 また、テストの途中でエクスペクテーションを追加するのも問題ありません。
-たとえば、1つ前のスペックの中で、ログインの成功がフラッシュメッセージで通知されることを検証しても良いわけです。
+たとえば、1つ前のSpecの中で、ログインの成功がフラッシュメッセージで通知されることを検証しても良いわけです。
 しかし本来、こういうエクスペクテーションを書くのであれば、ログイン機能の細かい動きを検証するために専用のシステムスペックを用意する方が望ましいでしょう。
+
+### CapybaraのDSL
+先ほど作ったテストでは読者のみなさんはすでにお馴染みであろうRSpecの構文（`expect`）と、ブラウザ上の操作をシミュレートするCapybaraのメソッドを組み合わせて使いました。
+このテストではページを訪問し（`visit`）、ハイパーリンクにアクセスするためにリンクをクリックし（`click_link`）、フォームの入力項目に値を入力し（`fill_in`と`with`）、ボタンをクリックして入力値を処理しました（`click_button`）。
+ですが、Capybaraでできることはもっとたくさんあります。
+以下のサンプルコードはCapybaraのDSLが提供しているその他のメソッドの使用例です。
+
+```ruby
+# 全種類のHTML要素を扱う
+scenario "works with all kinds of HTML elements" do
+	# ページを開く
+	visit "/fake/page"
+	# リンクまたはボタンのラベルをクリックする
+	click_on "A link or button label"
+	# チェックボックスのラベルをチェックする
+	check "A checkbox label"
+	# チェックボックスのラベルのチェックを外す
+	uncheck "A checkbox label"
+	# ラジオボタンのラベルを選択する
+	choose "A radio button label"
+	# セレクトメニューからオプションを選択する 14 select "An option", from: "A select menu" 15 # ファイルアップロードのラベルでファイルを添付する 16 attach_file "A file upload label", "/some/file/in/my/test/suite.gif"
+```
