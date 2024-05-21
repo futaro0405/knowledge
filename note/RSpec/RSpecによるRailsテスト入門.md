@@ -1824,4 +1824,22 @@ end
 これまでに見てきたgemとは異なり、CapybaraにはRailsの開発環境で実行可能なジェネレータは用意されていないため、Capybaraが追加されているのはテスト環境だけです。これにより、開発環境のメモリ消費を少し軽くすることができます。
 
 ### システムスペックの基本
-Capybaraを使うとレベルなテストを書くことができます。Capybara では click_link や fill_in 、visit といった理解しやすいメソッドが提供されていて、アプリケーションで 必要な機能の シナリオ を書くことができるのです。今から実際にやってみましょう。こ こではジェネレータを使って新しいテストファイルを作成します。最初に rails generate rspec:system projects とコマンドラインに⼊⼒してください。作成されたファイルは次の ようになっています。
+Capybaraを使うと高レベルなテストを書くことができます。
+Capybaraでは`click_link`や`fill_in`、`visit`といった理解しやすいメソッドが提供されていて、アプリケーションで必要な機能のシナリオを書くことができるのです。
+
+今から実際にやってみましょう。
+ここではジェネレータを使って新しいテストファイルを作成します。
+最初に`rails generate rspec:system projects`とコマンドラインに入力してください。
+作成されたファイルは次のようになっています。
+
+```ruby
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do
+	before do
+		driven_by(:rack_test)
+	end
+
+	pending "add some scenarios (or delete) #{__FILE__}"
+end
+```
