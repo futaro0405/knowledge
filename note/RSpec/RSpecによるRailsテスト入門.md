@@ -2219,5 +2219,27 @@ beforeブロックを削除したあともこれまでと同様にChromeが起�
 そこでChromeのヘッドレスモードを使ってテストを実行するよう、`spec/support/capybara.rb`を編集して次のようにドライバを変更してください。
 
 ```ruby:spec/support/capybara.rb
-config.before(:each, type: :system, js: true) do driven_by :selenium_chrome_headless end
+config.before(:each, type: :system, js: true) do
+	driven_by :selenium_chrome_headless
+end
 ```
+
+さあこれでブラウザのウィンドウを開くことなく、JavaScriptを使うテストを実行できるようになりました。
+実際にスペックを実⾏してみてください。
+
+```bash
+bundle exec rspec spec/system/tasks_spec.rb
+```
+
+設定がうまくいっていれば、Chromeのウィンドウが表示されることなくテストが完了するはずです。
+
+### JavaScriptの完了を待つ
+デフォルトではCapybaraはボタンが現れるまで2秒待ちます。
+2秒待っても表⽰されなければ諦めます。
+次のようにするとこの秒数を好きな⻑さに変更できます。
+```ruby:spec/support/capybara.rb
+Capybara.default_max_wait_time = 15
+```
+
+上の設定では待ち時間を15秒に設定しています。
+この設定はspec/support/capybara.rb ファイルに書いてテストスイート全体に適⽤すること ができます（ただし、みなさんのアプリケーションが本書のサンプルアプリケーションと 同じやり⽅で Capybara を設定していることが前提になります。つまり、このファイルは spec/rails_helper.rb によって読み込まれる場所に配置される必要があります）。しかし、この 変更はテストスイートの実⾏がさらに遅くなる原因になるかもしれないので注意してくださ い。もしこの設定を変えたいと思ったら、必要に応じてその都度 using_wait_time を使うよ うにした⽅がまだ良いかもしれません。たとえば次のようなコードになります。
