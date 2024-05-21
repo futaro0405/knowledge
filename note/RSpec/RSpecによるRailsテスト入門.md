@@ -2126,6 +2126,44 @@ end
 使用するドライバは`driven_by`メソッドを使ってテストごとに変更することができます。
 ですが、私は可能な限りシステム全体の共通設定とします。
 今からその共通設定を追加していきましょう。
-`rails_helper.rb`ファイルはきれいな状態を保っておきたいので、今回は独⽴したファイルに新しい設定を書くことにします。
-RSpecはこのようなニーズをサポートしてくれているので、簡単な⽅法で有効化することができます。
-spec/rails_helper.rb内にある以下の⾏のコメントを外してください。
+`rails_helper.rb`ファイルはきれいな状態を保っておきたいので、今回は独立したファイルに新しい設定を書くことにします。
+RSpecはこのようなニーズをサポートしてくれているので、簡単な方法で有効化することができます。
+`spec/rails_helper.rb`内にある以下の行のコメントを外してください。
+
+```ruby:spec/rails_helper.rb
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+```
+
+こうするとRSpec関連の設定ファイルを`spec/support`ディレクトリに配置することができます。
+Devise⽤の設定を追加したときのように、`spec/rails_helper.rb`内に直接設定を書き込まなくても済むのです。
+それでは`spec/support/capybara.rb`という新しいファイルを作成し、次のような設定を追加しましょう。
+
+```ruby:spec/support/capybara.rb
+RSpec.configure do |config|
+	config.before(:each, type: :system) do
+		driven_by :rack_test
+	end
+
+	config.before(:each, type: :system, js: true) do
+		driven_by :selenium_chrome
+	end
+end
+```
+
+ここではブラウザを使った基本的なテストでは高速な`Rack::Test`ドライバを使い、より複雑なブラウザ操作が必要な場合はJavaScriptが実行可能なドライバ（ここでは`selenium- webdriver`とChrome）を設定するようにしています。
+どちらのドライバを使用するのかはタグで識別します。
+デフォルトでは`Rack::Test`ドライバを使いますが、`js: true`のタグが付いているテストに限り、`selenium-webdriver`とChromeを使う設定になっています。
+
+このほかにChromeとやりとりするインターフェースになる`ChromeDriver`が必要になります。
+最新版の`selenium-webdriver`を使用すると自動的に適切なバージョンの`ChromeDriver` をダウンロードしてくれるため特別な設定は不要です。
+
+さあ、これで準備が整いました。
+実際にやってみましょう。
+新しく作ったスペックを実行してみてください。
+
+```bash
+bundle exec rspec spec/system/tasks_spec.rb
+```
+
+設定がうまくいっていれば、Chromeのウィンドウが新しく⽴ち上がります（ただし、現在 開いている他のウィンドウのうしろに隠れているかもしれません）。
+ウィンドウ内ではサン プルアプリケーションが開かれ、⽬に⾒えない指がリンクをクリックし、フォームの⼊⼒項 ⽬を⼊⼒し、タスクの完了状態と未完了状態を切り替えます。素晴らしい！ テストはパスしましたが、このテストの遅さに注⽬してください！これは JavaScript を実 ⾏するテストと、Selenium を使うテストのデメリットです。⼀⽅で、セットアップは⽐較的 簡単ですし、私たち⾃⾝が⾃分の⼿で操作する時間に⽐べたら、こちらの⽅がまだ速いです。 ですが、もし⼀つのテストを実⾏するのに（私のマシンで）8秒以上かかるのであれば、こ の先 JavaScript を使う機能とそれに対応するテストを追加していったら、どれくらいの時間 がかかるでしょうか？JavaScript ドライバはだんだん速くなっているので、そのうちいつか Rack::Test と同等のスピードで実⾏できるようになるかもしれません。ですが、それまでは必 要なときにだけ、テスト上で JavaScript を有効にする⽅が良い、というのが私からのアドバ イスです。 最後の仕上げとして、私たちのシステムスペックではデフォルトで Rack::Test ドライバ を使うようになったため、projects_spec.rb の before ブロックは削除しても⼤丈夫です。 projects_spec.rb から before ブロックを削除すると次のようになります。
