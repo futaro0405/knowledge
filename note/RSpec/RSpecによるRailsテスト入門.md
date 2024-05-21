@@ -2079,4 +2079,53 @@ end
 
 ### JavaScriptを使った操作をテストする
 というわけで、私たちはシステムスペックを使ってプロジェクトを追加するUIが期待どおりに動作することを検証しました。
-ここで紹介した方法を使えば、Web画面上の操作の大半をテストすることができます。ここまでCapybaraはシンプルなブラウザシミュレータ（つまりドライバ）を使って、テストに書かれたタスクをじしてきました。このドライバは Rack::Test というドライバで、速くて信頼性が⾼いのですが、JavaScript の実⾏はサポートし ていません。 本書のサンプルアプリケーションでは1箇所だけ JavaScript に依存する機能があります。そ れはタスクの隣にあるチェックボックスをクリックするとそのタスクが完了状態になる、と
+ここで紹介した方法を使えば、Web画面上の操作の大半をテストすることができます。ここまでCapybaraはシンプルなブラウザシミュレータ（つまりドライバ）を使って、テストに書かれたタスクを実行してきました。
+このドライバは`Rack::Test`というドライバで、速くて信頼性が高いのですが、JavaScriptの実行はサポートしていません。
+本書のサンプルアプリケーションでは1箇所だけJavaScriptに依存する機能があります。それはタスクの隣にあるチェックボックスをクリックするとそのタスクが完了状態になる、という機能です。
+新しいスペックを書いてこの機能をテストしてみましょう。
+システムスペックのジェネレータを使うか、もしくは自分の手で次のような`spec/system/tasks_spec.rb`という新しいファイルを追加してください。
+
+```ruby:spec/system/tasks_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Tasks", type: :system do
+	# ユーザーがタスクの状態を切り替える
+	scenario "user toggles a task", js: true do
+		user = FactoryBot.create(:user)
+		project = FactoryBot.create(:project,
+			name: "RSpec tutorial",
+			owner: user)
+		task = project.tasks.create!(name: "Finish RSpec tutorial")
+
+		visit root_path
+		click_link "Sign in"
+		fill_in "Email", with: user.email
+		fill_in "Password", with: user.password
+		click_button "Log in"
+
+		click_link "RSpec tutorial"
+		check "Finish RSpec tutorial"
+
+		expect(page).to have_css "label#task_#{task.id}.completed"
+		expect(task.reload).to be_completed
+
+		uncheck "Finish RSpec tutorial"
+		expect(page).to_not have_css "label#task_#{task.id}.completed"
+		expect(task.reload).to_not be_completed
+	end
+end
+```
+
+最初に説明した`projects_spec.rb` ではbeforeブロックで`:rack_test`というドライバを指定していましたが、今回はこのあと別の方法でドライバを指定するため`driven_by`メソッドの記述はなくしています。
+
+加えて、ここでは`js: true`というオプション（タグ）を渡しています。
+このようにして、指定したテストに対してJavaScriptが使えるドライバを使うようにタグを付けておきます。
+
+このサンプルアプリケーションでは __selenium-webdriver gem__ を使います。
+このgemはRails 5.1以降のRailsにはデフォルトでインストールされていて、CapybaraでもデフォルトのJavaScriptドライバになっています。
+使用するドライバは`driven_by`メソッドを使ってテストごとに変更することができます。
+ですが、私は可能な限りシステム全体の共通設定とします。
+今からその共通設定を追加していきましょう。
+`rails_helper.rb`ファイルはきれいな状態を保っておきたいので、今回は独⽴したファイルに新しい設定を書くことにします。
+RSpecはこのようなニーズをサポートしてくれているので、簡単な⽅法で有効化することができます。
+spec/rails_helper.rb内にある以下の⾏のコメントを外してください。
