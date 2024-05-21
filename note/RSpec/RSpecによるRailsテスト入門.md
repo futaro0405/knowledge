@@ -2976,3 +2976,74 @@ Failures:
 			(compared using ==)
 		# ./spec/models/note_spec.rb:56:in `block (4 levels) in <top (required)>'
 ```
+
+いったい何が起きてるんでしょうか？
+このテストではnote1とnote2とnote3をどれも明示的に呼び出していません。
+なので、データが作られず、`search`メソッドは何もデータがないデータベースに対して検索をかけます。
+当然、検索しても何も見つかりません。
+この問題は`search`メソッドを実行する前に`let`で作ったメモを強制的に読み込むようにハックすれば解決できます。
+
+```ruby:spec/models/note_spec.rb
+# 一致するデータが1件も見つからないとき
+context "when no match is found" do
+	# 空のコレクションを返すこと
+	it "returns an empty collection" do
+		note1
+		note2
+		note3
+
+		expect(Note.search("message")).to be_empty
+		expect(Note.count).to eq 3
+	end
+end
+```
+
+ですが、私に言わせれば、これはまさにハックです。
+私たちは読みやすいスペックを書こうと努力しています。
+新しく追加した行は読みやすくありません。
+そこで、このようなハックをするかわりに、`let!`を使うことにします。
+
+`let`とは異なり、`let!`は遅延読み込みされません。
+`let!`はブロックを即座に実行します。
+なので、内部のデータも即座に作成されます。
+それでは、`let`を`let!`に書き換えましょう。
+
+```ruby:spec/models/note_spec.rb
+let!(:note1) {
+	FactoryBot.create(:note,
+		project: project,
+		user: user,
+		message: "This is the first note.",
+	)
+}
+
+let!(:note2) {
+	FactoryBot.create(:note,
+		project: project,
+		user: user,
+		message: "This is the second note.",
+	)
+}
+
+let!(:note3) {
+	FactoryBot.create(:note,
+		project: project,
+		user: user,
+		message: "First, preheat the oven.",
+	)
+}
+```
+
+これで先ほどの実験はパスしました。
+しかし`let!`にまったく問題がないわけでもありません。
+
+まず、この変更でテストデータが遅延読み込みされない元の状態に戻ってきてしまいました。
+この点は今回⼤した問題にはなっていません。
+テストデータを使う`example`は、どちらも正しく実⾏するために3件全部のメモが必要です。
+とはいえ、多少注意する必要はあります。
+なぜならすべてのテストが余計なデータを持つことになり、予期しない副作⽤を引き起こすかもしれないからです。
+次に、コードを読む際は`let`と`let!`の⾒分けが付きにくく、うっかり読み間違えてしまう可能性があります。
+繰り返しになりますが、私たちは読みやすいテストスイートを作ろうと努⼒しています。
+もし、みなさんがこのわずかな違いを確認するためにコードを読み返すようであれば、beforeとインスタンス変数に戻すことも検討してください。
+別にテストで必要なデータを直接テスト内でセットアップしてしまっても、なんら問題はない³⁷のです。
+こうした選択肢をいろいろ試し、あなたとあなたのチームにとって最適な⽅法を⾒つけてください。
