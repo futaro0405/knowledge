@@ -2274,8 +2274,57 @@ end
 フィーチャスペックは見た目も機能面もシステムスペックに非常によく似ています。
 
 では、どちらのスペックを使うのが良いのでしょうか？
-もし、みなさんがまだ統合テストを⼀度も書いたことがないのなら、フィーチャスペックではなく、システムスペックを使ってください。
-ですが、フィーチャスペックも廃⽌されたわけではありません。
+もし、みなさんがまだ統合テストを一度も書いたことがないのなら、フィーチャスペックではなく、システムスペックを使ってください。
+ですが、フィーチャスペックも廃止されたわけではありません。
 昔から保守されているRailsアプリケーションではフィーチャスペックを使い続けている可能性もあります。
 そこで、このセクションでは簡単にシステムスペックとフィーチャスペックの違いを説明しておきます。
 たとえば、この章の最初に紹介したシステムスペックのコード例をフィーチャスペックを使って書いた場合は次のようなコードになります。
+
+```ruby:spec/features/projects_spec.rb
+require 'rails_helper'
+
+RSpec.feature "Projects", type: :feature do
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		user = FactoryBot.create(:user)
+
+		visit root_path
+		click_link "Sign in"
+		fill_in "Email", with: user.email
+		fill_in "Password", with: user.password
+		click_button "Log in"
+
+		expect { 
+			click_link "New Project"
+			fill_in "Name", with: "Test Project"
+			fill_in "Description", with: "Trying out Capybara"
+			click_button "Create Project"
+
+			expect(page).to have_content "Project was successfully created"
+			expect(page).to have_content "Test Project"
+			expect(page).to have_content "Owner: #{user.name}"
+		}.to change(user.projects, :count).by(1)
+	end
+end
+```
+
+⼀⾒、システムスペックとほとんど違いがありませんが、次のような点が異なります。
+
+- `spec/system`ではなく`spec/features`にファイルを保存する
+- `describe`メソッドではなく`feature`メソッドを使う
+- `type:`オプションに`:system`ではなく`:feature`を指定する
+
+ですが、`scenario`メソッドの内部はシステムスペックと全く同じです。
+このほかにもフィーチャスペックには以下のような違いがあります。
+
+- `let`や`let!`のエイリアスとして`given`や`given!`が使える
+- `before`のエイリアスとして`background`が使える
+- スクリーンショットを撮る場合、`save_screenshot`は使えるが、`take_screenshot`は使えない
+- テストが失敗してもスクリーンショットは自動的に保存されない（明示的に`save_screenshot`メソッドを呼び出す必要があります）
+
+フィーチャスペックはまだ使えますが、レガシーな機能になりつつあるため、早めにシステムスペックに移行する方が良いと思います。
+フィーチャスペックをシステムスペックに移行する場合は次のような手順に従ってください。
+
+1. Rails5.1以上かつ、RSpec Rails 3.7以上になっていることを確認する
+2. システムスペックで使用するCapybara、Selenium Webdriverといったgemはなるべく最新のものを使うようにアップデートする
+3. `js: true`のタグが指定された場合にドライバが切り替わるように設定を変更する（こ の章で紹介した spec/support/capybara.rb を参照してください）
