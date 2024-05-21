@@ -2616,6 +2616,75 @@ end
 第5章でもお話ししたとおり、私はコントローラスペックよりも統合スペック（システムスペックとリクエストスペック）を強くお勧めします。
 なぜならRailsにおけるコントローラスペックは重要性が低下し、かわりにより高いレベルのテストの重要性が上がってきているためです。
 こうしたテストの方がアプリケーションのより広い範囲をテストすることができます。
+
 とはいえ、コントローラレベルのテストを書く方法は人によってさまざまです。
-なので、 とりあえずどちらのテストも書けるように練習しておいた方が良いと思います。
+なので、とりあえずどちらのテストも書けるように練習しておいた方が良いと思います。
 実際、みなさんはこれでどちらのテストも書けるようになりました。
+
+## スペックをDRYに保つ
+みなさんがここまでに学んだ知識を使って自分のアプリケーションにテストを書いていけば、しっかりしたテストスイートがきっとできあがるはずです。
+
+しかし、コードはたくさん重複しています。
+いわば、 __Don’t Repeat Yourself (DRY)__ 原則を破っている状態です。
+アプリケーションコードと同様、テストスイートをきれいにすることも検討しましょう。
+
+この章ではRSpecが提供しているツールを使い、複数のテストをまたがってコードを共有する⽅法を説明します。
+また、どのくらいDRYになるとDRYすぎるのかについても説明します。
+
+### サポートモジュール
+ここまでに作ったシステムスペックをあらためて見てみましょう。
+今のところ、たった2つのスペックしか書いていませんが、どちらのテストにもユーザーがアプリケーションにログインするステップが含まれています。
+
+```ruby
+	visit root_path
+	click_link "Sign in"
+	fill_in "Email", with: user.email
+	fill_in "Password", with: user.password
+	click_button "Log in"
+```
+
+もしログイン処理が変わったらどうなるでしょうか？
+たとえば、ボタンのラベルが変わるような場合です。
+
+こんな単純な変更であっても、いちいち全部のテストコードを変更しなければいけません。
+この重複をなくすシンプルな方法は __サポートモジュール__ を使うことです。
+ではコードを新しいモジュールに切り出してみましょう。
+`spec/support`ディレクトリに`login_support.rb`という名前のファイルを追加し、次のようなコードを書いてください。
+
+```ruby:spec/support/login_support.rb
+module LoginSupport
+
+	def sign_in_as(user)
+		visit root_path
+		click_link "Sign in"
+		fill_in "Email", with: user.email
+		fill_in "Password", with: user.password
+		click_button "Log in"
+	end
+end
+
+RSpec.configure do |config|
+	config.include LoginSupport
+end
+```
+
+このモジュールにはメソッドがひとつ含まれます。
+コードの内容は元のテストで重複していたログインのステップです。
+モジュールの定義のあとには、RSpecの設定が続きます。
+ここでは`RSpec.configure`を使って新しく作ったモジュールを`include`しています。
+これは必ずしも必要ではありません。
+テスト毎に明示的にサポートモジュールを`include`する方法もあります。
+たとえば次のような感じです。
+
+```ruby:spec/system/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do
+	include LoginSupport
+
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		# ... 
+	end
+end
+```
