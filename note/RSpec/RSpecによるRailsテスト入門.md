@@ -2855,3 +2855,52 @@ RSpec.describe Task, type: :model do
 end
 ```
 
+今回は4行目にある`let`を使って必要となるプロジェクトを作成しています。
+しかし、プロジェクトが作成されるのはプロジェクトが必要になるテストだけです。
+
+最初のテストはプロジェクトを作成します。
+なぜなら9⾏⽬でprojectが呼ばれるからです。
+
+projectは4行目の`let`で作られた値を呼び出します。
+`let`は新しいプロジェクトを作成します。
+テストの実行が終わると、12行目以降のテストではプロジェクトが取り除かれます。
+他の2つのテストではプロジェクトを使いません。
+
+実際、テストは「プロジェクトがなければ無効な状態であること」というテストなので、本当にプロジェクトがいらないのです。
+なので、この2つのテストではプロジェクトはまったく作成されません。
+
+`let`を使う場合はちょっとした違いがあります。
+beforeブロックでテストデータをセットアップする際は、インスタンス変数に格納していたことを覚えていますか？
+`let`を使ったデータに関してはこれが当てはまりません。
+
+なので、9行目を見てみると、`@project`ではなく、`project`でデータを呼び出しています。
+`let`は必要に応じてデータを作成するので、注意しないとトラブルの原因になることもあります。
+たとえば、メモ（Note）のモデルスペックをファクトリと`let`を使ってリファクタリングしてみましょう。
+
+```ruby:spec/models/note_spec.rb
+require 'rails_helper'
+
+RSpec.describe Note, type: :model do
+	let(:user) { FactoryBot.create(:user) }
+	let(:project) { FactoryBot.create(:project, owner: user) }
+
+	# ユーザー、プロジェクト、メッセージがあれば有効な状態であること
+	it "is valid with a user, project, and message" do
+		note = Note.new(
+			message: "This is a sample note.",
+			user: user,
+			project: project,
+		)
+		
+		expect(note).to be_valid
+	end
+
+	# メッセージがなければ無効な状態であること
+	it "is invalid without a message" do
+		note = Note.new(message: nil) 
+		note.valid?
+
+expect(note.errors[:message]).to include("can't be blank") 22 end
+
+# ⽂字列に⼀致するメッセージを検索する 25 describe "search message for a term" do 26 let(:note1) { 27 FactoryBot.create(:note, 28 project: project, 29 user: user, 30 message: "This is the first note.", 31 ) 32 } 33 34 let(:note2) { 35 FactoryBot.create(:note, 36 project: project, 37 user: user, 38 message: "This is the second note.", 39 ) 40 } 41 42 let(:note3) { 43 FactoryBot.create(:note, 44 project: project, 45 user: user, 46 message: "First, preheat the oven.", 47 ) 48 } 49 50 # ⼀致するデータが⾒つかるとき 51 context "when a match is found" do 52 # 検索⽂字列に⼀致するメモを返すこと 53 it "returns notes that match the search term" do 54 expect(Note.search("first")).to include(note1, note3) 55 end 56 end 57 58 # ⼀致するデータが1件も⾒つからないとき
+```
