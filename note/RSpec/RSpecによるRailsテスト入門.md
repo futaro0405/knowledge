@@ -3108,7 +3108,51 @@ RSpec.describe TasksController, type: :controller do
 				params: { project_id: project.id, task: new_task }
 			}.to_not change(project.tasks, :count)
 			expect(response).to_not be_successful
-end
-end
+		end
+	end
 end
 ```
+
+この最初のリファクタリングで重要な手段は次の通りです。
+まずbeforeブロックの中にあった3行をブロックの外に移動します。
+それからインスタンス変数を作成するかわりに`let`を使うように変更します。
+そして、ファイル内のインスタンス変数を順番に書き換えます。
+これはファイル内のインスタンス変数を「検索と置換」すればOKですね
+（たとえば、`@project` は`project`に置換します）。
+スペックを実行してテストが引き続きパスすることを確認してください。
+次に、`spec/support/contexts/project_setup.rb`を新たに作成し次のような`context`を書いてください。
+
+```ruby:spec/support/contexts/project_setup.rb
+RSpec.shared_context "project setup" do
+	let(:user) { FactoryBot.create(:user) }
+	let(:project) { FactoryBot.create(:project, owner: user) }
+	let(:task) { project.tasks.create!(name: "Test task") }
+end
+```
+
+最後にコントローラスペックに戻り、最初に出てくる3行の`let`を次のような1行に置き換えてください。
+
+```ruby:spec/controllers/tasks_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe TasksController, type: :controller do
+	include_context "project setup"
+
+	# show と create のテストが続く ...
+```
+
+もう一度スペックを実行してください。
+テストは引き続きパスするはずです。
+さあ、これでユーザーやプロジェクトやタスクにアクセスする必要があるスペックは`include_context "project setup"`という新しい`context`を`include`するだけで済みます。
+
+### カスタムマッチャ
+ここまではRSpecとrspec-railsが提供しているマッチャで全部の要件を満たすことができました。
+そしてこの先もこのまま使い続けられそうな気がします。
+ですが、もしのアプリケーションで何度も同じテストコードを書いているような場合は、⾃分で独⾃のカスタムマッチャを作成した⽅が良いかもしれません。
+今まで書いてきた既存のテストでは、カスタムマッチャの候補になりそうな部分が少なくとも⼀つあります。
+タスクコントローラのテストではコントローラのレスポンスが`application/json`の`Content-Type`で返ってきていることを何度も検証しています。
+RSpecの重要な信条のひとつは、⼈間にとっての読みやすさです。
+ですので、カスタムマッチャを使って読みやすさを改善してみましょう。
+ではこれから新しいマッチャを作っていきます。
+まず、`spec/support/matchers/content_type.rb`というファイルを追加してください。
+最初はシンプルに始めて、それから徐々にマッチャの機能を充実させていきます。
