@@ -1843,3 +1843,17 @@ RSpec.describe "Projects", type: :system do
 	pending "add some scenarios (or delete) #{__FILE__}"
 end
 ```
+
+この新しいスペックファイルのbeforeブロックには `driven_by(:rack_test)` というコードが書かれています。
+このコードはあとで削除しますが、いったんこのままにしておきます。
+次にテストを書いてみましょう。
+このシステムスペックが何をしてどう動くか、あなたは予想できますか？
+
+```ruby:spec/system/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do 4 before do 5 driven_by(:rack_test) 6 end
+
+
+# ユーザーは新しいプロジェクトを作成する 9 scenario "user creates a new project" do 10 user = FactoryBot.create(:user) 11 12 visit root_path 13 click_link "Sign in" 14 fill_in "Email", with: user.email 15 fill_in "Password", with: user.password 16 click_button "Log in" 17 18 expect { 19 click_link "New Project" 20 fill_in "Name", with: "Test Project" 21 fill_in "Description", with: "Trying out Capybara" 22 click_button "Create Project" 23 24 expect(page).to have_content "Project was successfully created" 25 expect(page).to have_content "Test Project" 26 expect(page).to have_content "Owner: #{user.name}" 27 }.to change(user.projects, :count).by(1) 28 end 29 end
+```
