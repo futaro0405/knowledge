@@ -2007,3 +2007,34 @@ Capybaraのコンソール出力を読めば、どこでテストが失敗した
 ですが、それだけでは原因の一部分しかわからないことがときどきあります。
 たとえば次のシステムスペックを見てください。
 この場合、ユーザーはログインしていないのでテストは失敗します。
+
+```ruby
+# ゲストがプロジェクトを追加する
+scenario "guest adds a project" do
+	visit projects_path
+	click_link "New Project"
+end
+```
+
+ですが、出力結果を見ると本当の原因に関する手がかりが載っていません。
+出力結果からわかることは、ページに要求されたリンクがない（Unable to find link “New Project”）ということだけです。
+
+```log
+Failures: 
+	1) Projects guest adds a project
+		Failure/Error: click_link "New Project"
+
+		Capybara::ElementNotFound:
+			Unable to find link "New Project"
+			# 残りのスタックトレースは省略 ...
+```
+
+`driven_by`メソッドで`:rack_test`を指定した場合、Capybaraはヘッドレス ブラウザ（訳 注: UIを持たないブラウザ）を使ってテストを実行するため、処理ステップを1つずつ目で確認することはできません。
+ですが、Railsがブラウザに返したHTMLを見ることはできます。
+次のように`save_and_open_page`をテストが失敗する場所の直前に挟み込んでみてください。
+
+```ruby
+scenario "guest adds a project" do
+	visit projects_path
+	save_and_open_page 4 click_link "New Project" 5 end
+```
