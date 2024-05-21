@@ -2497,7 +2497,75 @@ end
 それから最後にレスポンスのステータスをチェックしています。
 
 ### コントローラスペックをリクエストスペックで置き換える
-ここまで⾒てきたサンプルコードではAPIをテストすることにフォーカスしていました。
+ここまで見てきたサンプルコードではAPIをテストすることにフォーカスしていました。
 しかしAPIに限らず、第5章で作成したコントローラスペックをリクエストスペックで置き換えることも可能です。
 既存のHomeコントローラのスペックを思い出してください。
-このスペックは簡単にリクエストスペックに置き換えることができます。spec/requests/home_spec.rb にリクエストスペックを作成し、次のようなコードを書いてください。
+このスペックは簡単にリクエストスペックに置き換えることができます。
+`spec/requests/home_spec.rb`にリクエストスペックを作成し、次のようなコードを書いてください。
+
+```ruby:spec/requests/home_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Home page", type: :request do
+	# 正常なレスポンスを返すこと
+	it "responds successfully" do
+		get root_path
+		expect(response).to be_successful
+		expect(response).to have_http_status "200"
+	end
+end
+```
+
+もう少し複雑な例も見てみましょう。
+たとえばProjectコントローラのcreateアクションのテストは次のようなリクエストスペックに書き換えることができます。
+`spec/requests/projects_spec.rb`を作成してテストコードを書いてみましょう（前述の`projects_api_spec.rb`とはファイル名が異なる点に注意してください）。
+
+```ruby:spec/requests/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :request do
+	# 認証済みのユーザーとして
+	context "as an authenticated user" do
+		before do
+			@user = FactoryBot.create(:user)
+		end
+
+		# 有効な属性値の場合
+		context "with valid attributes" do
+			# プロジェクトを追加できること
+			it "adds a project" do
+				project_params = FactoryBot.attributes_for(:project)
+				sign_in @user
+
+				expect {
+					post projects_path, params: { project: project_params }
+				}.to change(@user.projects, :count).by(1)
+			end
+		end
+
+		# 無効な属性値の場合
+		context "with invalid attributes" do
+			# プロジェクトを追加できないこと
+			it "does not add a project" do
+				project_params = FactoryBot.attributes_for(:project, :invalid)
+				sign_in @user
+				expect {
+					post projects_path, params: { project: project_params }
+				}.to_not change(@user.projects, :count)
+			end
+		end
+	end
+end
+```
+
+コントローラスペックとの違いはごくわずかです。
+リクエストスペックではProjectコントローラのcreateアクションに直接依存するのではなく、具体的なルーティング名を指定してPOSTリクエストを送信します。
+
+それ以外はコントローラスペックとまったく同じコードです。
+API⽤のコントローラとは異なり、このコントローラでは標準的なメールアドレスとパスワードの認証システムを使っています。
+なので、この仕組みがちゃんと機能するように、ちょっとした追加の設定がここでも必要になります。
+今回はDeviseのsign_inヘルパーをリクエストスペックに追加します。
+[Deviseのwikiページにあるサンプルコード]()を参考にしてこの設定を有効にしてみましょう。
+まず、`spec/support/request_spec_helper.rb`という新しいファイルを作成します。
+
+https://github.com/plataformatec/devise/wiki/How-To:-sign-in-and-out-a-user-in-Request-type-specs-(specs- tagged-with-type:-:request)
