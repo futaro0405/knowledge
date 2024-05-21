@@ -2197,5 +2197,20 @@ RSpec.describe "Projects", type: :system do
 			fill_in "Description", with: "Trying out Capybara"
 			click_button "Create Project"
 
-			expect(page).to have_content "Project was successfully created" 21 expect(page).to have_content "Test Project" 22 expect(page).to have_content "Owner: #{user.name}" 23 }.to change(user.projects, :count).by(1) 24 end 25 end
+			expect(page).to have_content "Project was successfully created"
+			expect(page).to have_content "Test Project"
+			expect(page).to have_content "Owner: #{user.name}"
+		}.to change(user.projects, :count).by(1)
+	end
+end
 ```
+
+修正が終わったら、このスペックを実行してみてください。
+```bash
+bundle exec rspec spec/system/projects_spec.rb
+```
+beforeブロックを削除したあともこれまでと同様にChromeが起動することなくテストが完了すればOKです。
+
+### ヘッドレスドライバを使う
+テストの実行中にブラウザのウィンドウが開くのはあまり望ましくないケースがよくあります。
+たとえば、GitHub Actionsや Travis CI、Jenkins のような __継続的インテグレーション（CI）__ 環境で実行する場合、先ほど作ったテストは CLI（コマンドラインインターフェース）上で実 ⾏する必要があります。ですが、CLI 上では新しいウィンドウを開くことはできません。こう いった要件に対応するため、Capybara は ヘッドレス ドライバを使えるようになっています。 そこで Chrome のヘッドレスモードを使ってテストを実⾏するよう、spec/support/capybara.rb を編集して次のようにドライバを変更してください。
