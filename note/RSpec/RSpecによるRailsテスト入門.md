@@ -1456,9 +1456,70 @@ describe "#update" do
 	# 認可されている場合と認可されていない場合の context は省略 ... 
 
 	# ゲストとして
-	context "as a guest" do 6 before do 7 @project = FactoryBot.create(:project)
-end
+	context "as a guest" do
+		before do
+			@project = FactoryBot.create(:project)
+		end
 
-# 302レスポンスを返すこと 11 it "returns a 302 response" do 12 project_params = FactoryBot.attributes_for(:project) 13 patch :update, params: { id: @project.id, project: project_params } 14 expect(response).to have_http_status "302" 15 end 16 17 # サインイン画⾯にリダイレクトすること 18 it "redirects to the sign-in page" do 19 project_params = FactoryBot.attributes_for(:project) 20 patch :update, params: { id: @project.id, project: project_params } 21 expect(response).to redirect_to "/users/sign_in" 22 end 23 end 24 end
+		# 302レスポンスを返すこと
+		it "returns a 302 response" do
+			project_params = FactoryBot.attributes_for(:project)
+			patch :update, params: { id: @project.id, project: project_params }
+			expect(response).to have_http_status "302"
+		end
+
+		# サインイン画⾯にリダイレクトすること
+		it "redirects to the sign-in page" do
+			project_params = FactoryBot.attributes_for(:project)
+			patch :update, params: { id: @project.id, project: project_params }
+			expect(response).to redirect_to "/users/sign_in"
+		end
+	end
+end
 ```
 
+オブジェクトを作成し、それからコントローラを使った変更を試みます。
+試みは失敗し、かわりにユーザーはログイン画⾯にリダイレクトさせられます。
+
+ユーザーの⼊⼒を受け付けるアクションがもう⼀つあります。
+次はdestroyアクションを⾒てみましょう。
+これはupdateによく似ています。
+認可されたユーザーであれば⾃分のプロジェクトは削除できますが、他のユーザーのプロジェクトは削除できません。
+ゲストの場合は⼀切アクセスできません。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+describe "#destroy" do
+	# 認可されたユーザーとして
+	context "as an authorized user" do
+		before do
+			@user = FactoryBot.create(:user)
+			@project = FactoryBot.create(:project, owner: @user)
+		end
+
+		# プロジェクトを削除できること
+		it "deletes a project" do
+			sign_in @user
+			expect {
+				delete :destroy, params: { id: @project.id }
+			}.to change(@user.projects, :count).by(-1)
+		end
+	end
+
+	# 認可されていないユーザーとして
+	context "as an unauthorized user" do
+		before do
+			@user = FactoryBot.create(:user)
+			other_user = FactoryBot.create(:user)
+			@project = FactoryBot.create(:project, owner: other_user)
+		end
+
+		# プロジェクトを削除できないこと
+		it "does not delete the project" do
+			sign_in @user
+			expect {
+				delete :destroy, params: { id: @project.id }
+			}.to_not change(Project, :count)
+		end
+
+# ダッシュボードにリダイレクトすること 35 it "redirects to the dashboard" do 36 sign_in @user 37 delete :destroy, params: { id: @project.id }
+```
