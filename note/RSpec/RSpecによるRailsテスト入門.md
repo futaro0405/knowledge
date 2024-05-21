@@ -1664,4 +1664,59 @@ bin/rails g rspec:controller tasks --controller-specs --no-request-specs
 
 それから、ここまでに学んだ認証機能のテストと、データを送信するテストの知識を使えば、シンプルなテストを追加することができます。
 今回のテストはJSONを扱うコントローラのテストを網羅的に説明するものではありません。
-ですが、コントローラのスペックファイルで何をどうすればいいか、という参考情報に はなると思います。まず、コントローラの show アクションを⾒てみましょう。
+ですが、コントローラのスペックファイルで何をどうすればいいか、という参考情報に はなると思います。
+まず、コントローラのshowアクションを⾒てみましょう。
+
+```ruby:spec/controllers/tasks_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe TasksController, type: :controller do
+	before do 
+		@user = FactoryBot.create(:user)
+		@project = FactoryBot.create(:project, owner: @user)
+		@task = @project.tasks.create!(name: "Test task")
+	end
+
+	describe "#show" do
+		# JSON 形式でレスポンスを返すこと
+		it "responds with JSON formatted output" do
+			sign_in @user
+			get :show, format: :json,
+			params: { project_id: @project.id, id: @task.id } 
+			expect(response.content_type).to include "application/json"
+		end
+	end
+
+# 他のテストは省略 ...
+end
+```
+
+セットアップはこの章ですでに説明した他のスペックとほとんど同じです。
+必要なデータはユーザーとプロジェクト（ユーザーがアサインされる）とタスク（プロジェクトがアサインされる）の3つです。
+それから、テストの中でユーザーをログインさせ、GETリクエストを送信してコントローラのshowアクションを呼びだしています。
+
+このテストのちょっとだけ新しい点は、デフォルトのHTML形式のかわりに`format: :json`というオプションでJSON形式であることを指定しているところです。
+こうするとコントローラは⾔われたとおりにリクエストを処理します。
+つまり、application/jsonのContent-Typeでレスポンスを返してくれるのです。
+
+ただし、厳密には application/json; charset=utf-8のように⽂字コード情報も⼀緒に付いてきます。
+そこで、このテストではincludeマッチャを使ってレスポンスの中にapplication/jsonが含まれていればテストがパスするようにしました。
+意図した通りにテストできていることを確認するため、application/jsonをtext/htmlに変えてみましょう。
+
+案の定、テストは失敗するはずです。
+次に、createアクションがJSONを処理できることを確認するテストをいくつか追加してみましょう。
+
+```ruby:spec/controllers/tasks_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe TasksController, type: :controller do
+	before do
+		@user = FactoryBot.create(:user)
+		@project = FactoryBot.create(:project, owner: @user)
+		@task = @project.tasks.create!(name: "Test task")
+	end
+
+	# show のテストは省略 ...
+	describe "#create" do
+
+```
