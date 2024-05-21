@@ -2165,5 +2165,37 @@ end
 bundle exec rspec spec/system/tasks_spec.rb
 ```
 
-設定がうまくいっていれば、Chromeのウィンドウが新しく⽴ち上がります（ただし、現在 開いている他のウィンドウのうしろに隠れているかもしれません）。
-ウィンドウ内ではサン プルアプリケーションが開かれ、⽬に⾒えない指がリンクをクリックし、フォームの⼊⼒項 ⽬を⼊⼒し、タスクの完了状態と未完了状態を切り替えます。素晴らしい！ テストはパスしましたが、このテストの遅さに注⽬してください！これは JavaScript を実 ⾏するテストと、Selenium を使うテストのデメリットです。⼀⽅で、セットアップは⽐較的 簡単ですし、私たち⾃⾝が⾃分の⼿で操作する時間に⽐べたら、こちらの⽅がまだ速いです。 ですが、もし⼀つのテストを実⾏するのに（私のマシンで）8秒以上かかるのであれば、こ の先 JavaScript を使う機能とそれに対応するテストを追加していったら、どれくらいの時間 がかかるでしょうか？JavaScript ドライバはだんだん速くなっているので、そのうちいつか Rack::Test と同等のスピードで実⾏できるようになるかもしれません。ですが、それまでは必 要なときにだけ、テスト上で JavaScript を有効にする⽅が良い、というのが私からのアドバ イスです。 最後の仕上げとして、私たちのシステムスペックではデフォルトで Rack::Test ドライバ を使うようになったため、projects_spec.rb の before ブロックは削除しても⼤丈夫です。 projects_spec.rb から before ブロックを削除すると次のようになります。
+設定がうまくいっていれば、Chromeのウィンドウが新しく立ち上がります（ただし、現在開いている他のウィンドウのうしろに隠れているかもしれません）。
+ウィンドウ内ではサンプルアプリケーションが開かれ、目に見えない指がリンクをクリックし、フォームの入力項目を入力し、タスクの完了状態と未完了状態を切り替えます。
+素晴らしい！
+テストはパスしましたが、このテストの遅さに注目してください！
+これはJavaScriptを実行するテストと、`Selenium`を使うテストのデメリットです。
+一方で、セットアップは比較的簡単ですし、私たち自身が自分の手で操作する時間に比べたら、こちらのほうがまだ速いです。
+ですが、もし1つのテストを実行するのに（私のマシンで）8秒以上かかるのであれば、この先JavaScriptを使う機能とそれに対応するテストを追加していったら、どれくらいの時間がかかるでしょうか？
+JavaScriptドライバはだんだん速くなっているので、そのうちいつか`Rack::Test`と同等のスピードで実行できるようになるかもしれません。
+ですが、それまでは必要なときにだけ、テスト上でJavaScriptを有効にする方が良い、というのが私からのアドバイスです。
+最後の仕上げとして、私たちのシステムスペックではデフォルトで`Rack::Test`ドライバを使うようになったため、`projects_spec.rb`のbeforeブロックは削除しても大丈夫です。
+`projects_spec.rb`からbeforeブロックを削除すると次のようになります。
+
+```ruby:spec/system/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		user = FactoryBot.create(:user)
+
+		visit root_path
+		click_link "Sign in"
+		fill_in "Email", with: user.email
+		fill_in "Password", with: user.password
+		click_button "Log in"
+
+		expect {
+			click_link "New Project"
+			fill_in "Name", with: "Test Project"
+			fill_in "Description", with: "Trying out Capybara"
+			click_button "Create Project"
+
+			expect(page).to have_content "Project was successfully created" 21 expect(page).to have_content "Test Project" 22 expect(page).to have_content "Owner: #{user.name}" 23 }.to change(user.projects, :count).by(1) 24 end 25 end
+```
