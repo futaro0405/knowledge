@@ -1499,6 +1499,7 @@ describe "#destroy" do
 		# プロジェクトを削除できること
 		it "deletes a project" do
 			sign_in @user
+			
 			expect {
 				delete :destroy, params: { id: @project.id }
 			}.to change(@user.projects, :count).by(-1)
@@ -1521,5 +1522,59 @@ describe "#destroy" do
 			}.to_not change(Project, :count)
 		end
 
-# ダッシュボードにリダイレクトすること 35 it "redirects to the dashboard" do 36 sign_in @user 37 delete :destroy, params: { id: @project.id }
+		# ダッシュボードにリダイレクトすること
+		it "redirects to the dashboard" do
+			sign_in @user
+			delete :destroy, params: { id: @project.id }
+			expect(response).to redirect_to root_path
+		end
+	end
+
+	# ゲストとして
+	context "as a guest" do
+		before do
+			@project = FactoryBot.create(:project)
+		end
+
+		# 302レスポンスを返すこと
+		it "returns a 302 response" do
+			delete :destroy, params: { id: @project.id }
+
+			expect(response).to have_http_status "302"
+		end
+
+		# サインイン画⾯にリダイレクトすること
+		it "redirects to the sign-in page" do
+			delete :destroy, params: { id: @project.id }
+
+			expect(response).to redirect_to "/users/sign_in"
+		end
+
+		# プロジェクトを削除できないこと
+		it "does not delete the project" do
+			expect {
+				delete :destroy, params: { id: @project.id }
+			}.to_not change(Project, :count) 
+		end
+	end
+end
 ```
+
+このテストに出てきた新しい点は、destroyメソッドにはDELETEリクエストでアクセス しているところぐらいです。
+
+テストコードを順に読んでみてください。
+ここに出てくるのはこの章で何度も出てきてお馴染みのパターンばかりのはずです。
+ですが、もしあなたがこのプロジェクト管理アプリケーションをブラウザ上でさわってみたことがあるなら、UIとコントローラに⾷い違いがあることに気づいたかもしれません。
+実はUIにはプロジェクトを削除するボタンがないのです！
+正直に⽩状すると、これはうっかりミスです。
+とはいえ、これはある意味、コントローラレベルのテストにおける⽋点を⽰している例かもしれません。
+もしユーザーがアプリケーションの機能の⼀部にアクセスできないとしたら、それはつまり何を意味しているのでしょうか？
+この⽋点についてはまたのちほど説明します。
+
+### ユーザー⼊⼒のエラーをテストする
+ここまでに追加した認可済みのユーザーに対するテストを思い出してください。
+ここまで私たちは正常系の⼊⼒しかテストしませんでした。
+ユーザーはプロジェクトを作成、または編集するために有効な属性値を送信したので、Railsは正常にレコードを作成、または更新できました。
+ですが、モデルスペックの場合と同じように、何か正しくないことがコントローラ内で起こったときも意図した通りの動きになるか検証するのは良い考えです。
+今回の場合だと、もしプロジェクトの作成、または編集時にバリデーションエラーが発⽣したら、何が起きるでしょうか？
+こういうケースの⼀例として、認可済みのユーザーが create アクションにアクセスした ときのテストを少し変更してみましょう。まず、テストを⼆つの新しい context に分割するこ とから始めます。⼀つは有効な属性値で、もう⼀つは無効な属性値です。既存のテストは最 初の context に移動し、無効な属性については新しくテストを追加します。
