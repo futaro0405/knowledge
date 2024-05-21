@@ -2405,5 +2405,47 @@ require 'rails_helper'
 RSpec.describe 'Projects API', type: :request do
 	# 1件のプロジェクトを読み出すこと
 	it 'loads a project' do
-		user = FactoryBot.create(:user) 7 FactoryBot.create(:project, 8 name: "Sample Project") 9 FactoryBot.create(:project, 10 name: "Second Sample Project", 11 owner: user) 12 13 get api_projects_path, params: { 14 user_email: user.email, 15 user_token: user.authentication_token 16 } 17 18 expect(response).to have_http_status(:success) 19 json = JSON.parse(response.body) 20 expect(json.length).to eq 1 21 project_id = json[0]["id"] 22 23 get api_project_path(project_id), params: { 24 user_email: user.email, 25 user_token: user.authentication_token 26 } 27 28 expect(response).to have_http_status(:success) 29 json = JSON.parse(response.body) 30 expect(json["name"]).to eq "Second Sample Project" 31 # などなど 32 end
+		user = FactoryBot.create(:user)
+		FactoryBot.create(:project, name: "Sample Project")
+		FactoryBot.create(:project, name: "Second Sample Project", owner: user)
+
+		get api_projects_path, params: {
+			user_email: user.email,
+			user_token: user.authentication_token
+		}
+
+		expect(response).to have_http_status(:success)
+
+		json = JSON.parse(response.body)
+		expect(json.length).to eq 1
+
+		project_id = json[0]["id"]
+		get api_project_path(project_id), params: {
+			user_email: user.email,
+			user_token: user.authentication_token
+		}
+
+		expect(response).to have_http_status(:success)
+
+		json = JSON.parse(response.body)
+
+		expect(json["name"]).to eq "Second Sample Project"
+
+		# などなど
+	end
+end
 ```
+
+上のサンプルコードはコントローラスペックっぽさが薄れ、システムスペックっぽいパターンになっています。
+この新しいスペックがリクエストスペックです。
+最初はサンプルデータを作成しています。
+ここでは1人のユーザーと2件のプロジェクトを作成しています。
+一方のプロジェクトは先ほどのユーザーがオーナーで、もうひとつのプロジェクトは別のユーザーがオーナーになっています。
+
+次に、HTTP GETを使ったリクエストを実行しています。
+コントローラスペックと同様、ルーティング名に続いてパラメータ（params）を渡しています。
+このAPIではユーザーのメールアドレスとサインインするためのトークンが必要になります。
+パラメータにはこの2つの値を含めています。
+ですが、コントローラスペックとは異なり、今回は好きなルーティング名を何でも使うことができます。
+リクエストスペックはコントローラに結びつくことはありません。
+これはコントローラスペックとは異なる点です。なので、テストしたいルーテ ィング名をちゃんと指定しているか確認する必要も出てきます。 それから、テストは返ってきたデータを分解し、取得結果を検証します。データベースに は2件のプロジェクトが格納されていますが、このユーザーがオーナーになっているのは1件 だけです。そのプロジェクトの ID を取得し、2番⽬の API コールでそれを利⽤します。この API は1件のプロジェクトに対して、より多くの情報を返すエンドポイントです。この API は コールするたびに再認証が必要になる点に注意してください。ですので、メールアドレスと トークンは毎回パラメータとして渡す必要があります。 最後に、この API コールで返ってきた JSON データをチェックし、そのプロジェクト名と テストデータのプロジェクト名が⼀致するか検証しています。そしてここではちゃんと⼀致 します。
