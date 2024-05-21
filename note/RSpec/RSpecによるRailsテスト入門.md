@@ -1948,5 +1948,62 @@ scenario "works with all kinds of HTML elements" do
 	uncheck "A checkbox label"
 	# ラジオボタンのラベルを選択する
 	choose "A radio button label"
-	# セレクトメニューからオプションを選択する 14 select "An option", from: "A select menu" 15 # ファイルアップロードのラベルでファイルを添付する 16 attach_file "A file upload label", "/some/file/in/my/test/suite.gif"
+	# セレクトメニューからオプションを選択する
+	select "An option", from: "A select menu"
+	# ファイルアップロードのラベルでファイルを添付する
+	attach_file "A file upload label", "/some/file/in/my/test/suite.gif"
+
+	# 指定したCSSに⼀致する要素が存在することを検証する
+	expect(page).to have_css "h2#subheading"
+	# 指定したセレクタに⼀致する要素が存在することを検証する
+	expect(page).to have_selector "ul li"
+	# 現在のパスが指定されたパスであることを検証する
+	expect(page).to have_current_path "/projects/new"
+end
 ```
+
+セレクタのスコープを制限することもできます。
+その場合はCapybaraの`within`を使ってページの一部分に含まれる要素を操作します。
+
+```html
+<div id="node">
+	<a href="http://nodejs.org">click here!</a>
+</div>
+
+<div id="rails">
+	<a href="http://rubyonrails.org">click here!</a>
+</div>
+```
+
+上のようなHTMLでは次のようにしてアクセスしたいclick here!のリンクを選択できます。
+
+```ruby
+within "#rails" do
+	click_link "click here!"
+end
+```
+
+もしテスト内で指定したセレクタに合致する要素が複数見つかり、Capybaraにあいまいだ（ambiguous）と怒られたら、`within`ブロックで要素を内包し、あいまいさをなくしてみてください。
+また、Capybaraにはさまざまな`find`メソッドもあります。
+これを使うと値を指定して特定の要素を取り出すこともできます。
+たとえば次のような感じです。
+
+```ruby
+language = find_field("Programming language").value
+
+expect(language).to eq "Ruby"
+
+find("#fine_print").find("#disclaimer").click
+find_button("Publish").click
+```
+
+ここで紹介したCapybaraのメソッドは、私が普段よく使うメソッドです。
+ですが、テスト内で使用できるCapybaraの全機能を紹介したわけではありません。
+全容を知りたい場合は[Capybara DSLのドキュメント](https://github.com/teamcapybara/capybara#the-dsl)を参照してください。また、このドキュメントを便利なリファレンスとして手元に置いておくのもいいでしょう。
+これ以降の章でも、まだ紹介していない機能をもうちょっと使っていきます。
+
+### システムスペックをデバッグする
+Capybaraのコンソール出力を読めば、どこでテストが失敗したのか調査することができます。
+ですが、それだけでは原因の一部分しかわからないことがときどきあります。
+たとえば次のシステムスペックを見てください。
+この場合、ユーザーはログインしていないのでテストは失敗します。
