@@ -3276,3 +3276,27 @@ RSpec::Matchers.define :have_content_type do |expected|
 end
 ```
 
+テストは引き続きパスするはずです。
+ですが、わざと失敗させてみると、出力内容が改善されています。
+
+```
+Failures:
+	1) TasksController#show responds with JSON formatted output
+			Failure/Error: expect(response).to_not have_content_type :json
+			Expected "unknown content type (application/json; charset=utf-8)"
+			to not be Content Type "application/json" (json)
+```
+
+ちょっと良くなりましたね。
+結果として受け取ったレスポンス（`application/json`の`Content- Type`）はマッチャに渡した`Content-Type`を含んでいます。
+ですが、（わざと失敗させているため）それは期待していないレスポンスです。
+スペックに戻って`to_not`を`to`に戻し、それから`:json`のかわりに`:html`を渡してください。
+スペックを実行してみましょう。
+
+```
+Failures:
+	1) TasksController#show responds with JSON formatted
+			output Failure/Error: expect(response).to have_content_type :html
+			Expected "unknown content type (application/json; charset=utf-8)"
+			to be Content Type "text/html" (html)
+```
