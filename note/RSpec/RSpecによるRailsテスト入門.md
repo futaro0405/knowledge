@@ -3241,4 +3241,38 @@ end
 
 この点も改善可能です。
 RSpecのカスタムマッチャのDSLではmatchメソッドに加えて、失敗メッセージ（failure message）と、否定の失敗メッセージ（negated failure message）を定義するメソッドが用意されています。
-つまり、`to`や`to_not`で失敗したときの報告⽅法を定義できるのです。
+つまり、`to`や`to_not`で失敗したときの報告方法を定義できるのです。
+
+```ruby:spec/support/matchers/content_type.rb
+RSpec::Matchers.define :have_content_type do |expected|
+	match do |actual|
+		begin
+			actual.content_type.include? content_type(expected)
+		rescue ArgumentError
+			false
+		end
+	end
+
+	failure_message do |actual|
+		"Expected \"#{content_type(actual.content_type)} " +
+		"(#{actual.content_type})\" to be Content Type " +
+		"\"#{content_type(expected)}\" (#{expected})"
+	end
+
+	failure_message_when_negated do |actual|
+		"Expected \"#{content_type(actual.content_type)} " +
+		"(#{actual.content_type})\" to not be Content Type " +
+		"\"#{content_type(expected)}\" (#{expected})"
+	end
+
+	def content_type(type)
+		types = {
+			html: "text/html",
+			json: "application/json",
+		}
+
+		types[type.to_sym] || "unknown content type"
+	end
+end
+```
+
