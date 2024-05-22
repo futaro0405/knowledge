@@ -3789,3 +3789,140 @@ RSpecには多機能なモックライブラリが最初から用意されてい
 本来であれば関連を持つUserモデルがnameという文字列を返すことを知っていればいいだけのはずです。
 以下はこのテストの修正バージョンです。
 このコードではモックのユーザーオブジェクトと、テスト対象のメモに設定したスタブメソッドを使っています。
+
+```ruby:spec/models/note_spec.rb
+# 名前の取得をメモを作成したユーザーに委譲すること
+it "delegates name to the user who created it" do
+	user = double("user", name: "Fake User")
+	note = Note.new
+
+	allow(note).to receive(:user).and_return(user) 
+	expect(note.user_name).to eq "Fake User"
+end
+```
+
+ここでは永続化したユーザーオブジェクトをテストダブルに置き換えています。
+テストダブルは本物のユーザーではありません。
+実際、このオブジェクトを調べてみると、Doubleという名前のクラスになっていることに気づくはずです。
+テストダブルはnameというリクエストに反応する方法しか知りません。
+説明のためにエクスペクテーションをテストに1つ追加してみてください。
+
+```ruby:spec/models/note_spec.rb
+# 名前の取得をメモを作成したユーザーに委譲すること
+it "delegates name to the user who created it" do
+	user = double("user", name: "Fake User")
+	note = Note.new
+
+	allow(note).to receive(:user).and_return(user)
+	expect(note.user_name).to eq "Fake User"
+	expect(note.user.first_name).to eq "Fake"
+end
+```
+
+このテストコードは元のコード（つまりモックに置き換える前のコード）であればパスしますが、このコードでは失敗します。
+
+```
+1) Note delegates name to the user who created it
+	Failure/Error: expect(note.user.first_name).to eq "Fake"
+	#<Double "user"> received unexpected message :first_name with
+	(no args)
+```
+
+テストダブルはnameに反応する方法しか知りません。
+なぜならNoteモデルが動作するために必要なコードはそれだけだからです。
+というわけで、先ほど追加した`expect`は削除してください。
+
+
+さて、次はスタブについてみてみましょう。
+スタブは`allow`を使って作成しました。
+
+この行はテストランナーに対して、このテスト内のどこかで`note.user`を呼び出すことを伝えています。
+実際に`user.name`が呼ばれると、`note.user_id`の値を使ってデータベース上の該当するユーザーを検索し、見つかったユーザーを返却する代わりに、`user`という名前のテストダブルを返すだけになります。
+結果として私たちは、テスト対象のモデルの外部に存在する実装の詳細から独立し、なおかつ2つのデータベース呼び出しを取り除いたテストを手に入れることができました。
+このテストはユーザーを永続化することもありませんし、データベース上のユーザーを検索しにいくこともありません。
+このアプローチに対する非常に一般的で正しい批判は、もし`User#name`というメソッドの名前を変えたり、このメソッドを削除したりしても、このテストはパスし続けてしまう、という点です。
+みなさんも実際に試してみてください。
+
+`User#name`メソッドをコメントアウトし、テストを実行してみるとどうなるでしょうか？
+ベーシックなRSpecのテストダブルは、代役になろうとするオブジェクトにスタブ化しようとするメソッドが存在するかどうかを検証しません。
+
+この問題を防止するには、かわりに __検証機能付きのテストダブル（verified double）__ を使用します。
+このテストダブルがUserのインスタンスと同じように振る舞うことを検証してみましょう（ここではUserの最初の1文字が大文字になっている点に注目してください。これは検証機能付きのテストダブルが動作するために必要な変更点です）。
+
+```ruby:spec/models/note_spec.rb
+# 名前の取得をメモを作成したユーザーに委譲すること
+it "delegates name to the user who created it" do
+	user = instance_double("User", name: "Fake User")
+	note = Note.new
+	allow(note).to receive(:user).and_return(user)
+	expect(note.user_name).to eq "Fake User"
+end
+```
+
+この状態でnameメソッドに何か変更を加えるとテストは失敗します。
+
+```
+1) Note delegates name to the user who created it
+	Failure/Error: user = instance_double("User", name: "Fake User")
+	the User class does not implement the instance method: name.
+	Perhaps you meant to use `class_double` instead?
+```
+
+今回の実験では、別に`class_double`を使おうとしていたわけではありません（訳注：エラーメッセージの最後に「もしかすると`class_double`を使おうとしましたか？」という文言が表示されています）。
+ですので、コメントアウトしたnameメソッドを元に戻して、テストを元通りにすればOKです。
+
+テスト内でオブジェクトをモック化するためにテストダブルを使う場合、できるかぎり検証機能付きのテストダブルを使うようにしてください。
+これを使えば、誤ってテストがパスしてしまう問題を回避することができます。
+RSpecで構築された既存のテストスイートが存在するコードベースで開発したことがある人や、他のテストチュートリアルをやったことがある人は、コントローラのテストでモックやスタブが頻繁に使われていることに気づいたかもしれません。
+実際、私はコントローラのテストではデータベースにアクセスすることを過剰に避けようとする開発者を過去に何人か見てきました（正直に白状すると、私もやったことがあります）。
+
+以下はデータベースにまったくアクセスせずにコントローラのメソッドをテストする例です。
+ここで使われているNoteコントローラのindexアクションはジェネレータが作った元のindexアクションから変更されています。
+具体的には、アクションの内部でNoteモデルのsearchスコープを呼びだして結果を集め、それをブラウザに返却しています。
+
+この機能をまったくデータベースにアクセスしない形でテストしてみましょう。
+それがこちらです。
+
+```ruby:spec/controllers/notes_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe NotesController, type: :controller do
+	let(:user) { double("user") }
+	let(:project) { instance_double("Project", owner: user, id: "123") }
+
+	before do
+		allow(request.env["warden"]).to receive(:authenticate!).and_return(user)
+		allow(controller).to receive(:current_user).and_return(user)
+		allow(Project).to receive(:find).with("123").and_return(project)
+	end
+
+	describe "#index" do
+		# ⼊⼒されたキーワードでメモを検索すること
+		it "searches notes by the provided keyword" do
+			expect(project).to receive_message_chain(:notes, :search).with("rotate tires")
+			get :index,
+			params: { project_id: project.id, term: "rotate tires" }
+		end
+	end
+end
+```
+
+順を追ってコードを見ていきましょう。
+まず、`let`を利用してテストで使うuserとprojectを遅延定義しています（`let`については第8章で説明しました）。
+モック化されたuserに対してはメソッドをまったく呼び出さないので、ここでは問題なく通常のテストダブルを使うことができます。
+⼀⽅、projectに関してはownerとidの属性を使うので、検証機能付きのテストダブルを使ったほうが安全です。
+
+次に、beforeブロックの中では最初にDeviseが用意してくれる`authenticate!`と`current_user`メソッドをスタブ化しています。
+なぜなら、これはパスワードによって保護されたページだからです。
+さらに、Active Recordが提供している`Project.find`メソッドもスタブ化しています。
+モック化するのは、データベースを検索するかわりにモックのprojectを返すためです。
+これにより、`Project.find(123)`がテスト対象のコード内のどこかで呼ばれても、本物のプロジェクトオブジェクトではなく、テストダブルのprojectが代わりに返されるようになります。
+
+最後に、コントローラのコードが期待どおりに動作することを検証しなければなりません。
+このケースでは、projectに関連するnotesが持つsearchスコープが呼ばれることと、その際の検索キーワード（term）が同名のパラメータの値に一致することを検証しています。
+この検証は以下のコードで実現しています。
+
+```ruby:spec/controllers/notes_controller_spec.rb
+expect(project).to receive_message_chain(:notes, :search).with("rotate tires")
+```
+

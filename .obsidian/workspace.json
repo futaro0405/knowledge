@@ -78,7 +78,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
               }
             }
           },
@@ -135,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -152,7 +152,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -213,10 +213,10 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "70aa6806d3a84a15",
+  "active": "f8e794e20044fcef",
   "lastOpenFiles": [
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/RSpecによるRailsテスト入門.md",
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/検品.md",
     "40_work/K社/memo.md",
