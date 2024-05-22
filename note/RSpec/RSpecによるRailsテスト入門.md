@@ -3357,10 +3357,63 @@ RSpec::Matchers.alias_matcher :be_content_type , :have_content_type
 この章よりも前の章で、私はモデルとコントローラのスペックは各`example`につきエクスペクテーションを1つに制限したほうが良いと書きました。
 一方、システムスペックとリクエストスペックでは、機能の統合がうまくできていることを確認するために、必要に応じてエクスペクテーションをたくさん書いても良い、と書きました。
 ですが、単体テストでもいったんコーディングが完了してしまえば、この制限が必ずしも必要ないことがあります。
-また、 統合テストでも Launchy（第6章 参照）に頼ることなく、失敗したテストのコンテキストを収集すると役に⽴つことが多いです。
-ここで問題となるのは、RSpecはテスト内で失敗するエクスペクテーションに遭遇すると、そこで即座に停⽌して失敗を報告することです。
-残りのステップは実⾏されません。
-しかし、RSpec 3.3では __aggregate_failures （失敗の集約）__ という機能が導⼊され、他のエクスペクテーションも続けて実⾏することができます。
+また、 統合テストでも`Launchy`（第6章参照）に頼ることなく、失敗したテストのコンテキストを収集すると役に立つことが多いです。
+ここで問題となるのは、RSpecはテスト内で失敗するエクスペクテーションに遭遇すると、そこで即座に停止して失敗を報告することです。
+残りのステップは実行されません。
+しかし、RSpec 3.3では __aggregate_failures （失敗の集約）__ という機能が導入され、他のエクスペクテーションも続けて実行することができます。
 これにより、そのエクスペクテーションが失敗した原因がさらによくわかるかもしれません。
-まず、__aggregate_failures__ によって、低レベルのテストがきれいになるケースを⾒てみましょう。
+まず、__aggregate_failures__ によって、低レベルのテストがきれいになるケースを見てみましょう。
 第5章では`Project`コントローラを検証するためにこのようなテストを書きました。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe ProjectsController, type: :controller do
+	describe "#index" do
+		# 認証済みのユーザーとして
+		context "as an authenticated user" do
+			before do
+				@user = FactoryBot.create(:user)
+			end
+
+			# 正常にレスポンスを返すこと
+			it "responds successfully" do
+				sign_in @user
+				get :index
+
+				expect(response).to be_successful
+			end
+
+			# 200レスポンスを返すこと
+			it "returns a 200 response" do
+				sign_in @user
+				get :index
+
+				expect(response).to have_http_status "200"
+			end
+		end
+
+		# 残りのスペックは省略 ...
+	end
+end
+```
+
+このふたつのテストでやっていることはほとんど同じです（第5章でもそのように説明しています）。
+なので、どちらか一方を選択して、2つのテストを1つに集約することができます。
+まずは説明のために、2つのテストを次のようにまとめてください。
+その際、`sign_in`のステップをコメントアウトすることをお忘れなく（これは一時的な変更です）。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+# 正常にレスポンスを返すこと
+it "responds successfully" do
+	# sign_in @user
+	get :index
+	expect(response).to be_successful
+	expect(response).to have_http_status "200"
+end
+```
+
+このスペックを実行すると予想通り最初のエクスペクテーションで失敗します。
+2番目のエクスペクテーションも失敗するはずですが、このままでは絶対に実行されません。
+そこで、この2つのエクスペクテーションを集約してみましょう。
+
