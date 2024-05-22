@@ -4463,5 +4463,26 @@ RSpec.describe "Sign-ups", type: :system do
 		mail = ActionMailer::Base.deliveries.last
 
 		aggregate_failures do
-		expect(mail.to).to eq ["test@example.com"] 31 expect(mail.from).to eq ["support@example.com"] 32 expect(mail.subject).to eq "Welcome to Projects!" 33 expect(mail.body).to match "Hello First," 34 expect(mail.body).to match "test@example.com" 35 end 36 end 37 end
+			expect(mail.to).to eq ["test@example.com"]
+			expect(mail.from).to eq ["support@example.com"]
+			expect(mail.subject).to eq "Welcome to Projects!"
+			expect(mail.body).to match "Hello First,"
+			expect(mail.body).to match "test@example.com"
+		end
+	end
+end
 ```
+
+このテストの約3分の2は第6章以降でよく見慣れたものかもしれません。ここではCapybaraを使ってサインアップフォームへの入力をシミュレートしています。
+残りの部分はメール送信にフォーカスしています。
+メールはバックグラウンドプロセスで送信されるため、テストコードは`perform_enqueued_jobs`ブロックで囲む必要があります。
+このヘルパーメソッドは、このスペックファイルの最初でincludeしている`ActiveJob::TestHelper`モジュールが提供しています。
+このメソッドを使えば`ActionMailer::Base.deliveries`にアクセスし、最後の値を取ってくることができます。
+この場合、最後の値はユーザーが登録フォームに入力したあとに送信されるウェルカムメールになります。
+テストしたいメールオブジェクトを取得できれば、残りのエクスペクテーションはMailerに追加した単体テストとほとんど同じです。
+実際のところ、統合テストのレベルではここまで詳細なテストは必要ないかもしれません。
+ここでは`mail.to`をチェックして適切なユーザーにメールが送信されていることと、`mail.subject`をチェックして適切なメッセージが送信されていることを検証するだけで十分かもしれません。
+なぜならその他の詳細なテストはMailerのスペックに書いてあるからです。
+これはただ私がRSpecにはこういうやり方もあるということを紹介したかっただけです。
+このテストはUserモデルとUserMailerが連携するポイントを直接テストすることでも実現できます。
+このアプリケーションでは新しいユーザーが追加されたときにafter_createコールバックでこの連携処理が発生するようになっています。なので、ユーザーのモデルスペックにテストを追加することができます。
