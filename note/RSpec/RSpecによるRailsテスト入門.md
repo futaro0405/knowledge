@@ -4162,4 +4162,151 @@ local:
 
 `tmp/storage`ディレクトリを開いて、なんらかのディレクトリやファイルが作成されていることを確認してみてください。
 ただし、ディレトリ名やファイルは推測されにくい名前になっているため、どのファイルがどのテストで作成されたのか探し当てるのは少し難しいかもしれません。
-今のままだと、テストを実行するたびにファイルが増えていってしまうため、テストのが終わったら、アップロードされた古いファイルは⾃動的に削除されるように しておくと良いと思います。spec/rails_helper.rb に以下の設定を追加してください。
+今のままだと、テストを実行するたびにファイルが増えていってしまうため、テストの実行が終わったら、アップロードされた古いファイルは自動的に削除されるようにしておくと良いと思います。
+`spec/rails_helper.rb`に以下の設定を追加してください。
+
+```ruby:spec/rails_helper.rb
+RSpec.configure do |config|
+	# このブロック内の他の設定は省略 ...
+
+	# テストスイートの実⾏が終わったらアップロードされたファイルを削除する 
+	config.after(:suite) do 
+		Pathname(ActiveStorage::Blob.service.root).each_child do |path| 
+			path.rmtree if path.directory?
+		end
+	end
+end
+```
+
+さあ、これでテストが終わった時点でRSpecがこのディレクトリとその中身を削除してくれます。
+さらに、偶然この中のファイルがバージョン管理システムにコミットされてしまわないよう、プロジェクトの`.gitignore`に設定を追加しておくことも重要です。
+Active Storageの場合はRailsが最初から設定を追加してくれているので、念のため確認するだけでOKですが、他のライブラリを使ってアップロード機能を実現するときはこうした設定追加を忘れないようにしてください。
+
+```.gitignore
+# Ignore uploaded files in development.
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+```
+
+さて、Active Storageのことはいったん忘れて、ここでやった内容を振り返ってみましょう。
+最初はファイルアップロードのステップを含む、スペックファイルを作成しました。
+さらに、スペック内ではテストで使うファイルを添付しました。
+次に、テスト専用のアップロードパスを設定（確認）しました。
+最後に、テストスイートが終わったらファイルを削除するようにRSpecを設定しました。
+この3つのステップはシステムレベルのテストでファイルアップロードを実行するための基本的なステップです。
+
+もしみなさんがActive Storageを使っていない場合は、自分が選んだアップロード用ライブラリのドキュメントを読み、この3つのステップを自分のアプリケーションに適用する方法を確認してください。
+もし自分でファイルアップロードを処理するコードを書いている場合は、アップロード先のディレクトリを変更するために、`allow`メソッド（第9章を参照）でスタブ化できるかもしれません。
+もしくはアップロード先のパスを実行環境ごとの設定値として抜き出す方法もあるでしょう。
+最後に、もしテスト内で何度もファイル添付を繰り返しているのであれば、そのモデルをテストで使う際に、添付ファイルを属性値に含めてしまうことを検討した方がいいかもしれません。
+たとえば、Noteファクトリにこのアプローチを適用する場合は、第4章で説明したトレイトを使って実現することができます。
+
+```ruby:spec/factories/notes.rb
+FactoryBot.define do
+	factory :note do
+		message { "My important note." }
+		association :project
+		user { project.owner }
+
+		trait :with_attachment do
+			attachment { Rack::Test::UploadedFile.new( \
+				"#{Rails.root}/spec/files/attachment.jpg", 'image/jpeg') }
+		end
+	end
+end
+```
+
+Active Storageを使っている場合は上のように`Rack::Test::UploadedFile.new`の引数に添付ファイルが存在するパスと`Content-Type`を指定ます。
+こうすればテスト内で`FactoryBot.create(:note, :with_attachment)`のように書くことで、ファイルが最初から添付された新しいNoteオブジェクトを作成することができます。
+モデルスペックを開き、次のテストを追加してください。
+
+```ruby:spec/models/note_spec.rb
+require 'rails_helper' RSpec.describe Note, type: :model do
+	# 他のテストは省略 ...
+
+	# 添付ファイルを1件添付できる
+	it 'has one attached attachment' do
+		note = FactoryBot.create :note, :with_attachment 
+		expect(note.attachment).to be_attached 
+	end
+```
+
+### バックグラウンドワーカーのテスト
+私たちのプロジェクト管理アプリケーションを利用している、架空の会社の架空のマーケティング部が、CMを流したり、広告を打ったりする参考情報を得るために、私たちに対してユーザーに関する位置情報を集めてくるように依頼してきたとします。
+個人情報の扱いや利用規約に関する詳細は法務部に任せるとして、とりあえず私たちはlocation属性をユーザーモデルに追加してこの機能を完成させました。
+この機能はユーザーがログインしたときに外部のジオコーディングサービスにアクセスし、町や州、国といった情報を取得します。
+今回新たに加わっされます。
+そたこの処理はActive Jobを使ってバックグラウンドで実行のため、ユーザーはこの処理が終わるまで待たされることはありません。
+
+このような遅い処理をバックグラウンドで実行するのは、比較的シンプルかつ効果的な方法で、Webアプリケーションのパフォーマンスを高く保つことができます。
+ですが、メインフローからプロセスを切り分けるということは、テストの方法を少し変える必要があることを意味します。
+幸いなことに、Railsとrspec-railsはさまざまなレベルのテストにおいて、Active Jobワーカーをテストする、便利なサポート機能を提供してくれています。
+
+まず、統合テストから始めましょう。
+私たちはまだユーザーのログイン処理を明示的にテストしていません。
+そこで、`bin/railsgrspec:systemsign_in`を実行して、テストを作成します。
+それから、次のようなテストコードを書いてください。
+
+```ruby:spec/system/sign_ins_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Sign in", type: :system do
+	let(:user) { FactoryBot.create(:user) }
+	before do
+		ActiveJob::Base.queue_adapter = :test
+	end
+
+	# ユーザーのログイン
+	scenario "user signs in" do
+		visit root_path
+		click_link "Sign In"
+		fill_in "Email", with: user.email
+		fill_in "Password", with: user.password
+		click_button "Log in"
+
+		expect {
+			GeocodeUserJob.perform_later(user)
+		}.to have_enqueued_job.with(user)
+	end
+end
+```
+
+このコードにはActive Jobとバックグラウンドのジオコーディング処理に関連する部分が2箇所あります。
+まず、rspec-railsではバックグラウンドジョブをテストするために、`queue_adapter`に`:test`を指定する必要があります。
+これがないとテストは次のような例外を理由付きで`raise`します（訳注：下の例外メッセージには「ActiveJobマッチャを使うには、`ActiveJob::Base.queue_adapter=:test`を設定してください」と書いてあります）。
+
+```
+StandardError:
+	To use ActiveJob matchers set `ActiveJob::Base.queue_adapter = :test`
+```
+
+ここではよく目立つようにbeforeブロックでこのコードを実行しましたが、`scenario`の中で実行しても構いません。
+なぜなら、このファイルにはテストが一つしかないからです。
+また、複数のファイルでテストキューを使う場合は、第8章で紹介したテストをDRYにするテクニック（訳注：`shared_context`のこと）を使って実験することもできます。
+
+次に、ジョブが実際にキューに追加されたことを確認する必要があります。
+rspec-railsではこの確認に使えるマッチャがいくつか用意されています。
+ここでは`have_enqueued_job`を使い、正しいジョブが正しい入力値で呼ばれていることをチェックしています。
+注意してほしいのは、このマッチャはブロックスタイルの`expect`と組み合わせなければいけないことです。
+こうしないと、テストは次のような別の例外を理由付きでraiseします（訳注：下の例外メッセージには「`have_enqueued_job`と`enqueue_job`はブロック形式のエクスペクテーションだけをサポートします」と書いてあります）。
+
+```
+ArgumentError:
+	have_enqueued_job and enqueue_job only support block expectations
+```
+
+さて、これでバックグラウンドジョブがアプリケーションの他の部分と正しく連携できていることをチェックできました。
+今度はもっと低レベルのテストを書いて、ジョブがアプリケーション内のコードを適切に呼びだしていることを確認しましょう。
+このジョブをテストするために、新しいテストファイルを作成します。
+
+```bash
+bin/rails g rspec:job geocode_user
+```
+
+この新しいファイルは本書を通じて作成してきた他のテストファイルとよく似ています。
+
+```ruby:spec/jobs/geocode_user_job_spec.rb 1 require 'rails_helper' 2 3 RSpec.describe GeocodeUserJob, type: :job do 4 pending "add some examples to (or delete) #{__FILE__}" 5 end
+```
