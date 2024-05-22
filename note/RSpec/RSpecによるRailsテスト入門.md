@@ -4354,3 +4354,5 @@ end
 bin/rails g rspec:mailer user_mailer
 ```
 
+この新しいファイルで注目したいのは、`spec/mailers/user_mailer.rb`にファイルが作成されている点と、次のような定型コードが書かれている点です。
+
