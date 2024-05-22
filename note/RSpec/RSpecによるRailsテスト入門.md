@@ -4485,4 +4485,56 @@ end
 なぜならその他の詳細なテストはMailerのスペックに書いてあるからです。
 これはただ私がRSpecにはこういうやり方もあるということを紹介したかっただけです。
 このテストはUserモデルとUserMailerが連携するポイントを直接テストすることでも実現できます。
-このアプリケーションでは新しいユーザーが追加されたときにafter_createコールバックでこの連携処理が発生するようになっています。なので、ユーザーのモデルスペックにテストを追加することができます。
+このアプリケーションでは新しいユーザーが追加されたときに`after_create`コールバックでこの連携処理が発生するようになっています。
+なので、ユーザーのモデルスペックにテストを追加することができます。
+
+```ruby:spec/models/user_spec.rb
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+	# これより前にある example は省略 ...
+
+	# アカウントが作成されたときにウェルカムメールを送信すること
+	it "sends a welcome email on account creation" do
+		allow(UserMailer).to \
+		receive_message_chain(:welcome_email, :deliver_later)
+		user = FactoryBot.create(:user)
+		expect(UserMailer).to have_received(:welcome_email).with(user)
+	end
+end
+```
+
+このテストではまず、`receive_message_chain`を使って`deliver_later`メソッドをスタブ化しています。
+このメソッドはActive Jobが`UserMailer.welcome_email`に提供してくれるメソッドです。
+`receive_message_chain`メソッドについては、第9章でも同じような使い方を説明しています。
+次に、テストするユーザーを作成する必要があります。
+Mailerはユーザーを作成する処理の一部として実行されるため、その直後にスパイ（spy）を使ってテストします。
+スパイは第9章で説明したテストダブルによく似ていますが、テストしたいコードが実行されたあとに発生した何かを確認できる点が異なります。
+具体的には、クラス（UserMailer）に対して、期待されたオブジェクト（user）とともに、目的のメッセージ（`:welcome_email`）が呼び出されたかどうかを、`have_received`マッチャを使って検証しています。
+なぜスパイを使う必要があるのでしょうか？
+これは次のような問題を回避するためです。
+すなわち、ここではユーザーを作成してそれを変数に入れる必要がありますが、そうするとテストしようとしているMailerも実行されてしまいます。
+つまり、次のようなコードを書いても動かないということです。
+
+```ruby
+# アカウントが作成されたときにウェルカムメールを送信すること
+it "sends a welcome email on account creation" do
+	expect(UserMailer).to receive(:welcome_email).with(user)
+	user = FactoryBot.create(:user)
+end
+```
+
+これは以下のエラーを出して失敗します。
+
+```
+Failures:
+	1) User sends a welcome email on account creation
+			Failure/Error: expect(UserMailer).to
+				receive(:welcome_email).with(user)
+				
+			NameError:
+				undefined local variable or method `user' for
+				#<RSpec::ExampleGroups::User:0x007fca733cb578>
+```
+
+userという変数が作成される前にこの変数を使うことはできません。ですが、テスト対象のコードを実行せずにuserを作成することもできません。幸いなことに、スパイを使えばどちらでもない新たなワークフローを選択することができます。このテストのいいところは、Mailerが正しい場所で、正しい情報とともに呼ばれることを確認するだけで十分であることです。このテストではいちいちWeb画⾯を使ってユーザーを作成する必要がありません。そのため速く実行できます。ですが、短所もあります。このテストはレガシーコードをテストするために提供されているRSpecのメソッド⁵⁴を使っている点です。また、スパイを使うとこのテストコードを初めて見た開発者をびっくりさせてしまうかもしれません。また、このワークフローを一度見直してみるのもいいかもしれません。たとえばdeliver_laterを使ってウェルカムメールを送信するのではなく、別のバックグラウンドジョブを使って送信するようにしたり、after_createコールバックを削除したりすることも検討してみましょう。このようなケースでは高いレベルの統合テストを残した状態で低レベルのテストを作成し、アプリケーションコードが適切に連携できていることを確認できたら、統合テストの方は削除してもいいかもしれません。繰り返しになりますが、開発者には選択肢がいろいろあるのです。
