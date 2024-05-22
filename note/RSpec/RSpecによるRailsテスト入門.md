@@ -3686,3 +3686,106 @@ it { is_expected.to satisfy { |user| user.name == "Aaron Sumner" } }
 このgemを⼀つ追加すれば、3⾏から5⾏あるスペックを1〜 2⾏に減らすことができる場合があります。
 `Shoulda Matchers`を使うには、まずgemを追加しなければなりません。
 Gemfile内のテスト関係のgemのうしろに、このgemを追加してください。
+
+```Gemfile
+group :test do
+	# Railsで元から追加されているgemは省略
+	
+	gem 'launchy' gem 'shoulda-matchers',
+end
+```
+
+コマンドラインから`bundle`コマンドを実行したら、この新しいgemを使うようにテストスイートを設定する必要があります。
+`spec/rails_helper.rb`を開き、ファイルの一番最後に以下のコードを追加してください。
+ここでは、RSpecとRailsでShoulda Matchersを使うことを宣言しています。
+
+```ruby:spec/rails_helper.rb
+Shoulda::Matchers.configure do |config|
+	config.integrate do |with|
+		with.test_framework :rspec with.library :rails
+	end
+end
+```
+
+さあこれでスペックを短くすることができます。
+Userモデルのスペックにある、4つのバリデーションのテストから始めましょう。
+`Shoulda Matchers`を使えば、このテストがたった4行になります！
+
+```ruby:spec/models/user_spec.rb
+it { is_expected.to validate_presence_of :first_name }
+it { is_expected.to validate_presence_of :last_name }
+it { is_expected.to validate_presence_of :email }
+it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+```
+
+ここでは`Shoulda Matchers`が提供する2つのマッチャ（`validate_presence_of`と`validate_uniqueness_of`）を使ってテストを書いています。
+emailのユニークバリデーションはDeviseによって設定されているので、バリデーションは大文字と小文字を区別しないこと（not case sensitive）をスペックに伝える必要があります。
+`case_insensitive` が付いているのはそのためです。
+次にProjectモデルのスペックに注目してみましょう。
+具体的には以前書いた、ユーザーは同じ名前のプロジェクトを複数持つことができないが、ユーザーが異なれば同じ名前のプロジェクトがあっても構わない、というテストです。
+`Shoulda Matchers` を使えば、このテストを1個かつ1行のテストにまとめることができます。
+
+```ruby:spec/models/project_spec.rb
+it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id) }
+```
+
+モデルをテス トファーストで開発するときによく使います。
+たとえば、ウィジェット（widget ） という新しいモデルが出てきたとします。
+そんなとき、私はスペックを開き、ウィジェットがどんな振る舞いを持つのか考えます。
+それから次のようなテストを書きます。
+
+```ruby
+	it { is_expected.to validate_presence_of :name }
+	it { is_expected.to have_many :dials }
+	it { is_expected.to belong_to :compartment }
+	it { is_expected.to validate_uniqueness_of :serial_number }
+```
+
+### エディタのショートカット
+プログラミングを習得する上で非常に重要なことは、自分が使っているエディタを隅から隅まで理解することです。
+私はコーディングするときは（そして執筆するときも）たいていAtomを使っています。
+さらに、スニペットを作る構文も必要最小限は理解したので、テストを書くときによく使うコードもほとんどタイプせずに済ませることができます。
+たとえば、`desc`と入力してタブキーを押すと、私のエディタは`describe...end` のブロックを作成します。
+さらに、カーソルはブロック内に置かれ、適切な場所にコードを追加できるようになっています。
+もしあなたもAtomを使っているのであれば、Everyday Rails RSpec Atom パッケージをインストールして私が使っているショートカットを試してみることができます。
+全スニペットの内容を知りたい場合はパッケージのドキュメントを参照してください。
+Atom以外のエディタを使っている場合は、多少時間をかけてでも用意されているショートカットを使えるようになってください。
+また、最初から用意されているショートカットだけでなく、自分自身でショートカットを定義する方法も学習しておきましょう。
+お決まりのコードをタイプする時間が少なくなればなるほど、時間あたりのビジネスバリューが増えていきます！
+
+### モックとスタブ
+モックとスタブの使用、そしてその背後にある概念は、それだけで大量の章が必要になりそうなテーマです（一冊の本になってもおかしくありません）。
+インターネットで検索すると、正しい使い方や間違った使い方について人々が激しく議論する場面に出くわすはずです。
+また、多くの人々が2つの用語を定義しようとしているのもわかると思います。
+ただし、うまく定義できているかどうかは場合によりけりです。
+私が一番気気に入っている定義は次の通りです。
+
+- __モック（mock）__ は本物のオブジェクトのふりをするオブジェクトでテストのために使われます。モックは __テストダブル（test doubles）__ と呼ばれる場合もあります。モックはこれまでファクトリやPOROを使って作成したオブジェクトの代役を務めます（訳注：英語の “double” には「代役」や「影武者」の意味があります）。しかし、モックはデータベースにアクセスしない点が異なります。よって、テストにかかる時間は短くなります。
+- __スタブ（stub）__ はオブジェクトのメソッドをオーバーライドし、事前に決められた値を返します。つまりスタブは、呼び出されるとテスト用に本物の結果を返すダミーメソッドです。スタブをよく使うのはメソッドのデフォルト機能をオーバーライドするケースです。特にデータベースやネットワークを使う処理が対象になります。
+
+RSpecには多機能なモックライブラリが最初から用意されています。
+みなさんはもしかすると、`Mocha`のようなその他のモックライブラリをプロジェクトで使ったことがあるかもしれません。
+第4章以降でテストデータを作成するのに使ってきたFactoryBotにもスタブオブジェクトを作るメソッドが用意されています。
+この項ではRSpec標準のモックライブラリに焦点を当てます。
+例をいくつか見てみましょう。
+メモ（Note）モデルでは`delegate`を使ってメモに`user_name`という属性を追加しました。
+ここまでに学んだ知識を使うと、この属性がちゃんと機能していることをテストするために、次のようなコードを書くことができます。
+
+```ruby:spec/models/note_spec.rb
+	# 名前の取得をメモを作成したユーザーに委譲すること
+	it "delegates name to the user who created it" do
+		user = FactoryBot.create(:user, first_name: "Fake", last_name: "User") 
+		note = Note.new(user: user) expect(note.user_name).to eq "Fake User" 
+	end
+```
+
+このコードではUserオブジェクトを永続化する必要があります。
+これはテストで使うfirst_nameとlast_nameというユーザーの属性にアクセスするためです。
+この処理に必要な時間はほんのわずかです。
+ですが、セットアップのシナリオが複雑になったりすると、わずかな時間もどんどん積み重なって無視できなくなるかもしれません。
+モックはこのように、データベースにアクセスする処理を減らすためによく使われます。
+さらに、このテストはNoteモデルのテストですが、Userモデルの実装を知りすぎています。
+はたしてこのテストの中でUserモデルのnameがfirst_nameとlast_nameから導出されていることを意識する必要があるのでしょうか？
+本来であれば関連を持つUserモデルがnameという文字列を返すことを知っていればいいだけのはずです。
+以下はこのテストの修正バージョンです。
+このコードではモックのユーザーオブジェクトと、テスト対象のメモに設定したスタブメソッドを使っています。

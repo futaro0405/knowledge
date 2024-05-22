@@ -18,19 +18,6 @@
             }
           },
           {
-            "id": "70aa6806d3a84a15",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
             "id": "a5ea77dd8e1cb064",
             "type": "leaf",
             "state": {
@@ -43,8 +30,26 @@
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
+      },
+      {
+        "id": "a15b8661b3bd64e3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "70aa6806d3a84a15",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
@@ -73,7 +78,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/wiki/lecture.md"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           },
@@ -100,7 +105,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -129,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/wiki/lecture.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -146,7 +152,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/wiki/lecture.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -207,11 +213,13 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "a5ea77dd8e1cb064",
+  "active": "70aa6806d3a84a15",
   "lastOpenFiles": [
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
+    "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/検品.md",
     "40_work/K社/memo.md",
-    "40_work/K社/wiki/lecture.md",
     "40_work/K社/daily-report/04/0422.md",
     "40_work/K社/daily-report/04/0419.md",
     "40_work/K社/daily-report/04/0418.md",
@@ -220,8 +228,6 @@
     "40_work/K社/daily-report/04/0415.md",
     "40_work/K社/daily-report/04/0412.md",
     "40_work/K社/daily-report/04/0411.md",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "40_work/K社/daily-report/04/0410.md",
     "40_work/K社/daily-report/04/0409.md",
     "40_work/K社/daily-report/05/0507.md",
@@ -238,7 +244,6 @@
     "40_work/K社/daily-report/05/0520.md",
     "40_work/K社/daily-report/04/0424.md",
     "40_work/K社/daily-report/04/0425.md",
-    "40_work/K社/daily-report/04/0426.md",
     "401_/public/pdf/software-test-design.pdf"
   ]
 }
