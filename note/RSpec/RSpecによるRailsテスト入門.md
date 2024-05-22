@@ -3451,4 +3451,146 @@ Failures:
 `sign_in`の行のコメントを外し、テストをグリーンに戻してください。
 私は統合テストで`aggregate_failures`をよく使います。
 `aggregate_failures`を使えば、同じコードを何度も実行して遅くなったり、複雑なセットアップを複数のテストで共有したりせずに、テストが失敗した複数のポイントを把握することができます。
-たとえば第6章で説明した、プロジェクトを作成するシナリオでエクスペクテーションの⼀部を集約してみましょう。
+たとえば第6章で説明した、プロジェクトを作成するシナリオでエクスペクテーションの一部を集約してみましょう。
+
+```ruby:spec/system/projects_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Projects", type: :system do
+	# ユーザーは新しいプロジェクトを作成する
+	scenario "user creates a new project" do
+		user = FactoryBot.create(:user)
+		# この章で独⾃に定義したログインヘルパーを使う場合
+		# sign_in_as user
+		# もしくは Devise が提供しているヘルパーを使う場合
+		sign_in user
+		visit root_path
+
+		expect {
+			click_link "New Project"
+			fill_in "Name", with: "Test Project"
+			fill_in "Description", with: "Trying out Capybara"
+			click_button "Create Project"
+		}.to change(user.projects, :count).by(1)
+
+		aggregate_failures do
+			expect(page).to have_content "Project was successfully created"
+			expect(page).to have_content "Test Project"
+			expect(page).to have_content "Owner: #{user.name}"
+		end
+	end
+end
+```
+
+こうすると、何らかの原因でフラッシュメッセージが壊れても、残りの2つのエクスペクテーションは続けて実行されます。
+ただし、注意すべき点がひとつあります。
+それは、`aggregate_failures`は失敗するエクスペクテーションにだけ有効に働くのであって、テストを実行するために必要な一般的な実行条件には働かないということです。
+上の例でいうと、もし何かがおかしくなってNew Projectのリンクが正しくレンダリングされなかった場合は、Capybaraはエラーを報告します。
+
+```
+Failures:
+	1) Projects user creates a new project
+			Failure/Error: click_link "New Project"
+			
+	Capybara::ElementNotFound:
+		Unable to find link "New Project"
+```
+
+言い換えるなら、ここでやっているのはまさに失敗するエクスペクテーションの集約であり、失敗全般を集約しているわけではありません。
+とはいえ、私は`aggregate_failures`を気に入っており、自分が書くテストではこの機能をよく使っています。
+
+### テストの可読性を改善する
+統合テストはさまざまな構成要素を検証します。
+UIも（JavaScriptとの実行ですらも）、アプリケーションロジックも、データベース操作も、ときには外部システムとの連携も、全部ひとつのテストで検証できます。
+これはときに、だらだらしたテストコードになったり、テストコードが読みづらくなったり、何が起きているか理解するために手前や後ろのコードを行ったり来たりすることにつながります。
+第6章で作成したテストを見直してください。
+このテストではタスクの完了を実行するUIを検証しました。
+その中でも特に、タスクの完了や未完了をマークするステップと、その処理が期待どおりに実行されたか検証するやり方を見直してみてください。
+
+```ruby:spec/system/tasks_spec.rb
+# ユーザーがタスクの状態を切り替える
+scenario "user toggles a task", js: true do
+
+	# セットアップとログインは省略 ...
+
+	check "Finish RSpec tutorial"
+	expect(page).to have_css "label#task_#{task.id}.completed"
+	expect(task.reload).to be_completed
+
+	uncheck "Finish RSpec tutorial"
+	expect(page).to_not have_css "label#task_#{task.id}.completed"
+	expect(task.reload).to_not be_completed
+end
+```
+
+これぐらいであればそこまで可読性は悪くないかもしれません。
+ですが、この機能が今後もっと複雑になったらどうでしょうか？
+
+たとえば、タスクが完了したときにもっと詳細な情報を記録する必要が出てきた場合を考えてみてください。
+タスクを完了状態にしたユーザーの情報や、いつタスクが完了したのか、といった情報を記録する必要が出てきた場合などです。
+この場合、新しく追加された属性に対してそれぞれ、データベースの状態とUIの表示を確認するために新しい行を追加する必要が出てきます。
+また、チェックボックスのチェックが外されたときは逆の検証を同じようにする必要があります。
+
+こうなると、今はまだ小さいテストも、あっという間に長くなってしまいます。
+このような場合は、スペックを読むときにコードの前後を行ったり来たりせずに済むよう、各ステップを独立したヘルパーメソッドに抽出することができます。
+新しくエクスペクテーションを追加する場合は、テストコード内に直接埋め込むのではなく、このヘルパーメソッドに追加します。
+
+これは「 __シングルレベルの抽象化を施したテスト（testing at a single level of abstraction）__ 」として知られるテクニックです。
+
+このテクニックの基本的な考えはテストコード全体を、内部で何が起きているのか抽象的に理解できる名前を持つメソッドに分割することです。
+あくまで抽象化が目的なので、内部の詳細を見せる必要はありません。
+では、`spec/system/tasks_spec.rb`内のだらだらしたコードを次のように整理してみましょう。
+
+```ruby:spec/system/tasks_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Tasks", type: :system do
+	let(:user) { FactoryBot.create(:user) }
+	let(:project) {
+		FactoryBot.create(:project,
+		name: "RSpec tutorial",
+		owner: user)
+	}
+	let!(:task) { project.tasks.create!(name: "Finish RSpec tutorial") }
+
+	# ユーザーがタスクの状態を切り替える
+	scenario "user toggles a task", js: true do
+		sign_in user
+		go_to_project "RSpec tutorial"
+
+		complete_task "Finish RSpec tutorial"
+		expect_complete_task "Finish RSpec tutorial"
+
+		undo_complete_task "Finish RSpec tutorial"
+		expect_incomplete_task "Finish RSpec tutorial"
+	end
+
+	def go_to_project(name)
+		visit root_path
+		click_link name
+	end
+
+	def complete_task(name)
+		check name
+	end
+
+	def undo_complete_task(name)
+		uncheck name
+	end
+
+	def expect_complete_task(name)
+		aggregate_failures do
+			expect(page).to have_css "label.completed", text: name
+			expect(task.reload).to be_completed
+		end
+	end
+
+	def expect_incomplete_task(name)
+		aggregate_failures do
+			expect(page).to_not have_css "label.completed", text: name
+			expect(task.reload).to_not be_completed
+		end
+	end
+end
+```
+
