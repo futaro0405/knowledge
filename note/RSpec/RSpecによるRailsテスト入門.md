@@ -3300,3 +3300,67 @@ Failures:
 			Expected "unknown content type (application/json; charset=utf-8)"
 			to be Content Type "text/html" (html)
 ```
+
+読みやすさが改善されました。
+最後にもうひとつだけ改善しておきましょう。
+`have_content_type`はちゃんと動作していますが、`be_content_type`でも動くようにすると良いかもしれません。
+マッチャはエイリアスを作ることができます。
+カスタムマッチャの最終バージョンはこのようになります。
+
+```ruby:spec/support/matchers/content_type.rb
+RSpec::Matchers.define :have_content_type do |expected|
+	match do |actual|
+		begin
+			actual.content_type.include? content_type(expected)
+		rescue ArgumentError
+			false
+		end
+	end
+
+	failure_message do |actual|
+		"Expected \"#{content_type(actual.content_type)} " +
+		"(#{actual.content_type})\" to be Content Type " +
+		"\"#{content_type(expected)}\" (#{expected})"
+	end
+
+	failure_message_when_negated do |actual|
+		"Expected \"#{content_type(actual.content_type)} " +
+		"(#{actual.content_type})\" to not be Content Type " +
+		"\"#{content_type(expected)}\" (#{expected})"
+	end
+
+	def content_type(type)
+		types = {
+			html: "text/html",
+			json: "application/json",
+		}
+
+		types[type.to_sym] || "unknown content type"
+	end
+end
+
+RSpec::Matchers.alias_matcher :be_content_type , :have_content_type
+```
+
+以上でカスタムマッチャは完成です。
+これはいいアイデアでしょうか？
+たしかにテストは確実に読みやすくなりました。
+「レスポンスが`Content-Type JSON`になっていることを期待する（Expect response to be content type JSON ）」は、「レスポンスの`Content-Type`が`application/json`を含んでいる（Expect response content type to include application/json）」よりも改善されています。
+ですが、新しいマッチャがあると、メンテナンスしなければならないコードが増えます。
+カスタムマッチャにはその価値があるでしょうか？
+その結論はあなたとあなたのチームで決める必要があります。
+しかし何にせよ、これでみなさんは必要になったときにカスタムマッチャを作ることができるようになりました。
+
+> カスタムマッチャ作りにハマっていく前に、`shoulda-matchers gem`も一度見ておいてください。このgemはテストをきれいにする便利なマッチャをたくさん提供してくれます。特に役立つのがモデルとコントローラのスペックです。みなさんが必要とするマッチャは、すでにこのgemで提供されているかもしれません。たとえば、第3章で書いたスペックのいくつかは、`it { is_expected.to validate_presence_of :name }`のように、短くシンプルに書くことができます。
+
+### aggregate_failures（失敗の集約）
+この章よりも前の章で、私はモデルとコントローラのスペックは各`example`につきエクスペクテーションを1つに制限したほうが良いと書きました。
+一方、システムスペックとリクエストスペックでは、機能の統合がうまくできていることを確認するために、必要に応じてエクスペクテーションをたくさん書いても良い、と書きました。
+ですが、単体テストでもいったんコーディングが完了してしまえば、この制限が必ずしも必要ないことがあります。
+また、 統合テストでも Launchy（第6章 参照）に頼ることなく、失敗したテストのコンテキストを収集すると役に⽴つことが多いです。
+ここで問題となるのは、RSpecはテスト内で失敗するエクスペクテーションに遭遇すると、そこで即座に停⽌して失敗を報告することです。
+残りのステップは実⾏されません。
+しかし、RSpec 3.3では __aggregate_failures （失敗の集約）__ という機能が導⼊され、他のエクスペクテーションも続けて実⾏することができます。
+これにより、そのエクスペクテーションが失敗した原因がさらによくわかるかもしれません。
+まず、__aggregate_failures__ によって、低レベルのテストがきれいになるケースを⾒てみましょう。
+第5章では`Project`コントローラを検証するためにこのようなテストを書きました。
