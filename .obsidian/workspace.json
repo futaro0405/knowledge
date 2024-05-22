@@ -21,13 +21,8 @@
             "id": "a5ea77dd8e1cb064",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "40_work/K社/wiki/lecture.md",
-                "mode": "preview",
-                "backlinks": true,
-                "source": true
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -182,7 +177,7 @@
       {
         "id": "9c7a765defd25033",
         "type": "tabs",
-        "dimension": 62.00980392156863,
+        "dimension": 62.00980392156864,
         "children": [
           {
             "id": "06eed421b2d32838",
