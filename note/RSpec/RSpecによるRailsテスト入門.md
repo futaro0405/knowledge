@@ -4418,4 +4418,50 @@ end
 二つ目の`example`でも`match`を使っていますが、この場合は正規表現を使わずに、本文のどこかに`user.email`の文字列が含まれることを確認しているだけです。
 
 繰り返しになりますが、みなさんが書くMailerのスペックの複雑さは、みなさんが作ったMailerの複雑さ次第です。
-今回はこれぐらいで
+今回はこれぐらいで十分かもしれませんが、もっとたくさんテストを書いた方がMailerに対して自信が持てるのであれば、そうしても構いません。
+さて、今度はアプリケーションの大きなコンテキストの中でMailerをテストする方法を見ていきましょう。
+このアプリケーションでは新しいユーザーが作られると、そのたびにウェルカムメールが送信される仕様になっています。
+どうすれば、本当に送信されていることを検証できるでしょうか？
+高いレベルでテストするなら統合テストでテストできますし、もう少し低いレベルでテストするならモデルレベルでテストできます。
+練習として、両方のやり方を見ていきましょう。
+最初は統合テストから始めます。
+このメッセージはユーザーのサインアップワークフローの一部として送信されます。
+それではこのテストを書くための新しいシステムスペックを作成しましょう。
+
+```
+bin/rails g rspec:system sign_up
+```
+
+次に、ユーザーがサインアップするためのステップと期待される結果をこのファイルに追加します。
+
+```ruby:spec/system/sign_ups_spec.rb
+require 'rails_helper'
+
+RSpec.describe "Sign-ups", type: :system do
+	include ActiveJob::TestHelper
+
+	# ユーザーはサインアップに成功する
+	scenario "user successfully signs up" do
+		visit root_path
+		click_link "Sign up"
+
+		perform_enqueued_jobs do
+			expect {
+				fill_in "First name", with: "First"
+				fill_in "Last name", with: "Last"
+				fill_in "Email", with: "test@example.com"
+				fill_in "Password", with: "test123"
+				fill_in "Password confirmation", with: "test123"
+				click_button "Sign up"
+			}.to change(User, :count).by(1)
+
+			expect(page).to \
+			have_content "Welcome! You have signed up successfully."
+			expect(current_path).to eq root_path
+			expect(page).to have_content "First Last" 
+		end
+		mail = ActionMailer::Base.deliveries.last
+
+		aggregate_failures do
+		expect(mail.to).to eq ["test@example.com"] 31 expect(mail.from).to eq ["support@example.com"] 32 expect(mail.subject).to eq "Welcome to Projects!" 33 expect(mail.body).to match "Hello First," 34 expect(mail.body).to match "test@example.com" 35 end 36 end 37 end
+```
