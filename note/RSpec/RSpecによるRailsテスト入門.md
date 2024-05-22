@@ -3429,3 +3429,26 @@ it "responds successfully" do
 end
 ```
 
+それからもう一度スペックを実行します。
+
+```
+Failures:
+	1) ProjectsController#index as an authenticated user responds successfully
+			Got 2 failures from failure aggregation block.
+			# ./spec/controllers/projects_controller_spec.rb:14:in `block (4 levels) in <main>' 
+			
+	1.1) Failure/Error: expect(response).to be_successful
+				expected `#<ActionDispatch::TestResponse:0x0000000119cf28
+				...省略...>.successful?` to be truthy, got false
+				# ./spec/controllers/projects_controller_spec.rb:15:in `block (5 levels) in <main>' 
+	1.2) Failure/Error: expect(response).to have_http_status "200"
+				expected the response to have status code 200 but it was 302
+				# ./spec/controllers/projects_controller_spec.rb:16:in `block (5 levels) in <main>'
+```
+
+これでどちらのエクスペクテーションも実行されました。
+そして、どうしてレスポンスが成功として返ってこなかったのか、追加の情報を得ることもできました。
+`sign_in`の行のコメントを外し、テストをグリーンに戻してください。
+私は統合テストで`aggregate_failures`をよく使います。
+`aggregate_failures`を使えば、同じコードを何度も実行して遅くなったり、複雑なセットアップを複数のテストで共有したりせずに、テストが失敗した複数のポイントを把握することができます。
+たとえば第6章で説明した、プロジェクトを作成するシナリオでエクスペクテーションの⼀部を集約してみましょう。
