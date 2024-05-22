@@ -4308,5 +4308,32 @@ bin/rails g rspec:job geocode_user
 
 この新しいファイルは本書を通じて作成してきた他のテストファイルとよく似ています。
 
-```ruby:spec/jobs/geocode_user_job_spec.rb 1 require 'rails_helper' 2 3 RSpec.describe GeocodeUserJob, type: :job do 4 pending "add some examples to (or delete) #{__FILE__}" 5 end
+```ruby:spec/jobs/geocode_user_job_spec.rb
+require 'rails_helper'
+
+RSpec.describe GeocodeUserJob, type: :job do
+	pending "add some examples to (or delete) #{__FILE__}"
+end
 ```
+
+では、このジョブがUserモデルのgeocodeメソッドを呼んでいることをテストしましょう。
+pendingになっているテストを次のように書き換えてください。
+
+```ruby:spec/jobs/geocode_user_job_spec.rb
+require 'rails_helper'
+
+RSpec.describe GeocodeUserJob, type: :job do
+	# user の geocode を呼ぶこと
+	it "calls geocode on the user" do
+		user = instance_double("User")
+		expect(user).to receive(:geocode)
+		GeocodeUserJob.perform_now(user)
+	end
+end
+```
+
+このテストでは第9章で説明した`instance_double`を使ってテスト用のモックユーザーを作っています。
+それからテスト実行中のどこかのタイミングでこのモックユーザーに対してgeocodeメソッドが呼び出されることをRSpecに伝えています。
+最後に、`perform_now`メソッドを使って、このバックグラウンドジョブ自身を呼び出します。
+こうすると、ジョブはキューに入らないため、テストの実行結果をすぐに検証できます。
+
