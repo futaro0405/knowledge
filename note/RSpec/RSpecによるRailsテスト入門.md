@@ -3180,3 +3180,65 @@ end
 ではこのカスタムマッチャを使ってみましょう。
 タスクコントローラのスペックを開き、新しいマッチャを使うように変更します。
 
+```ruby:spec/controllers/tasks_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe TasksController, type: :controller do
+	include_context "project setup"
+
+	describe "#show" do
+		# JSON 形式でレスポンスを返すこと
+		it "responds with JSON formatted output" do
+			sign_in user
+			get :show, format: :json,
+			params: { project_id: project.id, id: task.id }
+			expect(response).to have_content_type :json
+		end
+	end
+
+	describe "#create" do
+		# JSON 形式でレスポンスを返すこと
+		it "responds with JSON formatted output" do
+			new_task = { name: "New test task" }
+			sign_in user
+			post :create, format: :json,
+			params: { project_id: project.id, task: new_task }
+			expect(response).to have_content_type :json
+		end
+
+		# 残りのスペックが続く ...
+	end
+end
+```
+
+今から読みやすさを改善していきましょう。
+まず最初に`Content-Type`のハッシュを`match`メソッドの外に切り出します。
+RSpecではマッチャー内でヘルパーメソッドを定義し、コードをきれいにすることができます。
+
+```ruby:spec/support/matchers/content_type.rb
+RSpec::Matchers.define :have_content_type do |expected|
+	match do |actual|
+		begin
+			actual.content_type.include? content_type(expected)
+		rescue ArgumentError
+			false
+		end
+	end
+
+	def content_type(type)
+		types = {
+			html: "text/html",
+			json: "application/json",
+		}
+
+		types[type.to_sym] || "unknown content type"
+	end
+end
+```
+
+もう一度テストを実行し、先ほどと同じ方法でテストを失敗させてみてください。
+マッチャのコードはちょっと読みやすくなりましたが、出力はまだ読みやすくありません（訳 注: 同じ出力結果になります）。
+
+この点も改善可能です。
+RSpecのカスタムマッチャのDSLではmatchメソッドに加えて、失敗メッセージ（failure message）と、否定の失敗メッセージ（negated failure message）を定義するメソッドが用意されています。
+つまり、`to`や`to_not`で失敗したときの報告⽅法を定義できるのです。
