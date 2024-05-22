@@ -4356,3 +4356,36 @@ bin/rails g rspec:mailer user_mailer
 
 この新しいファイルで注目したいのは、`spec/mailers/user_mailer.rb`にファイルが作成されている点と、次のような定型コードが書かれている点です。
 
+```ruby:spec/mailers/user_mailer_spec.rb
+require "rails_helper"
+
+RSpec.describe UserMailer, type: :mailer do
+	pending "add some examples to (or delete) #{__FILE__}"
+end
+```
+
+ここに以下のようなコードを書いていきましょう。
+
+```ruby:spec/mailers/user_mailer_spec.rb
+require "rails_helper"
+
+RSpec.describe UserMailer, type: :mailer do
+	describe "welcome_email" do
+		let(:user) { FactoryBot.create(:user) }
+		let(:mail) { UserMailer.welcome_email(user) } 
+
+		# ウェルカムメールをユーザーのメールアドレスに送信すること
+		it "sends a welcome email to the user's email address" do
+			expect(mail.to).to eq [user.email]
+		end
+
+		# サポート⽤のメールアドレスから送信すること
+		it "sends from the support email address" do
+			expect(mail.from).to eq ["support@example.com"]
+		end
+
+		# 正しい件名で送信すること
+		it "sends with the correct subject" do
+			expect(mail.subject).to eq "Welcome to Projects!"
+	end 22 23 # ユーザーにはファーストネームであいさつすること 24 it "greets the user by first name" do 25 expect(mail.body).to match(/Hello #{user.first_name},/) 26 end 27 28 # 登録したユーザーのメールアドレスを残しておくこと 29 it "reminds the user of the registered email address" do 30 expect(mail.body).to match user.email 31 end 32 end 33 end
+```
