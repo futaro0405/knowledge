@@ -4387,5 +4387,35 @@ RSpec.describe UserMailer, type: :mailer do
 		# 正しい件名で送信すること
 		it "sends with the correct subject" do
 			expect(mail.subject).to eq "Welcome to Projects!"
-	end 22 23 # ユーザーにはファーストネームであいさつすること 24 it "greets the user by first name" do 25 expect(mail.body).to match(/Hello #{user.first_name},/) 26 end 27 28 # 登録したユーザーのメールアドレスを残しておくこと 29 it "reminds the user of the registered email address" do 30 expect(mail.body).to match user.email 31 end 32 end 33 end
+		end
+
+		# ユーザーにはファーストネームであいさつすること
+		it "greets the user by first name" do
+			expect(mail.body).to match(/Hello #{user.first_name},/)
+		end
+
+		# 登録したユーザーのメールアドレスを残しておくこと
+		it "reminds the user of the registered email address" do
+			expect(mail.body).to match user.email
+		end
+	end
+end
 ```
+
+ここではテストデータ、すなわち、テスト対象のユーザーとMailerのセットアップから始まっています。
+それから実装された仕様を確認するための小さな単体テストをいくつか書いています。
+最初に書いたのは`mail.to`のアドレスを確認するテストです。
+ここで注意してほしいのは、`mail.to`の値は文字列の配列になる点です。
+単体の文字列ではありません。
+`mail.from`も同様にテストします。
+このテストではRSpecの`contain`マッチャを使うこともできますが、私は配列の等値性をチェックする方が好みです。
+こうすると余計な受信者や送信者が含まれていないことを確実に検証できます。
+`mail.subject`のテストはとても単純だと思います。
+ここまでは`eq`マッチャを使って何度も文字列を比較してきました。
+ですが、`mail.body`を検証する最後の二つのテストでは`match`マッチャを使っている点が少し変わっています。
+このテストではメッセージ本文全体をテストする必要はなく、本文の一部をテストすればいいだけです。
+最初の`example`では正規表現を使って、フレンドリーなあいさつ（たとえば、Hello,Maggie,のようなあいさつ）が本文に含まれていることを確認しています。
+二つ目の`example`でも`match`を使っていますが、この場合は正規表現を使わずに、本文のどこかに`user.email`の文字列が含まれることを確認しているだけです。
+
+繰り返しになりますが、みなさんが書くMailerのスペックの複雑さは、みなさんが作ったMailerの複雑さ次第です。
+今回はこれぐらいで
