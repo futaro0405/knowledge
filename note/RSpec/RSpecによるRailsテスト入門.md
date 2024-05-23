@@ -5186,19 +5186,161 @@ Failures:
 ボタンの周りに付けていた条件分岐を変更し、ラベルの表示も制御するようにしましょう。
 
 ```html:app/views/projects/_project.html.erb
-<h1 class="heading">
-<%= project.name %>
-<%= link_to edit_project_path(project), class: "btn btn-light btn-sm btn-inline" do %>
-<span class="bi bi-pencil-fill" aria-hidden="true"></span>
-Edit
-<% end %>
-<% if project.completed? %>
-<span class="badge bg-success">Completed</span>
-<% else %>
-<%= button_to complete_project_path(project), method: :patch, form: { style: "display:inline-block;" }, class: "btn btn-light btn-sm btn-inline" do %>
-<span class="bi bi-check-lg" aria-hidden="true"></span>
-Complete
-<% end %>
-<% end %>
-</h1>
+	<h1 class="heading">
+		<%= project.name %>
+		<%= link_to edit_project_path(project), class: "btn btn-light btn-sm btn-inline" do %>
+			<span class="bi bi-pencil-fill" aria-hidden="true"></span>
+			Edit
+		<% end %>
+		<% if project.completed? %>
+			<span class="badge bg-success">Completed</span>
+		<% else %>
+			<%= button_to complete_project_path(project), method: :patch, form: { style: "display:inline-block;" }, class: "btn btn-light btn-sm btn-inline" do %>
+				<span class="bi bi-check-lg" aria-hidden="true"></span>
+				Complete
+			<% end %>
+		<% end %>
+	</h1>
 ```
+
+そしてスペックをもう一度実行してください。
+
+```
+Projects
+		user completes a project
+		
+Finished in 0.82131 seconds (files took 0.47196 seconds to load)
+1 example, 0 failures
+```
+
+グリーンに戻りました！
+ここまでは一つのスペックだけを実行してきましたが、別のことを始める前はいつもテストスイート全体をチェックするようにすべきです。
+`bundle exec rspec`を実行し、今回の変更が既存の機能を何も壊していないことを確認してください。
+TDDの最中に`focus:true`タグ、もしくは`:focus`タグを付けていた場合は、それも外すようにしましょう。
+テストスイートはグリーンになりました。
+これなら大丈夫そうです！
+
+### 外から中へ進む（Going outside-in）
+私たちは高レベルの統合テストを使い、途中でソフトウェアがどんな振る舞いを持つべきか検討しながら、この新しい機能を完成させました。
+この過程の大半において、私たちは次にどんなコードを書くべきか、すぐにわかりました。
+なぜならRSpecがその都度私たちにフィードバックを伝えてくれたからです。
+
+ですが、数回は何が起きていたのかじっくり調べる必要もありました。
+今回のケースでは、Launchyがデバッグツールとして大変役に立ちました。
+
+しかし、問題を理解するために、さらにテストを書かなければいけないこともよくあります。
+こうやって追加したテストはあなたの書いたコードをいろんなレベルから突っつき、高レベルのテストだけでは集めてくるのが難しい、有益な情報を提供してくれます。
+これがまさに、 __外から中へ（outside-in）__ のテストです。
+
+私はいつもこのような方法でテスト駆動開発を進めています。
+私はブラウザのシミュレートの実行コストが成果に見合わないと思った場合に、低レベルのテストを活用することもよくやります。
+私たちが書いた統合テストは正常系の操作です。
+プロジェクトを完了済みにする際、ユーザーはエラーに遭遇することはありませんでした。
+では、更新に失敗する場合のテストも高レベルのテストとして新たに追加する必要があるでしょうか？
+いいえ、これは追加する必要はないかもしれません。
+なぜなら私たちはすでにCompleteボタンが正しく実装され、画面にフラッシュメッセージが正しく表示されていることを確認したからです。
+この次はコントローラのテストに降りていって、異常系の操作をいろいろとテストするのが良いかもしれません。
+
+たとえば、適切なフラッシュメッセージが設定され、プロジェクトオブジェクトが変わらないことを検証する、といったテストです。
+この場合、すでにコードは書いてあるので、コントローラのテストではプロジェクトを完了済みにする際に発生したエラーも適切に処理されることを確認するだけです。
+このテストは既存のProjectコントローラのスペックに追加できます。
+
+```ruby:spec/controllers/projects_controller_spec.rb
+require 'rails_helper'
+
+RSpec.describe ProjectsController, type: :controller do
+	# 他の describe ブロックは省略 ...
+
+	describe "#complete" do
+		# 認証済みのユーザーとして
+		context "as an authenticated user" do
+			let!(:project) { FactoryBot.create(:project, completed: nil) }
+
+			before do
+				sign_in project.owner
+			end
+
+			# 成功しないプロジェクトの完了
+			describe "an unsuccessful completion" do
+				before do 
+					allow_any_instance_of(Project).
+						to receive(:update).
+						with(completed: true).
+						and_return(false)
+				end
+
+				# プロジェクト画⾯にリダイレクトすること
+				it "redirects to the project page" do
+					patch :complete, params: { id: project.id }
+					expect(response).to redirect_to project_path(project)
+				end
+
+				# フラッシュを設定すること
+				it "sets the flash" do
+					patch :complete, params: { id: project.id }
+					expect(flash[:alert]).to eq "Unable to complete project."
+				end
+
+				# プロジェクトを完了済みにしないこと
+				it "doesn't mark the project as completed" do
+					expect {
+						patch :complete, params: { id: project.id }
+					}.to_not change(project, :completed)
+				end
+			end
+		end
+	end
+end
+```
+
+上の`example`はいずれも失敗をシミュレートするのに十分なものです。
+ここで`はallow_any_instance_of`を使って、失敗を再現しました。
+`allow_any_instance_of`は第9章で使った`allow`メソッドの仲間です。
+このコードではあらゆる（any）プロジェクトオブジェクトに対する`update`の呼び出しに割って入り、プロジェクトの完了状態を保存しないようにしています。
+`allow_any_instance_of`は問題を引き起こしやすいメソッドなので、`describe "an unsuccessful completion"`ブロックの中でだけ使われるように注意しなければなりません。
+このテストを実行し、何が起きるか見てみましょう。
+
+```
+Failures:
+		1) ProjectsController#complete as an authenticated user an unsuccessful completion sets the flash
+				Failure/Error: expect(flash[:alert]).to eq "Unable to complete
+				project." 
+					expected: "Unable to complete project."
+					got: nil
+					(compared using ==)
+		# ./spec/controllers/projects_controller_spec.rb:246:in
+		`block (5 levels) in <top (required)>'
+```
+
+この結果を見ると、ユーザーは期待どおりにリダイレクトされ、プロジェクトも意図した通り、完了済みになっていないようです。
+しかし、問題の発生を知らせるメッセージが設定されていません。
+アプリケーションコードに戻り、これを処理する条件分岐を追加しましょう。
+
+```ruby:app/controllers/projects_controller.rb
+def complete
+	if @project.update(completed: true)
+		redirect_to @project,
+			notice: "Congratulations, this project is complete!"
+	else
+		redirect_to @project, alert: "Unable to complete project."
+	end
+end
+```
+
+このように変更すれば、新しいテストは全部パスします。
+これで正常系も異常系も、どちらもテストすることができました。
+ここまでの内容をまとめると、私は「外から中へ」のテストをするときは、高レベルのテストから始めて、ソフトウェアが意図したとおりに動いていることを確認するようにします。
+このとき、すべての前提条件とユーザーの入力値は正しいものとします
+（つまり正常系）。
+
+今回は統合テストとして、ブラウザのシミュレーションを行うシステムテストの形式を利用しました。
+ですが、APIのテストをする場合はリクエストスペックを使います
+（第7章を参照）。
+それから、低いレベルのテストに降りていき、可能な限り直接、細かい内容をテストします。
+今回はコントローラスペックを使いましたが、たいていの場合、モデルを直接テストしても大丈夫です。
+このテクニックはビジネスロジックを普通のRailsのモデルやコントローラから取り出して、サービスオブジェクトのような単体のクラスに移動させるかどうか検討する場合にも使えます。
+
+### レッド・グリーン・リファクタのサイクル
+新機能はひととおり完成しました。
+ですが、これで終わりではありません。
+ちゃんとパスするテストコードを使って、ここからさらに⾃分が書いたコードを改善することができます。「レッド・グリーン・リファクタ」でいうところの「リファクタ」の段階に到達したわけです。新しいテストコードを使えば、他の実装方法を検討したり、先ほど書いたコードをきれいにまとめたりすることができます。リファクタリングは⾮常に複雑で、詳しく説明し始めると本書の範疇を超えてしまいます。ですが、検討すべき選択肢はいくつか存在します。簡単なものから難しいものの順に並べてみましょう。
