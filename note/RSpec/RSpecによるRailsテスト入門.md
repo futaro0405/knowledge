@@ -4847,3 +4847,107 @@ viewに新しいボタンを追加してみるとどうなるでしょう？
 
 テストをもう一度実行し、前に進んだことを確認しましょう。
 
+```
+1) Projects user completes a project
+	Failure/Error: expect(project.reload.completed?).to be true
+	
+	NoMethodError:
+		undefined method `completed?' for an instance of Project
+```
+
+RSpecは次に何をすべきか、ヒントを与えてくれています。
+
+Projectモデルに`completed?`という名前のメソッドを追加してください。
+アプリケーションの内容とビジネスロジックによりますが、ここではいくつかの検討事項が浮かび上がってきます。
+プロジェクト内のタスクがすべて完了したら、プロジェクトは完了済みになるのでしょうか？
+もしそうであれば、`completed?`メソッドをProjectモデルに定義し、プロジェクト内の未完了タスクが空（つまり、プロジェクトは完了済み）か、そうでないか（プロジェクトは未完了の意味）を返すことができます。
+
+ただし、今回は完了済みかどうかは、ボタンをクリックするというユーザーの操作によって決定され、完了済みかどうかのステータスは永続化されることになります。
+なので、この値を保存するために、新しいActiveRecordの属性をモデルに追加する必要があるようです。
+projectsテーブルにこのカラムを追加するマイグレーションを作成し、それを実行してください。
+
+```bash
+bin/rails g migration add_completed_to_projects completed:boolean
+bin/rails db:migrate
+```
+
+変更を適用したら、新しいスペックをもう一度実行してください。
+今度は別の理由で失敗しますが、新しい失敗は私たちが前進していることを意味しています。
+
+```
+1) Projects user completes a project
+	Failure/Error: expect(project.reload.completed?).to be true
+
+	expected true
+	got false
+```
+
+ある意味残念なことですが、この高レベルなテストは他のテストと同じように重要な情報を示しています。
+みなさんは何が起きているのかもうわかったかもしれませんが、第6章で説明したLaunchyを使ってチェックしてみましょう。
+一時的にLaunchyをテストに組み込んでください。
+
+```ruby:spec/system/projects_spec.rb
+scenario "user completes a project", focus: true do
+	user = FactoryBot.create(:user)
+	project = FactoryBot.create(:project, owner: user)
+	sign_in user
+
+	visit project_path(project)
+	click_button "Complete"
+	save_and_open_page
+	expect(project.reload.completed?).to be true
+	expect(page).to \
+		have_content "Congratulations, this project is complete!"
+	expect(page).to have_content "Completed"
+	expect(page).to_not have_button "Complete"
+end
+```
+
+興味深いことに、画面がプロジェクト画面から変わっていません。
+ボタンをクリックしても何も起きないようですね。
+ああそうだ、先ほどviewに`<button>`タグを追加しましたが、このボタンが機能するようにしなければならないのでした。
+viewを変更してちゃんと動くようにしていきましょう。
+
+ですが、ここで新たに設計上の判断が必要になります。
+データベースに変更を加えるこのボタンのルーティングはどのようにするのが一番良いでしょうか？
+コードをシンプルに保ち、Projectコントローラのupdateアクションを再利用することもできますが、ここではフラッシュメッセージが異なるため、まったく同じ振る舞いにはなりません。
+
+そこでコントローラに新しいメンバーアクションを追加することにしましょう。
+この新機能のテストがいったんパスすれば、時間が許す限り別の実装を試すことも可能です。
+
+この場合は高いレベルから始めて、だんだん下へ降りていくアプローチが良いと思います。
+viewに戻ってボタンを修正しましょう。
+`<button>`タグはRailsのbutton_toヘルパーの呼び出しに置き換えてください。
+
+```ruby:app/views/projects/_project.html.erb
+<h1 class="heading">
+	<%= project.name %>
+		<%= link_to edit_project_path(project),
+					class: "btn btn-light btn-sm btn-inline" do %>
+			<span class="bi bi-pencil-fill" aria-hidden="true"></span>
+			Edit
+		<% end %>
+
+		<%= button_to complete_project_path(project),
+					method: :patch,
+					form: { style: "display:inline-block;" },
+				class: "btn btn-light btn-sm btn-inline" do %> 
+			<span class="bi bi-check-lg" aria-hidden="true"></span>
+			Complete
+		<% end %>
+</h1>
+
+<!-- 残りの view は省略 ... -->
+```
+
+スタイルの記述を少し追加したことに加えて、この新しいアクションで呼ばれるルートヘルパーの定義も考えてみました。
+それが`complete_project_path`です。
+`save_and_open_page`をスペックから削除し、テストをもう一度実行してください。
+おっと、新しい失敗メッセージが出ました。
+
+```
+1) Projects user completes a project
+	Failure/Error: <%= button_to complete_project_path(@project), 
+	
+	ActionView::Template::Error: undefined method `complete_project_path' for an instance of #<Class:0x0000000124707b30>
+```
