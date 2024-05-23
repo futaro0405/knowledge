@@ -4753,7 +4753,7 @@ end
 ファイルを保存し、`bundleexecrspecspec/system/projects_spec.rb`というコマンドでスペックを実行してください。
 たぶん予想が付いていると思いますが、RSpecは次のようなフィードバックを返してきます。
 
-```ta
+```terminal
 Projects
 	user creates a new project
 	user completes a project (PENDING: Not yet implemented)
@@ -4763,4 +4763,87 @@ Projects
 	1) Projects user completes a project
 		# Not yet implemented
 		# ./spec/system/projects_spec.rb:26
+
+Finished in 0.7601 seconds (files took 0.35072 seconds to load)
+2 examples, 0 failures, 1 pending
 ```
+
+新しいシナリオにいくつかステップを追加しましょう。
+ここではユーザーがプロジェクトを完了済みにする流れを記述します。
+最初に、何が必要で、ユーザーは何をして、それがどんな結果になるのかを考えましょう。
+
+1. プロジェクトを持ったユーザーが必要で、そのユーザーはログインしていないといけない。
+2. ユーザーはプロジェクト画面を開き完了（complete）ボタンをクリックする。
+3. プロジェクトは完了済み（completed）としてマークされる。
+
+私はときどきテストに必要な情報をコメントとして書き始めます。
+こうすれば簡単にコメントをテストコードで置き換えられるからです。
+
+```ruby:spec/system/projects_spec.rb
+# ユーザーはプロジェクトを完了済みにする
+scenario "user completes a project", focus: true do
+	user = FactoryBot.create(:user)
+	project = FactoryBot.create(:project, owner: user)
+	sign_in user
+
+	visit project_path(project)
+	click_button "Complete"
+
+	expect(project.reload.completed?).to be true
+	expect(page).to \
+		have_content "Congratulations, this project is complete!"
+	expect(page).to have_content "Completed"
+	expect(page).to_not have_button "Complete"
+end
+```
+
+この新機能を実現するためのアプリケーションコードはまだ実際に書いていませんが、どのような形で動くのかはすでに記述しています。
+まず、Completeと書かれたボタンがあります。
+このボタンをクリックするとプロジェクトのcompleted属性が更新され、値がfalseからtrueに変わります。
+それからフラッシュメッセージでプロジェクトが完了済みになったことをユーザーに通知します。
+さらにボタンがなくなるかわりに、プロジェクトが完了済みになったことを示すラベルが表示されることを確認します。
+これがテスト駆動開発の基本です。
+テストから先に書き始めることで、コードがどのように振る舞うのかを積極的に考えることができます。
+
+### レッドからグリーンへ
+スペックをもう一度実行してください。
+テストは失敗します！
+ですが、テスト駆動開発の場合、これは良いこととされているので覚えておきましょう。
+なぜなら、テストが失敗することで次に作業すべきゴールがわかるからです。
+RSpecは失敗した内容をわかりやすく表示してくれます。
+
+```
+1) Projects user completes a project
+	Failure/Error: click_button "Complete"
+
+	Capybara::ElementNotFound:
+		Unable to find button "Complete"
+		
+		1) Projects user completes a project
+			Failure/Error: click_button "Complete"
+
+			Capybara::ElementNotFound:
+				Unable to find button "Complete"
+```
+
+さて、この状況を前進させる一番シンプルな方法は何でしょうか？
+viewに新しいボタンを追加してみるとどうなるでしょう？
+
+```ruby:app/views/projects/_project.html.erb
+<h1 class="heading">
+	<%= project.name %>
+	<%= link_to edit_project_path(project),
+				class: "btn btn-light btn-sm btn-inline" do %>
+		<span class="bi bi-pencil-fill" aria-hidden="true"></span>
+		Edit
+	<% end %>
+	<button class="btn btn-light btn-sm btn-inline">
+		<span class="bi bi-check-lg" aria-hidden="true"></span>
+			Complete
+	</button>
+</h1>
+<!-- 残りの view は省略 ... -->
+```
+
+テストをもう一度実行し、前に進んだことを確認しましょう。
+
