@@ -5066,3 +5066,139 @@ Failures:
 				Name Actions Notes Add Note Term"
 ```
 
+ここに表示されている画面内の文言を読んでいくと、どうやらCompletedという文字列が画面に出力されていないようです。
+これはまだこの文字列を追加していないからであり、さらに言うと私たちがやっているのはテスト駆動開発だからです。
+
+ではviewに文字列を追加してみましょう。
+先ほど追加したボタンの隣によく目立つラベルの`<span>`タグを追加してください。
+
+```ruby:app/views/projects/_project.html.erb
+<h1 class="heading">
+	<%= project.name %>
+	<%= link_to edit_project_path(project),
+				class: "btn btn-light btn-sm btn-inline" do %>
+		<span class="bi bi-pencil-fill" aria-hidden="true"></span>
+		Edit
+	<% end %>
+
+	<%= button_to complete_project_path(project),
+				method: :patch,
+				form: { style: "display:inline-block;" },
+				class: "btn btn-light btn-sm btn-inline" do %>
+
+		<span class="bi bi-check-lg" aria-hidden="true"></span>
+			Complete
+	<% end %>
+
+	<span class="badge bg-success">Completed</span>
+</h1>
+
+<!-- 残りの view は省略 ... -->
+```
+
+テストをもう一度実行してください。
+失敗しているのは最後のステップだけです！
+
+```
+Failures:
+		1) Projects user completes a project
+		Failure/Error: expect(page).to_not have_button "Complete"
+		expected not to find button "Complete", found 1 match: "Complete"
+```
+
+プロジェクトは完了済みになっていますが、Completeボタンがまだ表示されたままです。
+このままだとユーザーを混乱させてしまうので、完了済みのプロジェクトを開いたときはUIにボタンを表示しないようにすべきです。
+viewに新たな変更を加えれば、これを実現できます。
+
+```ruby:app/views/projects/_project.html.erb
+<h1 class="heading">
+	<%= project.name %>
+	<%= link_to edit_project_path(project),class: "btn btn-light btn-sm btn-inline" do %>
+		<span class="bi bi-pencil-fill" aria-hidden="true"></span>
+		Edit
+	<% end %>
+
+	<% unless project.completed? %>
+	<%= button_to complete_project_path(project),method: :patch,form: { style: display:inline-block;" },class: "btn btn-light btn-sm btn-inline" do %>
+			<span class="bi bi-check-lg" aria-hidden="true"></span>
+			Complete
+			<% end %>
+	<% end %>
+	<span class="badge bg-success">Completed</span>
+</h1>
+```
+
+スペックを実行してください。
+・・・ついにパスしました！
+
+```
+Projects
+		user completes a project
+		
+Finished in 0.58043 seconds (files took 0.35844 seconds to load)
+1 example, 0 failures
+```
+
+私はviewのロジックに変更が入ったらブラウザでどうなったのか確認するようにしています
+（APIのエンドポイントを書いているときは`curl`かその他のHTTPクライアントでテストします）。
+Railsの開発用サーバーが動いていなければ、サーバーを起動してください。
+それからプロジェクト画面をブラウザで開いてください。
+Completeボタンをクリックすると本当にプロジェクトが完了済みになり、ボタンが表示されなくなることを確認してください
+と言いたいところですが、プロジェクトの完了状態にかかわらず、先ほど追加したCompletedのラベルが表示されています！
+どうやらこの新機能が完成したと宣言する前に、テストをちょっと変更した方がいいようです。
+新しいアクションを実行する前に、Completedのラベルが画面に表示されていないことを確認しましょう。
+
+```ruby:spec/system/projects_spec.rb
+# ユーザーはプロジェクトを完了済みにする
+scenario "user completes a project" do
+	user = FactoryBot.create(:user)
+	project = FactoryBot.create(:project, owner: user)
+	sign_in user
+
+	visit project_path(project)
+
+	expect(page).to_not have_content "Completed"
+
+	click_button "Complete"
+
+	expect(project.reload.completed?).to be true
+	expect(page).to \
+		have_content "Congratulations, this project is complete!"
+	expect(page).to have_content "Completed"
+	expect(page).to_not have_button "Complete"
+end
+```
+
+こうするとスペックはまた失敗してしまいます。
+ですが、これは一時的なものです。
+
+```
+Failures:
+		1) Projects user completes a project
+				Failure/Error: expect(page).to_not have_content "Completed"
+				expected not to find text "Completed" in "Toggle navigation
+				Project Manager Projects Aaron Sumner Sign Out Project 1 Edit 
+				Complete Completed A test project. Owner: Aaron Sumner
+				Due: October 11, 2017 (7 days from now) Tasks Add Task
+				Name Actions Notes Add Note Term"
+```
+
+ボタンの周りに付けていた条件分岐を変更し、ラベルの表示も制御するようにしましょう。
+
+```html:app/views/projects/_project.html.erb
+<h1 class="heading">
+<%= project.name %>
+<%= link_to edit_project_path(project), class: "btn btn-light btn-sm btn-inline" do %>
+<span class="bi bi-pencil-fill" aria-hidden="true"></span>
+Edit
+<% end %>
+<% if project.completed? %>
+<span class="badge bg-success">Completed</span>
+<% else %>
+<%= button_to complete_project_path(project), method: :patch, form: { style: "display:inline-block;" }, class: "btn btn-light btn-sm btn-inline" do %>
+<span class="bi bi-check-lg" aria-hidden="true"></span>
+Complete
+<% end %>
+<% end %>
+</h1>
+```
