@@ -66,17 +66,20 @@ RSpecの起動
 bundle exec rspec
 ```
 
-### binstub
+### rspec binstubを使ってコマンドを短くする
 binstubを作成して短いコマンドで実行できるようにする
+
 ```bash
 bundle binstubs rspec-core
 ```
+
 このコマンドを実行することでbinディレクトリ内にrspecの実行ファイルが作成される。
 
 ### ジェネレータ
-`rails generate`コマンドをカスタマイズする
+`rails generate`コマンドを使ってコードを追加する際にRSpec用のファイルも作ってもらうように設定する。
+その他も不要なファイルを作成されないようにする。
 
-```config/application.rb
+```ruby:config/application.rb
 require_relative "boot"
 require "rails/all"
 
