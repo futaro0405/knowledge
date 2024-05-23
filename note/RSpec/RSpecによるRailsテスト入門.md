@@ -170,6 +170,7 @@ end
 ```
 
 `bundle exec rspec`コマンドで実行
+
 ### RSpec構文
 RSpecは`should`構文から`expect`構文にアップデートされた
 
@@ -188,6 +189,7 @@ end
 ```
 
 実際のexapleではどうなるか
+
 ```ruby:spec/models/user_spec.rb
 RSpec.describe User, type: :model do 4
 		# 姓、名、メール、パスワードがあれば有効な状態であること

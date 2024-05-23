@@ -85,7 +85,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md"
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
               }
             }
           },
@@ -112,7 +112,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -141,7 +142,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -158,7 +159,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -219,11 +220,11 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "a63530b2dd76073b",
+  "active": "f8e794e20044fcef",
   "lastOpenFiles": [
+    "note/RSpec/RSpecによるRailsテスト入門.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/まとめ/2_ModelSpec.md",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/まとめ/1_事前準備.md",
     "40_work/K社/daily-report/04/0422.md",
     "40_work/K社/daily-report/04/0423.md",
