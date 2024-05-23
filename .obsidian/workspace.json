@@ -24,7 +24,7 @@
               "type": "markdown",
               "state": {
                 "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "preview",
+                "mode": "source",
                 "backlinks": false,
                 "source": true
               }
@@ -36,7 +36,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md",
+                "file": "note/RSpec/まとめ/1_事前準備.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
@@ -99,8 +99,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -212,8 +211,8 @@
   "lastOpenFiles": [
     "note/RSpec/RSpecによるRailsテスト入門.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
-    "note/RSpec/まとめ/2_ModelSpec.md",
     "note/RSpec/まとめ/1_事前準備.md",
+    "note/RSpec/まとめ/2_ModelSpec.md",
     "40_work/K社/daily-report/04/0422.md",
     "40_work/K社/daily-report/04/0423.md",
     "40_work/K社/daily-report/04/0419.md",

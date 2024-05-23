@@ -692,7 +692,7 @@ end
 ```
 
 テスト内でFactoryBot.create(:user)と書くと新しいユーザーを作成できる。
-このコードを書くとsupec全体でファクトリが使えるようになる。
+このコードを書くとspec全体でファクトリが使えるようになる。
 
 ```ruby:spec/models/user_spec.rb
 require 'rails_helper'
