@@ -24,8 +24,8 @@
               "type": "markdown",
               "state": {
                 "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "source",
-                "backlinks": true,
+                "mode": "preview",
+                "backlinks": false,
                 "source": true
               }
             }
