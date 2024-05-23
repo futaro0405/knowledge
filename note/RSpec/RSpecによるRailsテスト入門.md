@@ -4945,9 +4945,124 @@ viewに戻ってボタンを修正しましょう。
 `save_and_open_page`をスペックから削除し、テストをもう一度実行してください。
 おっと、新しい失敗メッセージが出ました。
 
+```bash
+1) Projects user completes a project
+	Failure/Error: <%= button_to complete_project_path(@project), %>
+	
+			ActionView::Template::Error:
+				undefined method `complete_project_path' for
+				an instance of #<Class:0x0000000124707b30>
+				
+```
+
+このエラーはまさにこれから使おうとしている新しいルーティングをまだ定義していないというヒントになっています。
+では、routesファイルにルーティングを追加しましょう。
+
+```ruby:config/routes.rb
+resources :projects do
+	resources :notes
+	resources :tasks do
+		member do
+			post :toggle
+		end
+	end
+
+	member do
+		patch :complete
+	end
+end
+```
+
+ルーティングを追加してからスペックを実行すると、別の新しい失敗メッセージが表示されます。
+
 ```
 1) Projects user completes a project
-	Failure/Error: <%= button_to complete_project_path(@project), 
-	
-	ActionView::Template::Error: undefined method `complete_project_path' for an instance of #<Class:0x0000000124707b30>
+		Failure/Error: click_button "Complete"
+		
+		AbstractController::ActionNotFound:
+				The action 'complete' could not be found for ProjectsController
 ```
+
+RSpecは私たちに何を修正すればいいのか、良いヒントを与えてくれています。
+（訳注：エラーメッセージの最後に「ProjectsControllerに`complete`アクションが見つかりません」と出力されています）
+
+ここに書かれているとおり、Projectコントローラに空の`complete`アクションを作成しましょう。
+追加する場所はRailsのジェネレータで作成された既存の`destroy`アクションの下にします。
+
+```ruby:app/controllers/projects_controller.rb
+def destroy
+	# Rails ジェネレータのコードは省略 ...
+end
+
+def complete
+end
+```
+
+中身も書き始めたいという誘惑に駆られますが、テスト駆動開発の信条は「テストを前進させる必要最小限のコードを書く」です。
+先ほど、テストはアクションが見つからないと訴えていました。
+私たちはそれを追加しました。
+テストを実行して、現在の状況を確認してみましょう。
+
+```
+1) Projects user completes a project
+		Failure/Error: unless @project.owner == current_user
+		
+		NoMethodError:
+				undefined method `owner' for nil
+				# ./app/controllers/application_controller.rb:13:in `project_owner?'
+```
+
+ちょっと面白い結果になりました。
+まったく別のコントローラでテストが失敗しています！
+これはなぜでしょうか？
+Projectコントローラではアクションを実行する前にいくつかのコールバックを設定しています。
+ですが、その中に新しく作ったcompleteアクションを含めていませんでした。
+これが失敗の原因です。
+というわけで、アクションを追加しましょう。
+
+```ruby:app/controllers/projects_controller.rb
+class ProjectsController < ApplicationController
+	before_action :set_project, only: %i[ show edit update destroy complete ]
+	before_action :project_owner?, except: %i[ index new create ]
+
+	# コントローラのコードは以下省略 ...
+```
+
+ではスペックを再実行してください。
+
+```
+Failures:
+		1) Projects user completes a project
+				Failure/Error: expect(project.reload.completed?).to be true
+```
+
+この結果は一見、何歩か後退してしまったように見えます。
+この失敗メッセージは少し前にも見たんじゃないでしょうか？
+ですが実際にはゴールに近づいています。
+上の失敗メッセージはコントローラのアクションには到達したものの、そのあとに何も起きなかったことを意味しています。
+というわけで、正常系のシナリオを満足させるコードを書いていきましょう。
+ここでは何の問題もなくユーザーがプロジェクトを完了済みにできることを前提とします。
+
+```ruby:app/controllers/projects_controller.rb
+def complete
+	@project.update!(completed: true)
+	redirect_to @project,
+	notice: "Congratulations, this project is complete!"
+end
+```
+
+スペックをもう一度実行してください。
+もうそろそろ終わりに近づいてきているはずです！
+
+```
+Failures:
+		1) Projects user completes a project
+				Failure/Error: expect(page).to have_content "Completed"
+				expected to find text "Completed" in "Toggle navigation
+				Project Manager Projects Aaron Sumner Sign Out
+				× Congratulations, this project is complete!
+				Project 1 Edit Complete A test project. Owner: Aaron Sumner
+				Due: October 11, 2017 (7 days from now) Tasks Add Task
+				Name Actions Notes Add Note Term"
+```
+
