@@ -65,7 +65,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
               }
             }
           },
@@ -122,7 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
