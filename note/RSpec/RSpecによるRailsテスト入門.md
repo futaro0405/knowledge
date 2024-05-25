@@ -1710,11 +1710,11 @@ end
 
 このテストのちょっとだけ新しい点は、デフォルトのHTML形式のかわりに`format: :json`というオプションでJSON形式であることを指定しているところです。
 こうするとコントローラは⾔われたとおりにリクエストを処理します。
-つまり、application/jsonのContent-Typeでレスポンスを返してくれるのです。
+つまり、`application/json`の`Content-Type`でレスポンスを返してくれるのです。
 
-ただし、厳密には application/json; charset=utf-8のように⽂字コード情報も⼀緒に付いてきます。
-そこで、このテストではincludeマッチャを使ってレスポンスの中にapplication/jsonが含まれていればテストがパスするようにしました。
-意図した通りにテストできていることを確認するため、application/jsonをtext/htmlに変えてみましょう。
+ただし、厳密には`application/json; charset=utf-8`のように文字コード情報も一緒に付いてきます。
+そこで、このテストでは`include`マッチャを使ってレスポンスの中に`application/json`が含まれていればテストがパスするようにしました。
+意図した通りにテストできていることを確認するため、`application/json`を`text/html`に変えてみましょう。
 
 案の定、テストは失敗するはずです。
 次に、createアクションがJSONを処理できることを確認するテストをいくつか追加してみましょう。
