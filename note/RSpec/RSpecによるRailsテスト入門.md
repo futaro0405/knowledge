@@ -1480,7 +1480,7 @@ describe "#update" do
 			expect(response).to have_http_status "302"
 		end
 
-		# サインイン画⾯にリダイレクトすること
+		# サインイン画面にリダイレクトすること
 		it "redirects to the sign-in page" do
 			project_params = FactoryBot.attributes_for(:project)
 			patch :update, params: { id: @project.id, project: project_params }
@@ -1491,13 +1491,14 @@ end
 ```
 
 オブジェクトを作成し、それからコントローラを使った変更を試みます。
-試みは失敗し、かわりにユーザーはログイン画⾯にリダイレクトさせられます。
+試みは失敗し、かわりにユーザーはログイン画面にリダイレクトさせられます。
 
-ユーザーの⼊⼒を受け付けるアクションがもう⼀つあります。
-次はdestroyアクションを⾒てみましょう。
+
+ユーザーの入力を受け付けるアクションがもう1つあります。
+次はdestroyアクションを見てみましょう。
 これはupdateによく似ています。
-認可されたユーザーであれば⾃分のプロジェクトは削除できますが、他のユーザーのプロジェクトは削除できません。
-ゲストの場合は⼀切アクセスできません。
+認可されたユーザーであれば自分のプロジェクトは削除できますが、他のユーザーのプロジェクトは削除できません。
+ゲストの場合は一切アクセスできません。
 
 ```ruby:spec/controllers/projects_controller_spec.rb
 describe "#destroy" do
