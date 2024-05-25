@@ -706,7 +706,7 @@ describe User do
 		expect(FactoryBot.build(:user)).to be_valid
 	end
 
-# 他のスペックが並ぶ ... 
+	# 他のスペックが並ぶ ... 
 end
 ```
 
