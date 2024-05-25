@@ -79,7 +79,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           },
@@ -136,7 +136,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -153,7 +153,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -214,10 +214,10 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "c3ffa132167db262",
+  "active": "2c65b60812bf63fc",
   "lastOpenFiles": [
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/まとめ/2_ModelSpec.md",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/まとめ/1_事前準備.md",
     "40_work/K社/daily-report/05/0522.md",

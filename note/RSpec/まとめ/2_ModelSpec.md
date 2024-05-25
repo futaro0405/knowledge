@@ -36,5 +36,7 @@ RSpec.describe User, type: :model do
 end
 ```
 
-`be_valid`というRSpecのmatcherを使ってmodelが有効な状態を理解できているかを検証している。
+`be_valid`
+RSpecのmatcher
+modelが有効な状態を理解できているかを検証している。
 Userオブジェクトを作成し、そのオブジェクトを`expect`に渡しmatcherと比較している。
