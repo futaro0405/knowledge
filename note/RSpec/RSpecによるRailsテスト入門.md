@@ -1058,9 +1058,8 @@ end
 ここではFactoryBotのコールバックについてごく簡単な内容しか説明していません。
 
 ## コントローラスペック
-
 ### コントローラスペックの基本
-Homeコントローラはまだサインインしていない⼈のために、アプリケーションのホームページを返す仕事です。
+Homeコントローラはまだサインインしていない人のために、アプリケーションのホームページを返す仕事です。
 
 ```ruby:app/controllers/home_controller.rb
 class HomeController < ApplicationController
