@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "ca9fd707a3f7f0c5",
+        "id": "e3694ef04f10c79c",
         "type": "tabs",
         "children": [
           {
@@ -29,7 +29,14 @@
                 "source": true
               }
             }
-          },
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "ca9fd707a3f7f0c5",
+        "type": "tabs",
+        "children": [
           {
             "id": "c3ffa132167db262",
             "type": "leaf",
@@ -37,14 +44,13 @@
               "type": "markdown",
               "state": {
                 "file": "note/RSpec/まとめ/2_ModelSpec.md",
-                "mode": "preview",
+                "mode": "source",
                 "backlinks": true,
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -105,8 +111,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 257.5,
-    "collapsed": true
+    "width": 257.5
   },
   "right": {
     "id": "68912b955d876372",
@@ -212,8 +217,8 @@
   "active": "c3ffa132167db262",
   "lastOpenFiles": [
     "note/RSpec/RSpecによるRailsテスト入門.md",
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/まとめ/2_ModelSpec.md",
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/まとめ/1_事前準備.md",
     "40_work/K社/daily-report/05/0522.md",
     "40_work/K社/daily-report/05/0523.md",
