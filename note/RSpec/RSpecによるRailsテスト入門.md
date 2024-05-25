@@ -461,8 +461,10 @@ RSpec.describe Note, type: :model do
 	end
 end
 ```
+
 2つの`context`ブロックを加えてさらにexampleを切り分ける
 exampleのアウトラインを作ると同じようなexampleをひとまとめにして分類できる
+
 ```ruby:spec/models/note_spec.rb
 require 'rails_helper'
 
