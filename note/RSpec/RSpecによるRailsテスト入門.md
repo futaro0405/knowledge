@@ -1283,6 +1283,7 @@ before_action :project_owner?, except: %i[ index new create ]
 
 ```ruby:spec/controllers/projects_controller_spec.rb
 require 'rails_helper'
+
 RSpec.describe ProjectsController, type: :controller do
 	# インデックスのテストが並ぶ ...
 	describe "#show" do
