@@ -16,13 +16,7 @@
                 "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
               }
             }
-          }
-        ]
-      },
-      {
-        "id": "2f9f20f87a4820cb",
-        "type": "tabs",
-        "children": [
+          },
           {
             "id": "2c65b60812bf63fc",
             "type": "leaf",
@@ -30,6 +24,26 @@
               "type": "markdown",
               "state": {
                 "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      },
+      {
+        "id": "0c5c6fd694b1a14b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c3ffa132167db262",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/RSpec/まとめ/2_ModelSpec.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -65,7 +79,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf"
+                "file": "note/RSpec/まとめ/2_ModelSpec.md"
               }
             }
           },
@@ -92,12 +106,11 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 493.5
+    "width": 290.5
   },
   "right": {
     "id": "68912b955d876372",
@@ -122,7 +135,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "note/RSpec/まとめ/2_ModelSpec.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +152,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "401_/public/pdf/everydayrailsrspec-jp.pdf",
+                "file": "note/RSpec/まとめ/2_ModelSpec.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -200,10 +213,10 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "df4ae8ead2457672",
+  "active": "c3ffa132167db262",
   "lastOpenFiles": [
-    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/RSpecによるRailsテスト入門.md",
+    "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "40_work/K社/daily-report/05/0522.md",
     "40_work/K社/daily-report/05/0523.md",
     "note/RSpec/まとめ/1_事前準備.md",
