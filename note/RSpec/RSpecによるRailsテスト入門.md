@@ -445,8 +445,8 @@ end
 | `include`  | rspec-expectations |
 | `be_empty` | rspec-expectations |
 
-### `describe`、`context`、`before`、`after`を使ってスペックを DRY にする
-さきほどのNoteモデルのsペックに注目する
+### `describe`、`context`、`before`、`after`を使ってスペックをDRYにする
+さきほどのNoteモデルのspecに注目する
 `describe`ブロックを`describe Note`ブロックの中に作成する
 検索機能にフォーカスするため
 
