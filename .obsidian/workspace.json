@@ -19,13 +19,7 @@
                 "source": true
               }
             }
-          }
-        ]
-      },
-      {
-        "id": "98be4626ef84f109",
-        "type": "tabs",
-        "children": [
+          },
           {
             "id": "b3d880b4c3f7735d",
             "type": "leaf",
@@ -95,8 +89,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
