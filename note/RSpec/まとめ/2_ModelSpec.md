@@ -40,3 +40,38 @@ end
 RSpecのmatcher
 modelが有効な状態を理解できているかを検証している。
 Userオブジェクトを作成し、そのオブジェクトを`expect`に渡しmatcherと比較している。
+
+### バリデーションをテストする
+
+```ruby:spec/models/user_spec.rb
+# 名がなければ無効な状態であること
+it "is invalid without a first name" do
+		user = User.new(first_name: nil)
+		user.valid?
+
+		expect(user.errors[:first_name]).to include("can't be blank")
+end
+```
+
+もっと複雑なテストを書いてみる
+
+```ruby:spec/models/user_spec.rb
+it "is invalid with a duplicate email address" do
+	User.create(
+		first_name: "Joe",
+		last_name: "Tester",
+		email: "tester@example.com",
+		password: "dottle-nouveau-pavilion-tights-furze",
+	)
+
+	user = User.new(
+		first_name: "Jane",
+		last_name: "Tester",
+		email: "tester@example.com",
+		password: "dottle-nouveau-pavilion-tights-furze",
+	)
+	user.valid?
+
+	expect(user.errors[:email]).to include("has already been taken")
+end
+```
