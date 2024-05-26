@@ -2528,7 +2528,8 @@ end
 
 もう少し複雑な例も見てみましょう。
 たとえばProjectコントローラのcreateアクションのテストは次のようなリクエストスペックに書き換えることができます。
-`spec/requests/projects_spec.rb`を作成してテストコードを書いてみましょう（前述の`projects_api_spec.rb`とはファイル名が異なる点に注意してください）。
+`spec/requests/projects_spec.rb`を作成してテストコードを書いてみましょう
+（前述の`projects_api_spec.rb`とはファイル名が異なる点に注意してください）。
 
 ```ruby:spec/requests/projects_spec.rb
 require 'rails_helper'
