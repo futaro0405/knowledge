@@ -2148,7 +2148,7 @@ Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f 
 ```
 
 こうするとRSpec関連の設定ファイルを`spec/support`ディレクトリに配置することができます。
-Devise⽤の設定を追加したときのように、`spec/rails_helper.rb`内に直接設定を書き込まなくても済むのです。
+Devise用の設定を追加したときのように、`spec/rails_helper.rb`内に直接設定を書き込まなくても済むのです。
 それでは`spec/support/capybara.rb`という新しいファイルを作成し、次のような設定を追加しましょう。
 
 ```ruby:spec/support/capybara.rb
