@@ -13,8 +13,21 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/05/0528.md",
-                "mode": "preview",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "b3d880b4c3f7735d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/RSpec/まとめ/2_ModelSpec.md",
+                "mode": "source",
                 "backlinks": true,
                 "source": true
               }
@@ -49,7 +62,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/daily-report/05/0528.md"
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
               }
             }
           },
@@ -59,7 +72,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "have_http_status",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -76,8 +89,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -106,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/daily-report/05/0528.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -123,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/daily-report/05/0528.md",
+                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -186,13 +198,11 @@
   },
   "active": "f8e794e20044fcef",
   "lastOpenFiles": [
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/Rspec meme.md",
-    "note/RSpec/まとめ/1_事前準備.md",
     "note/RSpec/FactoryBotのレシーバを省略.md",
-    "40_work/K社/daily-report/05/0528.md",
-    "40_work/K社/daily-report/05/0524.md",
     "note/RSpec/まとめ/2_ModelSpec.md",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
+    "note/RSpec/まとめ/1_事前準備.md",
     "note/git/branch作成.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "Untitled.md",
@@ -214,6 +224,8 @@
     "40_work/K社/daily-report/04/0410.md",
     "40_work/K社/daily-report/04/0409.md",
     "40_work/K社/daily-report/05/0507.md",
+    "daily/2024/May/22.md",
+    "40_work/K社/daily-report/05/0521.md",
     "everydayrailsrspec-jp.pdf",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
