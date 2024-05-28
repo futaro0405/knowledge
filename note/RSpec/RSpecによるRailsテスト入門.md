@@ -1040,7 +1040,7 @@ end
 このテストは失敗します。
 なぜならメモの数が5件ではなくゼロだからです。
 
-そこで __with_notes__ トレイトでセットアップした新しいコールバックを使って、このテス トをパスさせましょう。
+そこで __with_notes__ トレイトでセットアップした新しいコールバックを使って、このテストをパスさせましょう。
 ```ruby:spec/models/project_spec.rb
 # たくさんのメモが付いていること
 it "can have many notes" do
@@ -1107,6 +1107,7 @@ end
 
 特定のHTTPレスポンスコードが返ってきているかどうかも確認できます。
 この場合であれば200 OKのレスポンスが返ってきてほしいはずです。
+
 ```ruby:spec/controllers/home_controller_spec.rb
 # 200レスポンスを返すこと
 it "returns a 200 response" do
