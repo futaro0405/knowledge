@@ -4,52 +4,6 @@
     "type": "split",
     "children": [
       {
-        "id": "5793fc549f18412f",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "ab8e264dcebf35d5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "2e6fe7069be87506",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "5d43c2e0dcf5612d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/RSpec/FactoryBotのレシーバを省略.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          }
-        ],
-        "currentTab": 1
-      },
-      {
         "id": "e3694ef04f10c79c",
         "type": "tabs",
         "children": [
@@ -60,27 +14,13 @@
               "type": "markdown",
               "state": {
                 "file": "40_work/K社/daily-report/05/0528.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "60e274603e4f0713",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/RSpec/まとめ/1_事前準備.md",
-                "mode": "source",
+                "mode": "preview",
                 "backlinks": true,
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -109,7 +49,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+                "file": "40_work/K社/daily-report/05/0528.md"
               }
             }
           },
@@ -137,7 +77,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -166,7 +106,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "40_work/K社/daily-report/05/0528.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -183,7 +123,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "40_work/K社/daily-report/05/0528.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -244,10 +184,10 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "2e6fe7069be87506",
+  "active": "f8e794e20044fcef",
   "lastOpenFiles": [
-    "note/RSpec/Rspec meme.md",
     "note/RSpec/RSpecによるRailsテスト入門.md",
+    "note/RSpec/Rspec meme.md",
     "note/RSpec/まとめ/1_事前準備.md",
     "note/RSpec/FactoryBotのレシーバを省略.md",
     "40_work/K社/daily-report/05/0528.md",
