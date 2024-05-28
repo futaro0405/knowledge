@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "e3694ef04f10c79c",
+        "id": "5793fc549f18412f",
         "type": "tabs",
         "children": [
           {
-            "id": "f8e794e20044fcef",
+            "id": "ab8e264dcebf35d5",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,21 +19,41 @@
                 "source": true
               }
             }
-          },
+          }
+        ]
+      },
+      {
+        "id": "e3694ef04f10c79c",
+        "type": "tabs",
+        "children": [
           {
-            "id": "b3d880b4c3f7735d",
+            "id": "f8e794e20044fcef",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md",
+                "file": "40_work/K社/daily-report/05/0528.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "60e274603e4f0713",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/RSpec/まとめ/1_事前準備.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -62,7 +82,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+                "file": "note/RSpec/まとめ/1_事前準備.md"
               }
             }
           },
@@ -93,7 +113,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 257.5
+    "width": 257.5,
+    "collapsed": true
   },
   "right": {
     "id": "68912b955d876372",
@@ -118,7 +139,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "note/RSpec/まとめ/1_事前準備.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +156,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "note/RSpec/まとめ/1_事前準備.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -196,11 +217,13 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "f8e794e20044fcef",
+  "active": "60e274603e4f0713",
   "lastOpenFiles": [
-    "note/RSpec/まとめ/2_ModelSpec.md",
     "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/まとめ/1_事前準備.md",
+    "40_work/K社/daily-report/05/0528.md",
+    "40_work/K社/daily-report/05/0524.md",
+    "note/RSpec/まとめ/2_ModelSpec.md",
     "note/git/branch作成.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "Untitled.md",
@@ -224,7 +247,6 @@
     "40_work/K社/daily-report/05/0507.md",
     "daily/2024/May/22.md",
     "40_work/K社/daily-report/05/0521.md",
-    "duplicate key value violates unique constraint.md",
     "everydayrailsrspec-jp.pdf",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
