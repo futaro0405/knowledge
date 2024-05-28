@@ -21,6 +21,19 @@
             }
           },
           {
+            "id": "2e6fe7069be87506",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/RSpec/Rspec meme.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
             "id": "5d43c2e0dcf5612d",
             "type": "leaf",
             "state": {
@@ -33,7 +46,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "e3694ef04f10c79c",
@@ -95,7 +109,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+                "file": "note/RSpec/Rspec meme.md"
               }
             }
           },
@@ -122,8 +136,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -152,7 +165,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "note/RSpec/Rspec meme.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -169,7 +182,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "note/RSpec/Rspec meme.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -230,10 +243,11 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "eba38722308c7caf",
+  "active": "2e6fe7069be87506",
   "lastOpenFiles": [
-    "note/RSpec/まとめ/1_事前準備.md",
     "note/RSpec/RSpecによるRailsテスト入門.md",
+    "note/RSpec/Rspec meme.md",
+    "note/RSpec/まとめ/1_事前準備.md",
     "note/RSpec/FactoryBotのレシーバを省略.md",
     "40_work/K社/daily-report/05/0528.md",
     "40_work/K社/daily-report/05/0524.md",
@@ -259,7 +273,6 @@
     "40_work/K社/daily-report/04/0410.md",
     "40_work/K社/daily-report/04/0409.md",
     "40_work/K社/daily-report/05/0507.md",
-    "daily/2024/May/22.md",
     "everydayrailsrspec-jp.pdf",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
