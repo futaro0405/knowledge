@@ -21,6 +21,58 @@
             }
           },
           {
+            "id": "fe8f7626ca1befa6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/1.TypeScriptとは.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "2ef30209607a3f7b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/2.環境構築.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "19c40bc3dd619965",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/3.TypeScriptのコンパイル.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "7919b1eadb78b34b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/4.TypeScriptの設定.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
             "id": "b3d880b4c3f7735d",
             "type": "leaf",
             "state": {
@@ -33,7 +85,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -62,7 +115,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md"
+                "file": "TypeScript/4.TypeScriptの設定.md"
               }
             }
           },
@@ -118,7 +171,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "TypeScript/4.TypeScriptの設定.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +188,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
+                "file": "TypeScript/4.TypeScriptの設定.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -196,12 +249,17 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "f8e794e20044fcef",
+  "active": "7919b1eadb78b34b",
   "lastOpenFiles": [
+    "TypeScript/3.TypeScriptのコンパイル.md",
+    "TypeScript/4.TypeScriptの設定.md",
+    "TypeScript/2.環境構築.md",
+    "TypeScript/1.TypeScriptとは.md",
+    "TypeScript",
+    "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/Rspec meme.md",
     "note/RSpec/FactoryBotのレシーバを省略.md",
     "note/RSpec/まとめ/2_ModelSpec.md",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/まとめ/1_事前準備.md",
     "note/git/branch作成.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
@@ -222,10 +280,6 @@
     "40_work/K社/daily-report/04/0412.md",
     "40_work/K社/daily-report/04/0411.md",
     "40_work/K社/daily-report/04/0410.md",
-    "40_work/K社/daily-report/04/0409.md",
-    "40_work/K社/daily-report/05/0507.md",
-    "daily/2024/May/22.md",
-    "40_work/K社/daily-report/05/0521.md",
     "everydayrailsrspec-jp.pdf",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
