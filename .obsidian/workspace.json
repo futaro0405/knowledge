@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/TypeScript/createTODO.md",
+                "file": "note/docker/rails&postgresql.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
@@ -62,7 +62,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/TypeScript/createTODO.md"
+                "file": "note/docker/rails&postgresql.md"
               }
             }
           },
@@ -118,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/TypeScript/createTODO.md",
+                "file": "note/docker/rails&postgresql.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/TypeScript/createTODO.md",
+                "file": "note/docker/rails&postgresql.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -198,6 +198,12 @@
   },
   "active": "d3a044362379363e",
   "lastOpenFiles": [
+    "note/docker/docker&alpine&mysql.md",
+    "note/docker/cache.md",
+    "note/docker/bundler-versionでエラー.md",
+    "note/others/terminalカスタマイズ.md",
+    "note/ruby/009_exception/01_exception.md",
+    "note/TypeScript/createTODO.md",
     "note/TypeScript/17_keyof.md",
     "note/TypeScript/16_ジェネリクス.md",
     "note/TypeScript/15_型アサーション.md",
@@ -218,12 +224,6 @@
     "40_work/K社/daily-report/05/0528.md",
     "40_work/K社/daily-report/05/0529.md",
     "note/docker/rails&postgresql.md",
-    "note/docker/docker&alpine&mysql.md",
-    "note/docker/cache.md",
-    "note/docker/bundler-versionでエラー.md",
-    "note/Ruby-on-Rails/権限昇格.md",
-    "note/Ruby-on-Rails/There is 1 other session using the database.md",
-    "README.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
