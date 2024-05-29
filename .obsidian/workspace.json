@@ -11,8 +11,13 @@
             "id": "d3a044362379363e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "note/TypeScript/createTODO.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
             }
           },
           {
@@ -56,7 +61,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "note/TypeScript/createTODO.md"
+              }
             }
           },
           {
@@ -111,6 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "note/TypeScript/createTODO.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,6 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "note/TypeScript/createTODO.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -189,6 +198,23 @@
   },
   "active": "d3a044362379363e",
   "lastOpenFiles": [
+    "note/TypeScript/17_keyof.md",
+    "note/TypeScript/16_ジェネリクス.md",
+    "note/TypeScript/15_型アサーション.md",
+    "note/TypeScript/14_オプショナルチェーン.md",
+    "note/TypeScript/13_オプショナルプロパティ.md",
+    "note/TypeScript/12_インターセクション型.md",
+    "note/TypeScript/11_ユニオン型とリテラル型.md",
+    "note/TypeScript/10_型エイリアス.md",
+    "note/TypeScript/9_オブジェクトの宣言方法.md",
+    "note/TypeScript/8_関数の型宣言方法.md",
+    "note/TypeScript/7_配列の型宣言.md",
+    "note/TypeScript/6_any.md",
+    "note/TypeScript/5_基本的な型宣言.md",
+    "note/TypeScript/4_TypeScriptの設定.md",
+    "note/TypeScript/3_TypeScriptのコンパイル.md",
+    "note/TypeScript/2_環境構築.md",
+    "note/TypeScript/1_TypeScriptとは.md",
     "40_work/K社/daily-report/05/0528.md",
     "40_work/K社/daily-report/05/0529.md",
     "note/docker/rails&postgresql.md",
@@ -200,24 +226,7 @@
     "README.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
-    "note/Ruby-on-Rails/duplicate key value violates unique constraint.md",
-    "note/Ruby-on-Rails/binding.pry.md",
-    "note/Ruby-on-Rails/validates.md",
-    "note/Ruby-on-Rails/Stimulus.md",
-    "note/Ruby-on-Rails/Ruby on Rails.md",
-    "40_work/K社/wiki/lecture.md",
-    "40_work/K社/memo.md",
-    "note/TypeScript/createTODO.md",
-    "note/TypeScript/17.keyof.md",
     "note/SPA",
-    "note/RSpec/まとめ/2_ModelSpec.md",
-    "note/TypeScript/16.ジェネリクス.md",
-    "note/TypeScript/15.型アサーション.md",
-    "note/TypeScript/14.オプショナルチェーン.md",
-    "note/TypeScript/13.オプショナルプロパティ.md",
-    "note/TypeScript/12.インターセクション型.md",
-    "note/TypeScript/11.ユニオン型とリテラル型.md",
-    "note/TypeScript/10.型エイリアス.md",
     "note/TypeScript",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/まとめ",
