@@ -4,180 +4,23 @@
     "type": "split",
     "children": [
       {
-        "id": "e3694ef04f10c79c",
+        "id": "91cda05aab2b05ba",
         "type": "tabs",
         "children": [
           {
-            "id": "f8e794e20044fcef",
+            "id": "43f46734e628a097",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/RSpec/RSpecによるRailsテスト入門.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "fe8f7626ca1befa6",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/1.TypeScriptとは.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "2ef30209607a3f7b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/2.環境構築.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "19c40bc3dd619965",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/3.TypeScriptのコンパイル.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "7919b1eadb78b34b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/4.TypeScriptの設定.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "15503b8660ff0f6a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/5.基本的な型宣言.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "812b7929bb996c10",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/6.any.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "b84d18a7f2ba9ff8",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/7.配列の型宣言.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "abe79ace1c884702",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/8.関数の型宣言方法.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "f46bd68daa5a4122",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/9.オブジェクトの宣言方法.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "c1458f9aade9cc78",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/10.型エイリアス.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "cc1d2fc03b85afed",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "TypeScript/11.ユニオン型とリテラル型.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "b3d880b4c3f7735d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/RSpec/まとめ/2_ModelSpec.md",
-                "mode": "source",
+                "file": "TypeScript/17.keyof.md",
+                "mode": "preview",
                 "backlinks": true,
                 "source": true
               }
             }
           }
-        ],
-        "currentTab": 11
+        ]
       }
     ],
     "direction": "vertical"
@@ -206,7 +49,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TypeScript/11.ユニオン型とリテラル型.md"
+                "file": "TypeScript/17.keyof.md"
               }
             }
           },
@@ -262,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TypeScript/11.ユニオン型とリテラル型.md",
+                "file": "TypeScript/17.keyof.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -279,7 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TypeScript/11.ユニオン型とリテラル型.md",
+                "file": "TypeScript/17.keyof.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -340,10 +183,17 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "cc1d2fc03b85afed",
+  "active": "43f46734e628a097",
   "lastOpenFiles": [
-    "TypeScript/10.型エイリアス.md",
+    "note/RSpec/まとめ/2_ModelSpec.md",
+    "TypeScript/17.keyof.md",
+    "TypeScript/16.ジェネリクス.md",
+    "TypeScript/15.型アサーション.md",
+    "TypeScript/14.オプショナルチェーン.md",
+    "TypeScript/13.オプショナルプロパティ.md",
+    "TypeScript/12.インターセクション型.md",
     "TypeScript/11.ユニオン型とリテラル型.md",
+    "TypeScript/10.型エイリアス.md",
     "TypeScript/9.オブジェクトの宣言方法.md",
     "TypeScript/8.関数の型宣言方法.md",
     "TypeScript/7.配列の型宣言.md",
@@ -357,19 +207,12 @@
     "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/Rspec meme.md",
     "note/RSpec/FactoryBotのレシーバを省略.md",
-    "note/RSpec/まとめ/2_ModelSpec.md",
     "note/RSpec/まとめ/1_事前準備.md",
     "note/git/branch作成.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "Untitled.md",
     "40_work/K社/daily-report/05/0522.md",
     "40_work/K社/daily-report/05/0523.md",
-    "40_work/K社/daily-report/04/0422.md",
-    "40_work/K社/daily-report/04/0423.md",
-    "40_work/K社/daily-report/04/0419.md",
-    "40_work/K社/daily-report/04/0418.md",
-    "40_work/K社/daily-report/04/0417.md",
-    "40_work/K社/daily-report/04/0416.md",
     "note/RSpec/まとめ",
     "everydayrailsrspec-jp.pdf",
     "Pasted image 20240515174335.png",
