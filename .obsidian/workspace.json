@@ -73,6 +73,97 @@
             }
           },
           {
+            "id": "15503b8660ff0f6a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/5.基本的な型宣言.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "812b7929bb996c10",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/6.any.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "b84d18a7f2ba9ff8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/7.配列の型宣言.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "abe79ace1c884702",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/8.関数の型宣言方法.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "f46bd68daa5a4122",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/9.オブジェクトの宣言方法.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "c1458f9aade9cc78",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/10.型エイリアス.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "cc1d2fc03b85afed",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TypeScript/11.ユニオン型とリテラル型.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
             "id": "b3d880b4c3f7735d",
             "type": "leaf",
             "state": {
@@ -86,7 +177,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 11
       }
     ],
     "direction": "vertical"
@@ -115,7 +206,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TypeScript/4.TypeScriptの設定.md"
+                "file": "TypeScript/11.ユニオン型とリテラル型.md"
               }
             }
           },
@@ -171,7 +262,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TypeScript/4.TypeScriptの設定.md",
+                "file": "TypeScript/11.ユニオン型とリテラル型.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -188,7 +279,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TypeScript/4.TypeScriptの設定.md",
+                "file": "TypeScript/11.ユニオン型とリテラル型.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -249,10 +340,17 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "7919b1eadb78b34b",
+  "active": "cc1d2fc03b85afed",
   "lastOpenFiles": [
-    "TypeScript/3.TypeScriptのコンパイル.md",
+    "TypeScript/10.型エイリアス.md",
+    "TypeScript/11.ユニオン型とリテラル型.md",
+    "TypeScript/9.オブジェクトの宣言方法.md",
+    "TypeScript/8.関数の型宣言方法.md",
+    "TypeScript/7.配列の型宣言.md",
+    "TypeScript/6.any.md",
+    "TypeScript/5.基本的な型宣言.md",
     "TypeScript/4.TypeScriptの設定.md",
+    "TypeScript/3.TypeScriptのコンパイル.md",
     "TypeScript/2.環境構築.md",
     "TypeScript/1.TypeScriptとは.md",
     "TypeScript",
@@ -273,13 +371,6 @@
     "40_work/K社/daily-report/04/0417.md",
     "40_work/K社/daily-report/04/0416.md",
     "note/RSpec/まとめ",
-    "40_work/K社/wiki/lecture.md",
-    "40_work/K社/wiki/検品.md",
-    "40_work/K社/memo.md",
-    "40_work/K社/daily-report/04/0415.md",
-    "40_work/K社/daily-report/04/0412.md",
-    "40_work/K社/daily-report/04/0411.md",
-    "40_work/K社/daily-report/04/0410.md",
     "everydayrailsrspec-jp.pdf",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
