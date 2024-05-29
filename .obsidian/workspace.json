@@ -8,13 +8,13 @@
         "type": "tabs",
         "children": [
           {
-            "id": "43f46734e628a097",
+            "id": "268c67c1030b7771",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TypeScript/17.keyof.md",
-                "mode": "preview",
+                "file": "note/TypeScript/createTODO.md",
+                "mode": "source",
                 "backlinks": true,
                 "source": true
               }
@@ -49,7 +49,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TypeScript/17.keyof.md"
+                "file": "note/TypeScript/createTODO.md"
               }
             }
           },
@@ -105,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TypeScript/17.keyof.md",
+                "file": "note/TypeScript/createTODO.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -122,7 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TypeScript/17.keyof.md",
+                "file": "note/TypeScript/createTODO.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -183,27 +183,29 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "43f46734e628a097",
+  "active": "268c67c1030b7771",
   "lastOpenFiles": [
+    "note/TypeScript/17.keyof.md",
+    "note/TypeScript/createTODO.md",
+    "note/SPA",
     "note/RSpec/まとめ/2_ModelSpec.md",
-    "TypeScript/17.keyof.md",
-    "TypeScript/16.ジェネリクス.md",
-    "TypeScript/15.型アサーション.md",
-    "TypeScript/14.オプショナルチェーン.md",
-    "TypeScript/13.オプショナルプロパティ.md",
-    "TypeScript/12.インターセクション型.md",
-    "TypeScript/11.ユニオン型とリテラル型.md",
-    "TypeScript/10.型エイリアス.md",
-    "TypeScript/9.オブジェクトの宣言方法.md",
-    "TypeScript/8.関数の型宣言方法.md",
-    "TypeScript/7.配列の型宣言.md",
-    "TypeScript/6.any.md",
-    "TypeScript/5.基本的な型宣言.md",
-    "TypeScript/4.TypeScriptの設定.md",
-    "TypeScript/3.TypeScriptのコンパイル.md",
-    "TypeScript/2.環境構築.md",
-    "TypeScript/1.TypeScriptとは.md",
-    "TypeScript",
+    "note/TypeScript/16.ジェネリクス.md",
+    "note/TypeScript/15.型アサーション.md",
+    "note/TypeScript/14.オプショナルチェーン.md",
+    "note/TypeScript/13.オプショナルプロパティ.md",
+    "note/TypeScript/12.インターセクション型.md",
+    "note/TypeScript/11.ユニオン型とリテラル型.md",
+    "note/TypeScript/10.型エイリアス.md",
+    "note/TypeScript/9.オブジェクトの宣言方法.md",
+    "note/TypeScript/8.関数の型宣言方法.md",
+    "note/TypeScript/7.配列の型宣言.md",
+    "note/TypeScript/6.any.md",
+    "note/TypeScript/5.基本的な型宣言.md",
+    "note/TypeScript/4.TypeScriptの設定.md",
+    "note/TypeScript/3.TypeScriptのコンパイル.md",
+    "note/TypeScript/2.環境構築.md",
+    "note/TypeScript/1.TypeScriptとは.md",
+    "note/TypeScript",
     "note/RSpec/RSpecによるRailsテスト入門.md",
     "note/RSpec/Rspec meme.md",
     "note/RSpec/FactoryBotのレシーバを省略.md",
@@ -212,7 +214,6 @@
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "Untitled.md",
     "40_work/K社/daily-report/05/0522.md",
-    "40_work/K社/daily-report/05/0523.md",
     "note/RSpec/まとめ",
     "everydayrailsrspec-jp.pdf",
     "Pasted image 20240515174335.png",
