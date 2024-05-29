@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/05/0528.md",
+                "file": "40_work/K社/daily-report/05/0529.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -33,8 +33,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -63,7 +62,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/docker/rails&postgresql.md"
+                "file": "40_work/K社/daily-report/05/0529.md"
               }
             }
           },
@@ -119,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/docker/rails&postgresql.md",
+                "file": "40_work/K社/daily-report/05/0529.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -136,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/docker/rails&postgresql.md",
+                "file": "40_work/K社/daily-report/05/0529.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -197,15 +196,26 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "ef03d38a2d709ba1",
+  "active": "d3a044362379363e",
   "lastOpenFiles": [
+    "40_work/K社/daily-report/05/0528.md",
+    "40_work/K社/daily-report/05/0529.md",
+    "note/docker/rails&postgresql.md",
     "note/docker/docker&alpine&mysql.md",
     "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
+    "note/Ruby-on-Rails/権限昇格.md",
+    "note/Ruby-on-Rails/There is 1 other session using the database.md",
+    "README.md",
+    "Pasted image 20240515174335.png",
+    "Pasted image 20240515173153.png",
+    "note/Ruby-on-Rails/duplicate key value violates unique constraint.md",
+    "note/Ruby-on-Rails/binding.pry.md",
+    "note/Ruby-on-Rails/validates.md",
+    "note/Ruby-on-Rails/Stimulus.md",
+    "note/Ruby-on-Rails/Ruby on Rails.md",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/memo.md",
-    "40_work/K社/daily-report/05/0529.md",
-    "40_work/K社/daily-report/05/0528.md",
     "note/TypeScript/createTODO.md",
     "note/TypeScript/17.keyof.md",
     "note/SPA",
@@ -217,21 +227,10 @@
     "note/TypeScript/12.インターセクション型.md",
     "note/TypeScript/11.ユニオン型とリテラル型.md",
     "note/TypeScript/10.型エイリアス.md",
-    "note/TypeScript/9.オブジェクトの宣言方法.md",
-    "note/TypeScript/8.関数の型宣言方法.md",
-    "note/TypeScript/7.配列の型宣言.md",
-    "note/TypeScript/6.any.md",
-    "note/TypeScript/5.基本的な型宣言.md",
-    "note/TypeScript/4.TypeScriptの設定.md",
-    "note/TypeScript/3.TypeScriptのコンパイル.md",
-    "note/TypeScript/2.環境構築.md",
-    "note/TypeScript/1.TypeScriptとは.md",
     "note/TypeScript",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/まとめ",
     "everydayrailsrspec-jp.pdf",
-    "Pasted image 20240515174335.png",
-    "Pasted image 20240515173153.png",
     "401_/public/pdf/software-test-design.pdf"
   ]
 }
