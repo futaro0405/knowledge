@@ -26,7 +26,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/wiki/lecture.md",
+                "file": "note/docker/rails&postgresql.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -63,7 +63,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/wiki/lecture.md"
+                "file": "note/docker/rails&postgresql.md"
               }
             }
           },
@@ -119,7 +119,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/wiki/lecture.md",
+                "file": "note/docker/rails&postgresql.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -136,7 +136,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/wiki/lecture.md",
+                "file": "note/docker/rails&postgresql.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -199,6 +199,10 @@
   },
   "active": "ef03d38a2d709ba1",
   "lastOpenFiles": [
+    "note/docker/docker&alpine&mysql.md",
+    "note/docker/cache.md",
+    "note/docker/bundler-versionでエラー.md",
+    "40_work/K社/wiki/lecture.md",
     "40_work/K社/memo.md",
     "40_work/K社/daily-report/05/0529.md",
     "40_work/K社/daily-report/05/0528.md",
@@ -223,10 +227,6 @@
     "note/TypeScript/2.環境構築.md",
     "note/TypeScript/1.TypeScriptとは.md",
     "note/TypeScript",
-    "note/RSpec/RSpecによるRailsテスト入門.md",
-    "note/RSpec/Rspec meme.md",
-    "note/RSpec/FactoryBotのレシーバを省略.md",
-    "note/RSpec/まとめ/1_事前準備.md",
     "401_/public/pdf/everydayrailsrspec-jp.pdf",
     "note/RSpec/まとめ",
     "everydayrailsrspec-jp.pdf",
