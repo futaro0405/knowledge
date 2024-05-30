@@ -13,7 +13,7 @@ services:
 ```
 
 ```Dockerfile
-FROM node:22.2.0 as node
+FROM node:14.17.6 as node
 FROM ruby:3.2.2
 RUN apt-get update -qq && \
   apt-get install -y build-essential \
@@ -73,5 +73,10 @@ gem "rails", "~> 7.0.6"
 ```
 npm init
 npm install --save-dev --save-exact react-router-dom axios styled-components react-icons react-toastify
+volta pin node@14.17.6
 ```
 
+
+```
+rails new . --force --database=postgresql --skip-bundle --webpack=react -T
+```
