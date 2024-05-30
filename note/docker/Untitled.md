@@ -1,53 +1,38 @@
 ```Docker-compose.yml
 version: "3.9"
-
+  
 services:
   web:
     build: .
     ports:
       - '3000:3000'
     volumes:
-      - '.:/spa-todo'
+      - '.:/rails-docker'
     tty: true
     stdin_open: true
 ```
 
 ```Dockerfile
-FROM node:14.17.6 as node
 FROM ruby:3.2.2
-RUN apt-get update -qq && \
-  apt-get install -y build-essential \
+RUN apt-get update -qq && apt-get install -y \
+  build-essential \
   libpq-dev \
   postgresql-client \
-  vim \
   nodejs \
-  npm \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+  npm
   
-RUN mkdir /spa-todo
-WORKDIR /spa-todo
+RUN mkdir /rails-docker
+WORKDIR /rails-docker
   
-COPY Gemfile Gemfile.lock /spa-todo/
+COPY Gemfile /rails-docker/Gemfile
+COPY Gemfile.lock /rails-docker/Gemfile.lock
   
-ENV BUNDLER_VERSION 2.5.5
-RUN gem update --system \
-    && gem install bundler -v $BUNDLER_VERSION \
-    && bundle install -j 4
+RUN bundle install
   
-COPY package.json ./
+COPY package.json package-lock.json ./
 RUN npm install
   
-COPY . /spa-todo
-  
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
-  
-# Start the main process.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+COPY . /rails-docker
 ```
 
 ```entrypoint.sh
@@ -71,9 +56,9 @@ gem "rails", "~> 7.0.6"
 ```
 
 ```
-npm init
+npm init -y
 npm install --save-dev --save-exact react-router-dom axios styled-components react-icons react-toastify
-volta pin node@14.17.6
+docker-compose up --build -d
 ```
 
 
@@ -81,4 +66,73 @@ volta pin node@14.17.6
 rails new . --force --database=postgresql --webpack=react -T
 ```
 
-rails new . --force --database=postgresql --webpack=react -T
+```
+docker-compose down
+docker-compose up --build -d
+```
+
+
+```
+version: "3.9"
+
+volumes:
+  db-data:
+
+services:
+  web:
+    build: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/rails-docker'
+    environment:
+      - 'DATABASE_PASSWORD=postgres'
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    image: postgres:12
+    volumes:
+      - 'db-data:/var/lib/postgresql/data'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
+```
+
+
+こちらの部分を修正します。
+```config/database.yml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+```
+
+こちらが修正後です。
+```config/database.yml
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  user: postgres
+  port: 5432
+  password: <%= ENV.fetch("DATABASE_PASSWORD") %>
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+```
+
+```
+$ docker-compose up -d
+$ docker-compose exec web bash
+$ # rails db:create
+$ # rails g scaffold product name:string price:integer vendor:string
+$ # rails db:migrate
+$ # rails s -b 0.0.0.0
+```
