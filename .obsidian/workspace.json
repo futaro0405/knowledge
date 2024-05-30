@@ -13,6 +13,32 @@
             "state": {
               "type": "markdown",
               "state": {
+                "file": "40_work/K社/daily-report/05/0529.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "a46ad3866f977124",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "40_work/K社/wiki/lecture.md",
+                "mode": "preview",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "0c7467b98b5db986",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
                 "file": "note/docker/rails&postgresql.md",
                 "mode": "source",
                 "backlinks": true,
@@ -33,7 +59,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -196,8 +223,21 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "d3a044362379363e",
+  "active": "0c7467b98b5db986",
   "lastOpenFiles": [
+    "40_work/K社/wiki/各種手順.md",
+    "40_work/K社/daily-report/04/0424.md",
+    "40_work/K社/daily-report/04/0419.md",
+    "40_work/K社/daily-report/04/0415.md",
+    "40_work/K社/daily-report/05/0523.md",
+    "40_work/K社/daily-report/05/0521.md",
+    "40_work/K社/daily-report/05/0517.md",
+    "40_work/K社/daily-report/05/0516.md",
+    "40_work/K社/daily-report/05/0513.md",
+    "40_work/K社/wiki/lecture.md",
+    "40_work/K社/daily-report/05/0530.md",
+    "40_work/K社/daily-report/05/0529.md",
+    "note/docker/rails&postgresql.md",
     "note/docker/docker&alpine&mysql.md",
     "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
@@ -211,19 +251,6 @@
     "note/TypeScript/13_オプショナルプロパティ.md",
     "note/TypeScript/12_インターセクション型.md",
     "note/TypeScript/11_ユニオン型とリテラル型.md",
-    "note/TypeScript/10_型エイリアス.md",
-    "note/TypeScript/9_オブジェクトの宣言方法.md",
-    "note/TypeScript/8_関数の型宣言方法.md",
-    "note/TypeScript/7_配列の型宣言.md",
-    "note/TypeScript/6_any.md",
-    "note/TypeScript/5_基本的な型宣言.md",
-    "note/TypeScript/4_TypeScriptの設定.md",
-    "note/TypeScript/3_TypeScriptのコンパイル.md",
-    "note/TypeScript/2_環境構築.md",
-    "note/TypeScript/1_TypeScriptとは.md",
-    "40_work/K社/daily-report/05/0528.md",
-    "40_work/K社/daily-report/05/0529.md",
-    "note/docker/rails&postgresql.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
