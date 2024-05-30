@@ -13,8 +13,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/docker/Untitled.md",
-                "mode": "source",
+                "file": "40_work/K社/daily-report/05/0530.md",
+                "mode": "preview",
                 "backlinks": true,
                 "source": true
               }
@@ -62,7 +62,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/docker/Untitled.md"
+                "file": "40_work/K社/daily-report/05/0530.md"
               }
             }
           },
@@ -118,7 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/docker/Untitled.md",
+                "file": "40_work/K社/daily-report/05/0530.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/docker/Untitled.md",
+                "file": "40_work/K社/daily-report/05/0530.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -198,21 +198,23 @@
   },
   "active": "d3a044362379363e",
   "lastOpenFiles": [
+    "40_work/K社/daily-report/05/0528.md",
+    "40_work/K社/daily-report/05/0529.md",
+    "40_work/K社/daily-report/05/0530.md",
+    "note/SPA/todo/環境構築.md",
+    "note/SPA/todo",
     "note/docker/rails&postgresql.md",
-    "note/docker/Untitled.md",
     "note/docker/cache.md",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/各種手順.md",
     "40_work/K社/daily-report/05/0516.md",
     "40_work/K社/daily-report/05/0521.md",
-    "40_work/K社/daily-report/05/0529.md",
     "40_work/K社/daily-report/04/0424.md",
     "40_work/K社/daily-report/04/0419.md",
     "40_work/K社/daily-report/04/0415.md",
     "40_work/K社/daily-report/05/0523.md",
     "40_work/K社/daily-report/05/0517.md",
     "40_work/K社/daily-report/05/0513.md",
-    "40_work/K社/daily-report/05/0530.md",
     "note/docker/docker&alpine&mysql.md",
     "note/docker/bundler-versionでエラー.md",
     "note/others/terminalカスタマイズ.md",
@@ -223,7 +225,6 @@
     "note/TypeScript/15_型アサーション.md",
     "note/TypeScript/14_オプショナルチェーン.md",
     "note/TypeScript/13_オプショナルプロパティ.md",
-    "note/TypeScript/12_インターセクション型.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
