@@ -11,8 +11,13 @@
             "id": "d3a044362379363e",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "note/SPA/todo/環境構築.md",
+                "mode": "preview",
+                "backlinks": true,
+                "source": true
+              }
             }
           },
           {
@@ -56,7 +61,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "note/SPA/todo/環境構築.md"
+              }
             }
           },
           {
@@ -111,6 +118,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "note/SPA/todo/環境構築.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,6 +135,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "note/SPA/todo/環境構築.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
