@@ -78,5 +78,7 @@ volta pin node@14.17.6
 
 
 ```
-rails new . --force --database=postgresql --skip-bundle --webpack=react -T
+rails new . --force --database=postgresql --webpack=react -T
 ```
+
+rails new . --force --database=postgresql --webpack=react -T
