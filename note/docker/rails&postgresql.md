@@ -80,7 +80,7 @@ services:
 以下のコマンドを実行してRailsのセットアップを行います。
 
 ```
-docker compose build
+docker-compose up --build -d
 docker compose exec web bash
 ```
 
@@ -93,8 +93,8 @@ exit
 
 Gemfileが新しくなったので、再度ビルドを行います。
 ```
-$ docker-compose down
-$ docker-compose up --build -d
+docker-compose down
+docker-compose up --build -d
 ```
 
 ## 3. DBのセットアップ

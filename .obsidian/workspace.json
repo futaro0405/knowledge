@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/wiki/各種手順.md",
+                "file": "note/docker/rails&postgresql.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
@@ -88,7 +88,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "40_work/K社/wiki/各種手順.md"
+                "file": "note/docker/rails&postgresql.md"
               }
             }
           },
@@ -144,7 +144,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "40_work/K社/wiki/各種手順.md",
+                "file": "note/docker/rails&postgresql.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,7 +161,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "40_work/K社/wiki/各種手順.md",
+                "file": "note/docker/rails&postgresql.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -224,11 +224,12 @@
   },
   "active": "d3a044362379363e",
   "lastOpenFiles": [
+    "note/docker/cache.md",
+    "40_work/K社/wiki/各種手順.md",
     "40_work/K社/daily-report/05/0516.md",
     "40_work/K社/daily-report/05/0521.md",
     "40_work/K社/daily-report/05/0529.md",
     "note/docker/rails&postgresql.md",
-    "40_work/K社/wiki/各種手順.md",
     "40_work/K社/daily-report/04/0424.md",
     "40_work/K社/daily-report/04/0419.md",
     "40_work/K社/daily-report/04/0415.md",
@@ -238,7 +239,6 @@
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/daily-report/05/0530.md",
     "note/docker/docker&alpine&mysql.md",
-    "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
     "note/others/terminalカスタマイズ.md",
     "note/ruby/009_exception/01_exception.md",
