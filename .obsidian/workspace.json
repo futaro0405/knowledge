@@ -8,13 +8,13 @@
         "type": "tabs",
         "children": [
           {
-            "id": "d3a044362379363e",
+            "id": "8e7dff1e20e3ae5b",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/SPA/todo/環境構築.md",
-                "mode": "preview",
+                "file": "40_work/K社/daily-report/05/0531.md",
+                "mode": "source",
                 "backlinks": true,
                 "source": true
               }
@@ -32,8 +32,35 @@
                 "source": true
               }
             }
+          },
+          {
+            "id": "c8cf184a244a9990",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/SPA/todo/環境構築.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "fe341b8f0072667b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/SPA/ubereats/環境構築.md",
+                "mode": "source",
+                "backlinks": false,
+                "source": true
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -62,7 +89,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/SPA/todo/環境構築.md"
+                "file": "note/SPA/ubereats/環境構築.md"
               }
             }
           },
@@ -118,7 +145,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/SPA/todo/環境構築.md",
+                "file": "note/SPA/ubereats/環境構築.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -135,7 +162,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/SPA/todo/環境構築.md",
+                "file": "note/SPA/ubereats/環境構築.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -196,14 +223,17 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "d3a044362379363e",
+  "active": "fe341b8f0072667b",
   "lastOpenFiles": [
+    "note/SPA/todo/環境構築.md",
+    "note/SPA/ubereats/環境構築.md",
+    "note/SPA/ubereats",
+    "note/docker/rails&postgresql.md",
+    "40_work/K社/daily-report/05/0531.md",
+    "40_work/K社/daily-report/05/0530.md",
     "40_work/K社/daily-report/05/0528.md",
     "40_work/K社/daily-report/05/0529.md",
-    "40_work/K社/daily-report/05/0530.md",
-    "note/SPA/todo/環境構築.md",
     "note/SPA/todo",
-    "note/docker/rails&postgresql.md",
     "note/docker/cache.md",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/各種手順.md",
@@ -223,8 +253,6 @@
     "note/TypeScript/17_keyof.md",
     "note/TypeScript/16_ジェネリクス.md",
     "note/TypeScript/15_型アサーション.md",
-    "note/TypeScript/14_オプショナルチェーン.md",
-    "note/TypeScript/13_オプショナルプロパティ.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
