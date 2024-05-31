@@ -52,7 +52,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": true
@@ -89,7 +89,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md"
+                "file": "note/Ruby-on-Rails/Model.md"
               }
             }
           },
@@ -145,7 +145,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -162,7 +162,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md",
+                "file": "note/Ruby-on-Rails/Model.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -225,8 +225,9 @@
   },
   "active": "fe341b8f0072667b",
   "lastOpenFiles": [
-    "note/SPA/todo/環境構築.md",
+    "note/Ruby-on-Rails/Controller.md",
     "note/SPA/ubereats/環境構築.md",
+    "note/SPA/todo/環境構築.md",
     "note/SPA/ubereats",
     "note/docker/rails&postgresql.md",
     "40_work/K社/daily-report/05/0531.md",
@@ -252,7 +253,6 @@
     "note/TypeScript/createTODO.md",
     "note/TypeScript/17_keyof.md",
     "note/TypeScript/16_ジェネリクス.md",
-    "note/TypeScript/15_型アサーション.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
