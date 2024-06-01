@@ -8,49 +8,19 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8e7dff1e20e3ae5b",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
-            "id": "752a78379f6106a5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/docker/rails&postgresql.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "c8cf184a244a9990",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "note/SPA/todo/環境構築.md",
-                "mode": "source",
-                "backlinks": true,
-                "source": true
-              }
-            }
-          },
-          {
             "id": "fe341b8f0072667b",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "note/javascript/webcomponents.md",
+                "mode": "preview",
+                "backlinks": true,
+                "source": true
+              }
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
@@ -78,7 +48,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "note/javascript/webcomponents.md"
+              }
             }
           },
           {
@@ -133,6 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "note/javascript/webcomponents.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -149,6 +122,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "note/javascript/webcomponents.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -208,8 +182,15 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "69698dce683856a4",
+  "active": "fe341b8f0072667b",
   "lastOpenFiles": [
+    "note/javascript/variables.md",
+    "note/javascript/object.md",
+    "note/javascript/loop.md",
+    "note/javascript/function.md",
+    "note/javascript/destructuring_assignment.md",
+    "note/javascript/defer.md",
+    "note/javascript/comment.md",
     "note/Ruby-on-Rails/Controller.md",
     "note/SPA/ubereats/環境構築.md",
     "note/SPA/todo/環境構築.md",
@@ -231,13 +212,6 @@
     "40_work/K社/daily-report/05/0523.md",
     "40_work/K社/daily-report/05/0517.md",
     "40_work/K社/daily-report/05/0513.md",
-    "note/docker/docker&alpine&mysql.md",
-    "note/docker/bundler-versionでエラー.md",
-    "note/others/terminalカスタマイズ.md",
-    "note/ruby/009_exception/01_exception.md",
-    "note/TypeScript/createTODO.md",
-    "note/TypeScript/17_keyof.md",
-    "note/TypeScript/16_ジェネリクス.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
