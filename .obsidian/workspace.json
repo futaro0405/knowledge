@@ -192,8 +192,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 241.5,
-    "collapsed": true
+    "width": 241.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -209,7 +208,7 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "fe341b8f0072667b",
+  "active": "69698dce683856a4",
   "lastOpenFiles": [
     "note/Ruby-on-Rails/Controller.md",
     "note/SPA/ubereats/環境構築.md",
