@@ -23,3 +23,5 @@ export default function Gallery() {
   );
 }
 ```
+
+## useState
