@@ -32,9 +32,22 @@
                 "source": true
               }
             }
+          },
+          {
+            "id": "7107a531abd9109e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/javascript/クロージャー（動的な関数の生成）.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -63,7 +76,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/javascript/クロージャー（プライベート変数）.md"
+                "file": "note/javascript/クロージャー（動的な関数の生成）.md"
               }
             }
           },
@@ -119,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/javascript/クロージャー（プライベート変数）.md",
+                "file": "note/javascript/クロージャー（動的な関数の生成）.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -136,7 +149,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/javascript/クロージャー（プライベート変数）.md",
+                "file": "note/javascript/クロージャー（動的な関数の生成）.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -180,7 +193,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 241.5
+    "width": 241.5,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -196,10 +210,11 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "ac63ed18ad6ce186",
+  "active": "7107a531abd9109e",
   "lastOpenFiles": [
-    "note/javascript/webcomponents.md",
     "note/javascript/クロージャー（プライベート変数）.md",
+    "note/javascript/クロージャー（動的な関数の生成）.md",
+    "note/javascript/webcomponents.md",
     "note/javascript/variables.md",
     "note/javascript/object.md",
     "note/javascript/loop.md",
@@ -225,7 +240,6 @@
     "40_work/K社/daily-report/04/0424.md",
     "40_work/K社/daily-report/04/0419.md",
     "40_work/K社/daily-report/04/0415.md",
-    "40_work/K社/daily-report/05/0523.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
