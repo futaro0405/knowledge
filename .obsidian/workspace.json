@@ -39,7 +39,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/javascript/クロージャー（動的な関数の生成）.md",
+                "file": "note/javascript/クロージャー（プライベート変数）.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
@@ -76,7 +76,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/javascript/クロージャー（動的な関数の生成）.md"
+                "file": "note/javascript/クロージャー（プライベート変数）.md"
               }
             }
           },
@@ -132,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/javascript/クロージャー（動的な関数の生成）.md",
+                "file": "note/javascript/クロージャー（プライベート変数）.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -149,7 +149,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/javascript/クロージャー（動的な関数の生成）.md",
+                "file": "note/javascript/クロージャー（プライベート変数）.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -212,8 +212,8 @@
   },
   "active": "7107a531abd9109e",
   "lastOpenFiles": [
-    "note/javascript/クロージャー（プライベート変数）.md",
     "note/javascript/クロージャー（動的な関数の生成）.md",
+    "note/javascript/クロージャー（プライベート変数）.md",
     "note/javascript/webcomponents.md",
     "note/javascript/variables.md",
     "note/javascript/object.md",
