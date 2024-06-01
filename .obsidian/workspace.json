@@ -13,14 +13,28 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/rest/React/即時関数.md",
+                "file": "note/React/index.md",
+                "mode": "source",
+                "backlinks": true,
+                "source": true
+              }
+            }
+          },
+          {
+            "id": "64020cf391e5fd71",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/React/pages/Compornets.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -49,7 +63,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/rest/React/即時関数.md"
+                "file": "note/React/pages/Compornets.md"
               }
             }
           },
@@ -105,7 +119,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/rest/React/即時関数.md",
+                "file": "note/React/pages/Compornets.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -122,7 +136,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/rest/React/即時関数.md",
+                "file": "note/React/pages/Compornets.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -183,11 +197,15 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "69698dce683856a4",
+  "active": "64020cf391e5fd71",
   "lastOpenFiles": [
-    "note/rest/React",
+    "note/React/index.md",
+    "note/React/pages/Compornets.md",
+    "note/React/pages",
+    "note/rest/index.md",
+    "note/rest/RESTful.md",
+    "note/React",
     "note/javascript/クロージャー（プライベート変数）.md",
-    "note/rest/React/即時関数.md",
     "note/javascript/function.md",
     "note/javascript/webcomponents.md",
     "note/javascript/variables.md",
@@ -211,8 +229,6 @@
     "40_work/K社/wiki/各種手順.md",
     "40_work/K社/daily-report/05/0516.md",
     "40_work/K社/daily-report/05/0521.md",
-    "40_work/K社/daily-report/04/0424.md",
-    "40_work/K社/daily-report/04/0419.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
