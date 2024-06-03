@@ -26,7 +26,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/docker/rails&postgresql.md",
+                "file": "note/Ruby-on-Rails/Controller.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -63,7 +63,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/docker/rails&postgresql.md"
+                "file": "note/Ruby-on-Rails/Controller.md"
               }
             }
           },
@@ -94,8 +94,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 257.5,
-    "collapsed": true
+    "width": 257.5
   },
   "right": {
     "id": "68912b955d876372",
@@ -120,7 +119,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/docker/rails&postgresql.md",
+                "file": "note/Ruby-on-Rails/Controller.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -137,7 +136,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/docker/rails&postgresql.md",
+                "file": "note/Ruby-on-Rails/Controller.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -198,10 +197,10 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "6e065a0704a6b32c",
+  "active": "69698dce683856a4",
   "lastOpenFiles": [
-    "note/SPA/環境構築.md",
     "note/docker/rails&postgresql.md",
+    "note/SPA/環境構築.md",
     "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
     "40_work/K社/daily-report/06/0603.md",
