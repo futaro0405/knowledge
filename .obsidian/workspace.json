@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "40_work/K社/daily-report/06/0603.md",
+                "file": "note/docker/cache.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
@@ -73,7 +73,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "file",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -199,10 +199,12 @@
   },
   "active": "92e34f1f87f48b4e",
   "lastOpenFiles": [
+    "note/docker/cache.md",
+    "note/docker/bundler-versionでエラー.md",
+    "40_work/K社/daily-report/06/0603.md",
+    "note/SPA/環境構築.md",
     "note/docker/rails&postgresql.md",
     "note/docker/docker&alpine&mysql.md",
-    "note/SPA/環境構築.md",
-    "40_work/K社/daily-report/06/0603.md",
     "40_work/K社/daily-report/05/0531.md",
     "40_work/K社/daily-report/06",
     "40_work/K社/daily-report/05/0530.md",
@@ -213,7 +215,6 @@
     "40_work/K社/daily-report/05/0528.md",
     "40_work/K社/daily-report/05/0529.md",
     "note/SPA/todo",
-    "note/docker/cache.md",
     "40_work/K社/wiki/lecture.md",
     "40_work/K社/wiki/各種手順.md",
     "40_work/K社/daily-report/05/0516.md",
@@ -224,7 +225,6 @@
     "40_work/K社/daily-report/05/0523.md",
     "40_work/K社/daily-report/05/0517.md",
     "40_work/K社/daily-report/05/0513.md",
-    "note/docker/bundler-versionでエラー.md",
     "note/others/terminalカスタマイズ.md",
     "note/ruby/009_exception/01_exception.md",
     "note/TypeScript/createTODO.md",
