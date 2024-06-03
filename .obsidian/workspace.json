@@ -26,7 +26,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "40_work/K社/daily-report/05/0507.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -63,7 +63,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md"
+                "file": "40_work/K社/daily-report/05/0507.md"
               }
             }
           },
@@ -119,7 +119,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "40_work/K社/daily-report/05/0507.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -136,7 +136,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/Ruby-on-Rails/Controller.md",
+                "file": "40_work/K社/daily-report/05/0507.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -197,19 +197,19 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "69698dce683856a4",
+  "active": "6e065a0704a6b32c",
   "lastOpenFiles": [
+    "40_work/K社/daily-report/06/0603.md",
+    "note/Ruby-on-Rails/Controller.md",
     "note/docker/rails&postgresql.md",
     "note/SPA/環境構築.md",
     "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
-    "40_work/K社/daily-report/06/0603.md",
     "note/docker/docker&alpine&mysql.md",
     "40_work/K社/daily-report/05/0531.md",
     "40_work/K社/daily-report/06",
     "40_work/K社/daily-report/05/0530.md",
     "note/Ruby-on-Rails/Model.md",
-    "note/Ruby-on-Rails/Controller.md",
     "note/SPA/todo/環境構築.md",
     "note/SPA/ubereats",
     "40_work/K社/daily-report/05/0528.md",
