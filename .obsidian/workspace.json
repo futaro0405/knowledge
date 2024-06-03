@@ -13,14 +13,28 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/docker/rails&postgresql.md",
+                "file": "note/SPA/環境構築.md",
                 "mode": "source",
                 "backlinks": true,
                 "source": true
               }
             }
+          },
+          {
+            "id": "6e065a0704a6b32c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "note/docker/rails&postgresql.md",
+                "mode": "preview",
+                "backlinks": true,
+                "source": true
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -80,7 +94,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 257.5
+    "width": 257.5,
+    "collapsed": true
   },
   "right": {
     "id": "68912b955d876372",
@@ -183,13 +198,13 @@
       "workspaces:Manage workspace layouts": false
     }
   },
-  "active": "92e34f1f87f48b4e",
+  "active": "6e065a0704a6b32c",
   "lastOpenFiles": [
     "note/SPA/環境構築.md",
+    "note/docker/rails&postgresql.md",
     "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
     "40_work/K社/daily-report/06/0603.md",
-    "note/docker/rails&postgresql.md",
     "note/docker/docker&alpine&mysql.md",
     "40_work/K社/daily-report/05/0531.md",
     "40_work/K社/daily-report/06",
