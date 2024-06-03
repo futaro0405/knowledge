@@ -26,7 +26,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/SPA/環境構築.md",
+                "file": "note/git/rename.md",
                 "mode": "preview",
                 "backlinks": true,
                 "source": true
@@ -63,7 +63,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/SPA/環境構築.md"
+                "file": "note/git/rename.md"
               }
             }
           },
@@ -120,7 +120,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/SPA/環境構築.md",
+                "file": "note/git/rename.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -137,7 +137,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/SPA/環境構築.md",
+                "file": "note/git/rename.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -200,11 +200,12 @@
   },
   "active": "6e065a0704a6b32c",
   "lastOpenFiles": [
+    "note/git/backVersion.md",
+    "note/SPA/環境構築.md",
     "40_work/K社/daily-report/05/0507.md",
     "40_work/K社/daily-report/06/0603.md",
     "note/Ruby-on-Rails/Controller.md",
     "note/docker/rails&postgresql.md",
-    "note/SPA/環境構築.md",
     "note/docker/cache.md",
     "note/docker/bundler-versionでエラー.md",
     "note/docker/docker&alpine&mysql.md",
@@ -228,7 +229,6 @@
     "40_work/K社/daily-report/05/0517.md",
     "40_work/K社/daily-report/05/0513.md",
     "note/others/terminalカスタマイズ.md",
-    "note/ruby/009_exception/01_exception.md",
     "Pasted image 20240515174335.png",
     "Pasted image 20240515173153.png",
     "note/SPA",
