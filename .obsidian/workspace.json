@@ -26,8 +26,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md",
-                "mode": "preview",
+                "file": "note/SPA/環境構築.md",
+                "mode": "source",
                 "backlinks": true,
                 "source": true
               }
@@ -63,7 +63,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md"
+                "file": "note/SPA/環境構築.md"
               }
             }
           },
@@ -94,8 +94,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 257.5,
-    "collapsed": true
+    "width": 257.5
   },
   "right": {
     "id": "68912b955d876372",
@@ -120,7 +119,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md",
+                "file": "note/SPA/環境構築.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -137,7 +136,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "note/SPA/ubereats/環境構築.md",
+                "file": "note/SPA/環境構築.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -200,16 +199,17 @@
   },
   "active": "92e34f1f87f48b4e",
   "lastOpenFiles": [
+    "note/docker/rails&postgresql.md",
+    "note/docker/docker&alpine&mysql.md",
+    "note/SPA/環境構築.md",
     "40_work/K社/daily-report/06/0603.md",
     "40_work/K社/daily-report/05/0531.md",
     "40_work/K社/daily-report/06",
     "40_work/K社/daily-report/05/0530.md",
     "note/Ruby-on-Rails/Model.md",
     "note/Ruby-on-Rails/Controller.md",
-    "note/SPA/ubereats/環境構築.md",
     "note/SPA/todo/環境構築.md",
     "note/SPA/ubereats",
-    "note/docker/rails&postgresql.md",
     "40_work/K社/daily-report/05/0528.md",
     "40_work/K社/daily-report/05/0529.md",
     "note/SPA/todo",
@@ -224,7 +224,6 @@
     "40_work/K社/daily-report/05/0523.md",
     "40_work/K社/daily-report/05/0517.md",
     "40_work/K社/daily-report/05/0513.md",
-    "note/docker/docker&alpine&mysql.md",
     "note/docker/bundler-versionでエラー.md",
     "note/others/terminalカスタマイズ.md",
     "note/ruby/009_exception/01_exception.md",
