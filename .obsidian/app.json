@@ -1,5 +1,6 @@
 {
   "newFileLocation": "current",
   "showUnsupportedFiles": true,
-  "attachmentFolderPath": "./"
+  "attachmentFolderPath": "./",
+  "spellcheck": false
 }

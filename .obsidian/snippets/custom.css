@@ -1,0 +1,29 @@
+.HyperMD-header-1,
+.markdown-preview-view h1 {
+  font-size: 24px;
+  color: #ffd500;
+}
+
+.HyperMD-header-2,
+.markdown-preview-view h2 {
+  font-size: 22px;
+  color: #ffd500;
+}
+
+.HyperMD-header-3,
+.markdown-preview-view h3 {
+  font-size: 20px;
+  color: #ffd500;
+}
+
+.HyperMD-header-4,
+.markdown-preview-view h4 {
+  font-size: 18px;
+  color: #ffd500;
+}
+
+.HyperMD-header-5,
+.markdown-preview-view h5 {
+  font-size: 16px;
+  color: #ffd500;
+}
