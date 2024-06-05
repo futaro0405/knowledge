@@ -7,7 +7,7 @@ Promiseの引数としてcallback関数を設定する。
 このcallback関数には`resolve`、`reject`の引数を指定する。
 
 `resolve`が呼ばれた場合には`then`メソッドの中のコールバック関数が実行される
-`then`の
+`then`のcallback関数にはresolveの引数が渡される
 
 `reject`:promiseのcallback関数内で何らかのエラーが発生したときにそれをpromiseに通知するために使用する関数
 rejectが呼ばれた場合にはcatchメソッドの中のcallback関数が実行されrejectで渡った引数がわたる
@@ -16,24 +16,15 @@ finally共通の終了処理引数を持たない
 
 ```js
 new Promise(function(resolve, reject) {
-	console.log('promise');
+	resolve("hello");
 	// reject("bye");
-	setTimeout(function() {
-		resolve("hello");
-	}, 1000);
 }).then(function(data) {
-	console.log('then:' + data);
-	// throw new Error();
-	return data;
-}).then(function(data) {
-	console.log('then:' + data);
-	return data;
+	console.log(data); // hello
 }).catch(function(data) {
-	console.log('catch:' + data);
+	console.log(data); // bye
 }).finally(function() {
-	console.log('終了処理');
+	console.log('end);
 })
-console.log('global end');
 ```
 
 `new Promise`のcallback関数は同期的に処理されるが、`then`、`catch`、`finally`は非同期的に処理される
@@ -47,4 +38,36 @@ new Promise(
 ).finally(
 	非同期処理（then、catchを待つ）
 );
+```
+
+## 例
+
+```js
+new Promise(function(resolve, reject) {
+	console.log('promise');
+	// reject("bye");
+	resolve("hello");
+}).then(function(data) {
+	console.log('then:' + data);
+	return data;
+}).then(function(data) {
+	console.log('then:' + data);
+	return data;
+}).then(function(data) {
+	throw new Error();
+}).catch(function(data) {
+	console.log('catch:' + data);
+}).finally(function() {
+	console.log('finally');
+})
+console.log('global end');
+```
+
+```js
+promise
+global end
+then hello
+then hello
+catch
+finally
 ```
