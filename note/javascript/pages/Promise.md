@@ -46,15 +46,16 @@ new Promise(
 new Promise(function(resolve, reject) {
 	console.log('promise');
 	// reject("bye");
-	resolve("hello");
+	setTimeout(function() {
+		resolve("hello");
+	}, 1000);
 }).then(function(data) {
 	console.log('then:' + data);
+	// throw new Error();
 	return data;
 }).then(function(data) {
 	console.log('then:' + data);
 	return data;
-}).then(function(data) {
-	throw new Error();
 }).catch(function(data) {
 	console.log('catch:' + data);
 }).finally(function() {
@@ -66,8 +67,6 @@ console.log('global end');
 ```js
 promise
 global end
-then hello
-then hello
-catch
+then:hello
 finally
 ```
