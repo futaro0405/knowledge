@@ -1,4 +1,7 @@
 # Promiseと並列処理
+Promiseの並列処理をする`Promise.all`
+反復可能オブジェクトでPromiseのインスタンスを詰める
+
 
 ```js
 function sleep(val) {
