@@ -1,7 +1,8 @@
 # Promiseと並列処理
 Promiseの並列処理をする`Promise.all`
 反復可能オブジェクトでPromiseのインスタンスを詰める
-
+格納された配列がすべて完了するまでthenを実行しない
+thenに渡される引数は配列で渡される
 
 ```js
 function sleep(val) {
