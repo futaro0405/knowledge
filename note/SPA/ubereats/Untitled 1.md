@@ -95,7 +95,24 @@ def total_amount
 food.price * count
 end
 ```
+
 ```rb
 belongs_to :order, optional: true
 ```
 `optional: true`関連付けが任意。関連付け先が存在しなくてもいい
+### models/order.rb
+
+```ruby:app/models/order.rb
+has_many :line_foods
+
+validates :total_price, numericality: { greater_than: 0 }
+
+def save_with_update_line_foods!(line_foods)
+	ActiveRecord::Base.transaction do
+		line_foods.each do |line_food|
+			line_food.update!(active: false, order: self)
+		end
+		self.save!
+	end
+end
+```
