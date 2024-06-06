@@ -2,5 +2,6 @@
   "newFileLocation": "current",
   "showUnsupportedFiles": true,
   "attachmentFolderPath": "./",
-  "spellcheck": false
+  "spellcheck": false,
+  "tabSize": 2
 }
