@@ -4,7 +4,7 @@
 `(state, action) => newState` という型のreducerを受け取り、現在のstateとdispatch関数の両方を返す。
 
 ```jsx
-const [state, dispatch] = useReducer(reducer,'初期値')
+const [state, dispatch] = useReducer(reducer, '初期値')
 ```
 - `reducer`は`state`を更新するための関数で、`dispatch`は、`reducer`を実行するための呼び出し関数。（変数を宣言するときに、stateの更新方法をあらかじめ設定しておくことが出来る。）
 
