@@ -1,7 +1,7 @@
-# React
-React公式のスタートガイドを読み込む
+# Reactとは
+- [[react]]
 ## コンポーネント
-[[Compornets]]
+- [[Compornets]]
 ## React Hooks
 - [[useState]]
 - [[useEffect]]
