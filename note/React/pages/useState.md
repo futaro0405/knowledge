@@ -1,27 +1,53 @@
-## useStateとは
-useStateは、関数コンポ―ネントでstateを管理（stateの保持と更新）するためのReactフック。
-stateとはコンポーネントが内部で保持する「状態」のことで、画面上に表示されるデータなど、アプリケーションが保持している状態を指す。
-stateはpropsとは違い後から変更可能。
+## なぜstateを使うのか
+- Reactコンポーネント内の値を書き換えたい
+	- コンポーネント内の要素をDOMで直接書き換える
+	- 新しい値を使って再描画（再レンダリング）させる
+- Reactコンポーネントが再描画するきっかけは
+	- stateが変更されたとき
+	- propsが変更されたとき
 
-## useStateの例
-```jsx
-import React, { useState } from 'react'
+## useStateの使い方
+### useStateによるstateの宣言
 
-const Counter = (props) => {
-	const initialState = 1
-	//const [状態変数, 状態を変更するための関数] = useState(状態の初期値);
-	const [count, setCount] = useState(initialState)
-
-	return (
-		<>
-			<button onClick={() => setCount(count + 1)}>+1</button>
-			<p>{count}</p>
-		</>
-}
+```js
+const [state, setState] = useState(initialState)
 ```
 
-- `count`：stateの現在の値
-- `setCount`：stateの現在の値を更新するための関数
-- `initialState`：状態の初期値
+- __state__：現在の状態
+- __setState__：更新関数
+- __initialState__：初期値
+### stateの更新
 
-state が更新されても `initialState` は`initialState` として保持される
+```js
+setState(newState)
+```
+
+### 具体例
+
+```js
+const [message, setMessage] = useState('react')
+const [likes, setLikes] = useState(0)
+const [isPublished, setIsPublished] = useState(false)
+
+setIsPublished(true)
+```
+
+### propsとstateの違い
+- 両者とともに再描画のきっかけになる
+	- propsは引数のようにコンポーネントに渡される値
+	- stateはコンポーネントの内部で宣言・制御される値
+### stateをpropsに渡す
+- 更新関数はそのままpropsとして渡さず関数化する
+- 関数をpropsに渡すときは注意
+```jsx:components/Article.jsx
+const Article = (props) => {
+	const [isPublished, set]
+	return (
+		<div>
+			<h2>{props.title}</h2>
+			<p>{props.content}</p>
+		</div>
+	)
+};
+export default Article;
+```
