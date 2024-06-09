@@ -147,15 +147,67 @@ export default function Title(props) {
 ### default import（名前なしimport）
 - default exportしたモジュールをそのまま読み込む
 - importモジュール名from 'ファイルパス'
-```js
-const Title = (props) => {
-	return <h2>{props.title}</h2>
+
+```jsx:components/Article.jsx
+const Article = (props) => {
+	return (
+		<div>
+			<h2>{props.title}</h2>
+			<p>{props.content}</p>
+		</div>
+	)
 };
-export default Title;
+export default Article;
 ```
 
+```jsx:App.jsx
+import Article from "./components/Article";
+function App() {
+	return (
+		<Article
+			title={'React'}
+			content={'props'}
+		/>
+	);
+}
+```
+
+### 名前付きexport
+- 1ファイルから複数モジュールをexportしたいとき
+- Reactではエントリポイントでよく使う
+- エントリポイントでは別名exportも併用
+
+**helper.js**
+```js:helper.js
+export const addTax = (price) => {
+	return Math.floor(price * 1.1)
+}
+export const getWild = () => {
+	console.log('Get wild and touch')
+}
+```
+**index.js**
+```js:index.js
+export {default as Article} from './Article'
+export {default as Content} from './Content'
+export {default as Title} from './Title'
+// defaultという名前のモジュールをtitleという名前でexport
+```
+
+### 名前付きimport
+- 1ファイルから複数モジュールを読み込む
+- エントリポイントから複数コンポーネントを読み込む
+
 ```js
-export default function Title(props) {
-	return <h2>{props.title}</h2>
+import {Content, Title} from "./index";
+
+const Article = (props) => {
+	return (
+		<div>
+			<Title title={props.title} />
+			<Content content={props.content} />
+		</div>
+	);
 };
+export default Article;
 ```
