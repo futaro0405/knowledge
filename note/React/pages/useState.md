@@ -73,3 +73,75 @@ onClick内で関数を実行してしまっているため、無限レンダリ�
 <PublishButton isPublished={isPublished} onClick={publishArticle()} />
 ```
 
+## 引数を使って更新する
+- 入力フォームでよく使う
+- `onChange`イベントでhandleName関数に渡す
+- handleName関数のパラメータであるeventを更新関数に渡す
+
+```js
+import React, {useState} from 'react';
+
+const TextInput = () => {
+	const [name, setName] = useState('')
+	const handleName = (event) => {
+		setName(event.target.value)
+	}
+	return (
+		<input
+			onChange={(event) => handleName(event)}
+			type={'text'}
+			value={name}
+		/>
+	);
+};
+```
+
+## prevStateを活用する
+- useStateの更新関数で使える特殊な`prevState`
+- `prevState`は更新前のstate
+- `prevState`に更新を加えてreturn
+
+```js
+import React, {useState} from 'react';
+
+const Counter = () => {
+	const [count, setCount] = useState(0)
+	const countUp = () => {
+		setCount(prevState => prevState + 1)
+	}
+	const countDown = () => {
+		setCount(prevState => prevState - 1)
+	}
+	return (
+		<>
+			<p>現在のカウント数：{count}</p>
+			<button onClick={countUp}>up</button>
+			<button onClick={countDown}>down</button>
+		</>
+	);
+};
+```
+
+`setCount( count + 1)`の場合、バグが生まれる
+
+## ON/OFFを切り替えるボタン
+- prevStateで受け取った値を`!`で反転してreturnする
+- 三項演算子によってopenがtrue/falseで表示を切り替える
+
+```js
+import React, {useState} from 'react';
+
+const ToggleButton = () => {
+	const [count, setOpen] = useState(false)
+	const toggle = () => {
+		setOpen(prevState => !prevState)
+	}
+	return (
+		<button onClick={toggle}>
+			{open ? 'OPEN' : 'CLOSE'}
+		</button>
+	);
+};
+export default ToggleButton;
+```
+

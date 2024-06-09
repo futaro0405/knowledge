@@ -131,6 +131,7 @@ export default App;
 - 1ファイル=1export
 - 1度宣言したアロー関数をdefault export
 - 名前付き関数宣言と同時にdefault export
+
 ```js
 const Title = (props) => {
 	return <h2>{props.title}</h2>
