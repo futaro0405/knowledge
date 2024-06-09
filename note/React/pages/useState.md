@@ -39,15 +39,37 @@ setIsPublished(true)
 ### stateをpropsに渡す
 - 更新関数はそのままpropsとして渡さず関数化する
 - 関数をpropsに渡すときは注意
+
 ```jsx:components/Article.jsx
 const Article = (props) => {
-	const [isPublished, set]
+	const [isPublished, setIsPublished] = useState(false)
+	const publishArticle = () => {
+		setIsPublished(true)
+	}
 	return (
 		<div>
-			<h2>{props.title}</h2>
-			<p>{props.content}</p>
+			<Title title={props.title} />
+			<Content content={props.contnt} />
+			<PublishButton isPublished={isPublished} onClick={publishArticle} />
 		</div>
-	)
+	);
 };
-export default Article;
 ```
+
+### propsへ関数を渡す際の注意点
+- コールバック関数か関数自体を渡す
+- propsに渡すときに関数を実行しない
+#### OKな関数の渡し方
+
+```jsx
+<PublishButton isPublished={isPublished} onClick={publishArticle} />
+<PublishButton isPublished={isPublished} onClick={() => publishArticle()} />
+```
+
+#### NGな関数の渡し方
+onClick内で関数を実行してしまっているため、無限レンダリングが起きる
+
+```jsx
+<PublishButton isPublished={isPublished} onClick={publishArticle()} />
+```
+
