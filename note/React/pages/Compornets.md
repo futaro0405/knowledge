@@ -147,3 +147,15 @@ export default function Title(props) {
 ### default import（名前なしimport）
 - default exportしたモジュールをそのまま読み込む
 - importモジュール名from 'ファイルパス'
+```js
+const Title = (props) => {
+	return <h2>{props.title}</h2>
+};
+export default Title;
+```
+
+```js
+export default function Title(props) {
+	return <h2>{props.title}</h2>
+};
+```
