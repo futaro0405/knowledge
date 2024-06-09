@@ -92,3 +92,58 @@ export default Article;
 - 文字列、数値、真偽値、配列、オブジェクト、日付などなんでもOK
 - 変数を渡すことも可能
 - 文字列は{}なしでもOK
+## コンポーネントの再利用
+- 同じコンポーネントをいつくも呼び出すことができる
+- 配列データをmap()メソッドで処理するのが一般的(実践編で解説)
+
+```jsx
+import Article from "./components/Article";
+function App() {
+	return (
+		<div>
+			<Article
+				title={'React'}
+				content={'props'}
+			/>
+			<Article
+				title={'React'}
+				content={'props'}
+			/>
+		</div>
+	)
+}
+export default App;
+```
+
+## コンポーネントを分けよう
+- 1ファイル=Ⅰコンポーネント
+- なぜコンポーネントを分けるのか
+	- 責務を明確にする（何のためのパーツなのか）
+	- 大規模アプリでも管理しやすくするため
+	- 再利用するため
+
+## JavaScriptのモジュール機能
+- プログラムをモジュールという単位に分割する
+- 原則は1ファイル=1モジュール
+- 必要な時は必要なモジュールのみ読み込む
+### default export（名前なしexport）
+- 推奨されるexport方法
+- 1ファイル=1export
+- 1度宣言したアロー関数をdefault export
+- 名前付き関数宣言と同時にdefault export
+```js
+const Title = (props) => {
+	return <h2>{props.title}</h2>
+};
+export default Title;
+```
+
+```js
+export default function Title(props) {
+	return <h2>{props.title}</h2>
+};
+```
+
+### default import（名前なしimport）
+- default exportしたモジュールをそのまま読み込む
+- importモジュール名from 'ファイルパス'
