@@ -1,102 +1,137 @@
-## useEffectとは
-useEffectに渡された関数はレンダー結果が画面に反映された後に動作する。
-つまり、関数の実行タイミングをReactのレンダリング後まで遅らせるhook。
+## ライフサイクルとは
+- コンポーネントが生まれてから破棄されるまでの時間の流れ
+- ライフサイクルメソッドを使うと、時点に応じて処理を実行できる
+- Class Component時代は以下の3メソッドが頻出だった
+	- componentDidMount()
+	- componentDidUpdate()
+	- componentWillUnmount()
+- Hooks時代はuseEffectでライフサイクルを表現
+## 3種類のライフサイクル
+- Mounting
+	- コンポーネントが配置される（生まれる）期間
+- Updating
+	- コンポーネントが変更される（成長する）期間
+- Unmounting
+	- コンポーネントが破棄される（死ぬ）期間
 
-副作用の処理（DOMの書き換え、変数代入、API通信などUI構築以外の処理）を扱う。
-## useEffectの基本形
-```jsx
-useEffect(() => {
-	console.log('副作用関数が実行されました！')
-},[依存する変数の配列])
-```
+![[Pasted image 20240609215532.png]]
 
-第2引数を指定することで、第1引数に渡された副作用関数の実行タイミングを制御することができる。
-第2引数の依存配列の中身の値を比較して、副作用関数をスキップするかどうかを判断する。
+## 副作用（effect）フックを使う
+- 関数コンポーネントではuseEffectという副作用フックを使う
+- 副作用=レンダリングによって引き起こされる処理
 
-|      | 説明                               | データ型 |
-| ---- | -------------------------------- | ---- |
-| 第1引数 | 副作用関数（戻り値はクリーンアップ関数、または何も返さない）   | 関数   |
-| 第2引数 | 副作用関数の実行タイミングを制御する依存データが入る（省略可能） | 配列   |
+```js
+import React, {useState} from 'react';
 
-## useEffectの例
-ボタンを押したとき合わせてmeta.titleも更新するサンプル。
-useEffectの第2引数に`count`を渡している。
-`count`が更新されたとき副作用関数を実行。
-```jsx:react.js
-import React, {useState, useEffect} from 'react'
-
-const EffectFunc = () => {
-	const classes = useStyles();
+const Counter = () => {
 	const [count, setCount] = useState(0)
-	const [name, setName] = useState({
-		lastName: '',
-		firstName: ''
-	})
-
-	useEffect(() => {
-		document.title =`${count}回クリックされました`
-	},[count])
-
-	return (
-	    <>
-			<p>{`${count}回クリックされました`}</p>
-			<Button onClick={()=>setCount((prev) => prev + 1)}>
-				ボタン
-			</Button>
-
-			<p>{`名前は${name.lastName} ${name.firstName}`}</p>
-			<form className={classes.root} noValidate autoComplete="off">
-				<Input
-					placeholder="姓"
-					value={name.lastName}
-					onChange={(e)=>{setName({...name,lastName: e.target.value})}}/>
-				<Input
-					placeholder="名"
-					value={name.firstName}
-					onChange={(e)=>{setName({...name,firstName: e.target.value})}}/>
-			</form>
-    </>
-  )
-}
-
-export default EffectFunc
-```
-
-### クリーンアップについて
-クリーンアップとはイベントリスナの削除、タイマーのキャンセルなどのこと。
-`クリーンアップ関数`をreturnすると、2度目以降のレンダリング時に前回の副作用を消してしまうことができる。
-#### クラスコンポーネントの場合
-`componentWillUnmount`は、クリーンアップ（`addEventLitener`の削除、タイマーのキャンセルなど）に使用される。
-`componentDidMount`に副作用を追加し、`componentWillUnmount`で副作用を削除する。
-
-```jsx:react.js
-componentDidMount() {
-	elm.addEventListener('click', () => {})
-}
-
-componentWillUnmount() {
-	elm.removeEventListener('click', () => {})
-}
-```
-
-#### 関数コンポーネントの場合
-
-上記に相当するhookは以下。
-「クリーンアップ関数」をreturnすることで、2度目以降のレンダリング時に前回の副作用を消してしまうことができる。
-```jsx:react.js
-useEffect(() => {
-	elm.addEventListener('click', () => {})
-
-	// returned function will be called on component unmount 
-	return () => {
-		 elm.removeEventListener('click', () => {})
+	const countUp = () => {
+		setCount(prevState => prevState + 1)
 	}
-}, [])
+	const countDown = () => {
+		setCount(prevState => prevState - 1)
+	}
+	useEffect(() => {
+		console.log("Current count is ", count)
+	})
+	return (
+		<>
+			<p>現在のカウント数：{count}</p>
+			<button onClick={countUp}>up</button>
+			<button onClick={countDown}>down</button>
+		</>
+	);
+};
 ```
-#### ライフサイクル
 
-useEffectでは、副作用関数がクリーンアップ関数を返すことで、マウント時に実行した処理をアンマウント時に解除する。
-またその副作用関数は、毎回のレンダリング時に実行され、新しい副作用関数を実行する前に、ひとつ前の副作用処理をクリーンアップする。
+## 第二引数の依存関係を理解
+- useEffectの第二引数には配列を渡すことが可能
+- 第二引数はdeps(dependencies)と呼ばれ、副作用が引き起こされるかどうかの依存関係となる
 
-このようにマウント処理とアンマウント処理の繰り返し処理のことを「ライフサイクル」と言う。
+```js
+// 毎回実行される
+useEffect(() => {
+	console.log("Current count is ", count)
+})
+// 初回レンダリング後のみ実行される
+useEffect(() => {
+	console.log("Current count is ", count)
+}, [])
+// triggerが変更されるたびに実行される
+useEffect(() => {
+	console.log("Current count is ", count)
+}, [trigger])
+// trigger1かtrigger2が変更されるたびに実行される
+useEffect(() => {
+	console.log("Current count is ", count)
+}, [trigger1, trigger2])
+```
+
+## クリーンアップを理解
+- コンポーネント内で外部データベースを購読したい
+- useEffect内で購読処理を呼び出す
+- 必要なくなったらクリーンアップ関数を使って掃除する
+
+```js
+const ToggleButton = () => {
+	const [open, setOpen] = useState(false)
+	const toggle = () => {
+		setOpen(prevState => !prevState)
+	}
+	useEffect(() => {
+		console.log("Current state is", open)
+		if(open) {
+			console.log("Subscribe detabase")
+		}
+		return () => {
+			console.log("Unsubscribe detabase")
+		}
+	})
+	return (
+		<button onClick={toggle}>
+			{open ? 'OPEN' : 'CLOSE'}
+		</button>
+	);
+};
+```
+
+## useEffectのユースケース
+- APIやデータベースから非同期通信でデータを取得（fetch）する
+- 特定の値が変わったらデータを再取得（refetch）する
+
+### GitHubのAPIからデータを取得する
+- fetch APIは非同期通信で外部APIにアクセス
+- GETメソッドであればURLを指定する
+- res.json()メソッドで取得したデータをオブジェクト型に変換
+
+```jsx
+fetch(`https://api.github.com/users/name`)
+	.then(res => res.json())
+	.then(data => {
+		console.log(data)
+	})
+	.catch(error => {
+		console.error(error)
+	})
+```
+
+### useEffect内で非同期通信
+- 初回レンダリング後に呼び出される
+- 第二引数に指定した値が変わる度に再度呼び出される
+- 取得した値をuseStateの更新関数に渡す
+
+```jsx
+const [id , setId] = useState('name')
+useEffect(() => {
+	fetch(`https://api.github.com/users/${id}`)
+		.then(res => res.json())
+		.then(data => {
+			console.log(data)
+			setName(data.name)
+		})
+		.catch(error => {
+			console.error(error)
+		})
+}, [id])
+```
 

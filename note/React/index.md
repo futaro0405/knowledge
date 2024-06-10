@@ -4,7 +4,7 @@
 ## React Hooks
 - [[hooks]]
 - [[useState]]
-
+- [[useEffect]]
 
 
 ref.
