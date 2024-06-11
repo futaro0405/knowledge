@@ -2,9 +2,9 @@
   "shouldConfirmBeforeCreate": true,
   "weekStart": "locale",
   "wordsPerDot": 250,
-  "showWeeklyNote": false,
-  "weeklyNoteFormat": "",
-  "weeklyNoteTemplate": "",
+  "showWeeklyNote": true,
+  "weeklyNoteFormat": "[daily]/YYYY/MM-MMMM/[week]/WW",
+  "weeklyNoteTemplate": "/config/templates/templete-weekly",
   "weeklyNoteFolder": "",
   "localeOverride": "system-default"
 }

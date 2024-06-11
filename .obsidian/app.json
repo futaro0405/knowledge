@@ -3,5 +3,6 @@
   "showUnsupportedFiles": true,
   "attachmentFolderPath": "./",
   "spellcheck": false,
-  "tabSize": 2
+  "tabSize": 2,
+  "promptDelete": false
 }
