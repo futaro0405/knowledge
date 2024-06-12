@@ -1,5 +1,5 @@
 {
   "template": "config/templates/template-daily",
   "folder": "",
-  "format": "[daily]/YYYY/MM-MMMM/MMDD"
+  "format": "[40_work]/[daily]/YYYY/MM-MMMM/MMDD"
 }
