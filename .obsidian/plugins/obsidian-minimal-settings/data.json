@@ -2,7 +2,7 @@
   "lightStyle": "minimal-light-tonal",
   "darkStyle": "minimal-dark-tonal",
   "lightScheme": "minimal-nord-light",
-  "darkScheme": "minimal-nord-dark",
+  "darkScheme": "minimal-catppuccin-dark",
   "editorFont": "",
   "lineHeight": 1.5,
   "lineWidth": 40,
