@@ -85,6 +85,43 @@ Named exportした際にimportしてくる構文になります。
 
 #### Type-Only Imports and Export  
 TypeScript3.8から追加された機能。
-moduleから型をimportする際に、typeを使用して型のみをimportできる構文です。  
+moduleから型をimportする際に、typeを使用して型のみをimportできる構文。
   
 しかし、この構文には制限があり値のimportと同時に使用することはできず、一つのモジュールから型情報と値どちらもimportする場合にはそれぞれimportを別に書かなくてはいけません。
+
+```ts
+export type Props = {
+	children: string
+}
+
+export const Button = ({ children }) => {
+	return <button>{children}</button>;
+};
+```
+
+```ts
+// コンポーネントをimport
+import { Button } from '@/components/Button'
+// 型をimport
+import type { Props } from '@/components/Button' 
+```
+
+#### type Modifiers on Import Names
+この機能はTypeScript4.5で追加された機能  
+Type-Only Imports and Exportで値と型のimportが同時に出来なかったものができるようになった。
+
+```ts
+export type Props = {
+	 children: string
+}
+
+export const Button = ({ children }) => {
+	return <button>{children}</button>;
+};
+```
+
+```ts
+import { Button, type Props } from '@/components/Button' 
+```
+
+この利点は同じmoduleから値と型の情報がimportできるようになる。
