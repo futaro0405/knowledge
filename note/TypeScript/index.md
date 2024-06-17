@@ -1,5 +1,5 @@
 # 初級
-- [[typeScript|TypeScriptとは]]
+- [[note/TypeScript/pages/beginner/typeScript|TypeScriptとは]]
 - [[environment|環境構築]]
 - [[compare|TypeScriptのコンパイル]]
 - [[setting|TypeScriptの設定]]
@@ -16,3 +16,5 @@
 - [[型アサーション]]
 - [[ジェネリクス]]
 - [[keyof]]
+# サバイバルTypeScript
+- 
