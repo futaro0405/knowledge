@@ -1,11 +1,8 @@
 # TypeScriptとは
 **TypeScript**とは、JavaScriptの大きな問題点を解消するために開発されたプログラミング言語。
 JavaScriptの**上位互換**。
-
 TypeScriptの大きな特徴は**静的型付け言語**である点。
-
 **静的型付け言語**の対義語は**動的型付け言語**で、JavaScriptは**動的型付け言語**に当たる。
-
 ## 動的型付け言語
 **動的型付け言語**は変数宣言時に型を宣言せずに値を格納し、実行時に型が決定されるもの。
 また変数の型を変更することができる。
@@ -27,5 +24,4 @@ str = 1; // Type 'number' is not assignable to type 'string'.
 ```
 
 **TypeScript**はJavaScriptを**静的片付け言語**として記載できるようにした**拡張言語**になる。
-
 実行時は、**TypeScript**をJavaScriptに**コンパイル(変換)**して実行する。
