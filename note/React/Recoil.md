@@ -114,3 +114,53 @@ export default function Text() {
 }
 ```
 
+## 計算されたStateを定義
+複数の `atom` を組み合わせて計算されたstateを定義することもできます。
+
+**src/state/textState.js**
+```js:src/state/textState.js
+import { atom, selector } from "recoil";
+
+export const charCountState = selector({
+	key: 'charCountState',
+	get: ({ get }) => {
+		const text = get(textState);
+		return text.length;
+	},
+});
+```
+
+`selector` は `atom` と同じような構造のオブジェクトで、 `get`プロパティに関数を指定して計算された状態を定義できます。
+`get` 関数の第一引数には使用したい `atom` や `selector`を指定します。
+
+## 計算されたStateを使用
+`selector` はStateを返すだけなので更新関数は存在しません。
+よって、 `useRecoilValue` で値を取得します。
+
+```js
+import { useRecoilState, useRecoilValue } from "recoil";
+import { charCountState, textState } from "../state/textState";
+import { ChangeEvent } from "react";
+
+export default function Home() {
+	const [text, setText] = useRecoilState(textState);
+	const charCount = useRecoilValue(charCountState);
+
+	function handleChange(e) {
+		setText(e.target.value);
+	}
+	return (
+		<div>
+			<input type="text" value={text} onChange={handleChange} />
+			<p>You entered: {text}</p>
+			<p>Character count: {charCount}</p>
+			<Link href="/text">textへ</Link>
+		</div>
+	);
+}
+```
+
+## selectorを使用するメリット
+`selector`を使用する主なメリットは、複数の`atom`から取得されたデータを元に、より複雑な状態を計算できることです。
+また、メモ化された関数を提供するため、複数回呼び出される場合でも、最初の呼び出しで計算された結果を返します。さらに、コードをシンプルにし、アプリケーション全体で共有される状態の複雑さを減らすことができます。
+
