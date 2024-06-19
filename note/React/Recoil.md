@@ -64,4 +64,53 @@ stateを読み書きするために、`useRecoilState` というHooksを使用�
 `useRecoilState` の引数は先ほど定義した `atom` を指定します。
 
 ## Stateの読み取り
-`useRecoilValue` を使用すると
+`useRecoilValue` を使用するとStateの取得のみをすることができます。
+
+**src/pages/text.jsx**
+
+```jsx:src/pages/text.jsx
+import { textState } from "../state/textState";
+import { useRecoilValue } from "recoil";
+import { Link } from "@mui/material";
+
+export default function Text() {
+	const text = useRecoilValue(textState);
+
+	return (
+		<div>
+			<p>You entered: {text}</p>
+			<Link to="/">ホームへ</Link>
+		</div>
+	);
+}
+```
+
+## Stateの更新
+`useSetRecoilState`を使用するとstateの更新だけを行うことができます。
+更新した値を返すことはありません。
+
+
+**src/pages/text.jsx**
+
+```jsx:src/pages/text.jsx
+import { textState } from "../state/textState";
+import { useRecoilValue } from "recoil";
+import { Button } from "@mui/material";
+
+export default function Text() {
+	const setText = useSetRecoilState(textState);
+
+	const updateText = () => {
+		const newText = "text";
+		setText(newText);
+	}
+
+	return (
+		<div>
+			<p>You entered: {text}</p>
+			<Button onClick={updateText}>text</Link>
+		</div>
+	);
+}
+```
+
