@@ -1,11 +1,14 @@
 ## 基礎
 1. [[comment]]
-2. [[loop]]
-3. [[function]]
-4. [[object]]
-5. [[variables|変数]]
-6. [[destructuring_assignment|分割代入]]
-7. [[defer]]
+2. [[variables|変数]]
+3. [[loop]]
+4. [[function]]
+5. [[object]]
+6. [[variables|変数]]
+7. [[destructuring_assignment|分割代入]]
+8. [[defer]]
+9. [[webcomponents]]
+10. [[クロージャー]]
 
 ## 非同期処理
 1. [[同期処理と非同期処理]]
