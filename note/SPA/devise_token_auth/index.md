@@ -81,3 +81,64 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 end
 ```
+
+フロント側
+
+```jsx:app.jsx
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function UserSignUp() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignUp = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/v1/auth', {
+        // パラメータとして送っているのはemailとpasswordの二つのみ。
+        email: email,
+        password: password
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleSignUp}>Sign Up</button>
+    </div>
+  );
+}
+
+export default UserSignUp;
+```
+
+```ruby:app/controllers/api/v1/auth/registrations_controller.rb
+class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsController
+  private
+  def sign_up_params
+    params.require(:registration).permit(:email, :password)
+  end
+end
+```
+
+普通にエラー
+
+```
+POST http://localhost:3000/api/v1/auth 500 (Internal Server Error)
+```
+
