@@ -64,3 +64,20 @@ end
 	config.action_mailer.perform_deliveries = true
 ```
 
+```ruby:config/initializers/cors.rb
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    # 開発環境の場合は、全てのオリジンからのリクエストを許可する
+    if Rails.env.development?
+      origins '*'
+    else
+      origins "example.com"
+    end
+
+    resource '*',
+      headers: :any,
+      expose: ["access-token", "expiry", "token-type", "uid", "client"],
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+  end
+end
+```
