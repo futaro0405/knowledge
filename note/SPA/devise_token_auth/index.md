@@ -142,3 +142,17 @@ end
 POST http://localhost:3000/api/v1/auth 500 (Internal Server Error)
 ```
 
+```ruby:config/initializers/devise_token_uth.rb
+config.change_headers_on_each_request = false
+
+config.token_lifespan = 2.weeks
+
+  config.headers_names = {
+    :'authorization' => 'Authorization',
+    :'access-token' => 'access-token',
+    :'client' => 'client',
+    :'expiry' => 'expiry',
+    :'uid' => 'uid',
+    :'token-type' => 'token-type'
+  }
+```
