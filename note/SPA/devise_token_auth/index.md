@@ -48,3 +48,19 @@ end
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable #　追加
 ```
+
+```gemfile
+group :development do
+  gem 'letter_opener_web', '~> 2.0'
+end
+```
+
+```route.rb
+	mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+```
+
+```ruby:config/environments/development.rb
+	config.action_mailer.delivery_method = :letter_opener
+	config.action_mailer.perform_deliveries = true
+```
+
