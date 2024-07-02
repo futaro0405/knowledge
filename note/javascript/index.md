@@ -18,3 +18,6 @@
 5. [[Promise]]
 6. [[Promiseチェーン]]
 
+## other
+- [[preventDefault]]
+- 
