@@ -8,4 +8,4 @@ TypeScriptは様々なJavaScriptのバージョンにトランスパイルする
 ブラウザや実行環境による互換性問題を回避することができる。
 
 ## 静的型付け
-typeScriptは
+typeScriptは静的型付け言語。
