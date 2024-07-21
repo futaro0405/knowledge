@@ -71,6 +71,29 @@ TypeScriptでundefined型の型注釈を行うには、`undefined`を用いま�
 const x: undefined = undefined;
 ```
 
+## symbol型
+
+### シンボルの型注釈
+TypeScriptでシンボルの型注釈は`symbol`を用います。
+
+```typescript
+const s: symbol = Symbol();
+```
+
+## bigint型(長整数型)
+JavaScriptのbigint型は、number型よりも大きな整数を扱えるプリミティブ型です。
+## bigint型リテラル
+JavaScriptのbigint型のリテラルは整数値の末尾に`n`をつけて書きます。
+
+```typescript
+const x = 100n;
+```
+
+
+
+
+
+
 
 
 
