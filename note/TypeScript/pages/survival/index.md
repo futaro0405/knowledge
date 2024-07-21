@@ -31,3 +31,60 @@ TypeScriptでnumber型の型注釈は`number`を用います。
 ```typescript
 const count: number = 123;
 ```
+
+## string型 (文字列型)
+TypeScriptのstring型の型注釈は`string`を用います。
+
+```
+const message: string = "Hello";
+```
+
+## null型
+JavaScriptのnullは値がないことを示す値です
+### nullの型注釈
+TypeScriptでnull型を型注釈するには`null`を用います。
+```
+const x: null = null;
+```
+
+## undefined型
+JavaScriptのundefinedは未定義を表すプリミティブな値です。
+変数に値がセットされていないとき、戻り値が無い関数、オブジェクトに存在しないプロパティにアクセスしたとき、配列に存在しないインデックスでアクセスしたときなどに現れます。
+```
+let name;
+console.log(name);
+ 
+function func() {}
+console.log(func());
+ 
+const obj = {};
+console.log(obj.name);
+ 
+const arr = [];
+console.log(arr[1]);
+```
+
+## undefinedの型注釈
+TypeScriptでundefined型の型注釈を行うには、`undefined`を用います。
+
+```typescript
+const x: undefined = undefined;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
