@@ -117,7 +117,22 @@ num = 1;
 ## any型
 typescriptのany型はどんなプリミティブ型を代入してもエラーが出ない型。
 また、any型の変数はこれ以上コンパイラが型チェックを行わなくなる。
+型宣言が難しく一時的に保留とする場合に使用する。
 
+## void型
+関数で何かを返すことがないようなときにvoid型を使う
+
+## null型、undefined型
+nullしか持たせない
+undefindedしか持たせない
+
+```
+let absence: null = null;
+absence = 'hello'; // エラー
+
+let data = undefined;
+data = 123; // エラー
+```
 
 # オブジェクト
 プリミティブ型以外はオブジェクトに分類されます。
