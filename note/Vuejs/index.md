@@ -6,8 +6,19 @@ VuejsにはReactivityという機能がある。
 
 ```javascript
 import { reactive, effect } from './reactivity.esm-browser.js';
-const obj = { a: 0 };
+
+const obj = reactive({ a: 0 });
+effect(() => {
+	console.log(obj.a);
+});
+
 obj.a = 1;
-console.log
 ```
 
+```console
+0
+1
+```
+
+`reactive()`の引数にobujectを渡す。
+`effect()`のコールバック関数は`reactive()`のオブジェクトが変更されたときに実行される。
