@@ -23,10 +23,3 @@ obj.a = 1;
 `reactive()`の引数にobujectを渡す。
 `effect()`のコールバック関数は`reactive()`のオブジェクトが変更されたときに実行される。
 
-```js
-import { reactive, effect } from './reactive.js';
-const obj = reactive({
-  a: 0
-});
-effect(()=> {})
-```
