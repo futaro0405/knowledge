@@ -1,2 +1,5 @@
 # 宣言的レンダリング
-HTMLを拡張したtemplate構文を用いて、JavaScriptの状態に基づいてHTMLがどのように見えるか記述することができる。
+HTMLを拡張したtemplate構文を用いて、JavaScriptのStateに基づいてHTMLがどのように見えるか記述することができる。
+Stateが変更されると、HTMLは自動的に更新される。
+
+`reactive()` APIを使用することで変更されたときに更新されるTriggerを宣言することができる。
