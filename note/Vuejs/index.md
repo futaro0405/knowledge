@@ -1,25 +1,9 @@
-## Reactivity
-VuejsにはReactivityという機能がある。
-あるオブジェクトの変更を検知してその変更が及ぼす影響を自動的に保管してくれる機能。
+# 宣言的レンダリング
+HTMLを拡張したtemplate構文を用いて、JavaScriptのStateに基づいてHTMLがどのように見えるか記述することができる。
+Stateが変更されると、HTMLは自動的に更新される。
 
-### 例
-
-```javascript
-import { reactive, effect } from './reactivity.esm-browser.js';
-
-const obj = reactive({ a: 0 });
-effect(() => {
-	console.log(obj.a);
-});
-
-obj.a = 1;
-```
-
-```console
-0
-1
-```
-
-`reactive()`の引数にobujectを渡す。
-`effect()`のコールバック関数は`reactive()`のオブジェクトが変更されたときに実行される。
+`reactive()` APIを使用することで変更されたときに更新されるTriggerを宣言することができる。
+`reactive()` はオブジェクト（配列、`Map`など ）に対してのみ動作する。
+`ref()` は任意の値の型をとる。
+`value` プロパティを用いることで値を使用することができる。
 
