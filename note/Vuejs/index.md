@@ -92,7 +92,11 @@ onMounted(() => {
 ## アプリケーションのインスタンス
 Vueアプリケーションは`creteApp` 関数で新しいアプリケーションのインスタンスを作成することができる。
 
-```
+```js
 import { createApp } from 'vue'
-const app = createApp()
+
+const app = createApp({
+
+})
 ```
+
