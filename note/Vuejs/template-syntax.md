@@ -29,3 +29,17 @@ Using v-html directive: This should be red.
 ```
 
 ## 属性バインディング
+HTML属性の中ではマスタッシュ構文は使用できません。
+代わりに `v-bind` ディレクティブを使用します。
+
+```html
+<div v-bind:id="dynamicId"></div>
+```
+この例では`v-bind`ディレクティブはコンポーネントの`dynamicId`プロパティを要素のidとするように指示しています。
+
+`v-bind` は以下のような省略記法があります。
+
+```html
+<div :id="dynamicId"></div>
+```
+
