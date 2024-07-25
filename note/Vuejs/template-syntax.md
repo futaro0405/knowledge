@@ -52,3 +52,33 @@ HTML属性の中ではマスタッシュ構文は使用できません。
 <div v-bind:id></div>
 ```
 
+### 複数の属性を動的にバインドさせる
+複数のプロパティを持つjavascriptオブジェクトがあるとします。
+`v-bind`を引数なしで用いると複数の属性をまとめてバインドすることができます。
+
+```js
+const objectOfAttrs = {
+  id: 'container',
+  class: 'wrapper',
+  style: 'background-color:green'
+}
+```
+
+```html
+<div v-bind="objectOfAttrs"></div>
+```
+
+## JavaScriptの式を用いる
+VueではデータバインディングにおいてJavaScrpt式を活用することができます。
+
+```html:template
+{{ number + 1 }}
+
+{{ ok ? 'YES' : 'NO' }}
+
+{{ message.split('').reverse().join }}
+
+<div :id="list-${id}"></div>
+```
+
+例に挙げたような式は現在のコンポーネントインスタンスのデータスコープ内でJavaScript式として評価されます。
