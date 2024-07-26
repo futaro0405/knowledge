@@ -91,7 +91,7 @@ onMounted(() => {
 # Vueアプリケーションの作成
 ## アプリケーションのインスタンス
 Vueアプリケーションは`creteApp` 関数で新しいアプリケーションのインスタンスを作成することができる。
-`createApp` に渡すオブジェクトhコンポーネントを渡す。
+`createApp` に渡すオブジェクトはコンポーネントを渡す。
 
 ```js
 import { createApp } from 'vue'
