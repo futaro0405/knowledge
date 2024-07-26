@@ -143,19 +143,23 @@ state.count = 1
 console.log(count.value) // 1
 ```
 
-ここでは、`state` オブジェクトの `count` プロパティが `ref` オブジェクトであるにもかかわらず、直接 `state.count` としてアクセスできることがわかります。また、`state.count` に新しい値を代入すると、元の `count` の値も更新されます。
+ここでは、`state` オブジェクトの `count` プロパティが `ref` オブジェクトであるにもかかわらず、直接 `state.count` としてアクセスできることがわかります。
+また、`state.count` に新しい値を代入すると、元の `count` の値も更新されます。
 
-もし、`state.count` に新しい `ref` を割り当てると、元の `ref` はそのオブジェクトから切り離されます:
+もし、`state.count` に新しい `ref` を割り当てると、元の `ref` はそのオブジェクトから切り離されます。
 
-javascript
+```js
+const otherCount = ref(2)
 
-コードをコピーする
-
-`const otherCount = ref(2)  state.count = otherCount console.log(state.count) // 2 // 元の ref は state.count から切り離されました console.log(count.value) // 1`
+state.count = otherCount
+console.log(state.count) // 2
+// 元の ref は state.count から切り離されました
+console.log(count.value) // 1
+```
 
 このように、新しい `ref` を設定すると、`state.count` は新しい `ref` を参照するようになります。
 
-**配列やコレクションの場合の注意点**
+#### 配列やコレクションの場合の注意点
 
 リアクティブなオブジェクトとは異なり、`ref` がリアクティブな配列やMapのようなネイティブコレクションの要素として使われる場合、自動的にはアンラップされません。
 
