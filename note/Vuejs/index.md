@@ -8,4 +8,4 @@
 	- [[template-syntax#JavaScriptの式を用いる|JavaScriptの式を用いる]]
 	- [[template-syntax#ディレクティブ|ディレクティブ]]
 - [[reactivity-fundamentals|リアクティビティの基礎]]
-	- 
+- [[computed|算出プロパティ]]
