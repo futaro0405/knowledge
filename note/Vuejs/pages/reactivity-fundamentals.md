@@ -163,13 +163,16 @@ console.log(count.value) // 1
 
 リアクティブなオブジェクトとは異なり、`ref` がリアクティブな配列やMapのようなネイティブコレクションの要素として使われる場合、自動的にはアンラップされません。
 
-例えば、以下のようになります:
+```javascript
+const books = reactive([ref('Vue 3 Guide')])
+// .value を使わないといけません
+console.log(books[0].value)
 
-javascript
+const map = reactive(new Map([['count', ref(0)]]))
+// .value を使わないといけません
+console.log(map.get('count').value)
 
-コードをコピーする
-
-`const books = reactive([ref('Vue 3 Guide')]) // .value を使わないといけません console.log(books[0].value)  const map = reactive(new Map([['count', ref(0)]])) // .value を使わないといけません console.log(map.get('count').value)`
+```
 
 このように、配列やMap内の `ref` にアクセスするときは、`.value` を明示的に使う必要があります。
 
