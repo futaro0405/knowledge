@@ -1,81 +1,250 @@
-# 条件付きレンダリング
-## v-if
-`v-if` ディレクティブは、特定の条件が満たされたときに要素を表示したい場合に使用されます。
-このディレクティブが指定された要素は、条件が真 (`true`) のときだけ表示されます。
+# リストレンダリング
+## v-for
+`v-for` ディレクティブは、配列の各要素を使ってリストを表示するために使用されます。
+このディレクティブは `item in items` という構文を使います。
+ここで、`items` は元の配列データを指し、`item` は現在処理中の配列要素を指します。
 
-例:
-
-```vue
-<h1 v-if="awesome">Vue is awesome!</h1>
+```javascript
+const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
 ```
 
-上記の例では、`awesome` という変数が真の場合に「Vue is awesome!」というメッセージが表示されます。
-
-## v-else
-
-`v-if` に対して "else block" を追加するために `v-else` を使用します。`v-else` ディレクティブが指定された要素は、`v-if` の条件が偽 (`false`) のときに表示されます。
-
-例:
 ```vue
-<button @click="awesome = !awesome">Toggle</button>
-<h1 v-if="awesome">Vue is awesome!</h1>
-<h1 v-else>Oh no 😢</h1>
+<li v-for="item in items">
+  {{ item.message }}
+</li>
 ```
 
-ここでは、ボタンをクリックすると `awesome` の値が反転し、それに応じてメッセージが切り替わります。`v-else` は常に `v-if` または `v-else-if` の直後に記述しなければなりません。
+この例では、`items` 配列の各要素の `message` プロパティをリスト項目として表示します。
 
-#### v-else-if
+また、`v-for` のスコープ内では、親スコープのプロパティにアクセスできるだけでなく、現在の項目のインデックスも取得できます。
 
-`v-else-if` は、複数の条件を処理したいときに使用します。
-これは `v-if` の "else if block" として機能し、複数回連結して使うことができます。
-
-例:
-```vue
-<div v-if="type === 'A'">A</div>
-<div v-else-if="type === 'B'">B</div>
-<div v-else-if="type === 'C'">C</div>
-<div v-else>Not A/B/C</div>
+```javascript
+const parentMessage = ref('Parent')
+const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
 ```
 
-この例では、`type` 変数の値に応じて異なるブロックが表示されます。
-`v-else-if` も `v-if` または他の `v-else-if` の直後に記述しなければなりません。
-## `<template>` 要素での v-if の使用
+```vue
+<li v-for="(item, index) in items">
+  {{ parentMessage }} - {{ index }} - {{ item.message }}
+</li>
+```
 
-`v-if` は単一の要素に対して使いますが、複数の要素を条件に応じて切り替えたい場合は `<template>` 要素と併用します。この `<template>` 要素自体は最終的に DOM にレンダリングされません。
+この例では、各リスト項目に親メッセージ、インデックス、アイテムのメッセージが表示されます。
 
-例:
+`v-for` のスコープは、JavaScript の `forEach` メソッドと似ています。たとえば、次のように書けます:
+
+```javascript
+const parentMessage = 'Parent'
+const items = [{ message: 'Foo' }, { message: 'Bar' }]
+
+items.forEach((item, index) => {
+  console.log(parentMessage, item.message, index)
+})
+```
+
+`v-for` では分割代入も使用できます。
 
 ```vue
-<template v-if="ok">
-  <h1>Title</h1>
-  <p>Paragraph 1</p>
-  <p>Paragraph 2</p>
+<li v-for="{ message } in items">
+  {{ message }}
+</li>
+
+<!-- index のエイリアスを伴う場合 -->
+<li v-for="({ message }, index) in items">
+  {{ message }} {{ index }}
+</li>
+```
+
+ネストされた `v-for` でも親スコープにアクセスできます。
+
+```vue
+<li v-for="item in items">
+  <span v-for="childItem in item.children">
+    {{ item.message }} {{ childItem }}
+  </span>
+</li>
+```
+
+`v-for` の構文として `in` の代わりに `of` を使用することもできます:
+
+```vue
+<div v-for="item of items"></div>
+```
+
+## `v-for` をオブジェクトに適用する
+`v-for` はオブジェクトの各プロパティを繰り返すこともできます。
+この場合、`Object.keys()` の結果に基づいて順序が決まります。
+
+```javascript
+const myObject = reactive({
+  title: 'How to do lists in Vue',
+  author: 'Jane Doe',
+  publishedAt: '2016-04-10'
+})
+```
+
+```vue
+<ul>
+  <li v-for="value in myObject">
+    {{ value }}
+  </li>
+</ul>
+```
+
+プロパティ名も取得する場合は、2つ目のエイリアスを使います。
+
+```vue
+<li v-for="(value, key) in myObject">
+  {{ key }}: {{ value }}
+</li>
+```
+
+インデックスを取得するには3つ目のエイリアスを使います。
+
+```vue
+<li v-for="(value, key, index) in myObject">
+  {{ index }}. {{ key }}: {{ value }}
+</li>
+```
+
+## v-for で範囲を使用する
+
+`v-for` には整数を指定して範囲を繰り返すこともできます。
+
+```vue
+<span v-for="n in 10">{{ n }}</span>
+```
+
+この場合、`n` の値は 1 から始まります。
+## `<template>` に `v-for` を適用する
+複数の要素をまとめてレンダリングする場合、`<template>` タグに `v-for` を適用します。
+`<template>`タグ自体はレンダリングされません。
+
+```vue
+<ul>
+  <template v-for="item in items">
+    <li>{{ item.msg }}</li>
+    <li class="divider" role="presentation"></li>
+  </template>
+</ul>
+```
+## v-for と v-if の組み合わせ
+`v-if` と `v-for` を同じ要素に使うのは推奨されません。
+同じ要素に両方を使用すると、`v-if` が優先され、`v-for` のスコープ内の変数にアクセスできなくなります。
+
+```vue
+<!--
+"todo" というプロパティがインスタンスで未定義となるため、
+エラーがスローされます。
+-->
+<li v-for="todo in todos" v-if="!todo.isComplete">
+  {{ todo.name }}
+</li>
+```
+
+この場合、`todo` が未定義でエラーが発生します。これを解決するには、`<template>` タグを使用して `v-for` を移動します:
+
+```vue
+<template v-for="todo in todos">
+  <li v-if="!todo.isComplete">
+    {{ todo.name }}
+  </li>
 </template>
 ```
 
-ここでは、`ok` が真の場合に `<h1>` と `<p>` が表示されます。
-## v-show
+#### key による状態管理
+`v-for` でリストをレンダリングする場合、Vueは「その場での修繕」（in-place patch）という戦略を用います。
+つまり、項目の順序が変更されても、Vueはその場で要素を修正し、新しい順序に合わせます。
 
-`v-show` は条件によって要素を表示・非表示にするもう一つの方法です。
-`v-if` と異なり、`v-show` では要素が常に DOM に存在し、単に `display` CSS プロパティを切り替えることで表示・非表示を制御します。
+しかし、項目の順序が重要である場合や、子コンポーネントの状態が変更される場合は、`key` 属性を指定することで、Vueに要素の再利用を指示できます。
 
-例:
 ```vue
-<h1 v-show="ok">Hello!</h1>
+<div v-for="item in items" :key="item.id">
+  <!-- 内容 -->
+</div>
 ```
 
-この例では、`ok` の値が真のときに「Hello!」が表示されます。
-`v-show` は `<template>` 要素をサポートせず、`v-else` とも連動しません。
+`<template>` タグに `key` を適用する場合:
 
-## `v-if` と `v-show` の使い分け
+```vue
+<template v-for="todo in todos" :key="todo.name">
+  <li>{{ todo.name }}</li>
+</template>
+```
 
-`v-if` は、条件が真の場合に要素やコンポーネントを初めてレンダリングする「遅延レンダリング」方式です。
-一方、`v-show` は初めから要素がレンダリングされ、条件によって表示・非表示を切り替えます。
+`v-for` の `key` 属性は一意である必要があります。
+また、`key` には文字列や数値などのプリミティブ型の値を使用し、オブジェクトを指定してはいけません。
+## v-for をコンポーネントに適用する
 
-- 頻繁に表示・非表示を切り替える必要がある場合は `v-show` を使用
-- 表示の切り替えがあまりない場合や、初期表示で要素を隠したい場合は `v-if` を使用
+コンポーネントにも `v-for` を適用できますが、この場合、コンポーネントにデータを渡すために `props` を使用します。
 
-## `v-if` と `v-for` の同時使用
+```vue
+<MyComponent
+  v-for="(item, index) in items"
+  :item="item"
+  :index="index"
+  :key="item.id"
+/>
+```
 
-`v-if` と `v-for` を同じ要素で使用することは一般的に推奨されていません。
-もし使用する場合は、`v-if` が先に評価されます。
+### 配列の変更の検出
+
+Vue はリアクティブな配列の変更を検出し、それに応じてビューを更新します。
+これには以下のミューテーションメソッドが含まれます。
+- `push()`
+- `pop()`
+- `shift()`
+- `unshift()`
+- `splice()`
+- `sort()`
+- `reverse()`
+ミューテーションしないメソッド（例: `filter()`, `concat()`, `slice()`）を使用した場合、Vueは新しい配列をレンダリングします。
+
+```javascript
+items.value = items.value.filter((item) => item.message.match(/Foo/))
+```
+
+Vueは既存のDOMを効率的に再利用するため、リスト全体の再レンダリングは行いません。
+
+#### フィルタリング/並べ替えの結果を表示する
+
+フィルタリングや並べ替えを行いたい場合、元のデータを変更せずに算出プロパティを使用して結果を表示できます。
+
+```javascript
+const numbers = ref([1, 2, 3, 4, 5])
+
+const evenNumbers = computed(() => {
+  return numbers.value.filter((n) => n % 2 === 0)
+})
+```
+
+```vue
+<li v-for="n in evenNumbers">{{ n }}</li>
+```
+
+ネストされた `v-for` ループの内側などで算出プロパティを使えない場合は、メソッドを使用できます。
+
+```javascript
+const sets = ref([
+  [1, 2, 3, 4, 5],
+  [6, 7, 8, 9, 10]
+])
+
+function even(numbers) {
+  return numbers.filter((number) => number % 2 === 0)
+}
+```
+
+```vue
+<ul v-for="numbers in sets">
+  <li v-for="n in even(numbers)">{{ n }}</li>
+</ul>
+```
+
+算出プロパティの中で `reverse()` や `sort()` を使用する際は、元の配列を変更しないように注意しましょう。
+
+```diff
+- return numbers.reverse()
++ return [...numbers].reverse()
+```
+

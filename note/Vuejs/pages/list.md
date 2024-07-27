@@ -153,7 +153,6 @@ const myObject = reactive({
 ```
 
 #### key による状態管理
-
 `v-for` でリストをレンダリングする場合、Vueは「その場での修繕」（in-place patch）という戦略を用います。
 つまり、項目の順序が変更されても、Vueはその場で要素を修正し、新しい順序に合わせます。
 
@@ -179,18 +178,19 @@ const myObject = reactive({
 
 コンポーネントにも `v-for` を適用できますが、この場合、コンポーネントにデータを渡すために `props` を使用します。
 
-例:
+```vue
+<MyComponent
+  v-for="(item, index) in items"
+  :item="item"
+  :index="index"
+  :key="item.id"
+/>
+```
 
-vue
+### 配列の変更の検出
 
-コードをコピーする
-
-`<MyComponent   v-for="(item, index) in items"   :item="item"   :index="index"   :key="item.id" />`
-
-#### 配列の変更の検出
-
-Vue はリアクティブな配列の変更を検出し、それに応じてビューを更新します。これには以下のミューテーションメソッドが含まれます:
-
+Vue はリアクティブな配列の変更を検出し、それに応じてビューを更新します。
+これには以下のミューテーションメソッドが含まれます。
 - `push()`
 - `pop()`
 - `shift()`
@@ -198,14 +198,11 @@ Vue はリアクティブな配列の変更を検出し、それに応じてビ�
 - `splice()`
 - `sort()`
 - `reverse()`
+ミューテーションしないメソッド（例: `filter()`, `concat()`, `slice()`）を使用した場合、Vueは新しい配列をレンダリングします。
 
-ミューテーションしないメソッド（例: `filter()`, `concat()`, `slice()`）を使用した場合、Vueは新しい配列をレンダリングします。例えば:
-
-javascript
-
-コードをコピーする
-
-`items.value = items.value.filter((item) => item.message.match(/Foo/))`
+```javascript
+items.value = items.value.filter((item) => item.message.match(/Foo/))
+```
 
 Vueは既存のDOMを効率的に再利用するため、リスト全体の再レンダリングは行いません。
 
