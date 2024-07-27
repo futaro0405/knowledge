@@ -48,133 +48,134 @@ items.forEach((item, index) => {
 <li v-for="{ message } in items">
   {{ message }}
 </li>
+
+<!-- index のエイリアスを伴う場合 -->
+<li v-for="({ message }, index) in items">
+  {{ message }} {{ index }}
+</li>
 ```
 
-vue
+ネストされた `v-for` でも親スコープにアクセスできます。
 
-コードをコピーする
-
-`<li v-for="({ message }, index) in items">   {{ message }} {{ index }} </li>`
-
-ネストされた `v-for` でも親スコープにアクセスできます:
-
-vue
-
-コードをコピーする
-
-`<li v-for="item in items">   <span v-for="childItem in item.children">     {{ item.message }} {{ childItem }}   </span> </li>`
+```vue
+<li v-for="item in items">
+  <span v-for="childItem in item.children">
+    {{ item.message }} {{ childItem }}
+  </span>
+</li>
+```
 
 `v-for` の構文として `in` の代わりに `of` を使用することもできます:
 
-vue
+```vue
+<div v-for="item of items"></div>
+```
 
-コードをコピーする
+## `v-for` をオブジェクトに適用する
+`v-for` はオブジェクトの各プロパティを繰り返すこともできます。
+この場合、`Object.keys()` の結果に基づいて順序が決まります。
 
-`<div v-for="item of items"></div>`
+```javascript
+const myObject = reactive({
+  title: 'How to do lists in Vue',
+  author: 'Jane Doe',
+  publishedAt: '2016-04-10'
+})
+```
 
-#### v-for をオブジェクトに適用する
+```vue
+<ul>
+  <li v-for="value in myObject">
+    {{ value }}
+  </li>
+</ul>
+```
 
-`v-for` はオブジェクトの各プロパティを繰り返すこともできます。この場合、`Object.keys()` の結果に基づいて順序が決まります。
+プロパティ名も取得する場合は、2つ目のエイリアスを使います。
 
-例:
+```vue
+<li v-for="(value, key) in myObject">
+  {{ key }}: {{ value }}
+</li>
+```
 
-javascript
+インデックスを取得するには3つ目のエイリアスを使います。
 
-コードをコピーする
+```vue
+<li v-for="(value, key, index) in myObject">
+  {{ index }}. {{ key }}: {{ value }}
+</li>
+```
 
-`const myObject = reactive({   title: 'How to do lists in Vue',   author: 'Jane Doe',   publishedAt: '2016-04-10' })`
+## v-for で範囲を使用する
 
-vue
+`v-for` には整数を指定して範囲を繰り返すこともできます。
 
-コードをコピーする
-
-`<ul>   <li v-for="value in myObject">     {{ value }}   </li> </ul>`
-
-プロパティ名も取得する場合は、2つ目のエイリアスを使います:
-
-vue
-
-コードをコピーする
-
-`<li v-for="(value, key) in myObject">   {{ key }}: {{ value }} </li>`
-
-インデックスを取得するには3つ目のエイリアスを使います:
-
-vue
-
-コードをコピーする
-
-`<li v-for="(value, key, index) in myObject">   {{ index }}. {{ key }}: {{ value }} </li>`
-
-#### v-for で範囲を使用する
-
-`v-for` には整数を指定して範囲を繰り返すこともできます:
-
-vue
-
-コードをコピーする
-
-`<span v-for="n in 10">{{ n }}</span>`
+```vue
+<span v-for="n in 10">{{ n }}</span>
+```
 
 この場合、`n` の値は 1 から始まります。
+## `<template>` に `v-for` を適用する
+複数の要素をまとめてレンダリングする場合、`<template>` タグに `v-for` を適用します。
+`<template>`タグ自体はレンダリングされません。
 
-#### <template> に v-for を適用する
+```vue
+<ul>
+  <template v-for="item in items">
+    <li>{{ item.msg }}</li>
+    <li class="divider" role="presentation"></li>
+  </template>
+</ul>
+```
+## v-for と v-if の組み合わせ
+`v-if` と `v-for` を同じ要素に使うのは推奨されません。
+同じ要素に両方を使用すると、`v-if` が優先され、`v-for` のスコープ内の変数にアクセスできなくなります。
 
-複数の要素をまとめてレンダリングする場合、`<template>` タグに `v-for` を適用します。このタグ自体はレンダリングされません。
-
-例:
-
-vue
-
-コードをコピーする
-
-`<ul>   <template v-for="item in items">     <li>{{ item.msg }}</li>     <li class="divider" role="presentation"></li>   </template> </ul>`
-
-#### v-for と v-if の組み合わせ
-
-`v-if` と `v-for` を同じ要素に使うのは推奨されません。同じ要素に両方を使用すると、`v-if` が優先され、`v-for` のスコープ内の変数にアクセスできなくなります。
-
-例:
-
-vue
-
-コードをコピーする
-
-`<li v-for="todo in todos" v-if="!todo.isComplete">   {{ todo.name }} </li>`
+```vue
+<!--
+"todo" というプロパティがインスタンスで未定義となるため、
+エラーがスローされます。
+-->
+<li v-for="todo in todos" v-if="!todo.isComplete">
+  {{ todo.name }}
+</li>
+```
 
 この場合、`todo` が未定義でエラーが発生します。これを解決するには、`<template>` タグを使用して `v-for` を移動します:
 
-vue
-
-コードをコピーする
-
-`<template v-for="todo in todos">   <li v-if="!todo.isComplete">     {{ todo.name }}   </li> </template>`
+```vue
+<template v-for="todo in todos">
+  <li v-if="!todo.isComplete">
+    {{ todo.name }}
+  </li>
+</template>
+```
 
 #### key による状態管理
 
-`v-for` でリストをレンダリングする場合、Vueは「その場での修繕」（in-place patch）という戦略を用います。つまり、項目の順序が変更されても、Vueはその場で要素を修正し、新しい順序に合わせます。
+`v-for` でリストをレンダリングする場合、Vueは「その場での修繕」（in-place patch）という戦略を用います。
+つまり、項目の順序が変更されても、Vueはその場で要素を修正し、新しい順序に合わせます。
 
 しかし、項目の順序が重要である場合や、子コンポーネントの状態が変更される場合は、`key` 属性を指定することで、Vueに要素の再利用を指示できます。
 
-例:
-
-vue
-
-コードをコピーする
-
-`<div v-for="item in items" :key="item.id">   <!-- 内容 --> </div>`
+```vue
+<div v-for="item in items" :key="item.id">
+  <!-- 内容 -->
+</div>
+```
 
 `<template>` タグに `key` を適用する場合:
 
-vue
+```vue
+<template v-for="todo in todos" :key="todo.name">
+  <li>{{ todo.name }}</li>
+</template>
+```
 
-コードをコピーする
-
-`<template v-for="todo in todos" :key="todo.name">   <li>{{ todo.name }}</li> </template>`
-
-`v-for` の `key` 属性は一意である必要があります。また、`key` には文字列や数値などのプリミティブ型の値を使用し、オブジェクトを指定してはいけません。`key` 属性についての詳しい情報は、公式ドキュメントを参照してください。
-
-#### v-for をコンポーネントに適用する
+`v-for` の `key` 属性は一意である必要があります。
+また、`key` には文字列や数値などのプリミティブ型の値を使用し、オブジェクトを指定してはいけません。
+## v-for をコンポーネントに適用する
 
 コンポーネントにも `v-for` を適用できますが、この場合、コンポーネントにデータを渡すために `props` を使用します。
 
