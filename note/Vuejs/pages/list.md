@@ -18,37 +18,37 @@ const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
 
 また、`v-for` のスコープ内では、親スコープのプロパティにアクセスできるだけでなく、現在の項目のインデックスも取得できます。
 
-例:
+```javascript
+const parentMessage = ref('Parent')
+const items = ref([{ message: 'Foo' }, { message: 'Bar' }])
+```
 
-javascript
-
-コードをコピーする
-
-`const parentMessage = ref('Parent') const items = ref([{ message: 'Foo' }, { message: 'Bar' }])`
-
-vue
-
-コードをコピーする
-
-`<li v-for="(item, index) in items">   {{ parentMessage }} - {{ index }} - {{ item.message }} </li>`
+```vue
+<li v-for="(item, index) in items">
+  {{ parentMessage }} - {{ index }} - {{ item.message }}
+</li>
+```
 
 この例では、各リスト項目に親メッセージ、インデックス、アイテムのメッセージが表示されます。
 
 `v-for` のスコープは、JavaScript の `forEach` メソッドと似ています。たとえば、次のように書けます:
 
-javascript
+```javascript
+const parentMessage = 'Parent'
+const items = [{ message: 'Foo' }, { message: 'Bar' }]
 
-コードをコピーする
+items.forEach((item, index) => {
+  console.log(parentMessage, item.message, index)
+})
+```
 
-`const parentMessage = 'Parent' const items = [{ message: 'Foo' }, { message: 'Bar' }]  items.forEach((item, index) => {   console.log(parentMessage, item.message, index) })`
+`v-for` では分割代入も使用できます。
 
-`v-for` では分割代入も使用できます:
-
-vue
-
-コードをコピーする
-
-`<li v-for="{ message } in items">   {{ message }} </li>`
+```vue
+<li v-for="{ message } in items">
+  {{ message }}
+</li>
+```
 
 vue
 
