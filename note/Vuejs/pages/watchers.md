@@ -122,24 +122,150 @@ obj.count++
 
 リアクティブなオブジェクトを返すgetterを使うと、オブジェクト全体が異なるオブジェクトに置き換わったときだけコールバックが実行されます。
 
-**例:**
-
-js
-
-コードをコピーする
-
-`watch(   () => state.someObject,   () => {     // state.someObject が完全に置き換わった場合のみ実行される   } )`
+```js
+watch(
+  () => state.someObject,
+  () => {
+    // state.someObject が置き換わった時のみ実行されます。
+  }
+)
+```
 
 しかし、`deep`オプションを明示的に指定することで、getterを使用した場合でもディープ・ウォッチャーとして動作させることができます。
 
-**例:**
-
-js
-
-コードをコピーする
-
-``watch(   () => state.someObject,   (newValue, oldValue) => {     // 注意: `newValue` と `oldValue` は同じオブジェクトを指していることがあります。     // state.someObject が完全に置き替わらない限りは、内容が変わらないことがあります。   },   { deep: true } )``
-
+```js
+watch(
+  () => state.someObject,
+  (newValue, oldValue) => {
+    //注意: `newValue` は、`oldValue` と同じだとみなされます。
+    //state.someObject が置き替わらない*限りは*。
+  },
+  { deep: true }
+)
+```
 #### 使用上の注意
 
-ディープ・ウォッチャーは、監視対象のオブジェクトの全てのネストされたプロパティを監視するため、データ構造が大きくなるとパフォーマンスに影響を与える可能性があります。そのため、ディープ・ウォッチャーを使う際は、必要な場合にのみ使用し、パフォーマンスに注意を払うことが重要です。
+ディープ・ウォッチャーは、監視対象のオブジェクトの全てのネストされたプロパティを監視するため、データ構造が大きくなるとパフォーマンスに影響を与える可能性があります。
+そのため、ディープ・ウォッチャーを使う際は、必要な場合にのみ使用し、パフォーマンスに注意を払うことが重要です。
+
+### 即時ウォッチャー
+
+通常、`watch`関数は監視対象の値が変更されるときにのみコールバックを実行します。
+しかし、場合によっては、値の変更を待たずに初回のコールバックを即時に実行したいことがあります。
+たとえば、初期値を基にデータを読み込み、その後の変更時にも同様の処理を行いたい場合です。
+このような場合は、`immediate: true`オプションを使用します。
+
+```js
+watch(
+  source,
+  (newValue, oldValue) => {
+    // すぐに実行され、`source` が変更されると再び実行される
+  },
+  { immediate: true }
+)
+```
+### 一度きりのウォッチャー
+
+通常のウォッチャーは、監視対象が変更されるたびにコールバックを実行します。
+しかし、一度だけコールバックを実行したい場合は、`once: true`オプションを使用します。
+
+```js
+watch(
+  source,
+  (newValue, oldValue) => {
+    // `source` が変更された時、一度だけトリガーされる
+  },
+  { once: true }
+)
+```
+
+### `watchEffect()`の利用
+
+`watchEffect()`は、ウォッチャーのコールバックがリアクティブな依存関係に応じて自動的に実行される関数です。
+リアクティブな状態が変わるときにその影響を自動的に追跡します。
+
+```js
+const todoId = ref(1)
+const data = ref(null)
+
+watch(
+  todoId,
+  async () => {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/todos/${todoId.value}`
+    )
+    data.value = await response.json()
+  },
+  { immediate: true }
+)
+```
+
+この場合、`todoId.value`が変更されるたびに、`watchEffect`のコールバックが再実行されます。
+`immediate: true`を指定する必要はありません。
+
+### `watch`と`watchEffect`の違い
+
+`watch`は明示的に指定したソースのみを監視し、コールバック内でアクセスされたものは追跡しません。
+一方、`watchEffect`はコールバック内でアクセスしたすべてのリアクティブな依存関係を追跡します。
+### コールバックが実行されるタイミング
+
+ウォッチャーのコールバックは、デフォルトでは、親コンポーネントの更新後かつオーナーコンポーネントのDOM更新前に呼び出されます。
+もし、Vueの更新後にコールバックを実行したい場合は、`flush: 'post'`オプションを使用します。
+```js
+watch(source, callback, {
+  flush: 'post'
+})
+
+watchEffect(callback, {
+  flush: 'post'
+})
+```
+
+また、`watchEffect`の場合は`watchPostEffect()`というエイリアスが用意されています。
+
+```js
+import { watchPostEffect } from 'vue'
+
+watchPostEffect(() => {
+  /* Vue 更新後に実行されます*/
+})
+```
+### 同期ウォッチャー
+
+リアクティブな変更が発生するとすぐにウォッチャーを実行したい場合は、`flush: 'sync'`オプションを使用します。
+
+```js
+watch(source, callback, {
+  flush: 'sync'
+})
+```
+
+また、`watchSyncEffect()`というエイリアスもあります。
+
+```js
+import { watchSyncEffect } from 'vue'
+
+watchSyncEffect(() => {
+  /* リアクティブなデータ変更時に同期的に実行される */
+})
+```
+
+ただし、同期ウォッチャーはバッチ処理がされないため、頻繁な変更が発生する場合にはパフォーマンスに影響を与える可能性があるため、慎重に使用する必要があります。
+### ウォッチャーの停止
+ウォッチャーは通常、オーナーコンポーネントがアンマウントされると自動的に停止されますが、非同期のコールバックでウォッチャーを生成した場合は手動で停止する必要があります。
+
+```vue
+<script setup>
+import { watchEffect } from 'vue'
+
+// これは自動的に停止します
+watchEffect(() => {})
+
+// ...これは自動では停止しません
+setTimeout(() => {
+  watchEffect(() => {})
+}, 100)
+</script>
+```
+
+非同期でウォッチャーを作成する必要がある場合は、必要に応じて手動で停止することが重要です。
