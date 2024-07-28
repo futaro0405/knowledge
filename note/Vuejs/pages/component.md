@@ -342,9 +342,7 @@ export default {
 ```
 
 この例では、`currentTab`が`Tab1`または`Tab2`のいずれかに設定され、対応するコンポーネントが表示されます。`<component :is="currentTabComponent">`で指定されたコンポーネントが動的に切り替わります。
-
 #### HTML要素の動的生成
-
 `is`属性を使って、通常のHTML要素を動的に生成することもできます。
 ```vue
 <template>
@@ -357,7 +355,8 @@ export default {
 export default {
   data() {
     return {
-      currentElement: 'h1' // ここを 'p' や 'div' などに変更すると異なるHTML要素が生成されます
+      currentElement: 'h1'
+	  // ここを 'p' や 'div' などに変更すると異なるHTML要素が生成されます
     }
   }
 }
