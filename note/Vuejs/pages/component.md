@@ -265,33 +265,136 @@ Vue.jsでは、コンポーネントにコンテンツを動的に渡すため�
 #### 基本的なスロットの使用
 
 例えば、`AlertBox`コンポーネントを作成し、その中に動的なメッセージを表示したい場合、以下のようにスロットを利用します。
+```vue
+<!-- AlertBox.vue -->
+<template>
+  <div class="alert-box">
+    <strong>This is an Error for Demo Purposes</strong>
+    <slot />
+  </div>
+</template>
 
-vue
+<style scoped>
+.alert-box {
+  /* スタイルの定義 */
+}
+</style>
+```
 
-コードをコピーする
-
-`<!-- AlertBox.vue --> <template>   <div class="alert-box">     <strong>This is an Error for Demo Purposes</strong>     <slot />   </div> </template>  <style scoped> .alert-box {   /* スタイルの定義 */ } </style>`
-
-上記の例では、`<slot />`タグがコンテンツの挿入ポイントとして機能します。親コンポーネントから渡された内容がここに表示されます。
+上記の例では、`<slot />`タグがコンテンツの挿入ポイントとして機能します。
+親コンポーネントから渡された内容がここに表示されます。
 
 #### 親コンポーネントでの使用例
 
 親コンポーネントでは、`AlertBox`コンポーネントを以下のように使用して、メッセージを渡します。
-
-vue
-
-コードをコピーする
-
-`<template>   <AlertBox>     Something bad happened.   </AlertBox> </template>`
+```vue
+<template>
+  <AlertBox>
+    Something bad happened.
+  </AlertBox>
+</template>
+```
 
 このコードは、次のようにレンダリングされます。
-
-html
-
-コードをコピーする
-
-`<div class="alert-box">   <strong>This is an Error for Demo Purposes</strong>   Something bad happened. </div>`
+```html
+<div class="alert-box">
+  <strong>This is an Error for Demo Purposes</strong>
+  Something bad happened.
+</div>
+```
 
 `<slot />`タグは、親コンポーネントから渡された内容（この場合は「Something bad happened」）を表示するための場所です。
 
-スロットは、コンポーネントの柔軟性を高め、親から子へコンテンツを動的に渡すための強力な方法です。詳細については、Vueの公式ドキュメントでスロットの完全ガイドを参照すると良いでしょう。
+スロットは、コンポーネントの柔軟性を高め、親から子へコンテンツを動的に渡すための強力な方法です。
+
+## 動的コンポーネント
+Vue.jsでは、動的にコンポーネントを切り替えるために`<component>`要素を使用します。
+この機能は、タブ付きインターフェイスなど、異なるコンポーネントを動的に表示する必要がある場合に特に便利です。
+### 基本的な使用法
+`<component>`要素の`is`属性には、表示するコンポーネントの名前またはコンポーネントオブジェクトを動的に指定できます。
+以下は、動的コンポーネントの基本的な例です。
+```vue
+<template>
+  <div>
+    <button @click="currentTab = 'Tab1'">Tab 1</button>
+    <button @click="currentTab = 'Tab2'">Tab 2</button>
+    <component :is="currentTabComponent"></component>
+  </div>
+</template>
+
+<script>
+import Tab1 from './Tab1.vue'
+import Tab2 from './Tab2.vue'
+
+export default {
+  data() {
+    return {
+      currentTab: 'Tab1'
+    }
+  },
+  computed: {
+    currentTabComponent() {
+      return this.currentTab === 'Tab1' ? Tab1 : Tab2;
+    }
+  }
+}
+</script>
+```
+
+この例では、`currentTab`が`Tab1`または`Tab2`のいずれかに設定され、対応するコンポーネントが表示されます。`<component :is="currentTabComponent">`で指定されたコンポーネントが動的に切り替わります。
+
+#### HTML要素の動的生成
+
+`is`属性を使って、通常のHTML要素を動的に生成することもできます。
+```vue
+<template>
+  <component :is="currentElement">
+    This is a dynamically rendered element.
+  </component>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      currentElement: 'h1' // ここを 'p' や 'div' などに変更すると異なるHTML要素が生成されます
+    }
+  }
+}
+</script>
+```
+
+### `<KeepAlive>`の使用
+`<KeepAlive>`コンポーネントを使用すると、動的に切り替えたコンポーネントがアンマウントされずに「生きた」状態を維持できます。
+これにより、例えば、タブが切り替わってもコンポーネントの状態が保持されます。
+```vue
+<template>
+  <div>
+    <button @click="currentTab = 'Tab1'">Tab 1</button>
+    <button @click="currentTab = 'Tab2'">Tab 2</button>
+    <keep-alive>
+      <component :is="currentTabComponent"></component>
+    </keep-alive>
+  </div>
+</template>
+
+<script>
+import Tab1 from './Tab1.vue'
+import Tab2 from './Tab2.vue'
+
+export default {
+  data() {
+    return {
+      currentTab: 'Tab1'
+    }
+  },
+  computed: {
+    currentTabComponent() {
+      return this.currentTab === 'Tab1' ? Tab1 : Tab2;
+    }
+  }
+}
+</script>
+```
+
+この例では、`<KeepAlive>`でラップされたコンポーネントは、タブが切り替わった後でもアンマウントされず、コンポーネントの状態が保持されます。
