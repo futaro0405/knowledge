@@ -153,8 +153,9 @@ const value = inject('key', () => new ExpensiveClass(), true)
 ```
 
 3 番目の引数として `true` を渡すことで、`inject` にデフォルト値をファクトリー関数として扱うよう指示します。
-### リアクティビティの利用
-リアクティブな値を `provide` / `inject` する際には、できるだけプロバイダー側でリアクティブな状態の管理を行うことが推奨されます。これにより、メンテナンスが容易になります。
+## リアクティビティの利用
+リアクティブな値を `provide` / `inject` する際には、できるだけプロバイダ側でリアクティブな状態の管理を行うことが推奨されます。
+これにより、メンテナンスが容易になります。
 
 子孫コンポーネントからデータを更新する必要がある場合は、更新関数を提供するのが一般的です。
 
@@ -190,17 +191,33 @@ const { location, updateLocation } = inject('location')
 提供された値がインジェクターコンポーネントで変更されないようにするためには、`readonly()` でラップすることができます。
 
 ```vue
+<script setup>
+import { ref, provide, readonly } from 'vue'
 
+const count = ref(0)
+provide('read-only-count', readonly(count))
+</script>
 ```
 
-#### シンボルキーの利用
-
+### シンボルキーの利用
 シンボルキーを使用すると、複数の依存関係を管理する際にキーの衝突を避けることができます。
 
-js
+```js
+// keys.js
+export const myInjectionKey = Symbol()
 
-コードをコピーする
+// プロバイダーコンポーネント
+import { provide } from 'vue'
+import { myInjectionKey } from './keys.js'
 
-`// keys.js export const myInjectionKey = Symbol()  // プロバイダーコンポーネント import { provide } from 'vue' import { myInjectionKey } from './keys.js'  provide(myInjectionKey, { /* 提供するデータ */ })  // インジェクターコンポーネント import { inject } from 'vue' import { myInjectionKey } from './keys.js'  const injected = inject(myInjectionKey)`
+provide(myInjectionKey, { /* 提供するデータ */ })
+
+// インジェクターコンポーネント
+import { inject } from 'vue'
+import { myInjectionKey } from './keys.js'
+
+const injected = inject(myInjectionKey)
+
+```
 
 シンボルキーはユニークな識別子として扱われるため、キーの衝突を避け、他の開発者と共有する際にも便利です。
