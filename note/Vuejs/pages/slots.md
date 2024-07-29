@@ -245,19 +245,33 @@ export default {
 
 #### 例: スコープ付きスロットを使用する `<MyComponent>`
 
-vue
+```vue
+<template>
+  <div>
+    <slot :text="greetingMessage" :count="1"></slot>
+  </div>
+</template>
 
-コードをコピーする
+<script>
+export default {
+  data() {
+    return {
+      greetingMessage: 'Hello'
+    }
+  }
+}
+</script>
 
-`<template>   <div>     <slot :text="greetingMessage" :count="1"></slot>   </div> </template>  <script> export default {   data() {     return {       greetingMessage: 'Hello'     }   } } </script>`
-
+```
 #### 親コンポーネントでの使用
+```vue
+<template>
+  <MyComponent v-slot="{ text, count }">
+    {{ text }} {{ count }}
+  </MyComponent>
+</template>
 
-vue
-
-コードをコピーする
-
-`<template>   <MyComponent v-slot="{ text, count }">     {{ text }} {{ count }}   </MyComponent> </template>`
+```
 
 この例では、`<MyComponent>` が `greetingMessage` と `count` をスロットプロパティとして提供し、親コンポーネントがそれを受け取って使用しています。
 
@@ -265,22 +279,31 @@ vue
 
 名前付きスロットとスコープ付きスロットを組み合わせて使用する場合、スロットプロパティは `v-slot:name="slotProps"` の形式でアクセスできます。
 
-vue
+```vue
+<template>
+  <MyComponent>
+    <template #header="headerProps">
+      {{ headerProps.message }}
+    </template>
 
-コードをコピーする
+    <template #footer="footerProps">
+      {{ footerProps.info }}
+    </template>
+  </MyComponent>
+</template>
 
-`<template>   <MyComponent>     <template #header="headerProps">       {{ headerProps.message }}     </template>      <template #footer="footerProps">       {{ footerProps.info }}     </template>   </MyComponent> </template>`
-
+```
 ### レンダーレスコンポーネント
 
 レンダーレスコンポーネントは、視覚的な出力を持たず、ただロジックをカプセル化するだけのコンポーネントです。これにより、データ処理ロジックを他のコンポーネントに移譲できます。
 
 #### 例: マウストラッキングのレンダーレスコンポーネント
-
-vue
-
-コードをコピーする
-
-`<template>   <MouseTracker v-slot="{ x, y }">     マウスの座標: {{ x }}, {{ y }}   </MouseTracker> </template>`
+```vue
+<template>
+  <MouseTracker v-slot="{ x, y }">
+    マウスの座標: {{ x }}, {{ y }}
+  </MouseTracker>
+</template>
+```
 
 このように、スコープ付きスロットやレンダーレスコンポーネントを利用することで、柔軟で再利用可能なコンポーネント設計が可能になります。
