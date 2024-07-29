@@ -194,3 +194,106 @@ const normalizedSize = computed(() => props.size.trim().toLowerCase())
 ただし、このような操作は推奨されません。
 理由は、子コンポーネントが親の状態に影響を与えることが難しくなり、アプリケーションのデータフローが不透明になる可能性があるためです。
 特に、親と子コンポーネントが密接に結びついていない場合は、子コンポーネントがpropsを直接変更するのではなく、イベントを発行して親コンポーネントに通知し、必要な変更を行ってもらうのがベストプラクティスです。
+## Propsのバリデーション
+Vueでは、コンポーネントに渡されるpropsに対してバリデーションを設定できます。
+これにより、propsの型や必須性、デフォルト値などの要件を指定し、条件を満たさない場合には警告を出すことで、予期せぬエラーを防ぐことができます。
+### 基本的なバリデーション
+`defineProps()`マクロを使用して、propsに対するバリデーションをオブジェクトとして定義します。
+以下はその例です。
+```js
+defineProps({
+  // 基本的な型チェック
+  propA: Number,
+
+  // 複数の型の可能性
+  propB: [String, Number],
+
+  // 必須の文字列
+  propC: {
+    type: String,
+    required: true
+  },
+
+  // 必須だが null になる可能性がある文字列
+  propD: {
+    type: [String, null],
+    required: true
+  },
+
+  // デフォルト値を持つ数値
+  propE: {
+    type: Number,
+    default: 100
+  },
+
+  // デフォルト値を持つオブジェクト
+  propF: {
+    type: Object,
+    default(rawProps) {
+      return { message: 'hello' }
+    }
+  },
+
+  // カスタムのバリデーター関数
+  propG: {
+    validator(value, props) {
+      // 値が特定の文字列であることをチェック
+      return ['success', 'warning', 'danger'].includes(value)
+    }
+  },
+
+  // デフォルト値を持つ関数
+  propH: {
+    type: Function,
+    default() {
+      return () => 'Default function'
+    }
+  }
+})
+```
+### バリデーションの詳細
+#### `type`
+値の型を指定します。
+`String`や`Number`、`Boolean`などのネイティブコンストラクターやカスタムクラスを指定できます。
+#### `required`
+必須のpropsであることを示します。
+デフォルトは`false`です。
+#### `default`
+デフォルト値を指定します。
+オブジェクトや配列のデフォルト値はファクトリー関数で返します。
+#### `validator`
+値がカスタムのバリデーションロジックを通過するかどうかをチェックする関数です。
+### 特定の型チェック
+propsの型チェックには、以下のネイティブコンストラクターを使用できます：
+- `String`
+- `Number`
+- `Boolean`
+- `Array`
+- `Object`
+- `Date`
+- `Function`
+- `Symbol`
+- `Error`
+また、カスタムクラスやコンストラクター関数も使用できます。
+例えば、`Person`クラスがある場合、そのインスタンスであることを確認するために以下のように使用します。
+```js
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName
+    this.lastName = lastName
+  }
+}
+
+defineProps({
+  author: Person
+})
+```
+これにより、Vueは`author`プロパティが`Person`クラスのインスタンスであるかどうかを検証します。
+### その他の注意点
+- `required: true` が指定されていないpropsはデフォルトでオプションです。
+- `Boolean` 以外のオプションのpropsは、値が指定されないと`undefined`になります。
+- `Boolean` のpropsは、値が指定されないと`false`になります。`default: undefined` を指定すると、非真偽値のpropsとして扱われます。
+
+propsのバリデーションが失敗すると、Vueは開発ビルドでコンソールに警告を出します。
+これは特に、他の開発者が再利用することを目的としたコンポーネントで有用です。
+
