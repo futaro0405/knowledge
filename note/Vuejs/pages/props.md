@@ -116,7 +116,6 @@ propsには、文字列以外のさまざまな型の値を渡すことができ
 <BlogPost :likes="42" />
 <BlogPost :likes="post.likes" />
 ```
-   
 ##### 真偽値
 ```vue
 <!-- 値なしで指定すると`true`と見なされます -->
@@ -124,40 +123,74 @@ propsには、文字列以外のさまざまな型の値を渡すことができ
 <BlogPost :is-published="false" />
 <BlogPost :is-published="post.isPublished" />
 ```
-   
 ##### 配列
-
-4. **オブジェクト**:
-    
-    template
-    
-    コードをコピーする
-    
-    `<BlogPost :author="{ name: 'Veronica', company: 'Veridian Dynamics' }" /> <BlogPost :author="post.author" />`
-    
-
+```vue
+<BlogPost :comment-ids="[234, 266, 273]" />
+<BlogPost :comment-ids="post.commentIds" />
+```
+##### オブジェクト
+```vue
+<BlogPost :author="{ name: 'Veronica', company: 'Veridian Dynamics' }" />
+<BlogPost :author="post.author" />
+```
 #### オブジェクトを使った複数のpropsのバインディング
-
 オブジェクトのすべてのプロパティをpropsとして渡したい場合、`v-bind`にオブジェクトを渡します。
+```js
+const post = {
+  id: 1,
+  title: 'My Journey with Vue'
+}
+```
 
-js
-
-コードをコピーする
-
-`const post = {   id: 1,   title: 'My Journey with Vue' }`
-
-template
-
-コードをコピーする
-
-`<BlogPost v-bind="post" />`
+```vue
+<BlogPost v-bind="post" />
+```
 
 これは次のように書いた場合と同じ意味です。
-
-template
-
-コードをコピーする
-
-`<BlogPost :id="post.id" :title="post.title" />`
+```vue
+<BlogPost :id="post.id" :title="post.title" />
+```
 
 このように、`v-bind`を使用することで、オブジェクトのプロパティをまとめてpropsとして渡すことができます。
+## 一方向のデータフロー
+Vueのコンポーネントでは、propsに一方向のデータフローが適用されます。
+これは、親コンポーネントから子コンポーネントへデータが流れ、その逆は許されないということです。
+この仕組みにより、親のデータが誤って子コンポーネントによって変更されることを防ぎ、アプリケーションのデータフローが分かりやすくなります。
+
+親コンポーネントが更新されると、子コンポーネントに渡されたpropsも自動的に最新の値に更新されます。
+そのため、子コンポーネント内でpropsの値を直接変更することは避けるべきです。
+もしpropsを変更しようとすると、Vueがコンソールに警告を表示します。
+```js
+const props = defineProps(['foo'])
+
+// ❌ 警告: propsは読み取り専用です！
+props.foo = 'bar'
+
+```
+### Propsを変更したい場合
+propsを変更したい場合には、次のような状況が考えられます。
+#### 1.初期値として使用し、その後ローカルで管理するデータにする場合
+この場合、ローカルのデータプロパティとして定義し、その初期値にpropsを使用します。
+これにより、propsの更新からローカルデータが切り離されます。
+```js
+const props = defineProps(['initialCounter'])
+
+// props.initialCounterはcounterの初期値としてのみ使用されます
+const counter = ref(props.initialCounter)
+```
+#### 2.変換が必要なデータを受け取る場合
+propsを元に計算されたデータが必要な場合、算出プロパティを使用します。
+算出プロパティは、propsが変更されるたびに自動的に更新されます。
+```js
+const props = defineProps(['size'])
+
+// props.sizeの値に基づいて計算される算出プロパティ
+const normalizedSize = computed(() => props.size.trim().toLowerCase())
+```
+#### オブジェクトや配列のpropsの扱い
+オブジェクトや配列をpropsとして受け取った場合、そのプロパティや要素を変更することは技術的には可能です。
+これは、JavaScriptにおけるオブジェクトや配列の参照渡しの特性によるものです。
+
+ただし、このような操作は推奨されません。
+理由は、子コンポーネントが親の状態に影響を与えることが難しくなり、アプリケーションのデータフローが不透明になる可能性があるためです。
+特に、親と子コンポーネントが密接に結びついていない場合は、子コンポーネントがpropsを直接変更するのではなく、イベントを発行して親コンポーネントに通知し、必要な変更を行ってもらうのがベストプラクティスです。
