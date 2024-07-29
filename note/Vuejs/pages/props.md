@@ -3,13 +3,9 @@
 Vueコンポーネントでは、`props`の宣言が必要です。
 これは、外部からコンポーネントに渡されるデータ（props）が正しく処理されるようにするためです。
 propsを明示的に宣言することで、Vueはそのデータをどのように扱うべきかを理解します。
-
 ### `props`の宣言方法
-
-#### 1. `<script setup>`を使用する場合
-
+#### `<script setup>`を使用する場合
 `<script setup>`を使用するシングルファイルコンポーネント（SFC）では、`defineProps()`マクロを使ってpropsを宣言します。
-
 ```vue
 <script setup>
 const props = defineProps(['foo'])
@@ -17,12 +13,10 @@ const props = defineProps(['foo'])
 console.log(props.foo)
 </script>
 ```
-
 ここで、`defineProps()`に渡している引数は、コンポーネントで受け取るpropsの名前です。
 この例では、`foo`という名前のpropsを受け取っています。
-#### 2. `<script setup>`を使用しない場合
+#### `<script setup>`を使用しない場合
 `<script setup>`を使用しないコンポーネントでは、`props`オプションを使ってpropsを宣言します。
-
 ```js
 export default {
   props: ['foo'],
@@ -32,7 +26,6 @@ export default {
   }
 }
 ```
-
 `props`オプションに渡している値は、受け取るpropsの名前のリストです。
 この例でも、`foo`という名前のpropsを受け取っています。
 #### オブジェクト構文を使ったpropsの宣言
