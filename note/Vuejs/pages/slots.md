@@ -180,4 +180,107 @@ export default {
 </div>
 ```
 
-このように、名前付きスロットを使うことで、コンポーネントの各部分に異なるコンテンツを柔軟に挿入できます。また、名前のないスロットはデフォルトスロットと呼ばれ、省略形として `<template #default>` とすることができます。名前付きスロットを使うことで、より複雑なテンプレートを整理しやすくなり、コンポーネントの再利用性が向上します。
+このように、名前付きスロットを使うことで、コンポーネントの各部分に異なるコンテンツを柔軟に挿入できます。
+また、名前のないスロットはデフォルトスロットと呼ばれ、省略形として `<template #default>` とすることができます。
+名前付きスロットを使うことで、より複雑なテンプレートを整理しやすくなり、コンポーネントの再利用性が向上します。
+
+## 条件付きスロット
+条件付きスロットは、特定のスロットが提供されている場合にのみコンテンツをレンダリングするために使用します。
+これは、`$slots` プロパティと `v-if` ディレクティブを組み合わせることで実現できます。
+### 例: 条件付きスロットを持つ `<Card>` コンポーネント
+```vue
+<template>
+  <div class="card">
+    <div v-if="$slots.header" class="card-header">
+      <slot name="header"></slot>
+    </div>
+    
+    <div v-if="$slots.default" class="card-content">
+      <slot></slot>
+    </div>
+    
+    <div v-if="$slots.footer" class="card-footer">
+      <slot name="footer"></slot>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Card'
+}
+</script>
+```
+
+この例では、`<Card>` コンポーネントは `header`、`default`、`footer` のスロットを持ち、これらのスロットが提供されている場合にのみ対応する部分がレンダリングされます。
+### 動的なスロット名
+動的なディレクティブの引数は、`v-slot` にも使用できます。
+これにより、動的にスロット名を指定できます。
+
+```vue
+<template>
+  <BaseLayout>
+    <template v-slot:[dynamicSlotName]>
+      <!-- コンテンツ -->
+    </template>
+  </BaseLayout>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      dynamicSlotName: 'header'
+    }
+  }
+}
+</script>
+```
+
+このコードは、`dynamicSlotName` が `'header'` の場合、`<slot name="header">` にコンテンツを挿入します。
+
+### スコープ付きスロット
+
+スコープ付きスロットは、スロットコンテンツが親コンポーネントからだけでなく、子コンポーネントからもデータを受け取れるようにします。スコープ付きスロットを使用することで、コンポーネントのロジックをカプセル化しつつ、コンテンツのレンダリング方法を親コンポーネントに委譲することが可能です。
+
+#### 例: スコープ付きスロットを使用する `<MyComponent>`
+
+vue
+
+コードをコピーする
+
+`<template>   <div>     <slot :text="greetingMessage" :count="1"></slot>   </div> </template>  <script> export default {   data() {     return {       greetingMessage: 'Hello'     }   } } </script>`
+
+#### 親コンポーネントでの使用
+
+vue
+
+コードをコピーする
+
+`<template>   <MyComponent v-slot="{ text, count }">     {{ text }} {{ count }}   </MyComponent> </template>`
+
+この例では、`<MyComponent>` が `greetingMessage` と `count` をスロットプロパティとして提供し、親コンポーネントがそれを受け取って使用しています。
+
+### 名前付きスコープ付きスロット
+
+名前付きスロットとスコープ付きスロットを組み合わせて使用する場合、スロットプロパティは `v-slot:name="slotProps"` の形式でアクセスできます。
+
+vue
+
+コードをコピーする
+
+`<template>   <MyComponent>     <template #header="headerProps">       {{ headerProps.message }}     </template>      <template #footer="footerProps">       {{ footerProps.info }}     </template>   </MyComponent> </template>`
+
+### レンダーレスコンポーネント
+
+レンダーレスコンポーネントは、視覚的な出力を持たず、ただロジックをカプセル化するだけのコンポーネントです。これにより、データ処理ロジックを他のコンポーネントに移譲できます。
+
+#### 例: マウストラッキングのレンダーレスコンポーネント
+
+vue
+
+コードをコピーする
+
+`<template>   <MouseTracker v-slot="{ x, y }">     マウスの座標: {{ x }}, {{ y }}   </MouseTracker> </template>`
+
+このように、スコープ付きスロットやレンダーレスコンポーネントを利用することで、柔軟で再利用可能なコンポーネント設計が可能になります。
