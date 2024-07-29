@@ -179,34 +179,69 @@ const lastName = defineModel('lastName')
 
 この例では、子コンポーネント`UserName`が`firstName`と`lastName`という2つの`props`を受け取り、それぞれの`v-model`でバインディングしています。
 
-### 詳細説明
-#### 親コンポーネント
-```vue
-<UserName
-  v-model:first-name="first"
-  v-model:last-name="last"
-/>
-```
-
-- `v-model:first-name`は`first`というデータを`firstName`という名前で子コンポーネントにバインドします。
-- `v-model:last-name`は`last`というデータを`lastName`という名前で子コンポーネントにバインドします。
-#### 子コンポーネント
-```vue
-<script setup>
-const firstName = defineModel('firstName')
-const lastName = defineModel('lastName')
-</script>
-
-<template>
-  <input type="text" v-model="firstName" />
-  <input type="text" v-model="lastName" />
-</template>
-
-```
-- `defineModel('firstName')`と`defineModel('lastName')`を使って、それぞれ`firstName`と`lastName`という`props`を定義します。
-- `<input type="text" v-model="lastName" />`は、`lastName`を入力フィールドにバインドします。
-- `<input type="text" v-model="firstName" />`は、`firstName`を入力フィールドにバインドします。
-
-### 結論
-
 このようにして、複数の`v-model`バインディングを使うことで、親コンポーネントから子コンポーネントに対して複数のデータを双方向にバインドすることができます。それぞれの`v-model`は、別々の`props`に同期されますので、個別のデータ管理が容易になります。
+
+## v-model 修飾子の処理
+`v-model`には組み込みの修飾子がありますが、カスタム入力コンポーネントでカスタム修飾子をサポートすることも可能です。
+ここでは、文字列の最初の文字を大文字にする`capitalize`修飾子を例にして、カスタム修飾子の使い方を説明します。
+### 親コンポーネントでの使用例
+```vue
+<!-- Parent.vue -->
+<template>
+  <MyComponent v-model.capitalize="myText" />
+</template>
+```
+#### 子コンポーネントでの対応方法
+
+`defineModel()`の戻り値を分割代入することで、子コンポーネント内で修飾子にアクセスできます。
+
+vue
+
+コードをコピーする
+
+`<!-- MyComponent.vue --> <script setup> const [model, modifiers] = defineModel()  console.log(modifiers) // { capitalize: true } </script>  <template>   <input type="text" v-model="model" /> </template>`
+
+修飾子に基づいて値の読み書きを条件付きで調整するために、`defineModel()`に`get`と`set`オプションを渡します。ここでは`set`オプションを使って`capitalize`修飾子を実装します。
+
+vue
+
+コードをコピーする
+
+`<!-- MyComponent.vue --> <script setup> const [model, modifiers] = defineModel({   set(value) {     if (modifiers.capitalize) {       return value.charAt(0).toUpperCase() + value.slice(1)     }     return value   } }) </script>  <template>   <input type="text" v-model="model" /> </template>`
+
+このコードでは、`capitalize`修飾子が設定されている場合、入力された文字列の最初の文字を大文字に変換します。
+
+### 引数を持つ v-model の修飾子
+
+複数の`v-model`バインディングに異なる修飾子を使用する例です。
+
+#### 親コンポーネントでの使用例
+
+vue
+
+コードをコピーする
+
+`<!-- Parent.vue --> <template>   <UserName     v-model:first-name.capitalize="first"     v-model:last-name.uppercase="last"   /> </template>`
+
+#### 子コンポーネントでの対応方法
+
+vue
+
+コードをコピーする
+
+`<!-- UserName.vue --> <script setup> const [firstName, firstNameModifiers] = defineModel('firstName') const [lastName, lastNameModifiers] = defineModel('lastName')  console.log(firstNameModifiers) // { capitalize: true } console.log(lastNameModifiers) // { uppercase: true } </script>  <template>   <input type="text" v-model="firstName" />   <input type="text" v-model="lastName" /> </template>`
+
+### まとめ
+
+1. **修飾子のアクセス**:
+    
+    - `defineModel()`の戻り値を分割代入して、修飾子にアクセスします。
+    - 修飾子はオブジェクトとして返されます。
+2. **修飾子に基づく値の調整**:
+    
+    - `defineModel()`に`get`と`set`オプションを渡すことで、修飾子に基づいて値の読み書きを条件付きで調整します。
+3. **複数のv-modelと修飾子**:
+    
+    - 異なる引数を持つ複数の`v-model`バインディングに修飾子を使用することで、柔軟なデータバインディングを実現します。
+
+これにより、カスタムコンポーネントで柔軟なデータバインディングとデータの変換をサポートできます。
