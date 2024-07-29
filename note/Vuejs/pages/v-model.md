@@ -103,3 +103,110 @@ const myRef = ref()
 
 このように、`v-model`を使うことで、親と子コンポーネント間での双方向バインディングを簡単に実現できます。
 また、`defineModel`を使うことで、冗長なコードを減らし、より簡潔に記述できます。
+
+## v-model の引数
+コンポーネントの`v-model`に引数を指定することができます。
+これにより、複数のデータバインディングを簡単に管理できます。
+### 親コンポーネントでの使用例
+
+```vue
+<!-- Parent.vue -->
+<template>
+  <MyComponent v-model:title="bookTitle" />
+</template>
+```
+### 子コンポーネントでの対応方法
+子コンポーネントでは、`defineModel()`の第一引数に文字列を渡すことで、対応する引数をサポートできます。
+
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+const title = defineModel('title')
+</script>
+
+<template>
+  <input type="text" v-model="title" />
+</template>
+```
+
+このようにして、親コンポーネントで`v-model:title`を使っている場合、子コンポーネントでは`defineModel('title')`を使って対応します。
+### props のオプションを指定する場合
+`defineModel()`を使うときに、モデル名の後にオプションを渡すこともできます。
+
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+const title = defineModel('title', { required: true, default: 'Unknown' })
+</script>
+
+<template>
+  <input type="text" v-model="title" />
+</template>
+```
+
+この例では、`title`プロパティを必須にし、デフォルト値を`'Unknown'`に設定しています。
+
+## 複数の v-model のバインディング
+Vue.jsでは、`v-model`の引数を使って、1つのコンポーネントインスタンスに複数の`v-model`バインディングを作成できます。
+これにより、特定の`props`とイベントをターゲットにできます。
+### 例: 親コンポーネント
+
+```vue
+<!-- Parent.vue -->
+<template>
+  <UserName
+    v-model:first-name="first"
+    v-model:last-name="last"
+  />
+</template>
+```
+
+この例では、`UserName`コンポーネントに対して、`first-name`と`last-name`という2つの`v-model`バインディングを設定しています。
+### 例: 子コンポーネント
+
+```vue
+<!-- UserName.vue -->
+<script setup>
+const firstName = defineModel('firstName')
+const lastName = defineModel('lastName')
+</script>
+
+<template>
+  <input type="text" v-model="firstName" />
+  <input type="text" v-model="lastName" />
+</template>
+```
+
+この例では、子コンポーネント`UserName`が`firstName`と`lastName`という2つの`props`を受け取り、それぞれの`v-model`でバインディングしています。
+
+### 詳細説明
+#### 親コンポーネント
+```vue
+<UserName
+  v-model:first-name="first"
+  v-model:last-name="last"
+/>
+```
+
+- `v-model:first-name`は`first`というデータを`firstName`という名前で子コンポーネントにバインドします。
+- `v-model:last-name`は`last`というデータを`lastName`という名前で子コンポーネントにバインドします。
+#### 子コンポーネント
+```vue
+<script setup>
+const firstName = defineModel('firstName')
+const lastName = defineModel('lastName')
+</script>
+
+<template>
+  <input type="text" v-model="firstName" />
+  <input type="text" v-model="lastName" />
+</template>
+
+```
+- `defineModel('firstName')`と`defineModel('lastName')`を使って、それぞれ`firstName`と`lastName`という`props`を定義します。
+- `<input type="text" v-model="lastName" />`は、`lastName`を入力フィールドにバインドします。
+- `<input type="text" v-model="firstName" />`は、`firstName`を入力フィールドにバインドします。
+
+### 結論
+
+このようにして、複数の`v-model`バインディングを使うことで、親コンポーネントから子コンポーネントに対して複数のデータを双方向にバインドすることができます。それぞれの`v-model`は、別々の`props`に同期されますので、個別のデータ管理が容易になります。
