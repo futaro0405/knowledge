@@ -89,7 +89,146 @@ function increaseCount(n) {
   count.value += n;
 }
 ```
-### 追加のヒント
+### TIP
 `$emit()`に渡されたイベント名の後にあるすべての追加の引数は、リスナーにそのまま転送されます。
 たとえば、`$emit('foo', 1, 2, 3)`とすると、リスナー関数は3つの引数を受け取ります。
 
+## 発行するイベントの宣言
+`defineEmits()`マクロを使うと、コンポーネントが発行するイベントを明示的に宣言できます。
+### 例1: `defineEmits()`の使用
+```vue
+<script setup>
+defineEmits(['inFocus', 'submit'])
+</script>
+```
+`<template>`で使用する`$emit`メソッドは、`<script setup>`セクション内では直接アクセスできません。
+しかし、`defineEmits()`は同等の関数を返すので、それを使用します。
+```vue
+<script setup>
+const emit = defineEmits(['inFocus', 'submit'])
+
+function buttonClick() {
+  emit('submit')
+}
+</script>
+```
+
+`defineEmits()`マクロは関数内では使用できないので、`<script setup>`内に直接記述する必要があります。
+### 例2: 明示的な`setup`関数の使用
+`<script setup>`の代わりに、明示的な`setup`関数を使う場合は、イベントは`emits`オプションで宣言し、`emit`関数は`setup()`コンテキストで公開されます。
+```js
+export default {
+  emits: ['inFocus', 'submit'],
+  setup(props, ctx) {
+    ctx.emit('submit')
+  }
+}
+```
+`setup()`コンテキストの他のプロパティと同様に、`emit`は安全に分割代入できます。
+```js
+export default {
+  emits: ['inFocus', 'submit'],
+  setup(props, { emit }) {
+    emit('submit')
+  }
+}
+```
+### オブジェクト構文のサポートとTypeScriptの使用
+`emits`オプションと`defineEmits()`マクロはオブジェクト構文もサポートしています。
+TypeScriptを使用する場合は、引数の型付けができ、発行されるイベントのペイロードのランタイムバリデーションを実行できます。
+```vue
+<script setup lang="ts">
+const emit = defineEmits({
+  submit(payload: { email: string, password: string }) {
+    // バリデーションの合否を示すために
+    // `true` または `false` を返す
+  }
+})
+</script>
+```
+TypeScriptを使用している場合、純粋な型アノテーションを使って発行するイベントを宣言することもできます。
+```vue
+<script setup lang="ts">
+const emit = defineEmits<{
+  (e: 'change', id: number): void
+  (e: 'update', value: string): void
+}>()
+</script>
+```
+### 詳細: コンポーネントのemitの型付け
+コンポーネントがどのように動作するべきかを明確にするために、発行されるすべてのイベントを定義することが推奨されます。
+これにより、Vueは既知のリスナーをフォールスルー属性から除外し、サードパーティのコードによって手動でディスパッチされたDOMイベントによるエッジケースを回避できます。
+#### TIP
+ネイティブイベント（例: `click`）が`emits`オプションに定義されている場合、リスナーはコンポーネントが発行する`click`イベントのみを購読し、ネイティブの`click`イベントには反応しなくなります。
+## イベントのバリデーション
+発行するイベントは、`props`の型バリデーションと同様に、オブジェクト構文で定義する場合にバリデーションを行えます。
+バリデーションを追加するには、"emitの呼び出しに渡された引数"を受け取り、"イベントが正当かどうかを示す真偽値"を返す関数をイベントに割り当てます。
+### 例: イベントのバリデーションの追加
+
+```vue
+<script setup>
+const emit = defineEmits({
+  // バリデーションなし
+  click: null,
+
+  // submitイベントのバリデーション
+  submit: ({ email, password }) => {
+    if (email && password) {
+      return true
+    } else {
+      console.warn('Invalid submit event payload!')
+      return false
+    }
+  }
+})
+
+function submitForm(email, password) {
+  emit('submit', { email, password })
+}
+</script>
+```
+
+この例では、`submit`イベントのバリデーションを設定しています。
+`submit`イベントが発行されるとき、引数として`email`と`password`が渡されます。
+これらの引数が両方とも存在する場合にのみ、バリデーションが通り、`true`を返します。
+そうでない場合は警告メッセージが表示され、`false`を返します。
+### 詳細な説明
+#### イベントの宣言
+```js
+const emit = defineEmits({
+  click: null,
+  submit: ({ email, password }) => {
+    if (email && password) {
+      return true;
+    } else {
+      console.warn('Invalid submit event payload!');
+      return false;
+    }
+  }
+});
+```
+
+    
+    
+    コードをコピーする
+    
+    `const emit = defineEmits({   click: null,   submit: ({ email, password }) => {     if (email && password) {       return true;     } else {       console.warn('Invalid submit event payload!');       return false;     }   } });`
+    
+    - `click`イベントにはバリデーションがありません。
+    - `submit`イベントには、`email`と`password`が存在するかどうかをチェックするバリデーション関数が定義されています。
+2. **イベントの発行**:
+    
+    vue
+    
+    コードをコピーする
+    
+    `function submitForm(email, password) {   emit('submit', { email, password }); }`
+    
+    - この関数は、`submit`イベントを発行し、引数として`email`と`password`を渡します。バリデーション関数が呼び出され、引数が正当であるかどうかをチェックします。
+
+### 注意点
+
+- **バリデーション関数**は、`true`または`false`を返す必要があります。`true`を返すとイベントが発行され、`false`を返すと発行されません。
+- イベントが正当でない場合、警告メッセージを表示するなど、適切な処理を行うことが推奨されます。
+
+このようにして、イベントの引数が正しいかどうかをチェックすることで、コンポーネントの信頼性と安全性を高めることができます。
