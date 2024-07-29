@@ -52,16 +52,132 @@
 しかし、子コンポーネント内のデータやメソッドにはアクセスできません。
 ### レンダースコープの例
 次の例を見てみましょう:
-vue
+```vue
+<template>
+  <span>{{ message }}</span>
+  <FancyButton>{{ message }}</FancyButton>
+</template>
 
-コードをコピーする
+<script>
+export default {
+  data() {
+    return {
+      message: 'Hello, Vue!'
+    };
+  }
+}
+</script>
+```
 
-`<template>   <span>{{ message }}</span>   <FancyButton>{{ message }}</FancyButton> </template>  <script> export default {   data() {     return {       message: 'Hello, Vue!'     };   } } </script>`
-
-この例では、`<span>`と`<FancyButton>`の両方で`{{ message }}`が使われています。両方とも同じ内容である`"Hello, Vue!"`をレンダリングします。これは、スロットコンテンツが親コンポーネントのスコープに依存しているためです。
-
+この例では、`<span>`と`<FancyButton>`の両方で`{{ message }}`が使われています。
+両方とも同じ内容である`"Hello, Vue!"`をレンダリングします。
+これは、スロットコンテンツが親コンポーネントのスコープに依存しているためです。
 ### スロットコンテンツのスコープ
 
-スロットコンテンツは親コンポーネントのテンプレート内で定義されるため、親のデータやメソッドにアクセスできます。しかし、スロットコンテンツは子コンポーネント内のデータにはアクセスできません。Vueテンプレートのスコープルールは、JavaScriptのレキシカルスコープに似ています。つまり、テンプレート内の式はそれが定義されたスコープのデータやメソッドにのみアクセスできます。
+スロットコンテンツは親コンポーネントのテンプレート内で定義されるため、親のデータやメソッドにアクセスできます。
+しかし、スロットコンテンツは子コンポーネント内のデータにはアクセスできません。
+Vueテンプレートのスコープルールは、JavaScriptのレキシカルスコープに似ています。
+つまり、テンプレート内の式はそれが定義されたスコープのデータやメソッドにのみアクセスできます。
 
-このスコープの分離は、コンポーネントの再利用性とモジュール性を高めるために重要です。子コンポーネントは外部からの影響を最小限に抑えつつ、内部の実装を隠蔽することができます。
+このスコープの分離は、コンポーネントの再利用性とモジュール性を高めるために重要です。
+子コンポーネントは外部からの影響を最小限に抑えつつ、内部の実装を隠蔽することができます。
+
+## フォールバックコンテンツ
+Vueのスロットには、フォールバックコンテンツを設定することができます。
+これは、スロットに何もコンテンツが提供されなかった場合にのみレンダリングされるデフォルトの内容です。
+フォールバックコンテンツは、コンポーネントが期待通りに動作しない場合や、特定のメッセージを表示したい場合に役立ちます。
+### フォールバックコンテンツの例
+次の例では、`<SubmitButton>`コンポーネントが定義されています。
+このコンポーネントのスロットに何もコンテンツが提供されなかった場合、フォールバックコンテンツとして"送信"というテキストが表示されます。
+
+```vue
+<template>
+  <button type="submit">
+    <slot>
+      送信 <!-- フォールバックコンテンツ -->
+    </slot>
+  </button>
+</template>
+
+<script>
+export default {
+  name: 'SubmitButton'
+}
+</script>
+```
+
+フォールバックコンテンツは、スロットが空の場合に表示されるデフォルトの内容として非常に便利です。
+これにより、コンポーネントのユーザーがスロットに何も渡さなくても適切なメッセージやデフォルトの振る舞いを提供できます。
+
+## 名前付きスロット
+名前付きスロットを使うと、コンポーネントの異なる部分に異なるコンテンツを挿入できるため、より複雑なレイアウトを作成する際に便利です。
+名前付きスロットを定義するために、`<slot>` 要素に `name` 属性を付けることで、スロットアウトレットを識別します。
+また、親コンポーネント側で `v-slot` ディレクティブを使用してスロットコンテンツを渡します。
+### 名前付きスロットの例
+以下は、`<BaseLayout>` コンポーネントの例です。
+このコンポーネントは、`header`、`default`、`footer` という3つのスロットを持っています。
+#### `<BaseLayout>` コンポーネント
+```vue
+<template>
+  <div class="container">
+    <header>
+      <slot name="header"></slot>
+    </header>
+    <main>
+      <slot></slot> <!-- デフォルトスロット -->
+    </main>
+    <footer>
+      <slot name="footer"></slot>
+    </footer>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'BaseLayout'
+}
+</script>
+```
+#### 親コンポーネントでの使用例
+親コンポーネントでは、以下のように `<BaseLayout>` コンポーネントを使用して、各スロットにコンテンツを渡します。
+
+```vue
+<template>
+  <BaseLayout>
+    <template #header>
+      <h1>Here might be a page title</h1>
+    </template>
+
+    <p>A paragraph for the main content.</p>
+    <p>And another one.</p>
+
+    <template #footer>
+      <p>Here's some contact info</p>
+    </template>
+  </BaseLayout>
+</template>
+
+<script>
+export default {
+  name: 'ParentComponent'
+}
+</script>
+```
+
+この場合、`<BaseLayout>` コンポーネントは以下のようにレンダリングされます。
+```html
+<div class="container">
+  <header>
+    <h1>Here might be a page title</h1>
+  </header>
+  <main>
+    <p>A paragraph for the main content.</p>
+    <p>And another one.</p>
+  </main>
+  <footer>
+    <p>Here's some contact info</p>
+  </footer>
+</div>
+```
+
+このように、名前付きスロットを使うことで、コンポーネントの各部分に異なるコンテンツを柔軟に挿入できます。また、名前のないスロットはデフォルトスロットと呼ばれ、省略形として `<template #default>` とすることができます。名前付きスロットを使うことで、より複雑なテンプレートを整理しやすくなり、コンポーネントの再利用性が向上します。
