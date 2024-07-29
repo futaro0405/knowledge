@@ -6,51 +6,76 @@ Vueには、このための `defineAsyncComponent` 関数があります。
 `defineAsyncComponent` 関数は、Promise を返すローダー関数を受け取ります。
 このローダー関数内で、サーバーからコンポーネントを読み込む処理を行います。
 
-js
+```js
+import { defineAsyncComponent } from 'vue'
 
-コードをコピーする
+const AsyncComp = defineAsyncComponent(() => {
+  return new Promise((resolve, reject) => {
+    // サーバーからコンポーネントを読み込む
+    resolve(/* 読み込まれたコンポーネント */)
+  })
+})
+// AsyncComp を通常のコンポーネントと同じように使用する
+```
 
-`import { defineAsyncComponent } from 'vue'  const AsyncComp = defineAsyncComponent(() => {   return new Promise((resolve, reject) => {     // サーバーからコンポーネントを読み込む     resolve(/* 読み込まれたコンポーネント */)   }) }) // AsyncComp を通常のコンポーネントと同じように使用する`
+### 動的インポートの使用
+ESモジュールの動的インポートを使って、非同期コンポーネントを簡単に定義できます。
+Vite や webpack などのバンドラーがサポートしているため、Vue SFC（Single File Component）もインポートできます。
 
-#### 動的インポートの使用
+```js
+import { defineAsyncComponent } from 'vue'
 
-ESモジュールの動的インポートを使って、非同期コンポーネントを簡単に定義できます。Vite や webpack などのバンドラーがサポートしているため、Vue SFC（Single File Component）もインポートできます。
-
-js
-
-コードをコピーする
-
-`import { defineAsyncComponent } from 'vue'  const AsyncComp = defineAsyncComponent(() =>   import('./components/MyComponent.vue') )`
+const AsyncComp = defineAsyncComponent(() =>
+  import('./components/MyComponent.vue')
+)
+```
 
 これにより、`AsyncComp` はページ上で実際にレンダリングされる際にコンポーネントを読み込みます。
-
-#### グローバル登録
-
+### グローバル登録
 非同期コンポーネントは、通常のコンポーネントと同様に `app.component()` を使ってグローバルに登録できます。
 
-js
+```js
+import { createApp } from 'vue'
+import { defineAsyncComponent } from 'vue'
 
-コードをコピーする
+const app = createApp({})
 
-`import { createApp } from 'vue' import { defineAsyncComponent } from 'vue'  const app = createApp({})  app.component('MyComponent', defineAsyncComponent(() =>   import('./components/MyComponent.vue') ))`
+app.component('MyComponent', defineAsyncComponent(() =>
+  import('./components/MyComponent.vue')
+))
+```
 
 また、親コンポーネント内で直接定義することも可能です。
 
-vue
+```vue
+<script setup>
+import { defineAsyncComponent } from 'vue'
 
-コードをコピーする
+const AdminPage = defineAsyncComponent(() =>
+  import('./components/AdminPageComponent.vue')
+)
+</script>
 
-`<script setup> import { defineAsyncComponent } from 'vue'  const AdminPage = defineAsyncComponent(() =>   import('./components/AdminPageComponent.vue') ) </script>  <template>   <AdminPage /> </template>`
-
-#### ローディングとエラーの状態
-
+<template>
+  <AdminPage />
+</template>
+```
+### ローディングとエラーの状態
 非同期コンポーネントの読み込みには時間がかかることがあるため、ローディングやエラーの状態をハンドリングするためのオプションがあります。
 
-js
+```js
+import { defineAsyncComponent } from 'vue'
+import LoadingComponent from './LoadingComponent.vue'
+import ErrorComponent from './ErrorComponent.vue'
 
-コードをコピーする
-
-`import { defineAsyncComponent } from 'vue' import LoadingComponent from './LoadingComponent.vue' import ErrorComponent from './ErrorComponent.vue'  const AsyncComp = defineAsyncComponent({   loader: () => import('./Foo.vue'),   loadingComponent: LoadingComponent,   delay: 200, // ローディングコンポーネント表示前の遅延（ミリ秒）   errorComponent: ErrorComponent,   timeout: 3000 // エラーコンポーネント表示までのタイムアウト（ミリ秒） })`
+const AsyncComp = defineAsyncComponent({
+  loader: () => import('./Foo.vue'),
+  loadingComponent: LoadingComponent,
+  delay: 200, // ローディングコンポーネント表示前の遅延（ミリ秒）
+  errorComponent: ErrorComponent,
+  timeout: 3000 // エラーコンポーネント表示までのタイムアウト（ミリ秒）
+})
+```
 
 - **`loadingComponent`**: コンポーネントの読み込み中に表示されるコンポーネントです。
 - **`delay`**: ローディングコンポーネントが表示されるまでの遅延時間です。デフォルトは200msで、高速ネットワークでのちらつきを防ぐためです。
