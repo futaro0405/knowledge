@@ -192,45 +192,67 @@ const lastName = defineModel('lastName')
 </template>
 ```
 #### 子コンポーネントでの対応方法
-
 `defineModel()`の戻り値を分割代入することで、子コンポーネント内で修飾子にアクセスできます。
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+const [model, modifiers] = defineModel()
 
-vue
+console.log(modifiers) // { capitalize: true }
+</script>
 
-コードをコピーする
-
-`<!-- MyComponent.vue --> <script setup> const [model, modifiers] = defineModel()  console.log(modifiers) // { capitalize: true } </script>  <template>   <input type="text" v-model="model" /> </template>`
+<template>
+  <input type="text" v-model="model" />
+</template>
+```
 
 修飾子に基づいて値の読み書きを条件付きで調整するために、`defineModel()`に`get`と`set`オプションを渡します。ここでは`set`オプションを使って`capitalize`修飾子を実装します。
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+const [model, modifiers] = defineModel({
+  set(value) {
+    if (modifiers.capitalize) {
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+    return value
+  }
+})
+</script>
 
-vue
-
-コードをコピーする
-
-`<!-- MyComponent.vue --> <script setup> const [model, modifiers] = defineModel({   set(value) {     if (modifiers.capitalize) {       return value.charAt(0).toUpperCase() + value.slice(1)     }     return value   } }) </script>  <template>   <input type="text" v-model="model" /> </template>`
-
+<template>
+  <input type="text" v-model="model" />
+</template>
+```
 このコードでは、`capitalize`修飾子が設定されている場合、入力された文字列の最初の文字を大文字に変換します。
-
 ### 引数を持つ v-model の修飾子
-
 複数の`v-model`バインディングに異なる修飾子を使用する例です。
-
 #### 親コンポーネントでの使用例
+```vue
+<!-- Parent.vue -->
+<template>
+  <UserName
+    v-model:first-name.capitalize="first"
+    v-model:last-name.uppercase="last"
+  />
+</template>
+```
+### 子コンポーネントでの対応方法
+```vue
+<!-- UserName.vue -->
+<script setup>
+const [firstName, firstNameModifiers] = defineModel('firstName')
+const [lastName, lastNameModifiers] = defineModel('lastName')
 
-vue
+console.log(firstNameModifiers) // { capitalize: true }
+console.log(lastNameModifiers) // { uppercase: true }
+</script>
 
-コードをコピーする
-
-`<!-- Parent.vue --> <template>   <UserName     v-model:first-name.capitalize="first"     v-model:last-name.uppercase="last"   /> </template>`
-
-#### 子コンポーネントでの対応方法
-
-vue
-
-コードをコピーする
-
-`<!-- UserName.vue --> <script setup> const [firstName, firstNameModifiers] = defineModel('firstName') const [lastName, lastNameModifiers] = defineModel('lastName')  console.log(firstNameModifiers) // { capitalize: true } console.log(lastNameModifiers) // { uppercase: true } </script>  <template>   <input type="text" v-model="firstName" />   <input type="text" v-model="lastName" /> </template>`
-
+<template>
+  <input type="text" v-model="firstName" />
+  <input type="text" v-model="lastName" />
+</template>
+```
 ### まとめ
 
 1. **修飾子のアクセス**:
