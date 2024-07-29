@@ -207,24 +207,17 @@ const emit = defineEmits({
   }
 });
 ```
-
-    
-    
-    コードをコピーする
-    
-    `const emit = defineEmits({   click: null,   submit: ({ email, password }) => {     if (email && password) {       return true;     } else {       console.warn('Invalid submit event payload!');       return false;     }   } });`
-    
-    - `click`イベントにはバリデーションがありません。
-    - `submit`イベントには、`email`と`password`が存在するかどうかをチェックするバリデーション関数が定義されています。
-2. **イベントの発行**:
-    
-    vue
-    
-    コードをコピーする
-    
-    `function submitForm(email, password) {   emit('submit', { email, password }); }`
-    
-    - この関数は、`submit`イベントを発行し、引数として`email`と`password`を渡します。バリデーション関数が呼び出され、引数が正当であるかどうかをチェックします。
+  
+- `click`イベントにはバリデーションがありません。
+- `submit`イベントには、`email`と`password`が存在するかどうかをチェックするバリデーション関数が定義されています。
+#### イベントの発行
+```js
+function submitForm(email, password) {
+  emit('submit', { email, password });
+}
+```
+   
+- この関数は、`submit`イベントを発行し、引数として`email`と`password`を渡します。バリデーション関数が呼び出され、引数が正当であるかどうかをチェックします。
 
 ### 注意点
 
