@@ -1,0 +1,46 @@
+# Teleport
+`<Teleport>`は、Vue.jsの組み込みコンポーネントで、あるコンポーネントのテンプレートの一部を、そのコンポーネントのDOM階層の外にある別のDOMノードに「テレポート」するために使います。
+#### 基本的な使い方
+
+時々、次のようなシナリオに遭遇することがあります。論理的にはコンポーネントのテンプレートの一部であるが、視覚的にはVueアプリケーション外のDOMのどこかに表示されるべきものがあります。
+
+もっとも一般的な例は、フルスクリーンのモーダルを構築するときです。理想的には、モーダルのボタンとモーダル自体を同じコンポーネントに収めたいものです。これらは両方ともモーダルの開閉状態に関連しているからです。しかし、これではモーダルがボタンと一緒にレンダリングされ、アプリケーションのDOM階層に深くネストされることになります。これによりCSSでモーダルを配置する際に、いくつかの厄介な問題を引き起こす可能性があります。
+
+#### 例
+
+次のようなHTML構造を考えてみましょう：
+
+html
+
+コードをコピーする
+
+`<template>   <div class="outer">     <h3>Vue Teleport Example</h3>     <div>       <MyModal />     </div>   </div> </template>`
+
+そして、以下が `<MyModal>` の実装です：
+
+vue
+
+コードをコピーする
+
+`<script setup> import { ref } from 'vue'  const open = ref(false) </script>  <template>   <button @click="open = true">Open Modal</button>    <div v-if="open" class="modal">     <p>Hello from the modal!</p>     <button @click="open = false">Close</button>   </div> </template>  <style scoped> .modal {   position: fixed;   z-index: 999;   top: 20%;   left: 50%;   width: 300px;   margin-left: -150px; } </style>`
+
+このコンポーネントには、モーダルを開くためのトリガーとなる`<button>`と、モーダルのコンテンツとセルフクローズするためのボタンを含む`.modal`クラスの`<div>`が含まれています。このコンポーネントを初期のHTML構造の中で使う場合、いくつかの問題が生じる可能性があります：
+
+1. `position: fixed`は、祖先の要素に`transform`、`perspective`、`filter`プロパティが設定されていない場合、ビューポートに対して相対的に要素を配置するだけです。例えば、祖先である`<div class="outer">`をCSS`transform`でアニメーションさせようとすると、モーダルレイアウトが崩れてしまいます。
+2. モーダルの`z-index`は、それを含む要素によって制約されます。もし`<div class="outer">`と重なった、より高い`z-index`の値が設定された別の要素があれば、モーダルコンポーネントを覆ってしまうかもしれません。
+
+`<Teleport>`は、ネストされたDOM構造から抜け出せるようにすることで、これらの問題を回避するクリーンな方法を提供します。それでは、`<MyModal>`を修正して、`<Teleport>`を使用するようにしてみましょう：
+
+vue
+
+コードをコピーする
+
+`<template>   <button @click="open = true">Open Modal</button>    <Teleport to="body">     <div v-if="open" class="modal">       <p>Hello from the modal!</p>       <button @click="open = false">Close</button>     </div>   </Teleport> </template>`
+
+`<Teleport>`の`to`ターゲットには、CSSセレクター文字列か、存在するDOMノードが必要です。ここでは、Vueに「このテンプレートフラグメントをテレポートして、`body`タグに転送する」ように指示しています。
+
+#### 注意点
+
+- `<Teleport>`の`to`ターゲットは、`<Teleport>`コンポーネントがマウントされたときに、すでにDOMに存在している必要があります。
+- 理想的には、Vueアプリケーション全体の外側にある要素であるべきです。
+- Vueでレンダリングされる別の要素をターゲットにする場合は、その要素が`<Teleport>`の前にマウントされていることを確認する必要があります。
