@@ -45,3 +45,4 @@ window.location.hash = '#new-section';
 ## 公式ルーター
 Vue は SPA の構築に適しています。ほとんどの SPA では、公式がサポートする [Vue Router ライブラリー](https://github.com/vuejs/router) を使うことを推奨します。
 詳細は、Vue Router の [ドキュメント](https://router.vuejs.org/) を参照してください。
+
