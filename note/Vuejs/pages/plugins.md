@@ -1,6 +1,6 @@
 # プラグイン
 プラグインは、Vueにアプリケーションレベルの機能を追加するための自己完結的なコードです。
-プラグインのインストール方法は次の通りです：
+プラグインのインストール方法は次の通りです。
 
 ```javascript
 import { createApp } from 'vue'
@@ -36,37 +36,55 @@ const myPlugin = {
 
 まず、プラグインオブジェクトを別ファイルに作成し、エクスポートすることをお勧めします。これはロジックを封じ込めて分離するためです。
 
-javascript
+```javascript
+// plugins/i18n.js
+export default {
+  install: (app, options) => {
+    // プラグインのコードが入る
+  }
+}
+```
 
-コードをコピーする
+翻訳関数を作成し、この関数はドット区切りのキー文字列を受け取り、ユーザーが提供するオプションの中から翻訳された文字列を検索します。
+これはテンプレートで使用することを想定しています。
 
-`// plugins/i18n.js export default {   install: (app, options) => {     // プラグインのコードが入る   } }`
-
-翻訳関数を作成し、この関数はドット区切りのキー文字列を受け取り、ユーザーが提供するオプションの中から翻訳された文字列を検索します。これはテンプレートで使用することを想定しています。
-
-vue
-
-コードをコピーする
-
-`<template>   <h1>{{ $translate('greetings.hello') }}</h1> </template>`
+```vue
+<template>
+  <h1>{{ $translate('greetings.hello') }}</h1>
+</template>
+```
 
 この関数は全てのテンプレートでグローバルに利用できる必要があるため、プラグインの`app.config.globalProperties`に追加します。
 
-javascript
-
-コードをコピーする
-
-``// plugins/i18n.js export default {   install: (app, options) => {     // グローバルに利用可能な $translate() メソッドを注入     app.config.globalProperties.$translate = (key) => {       // `key` をパスとして使用して       // `options` 内のネストしたプロパティを取得       return key.split('.').reduce((o, i) => {         if (o) return o[i]       }, options)     }   } }``
+```javascript
+// plugins/i18n.js
+export default {
+  install: (app, options) => {
+    // グローバルに利用可能な $translate() メソッドを注入
+    app.config.globalProperties.$translate = (key) => {
+      // `key` をパスとして使用して
+      // `options` 内のネストしたプロパティを取得
+      return key.split('.').reduce((o, i) => {
+        if (o) return o[i]
+      }, options)
+    }
+  }
+}
+```
 
 この `$translate` 関数は、`greetings.hello` のような文字列を受け取り、ユーザーが提供した設定を調べて翻訳された値を返します。
 
 翻訳されたキーを含むオブジェクトは、インストール時に `app.use()` の追加パラメーターとしてプラグインに渡します。
 
-javascript
+```javascript
+import i18nPlugin from './plugins/i18n'
 
-コードをコピーする
-
-`import i18nPlugin from './plugins/i18n'  app.use(i18nPlugin, {   greetings: {     hello: 'Bonjour!'   } })`
+app.use(i18nPlugin, {
+  greetings: {
+    hello: 'Bonjour!'
+  }
+})
+```
 
 これにより、`$translate('greetings.hello')` は実行時に `Bonjour!` に置き換えられます。
 
@@ -78,18 +96,26 @@ javascript
 
 プラグインは `provide` を使用して、ユーザーに関数や属性を提供することもできます。例えば、翻訳オブジェクトを使用できるようにするため、アプリケーションが `options` 引数へアクセスできるようにします。
 
-javascript
-
-コードをコピーする
-
-`// plugins/i18n.js export default {   install: (app, options) => {     app.provide('i18n', options)   } }`
+```javascript
+// plugins/i18n.js
+export default {
+  install: (app, options) => {
+    app.provide('i18n', options)
+  }
+}
+```
 
 これにより、プラグインユーザーは `i18n` キーを使ってコンポーネント内にプラグインのオプションを注入できるようになります。
 
-vue
+```vue
+<script setup>
+import { inject } from 'vue'
 
-コードをコピーする
+const i18n = inject('i18n')
 
-`<script setup> import { inject } from 'vue'  const i18n = inject('i18n')  console.log(i18n.greetings.hello) </script>`
+console.log(i18n.greetings.hello)
+</script>
+
+```
 
 この方法により、コンポーネントは `i18n` オブジェクトを利用して、翻訳された文字列などの情報にアクセスできます。
