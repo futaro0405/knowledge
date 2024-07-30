@@ -153,8 +153,9 @@ DOMを直接操作するために使います。
 
 ```vue
 <template>
-  <div v-color="color"></div>
+<div v-color="color"></div>
 </template>
+
 <script>
 app.directive('color', (el, binding) => {
   // `mounted` と `updated` の両方で呼ばれます
@@ -163,7 +164,6 @@ app.directive('color', (el, binding) => {
 </script>
 ```
 #### オブジェクトリテラル
-
 ディレクティブが複数の値を必要とする場合、JavaScriptのオブジェクトリテラルを渡すこともできます。
 ディレクティブは有効なJavaScriptの式ならなんでも受け取れます。
 
@@ -171,6 +171,7 @@ app.directive('color', (el, binding) => {
 <template>
   <div v-demo="{ color: 'white', text: 'hello!' }"></div>
 </template>
+
 <script>
 app.directive('demo', (el, binding) => {
   console.log(binding.value.color) // => "white"
@@ -179,7 +180,6 @@ app.directive('demo', (el, binding) => {
 </script>
 ```
 #### コンポーネントでの使い方
-
 コンポーネントでカスタムディレクティブを使用することは推奨されていません。
 コンポーネントに複数のルートノードがある場合、予期しない動作が発生する可能性があります。
 
@@ -189,6 +189,7 @@ app.directive('demo', (el, binding) => {
 <template>
   <MyComponent v-demo="test" />
 </template>
+
 <template>
 <!-- MyComponent のテンプレート -->
 
