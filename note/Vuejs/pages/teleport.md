@@ -98,4 +98,41 @@ const open = ref(false)
 - **依存性の注入**: 親コンポーネントから子コンポーネントへの依存性の注入（provide/injectパターン）も期待通りに動作します。
 
 このように、`<Teleport>`を使用することでDOMの構造を変えることができますが、Vueのコンポーネントシステムの基本的な動作には影響を与えないことが特徴です。
+## Teleport を無効化する
+条件によって`<Teleport>`を無効にしたい場合があります。
+例えば、デスクトップではオーバーレイとしてコンポーネントをレンダリングし、モバイルではインラインでレンダリングしたい場合です。
+こういった場合、`<Teleport>`には`disabled`プロパティがあり、これを動的にトグルすることができます。
+### 使い方
+以下のように、`<Teleport>`の`disabled`プロパティを使用して、特定の条件に基づいて`<Teleport>`を無効化することができます：
 
+```vue
+<template>
+  <Teleport :disabled="isMobile">
+    ...
+  </Teleport>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const isMobile = ref(false)
+
+// メディアクエリの変更を検知して isMobile を更新する
+const updateIsMobile = () => {
+  isMobile.value = window.matchMedia("(max-width: 768px)").matches
+}
+
+// 初期状態の設定
+updateIsMobile()
+
+// ウィンドウのリサイズイベントを監視して動的に更新
+window.addEventListener('resize', updateIsMobile)
+</script>
+```
+### 説明
+- **`<Teleport :disabled="isMobile">`**: `isMobile`が`true`の場合、`<Teleport>`は無効化され、子要素は親コンポーネントの位置にそのままレンダリングされます。`isMobile`が`false`の場合、通常通り`<Teleport>`が動作し、指定されたターゲットに子要素を移動させます。
+- **`isMobile`**: モバイルデバイスかどうかを判定するためのフラグ。ここではメディアクエリを使って、ウィンドウの幅が768ピクセル以下の場合に`true`になります。
+- **`updateIsMobile`関数**: メディアクエリの結果に基づいて`isMobile`を更新する関数です。
+- **`window.addEventListener('resize', updateIsMobile)`**: ウィンドウのリサイズイベントを監視して、`isMobile`を動的に更新します。
+
+これにより、デバイスの種類に応じて`<Teleport>`の有効・無効を切り替えることができます。
