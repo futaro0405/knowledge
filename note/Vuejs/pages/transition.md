@@ -236,3 +236,140 @@ CSS アニメーションを使用する場合、`*-enter-from` クラスは要�
 `transform` や `opacity` などのプロパティは、アニメーションに使用する際に効率的です。
 これらのプロパティはドキュメントのレイアウトに影響を与えないため、コストのかかるCSSレイアウトの再計算を引き起こしません。
 また、これらのプロパティはGPUハードウェアアクセラレーションを利用できるため、スムーズなアニメーションが実現できます。
+
+## JavaScript フック
+`<Transition>`コンポーネントは、要素の表示/非表示の際にトランジションを適用するための強力なツールです。
+これを使用して、JavaScriptフックを利用してカスタムアニメーションや処理を追加できます。
+以下に、各イベントフックの役割と使い方を示します。
+### HTML部分
+```html
+<template>
+  <Transition
+    @before-enter="onBeforeEnter"
+    @enter="onEnter"
+    @after-enter="onAfterEnter"
+    @enter-cancelled="onEnterCancelled"
+    @before-leave="onBeforeLeave"
+    @leave="onLeave"
+    @after-leave="onAfterLeave"
+    @leave-cancelled="onLeaveCancelled"
+  >
+    <!-- トランジションの対象要素 -->
+    <div v-if="show">トランジションする要素</div>
+  </Transition>
+</template>
+```
+### JavaScript部分
+```javascript
+export default {
+  data() {
+    return {
+      show: true
+    };
+  },
+  methods: {
+    onBeforeEnter(el) {
+      // 要素がDOMに挿入される前に呼ばれる
+      // enter-from状態を設定するために使用する
+      console.log('before enter');
+    },
+    onEnter(el, done) {
+      // 要素がDOMに挿入された次のフレームで呼ばれる
+      // アニメーションの開始時に使用する
+      console.log('enter');
+      done(); // トランジションの終了を示すために呼ぶ
+    },
+    onAfterEnter(el) {
+      // enterトランジションが完了したときに呼ばれる
+      console.log('after enter');
+    },
+    onEnterCancelled(el) {
+      // enterトランジションが完了する前にキャンセルされたときに呼ばれる
+      console.log('enter cancelled');
+    },
+    onBeforeLeave(el) {
+      // leaveフックの前に呼ばれる
+      console.log('before leave');
+    },
+    onLeave(el, done) {
+      // leaveトランジションの開始時に呼ばれる
+      console.log('leave');
+      done(); // トランジションの終了を示すために呼ぶ
+    },
+    onAfterLeave(el) {
+      // leaveトランジションが完了し、要素がDOMから取り除かれたときに呼ばれる
+      console.log('after leave');
+    },
+    onLeaveCancelled(el) {
+      // v-showトランジションでのみ有効。キャンセルされたときに呼ばれる
+      console.log('leave cancelled');
+    }
+  }
+};
+```
+### `:css="false"` の使用
+JavaScriptのみでトランジションをコントロールする場合は、`:css="false"`を設定することで、VueにCSSトランジションの検出をスキップするよう指示できます。
+これにより、誤ったCSSトランジションへの干渉を防ぎ、パフォーマンスが若干向上することがあります。
+
+```html
+<template>
+  <Transition @enter="onEnter" :css="false">
+    <div v-if="show">トランジションする要素</div>
+  </Transition>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      show: true
+    };
+  },
+  methods: {
+    onEnter(el, done) {
+      // カスタムトランジションロジック
+      // doneコールバックを呼び出してトランジションの終了を示す
+      done();
+    }
+  }
+};
+</script>
+
+```
+### アニメーションライブラリの利用
+
+GSAPやAnime.js、Motion Oneなどのアニメーションライブラリを使用して、よりリッチなアニメーションを実装することも可能です。これらのライブラリを使用する場合でも、`done`コールバックを適切なタイミングで呼び出して、トランジションが完了したことをVueに通知する必要があります。
+
+これらのフックや設定を使用することで、Vue.jsアプリケーションでカスタマイズされたトランジションとアニメーションを作成し、ユーザーエクスペリエンスを向上させることができます。
+### トランジションの再利用
+トランジションは再利用可能なコンポーネントとしてラップすることができます。
+例えば、以下のようにしてトランジションのロジックをコンポーネント化し、他の部分で簡単に再利用することができます。
+
+```vue
+<!-- MyTransition.vue -->
+<template>
+  <Transition @enter="onEnter" @leave="onLeave">
+    <slot></slot>
+  </Transition>
+</template>
+
+<script>
+export default {
+  methods: {
+    onEnter(el, done) {
+      // カスタムエンタートランジションロジック
+      done();
+    },
+    onLeave(el, done) {
+      // カスタムリーブトランジションロジック
+      done();
+    }
+  }
+};
+</script>
+
+```
+
+この`MyTransition`コンポーネントを使うことで、他のコンポーネントで同じトランジションを簡単に適用できます。
+
+これらのフックを駆使することで、トランジションやアニメーションを細かく制御し、よりリッチなユーザー体験を提供することができます。
