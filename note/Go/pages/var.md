@@ -73,9 +73,20 @@ fmt.Println(i4)
 
 暗黙的な定義は関数の中でしか定義できない
 
+```go
+var i5 int = 500
+s5 := "Hello"
+
+func main() {
+  fmt.Println(i5)
+  // 500
+  fmt.Println(s5)
+  // error
+} 
 ```
-var i5 
-```
+
+基本的には明示的な定義を行う
+
 
 
 
