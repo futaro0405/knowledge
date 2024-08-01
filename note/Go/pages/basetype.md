@@ -76,12 +76,55 @@ nan := zero / zero
 fmt.Println(nan)
 // NaN
 ```
+## 論理値型
 
+```go
+var t, f bool = true, false
+fmt.Println(t, f)
+// true, false
+```
+## 文字列型
+```go
+var s string = "Hello, Golang"
+fmt.Println(s)
+// Hello, Golang
+fmt.Printf("%T\n", s)
+// string
 
+var si string = "300"
+fmt.Println(si)
+fmt.Printf("%T\n", si)
+// 300
+// string
+fmt.Println(` test
+	test
+		test
+`)
+// test
+//     test
+//        test
+fmt.Println("\"")
+// "
+fmt.Println(`"`)
+// "
+fmt.Println(s[0])
+// 72
+fmt.Println(string(s[0]))
+// H
+```
 
+## byte型
+```go
+byteA := []byte{72, 73}
+fmt.Println(byteA)
+fmt.Println(string(byteA))
+// {72, 73}
+// HI
+```
 
+```go
 
-
+```
 
 
 
