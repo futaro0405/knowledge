@@ -241,9 +241,84 @@ fmt.Println(i2)
 // 10
 ```
 
-```
+```go
 var s string = "100"
+fmt.Printf("s = %T\n", s)
+// s = string
 ```
+
+string型をint型に変換する
+
+```go
+import (
+  "fmt"
+  "strconv"
+)
+
+func main() {
+  var s string = "100"
+  i, _ := strconv.Atoi(s)
+  fmt.Println(i)
+  fmt.Printf("i = %T\n", i)
+}
+```
+
+`_`で戻り値を省略
+今回はerrを省略している
+
+```go
+import (
+  "fmt"
+  "strconv"
+)
+
+func main() {
+  var s string = "A"
+  i, err := strconv.Atoi(s)
+  if err != nil {
+    fmt.Println(err)
+  }
+  fmt.Println(i)
+  fmt.Printf("i = %T\n", i)
+}
+
+// err
+```
+
+int型からstring型に変換
+```go
+var i2 int = 200
+s2 := strconv.Itoa(i2)
+fmt.Println(s2)
+fmt.Printf("s2 = %T\n", s2)
+// s2 = string
+```
+
+string型からbyte型に変換
+```go
+var h string = "Hello"
+b := []byte(h)
+fmt.Println(b)
+
+h2 := string(b)
+fmt.Println(h2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
