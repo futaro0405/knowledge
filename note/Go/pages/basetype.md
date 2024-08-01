@@ -123,8 +123,47 @@ fmt.Println(string(byteA))
 ```
 
 ```go
-
+c := []byte("HI")
+fmt.Println(c)
 ```
+## 配列型
+要素数を変更することができない
+後から変更したい場合はスライス型を使う
+
+```go
+var arr1 [2]int
+fmt.Println(arr1)
+// [0 0 0]
+fmt.Printf("%T\n", arr1)
+// [3]int
+```
+
+`[3]int`という型なので変更できない
+
+値を持たせて明示的に宣言する
+```go
+var arr2 [3]string = [3]string{"A", "B"}
+fmt.Println(arr2)
+// [A B  ]
+```
+
+暗黙的に定義
+```go
+  arr3 := [3]int{1, 2, 3}
+  fmt.Println(arr3)
+  // [1 2 3]
+```
+
+要素数に合わせて宣言する
+```go
+  arr4 := [...]string{"C", "D"}
+  fmt.Println(arr4)
+  
+```
+
+
+
+
 
 
 
