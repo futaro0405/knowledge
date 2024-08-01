@@ -156,13 +156,75 @@ fmt.Println(arr2)
 
 要素数に合わせて宣言する
 ```go
-  arr4 := [...]string{"C", "D"}
-  fmt.Println(arr4)
-  
+arr4 := [...]string{"C", "D"}
+fmt.Println(arr4)
+fmt.Printf("%T\n", arr4)
+// [C D]
+// [2]string
 ```
 
+値の取り出し
+```go
+var arr2 [3]string = [3]string{"A", "B"}
+fmt.Println(arr2[0])
+// A
+fmt.Println(arr2[1])
+// B
+fmt.Println(arr2[2])
+// 
+```
 
+値の更新
+```go
+arr4 := [...]string{"C", "D"}
+arr4[1] = "F"
+fmt.Println(arr4)
+// C F
+```
 
+```go
+var arr5 [5]int
+var arr6 [6]int
+arr5 = arr6
+// error
+```
+
+配列の要素数
+```go
+fmt.Println(len(arr1))
+// 3
+```
+
+## interface型
+あらゆる型と互換性がある
+```go
+var x interface{}
+fmt.Println(x)
+// <nil>
+```
+
+```go
+x = 1
+x = 3.14
+x = "A"
+x = [...]int{3, 4, 5, 6}
+//x = 2
+//var y interface{} = 3
+//fmt.Println(x + y)
+```
+
+データ特有の演算はできないので注意
+
+```go
+x = 2
+fmt.Println(x + 3)
+// error
+```
+
+## 型変換
+```go
+
+```
 
 
 
