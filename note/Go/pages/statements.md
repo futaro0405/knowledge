@@ -131,13 +131,50 @@ case n > 3 && n < 6:
 ## 型switch
 型アサーション
 ```go
+func anything(a interface{}) {
+  fmt.Println(a)
+}
 
+func main() {
+  anything("aaa")
+  anything(1)
+
+  var x interface{} = 3
+  i := x.(int)
+
+  fmt.Println(i + 2)
+  // 5
+  fmt.Println(x + 2)
+  // error
+}
 ```
 
+floatはエラー
+```go
+f := x.(float64)
+fmt.Println(f)
+// error
+```
 
+エラーにせずに実行する方法
+```go
+f, isFloat := x.(float64)
+fmt.Println(f, isFloat)
+// 0 false
+```
 
-
-
+型アサーションとこの記述を使って型で分岐させる
+```go
+if x == nil {
+	fmt.Println("何もない")
+} else if i, isInt := x.(int); isInt {
+	fmt.Println(i, "x is int")
+} else if s, isString := x.(string); isString {
+	fmt.Println(s)
+} else {
+	fmt.Println("対応していない型")
+}
+```
 
 
 
