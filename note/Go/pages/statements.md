@@ -93,6 +93,47 @@ for _, v := range arr {
 }
 ```
 
+## switch
+```go
+n := 4
+switch n {
+  case 1, 2:
+    fmt.Println("1 or 2")
+  case 3, 4:
+    fmt.Println("3 or 4")
+  default:
+    fmt.Println("どれでもない")
+}
+```
+
+```go
+switch n := 2; n {
+  case 1, 2:
+	fmt.Println("1 or 2")
+  case 3, 4:
+	fmt.Println("3 or 4")
+  default:
+	fmt.Println("どれでもない")
+}
+```
+
+列挙型と演算子が共存している場合はエラーになる
+```go
+switch n := 2; n {
+case 1, 2, 3:
+	fmt.Println("0 < n2 < 4")
+case n > 3 && n < 6:
+	fmt.Println("3 < n2 < 6")
+}
+// error
+```
+
+## 型switch
+型アサーション
+
+
+
+
 
 
 
