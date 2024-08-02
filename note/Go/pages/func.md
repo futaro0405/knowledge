@@ -40,12 +40,34 @@ func noreturn() {
 ```
 
 ## 無名関数
+```go
+func main() {
+  f := func(x, y int) int {
+    return x + y
+  }
+  i := f(1, 2)
+}
+```
 
+```go
+i2 := func(x, y int) int {
+  return x + y
+}(1, 2)
+```
 
+## 関数を返す関数
+```go
+func ReturnFunc() func() {
+  return func() {
+    fmt.Println("I'm a function")
+  }
+}
 
-
-
-
+func main() {
+  f := ReturnFunc()
+}
+```
+## 関数を引数にとる関数
 
 
 
