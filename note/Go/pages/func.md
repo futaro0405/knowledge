@@ -68,6 +68,84 @@ func main() {
 }
 ```
 ## 関数を引数にとる関数
+```go
+func CallFunction(f func()) {
+  f()
+}
+
+func main() {
+  CallFunction(func() {
+    fmt.Println("I'm a function")
+  })
+}
+```
+## クロージャ
+Goの無名関数はクロージャ
+クロージャとは日本語では関数閉包と呼ばれ、関数と関数の処理に関する関数外の環境をセットして閉じ込めたもの
+
+```go
+func Later() func(string) string {
+  var store string
+  return func(next string) string {
+    s := store
+    store = next
+    return s
+  }
+}
+
+func main() {
+  f := Later()
+  fmt.Println(f("Hello"))
+}
+
+// Hello
+// My
+// name
+// is
+```
+
+## ジェネレータとは
+何らかのルールに従って連続した値を返し続ける仕組みのこと
+
+```go
+func integers() func() int {
+  i := 0
+  return func() int {
+    i++
+    return i
+  }
+}
+
+func main() {
+  ints := integers()
+  fmt.Println(ints())
+  fmt.Println(ints())
+  fmt.Println(ints())
+  fmt.Println(ints())
+
+  otherints := integers()
+  fmt.Println(otherints())
+  fmt.Println(otherints())
+  fmt.Println(otherints())
+}
+// 1
+// 2
+// 3
+// 4
+
+// 1
+// 2
+// 3
+```
+
+
+
+
+
+
+
+
+
 
 
 
