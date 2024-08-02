@@ -178,7 +178,14 @@ if x == nil {
 
 switchと組み合わせ
 ```go
-
+switch x.(type) {
+  case int:
+    fmt.Println("int")
+  case string:
+    fmt.Println("string")
+  default:
+    fmt.Println("default")
+}
 ```
 
 
