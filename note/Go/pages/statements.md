@@ -208,7 +208,54 @@ func main() {
 ```
 
 ## ラベル付きfor
+```go
+for {
+  for {
+    for {
+      fmt.Println("START")
+      break
+    }
+    fmt.Println("起動しない")
+  }
+  fmt.Println("起動しない")
+}
+fmt.Println("END")
 
+// START
+// 起動しない
+// START
+// 起動しない
+// ...
+```
+
+この場合`break`は一番深いネストの`for`からのみ抜けるため無限ループになる
+
+```go
+Loop:
+  for {
+    for {
+      for {
+        fmt.Println("START")
+        break Loop
+      }
+      fmt.Println("起動しない")
+    }
+    fmt.Println("起動しない")
+  }
+  fmt.Println("END")
+
+// START
+// END
+```
+
+Loopのラベルを付けることで`break Loop`で全体から抜けることができる
+
+continueの場合も考える
+```go
+for i := 0; i < 3; i++ {
+  for j := 1; j < 
+}
+```
 
 
 
