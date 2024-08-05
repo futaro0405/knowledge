@@ -163,7 +163,23 @@ m[1] = "JAPAN"
 m[2] = "USA"
 // map[1:JAPAN 2:USA]
 
+// 値の取り出し
+fmt.Println(m["A"])
+// 100
 
+// エラーハンドリングもある
+s, ok := m[1]
+fmt.Println(s, ok)
+// JAPAN true
+
+s, ok := m[3]
+//  false
+
+// 削除
+delete(m4, 3)
+
+// 要素数
+len(m)
 ```
 
 
