@@ -265,7 +265,83 @@ Loop:
 ```
 
 ## defer
-関数の終了時に実行される
+関数の終了時に実行される処理を登録することができる
+
+```go
+func TestDefer() {
+	defer fmt.Println("END")
+	fmt.Println("START")
+}
+// START
+// END
+```
+
+deferで複数の処理を登録する
+```go
+defer func() {
+  fmt.Println("1")
+  fmt.Println("2")
+  fmt.Println("3")
+}
+// 1
+// 2
+// 3
+```
+
+複数のdeferが登録せれた場合、後から登録されたものから実行される
+```go
+func RunDefer() {
+  defer fmt.Println("1")
+  defer fmt.Println("2")
+  defer fmt.Println("3")
+}
+
+func main() {
+  RunDefer()
+}
+// 3
+// 2
+// 1
+```
+
+deferを使ったリソースの解放処理
+
+```go
+file, err := os.Create("test.txt")
+if err != nil {
+  fmt.Println(err)
+}
+defer file.Close()
+
+file.Write([]byte("Hello"))
+```
+
+```cursol
+$ go run main.go
+$ ls
+main.go test.txt
+```
+
+## `panic`,`recover`
+例外処理
+goのランタイムを強制的に停止させる機能を持つため、エラーハンドリングを使用した処理のほうが推奨される
+あえて使わないほうが良い
+
+```go
+func main() {
+	panic("rungime error")
+	fmt.Println("START")
+
+	defer func() {
+		if x := recover(); x != nil {
+			fmt.Println(x)
+		}
+	}()
+	panic("runtime error")
+	fmt.Println("START")
+}
+```
+
 
 
 
