@@ -298,10 +298,64 @@ func main() {
 ```
 
 
+## チャネル close
+送受信が終わったチャネルを明示的に閉じる
 
+```go
+ch1 := make(chan int, 2)
+close(ch1)
+i, ok := <- ch1
+fmt.Println(i, ok)
+```
 
+チャネルのバッファないが空かつ、closeされた状態ならokにfalseが返る
 
+```go
+ch1 := make(chan int, 2)
+ch1 <- 1
+close(ch1)
 
+i, ok := <- ch1
+fmt.Println(i, ok)
+// 1 true
+
+i2, ok := <- ch1
+fmt.Println(i2, ok)
+// 0 false
+```
+
+```go
+
+func reciever(name string, ch <-chan int) {
+	for {
+		i, ok := <-ch
+		if !ok {
+			break
+		}
+		fmt.Println(name, i)
+	}
+	fmt.Println(name + "END")
+}
+
+func main() {
+	ch1 := make(chan int, 2)
+
+	close(ch1)
+
+	//ch1 <- 1 //エラー
+
+	fmt.Println(<-ch1)
+
+	ii, ok := <-ch1
+	fmt.Println(ii, ok)
+
+	ch2 := make(chan int, 20)
+
+	go reciever2("1.goroutin", ch2)
+	go reciever2("2.goroutin", ch2)
+	go reciever2("3.goroutin", ch2)
+
+```
 
 
 
