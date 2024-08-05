@@ -340,22 +340,96 @@ func reciever(name string, ch <-chan int) {
 func main() {
 	ch1 := make(chan int, 2)
 
+	go reciever("1.goroutin", ch1)
+	go reciever("2.goroutin", ch1)
+	go reciever("3.goroutin", ch1)
+
+	i := 0
+	for i < 100 {
+		ch1 <- i
+		i++
+	}
 	close(ch1)
-
-	//ch1 <- 1 //エラー
-
-	fmt.Println(<-ch1)
-
-	ii, ok := <-ch1
-	fmt.Println(ii, ok)
-
-	ch2 := make(chan int, 20)
-
-	go reciever2("1.goroutin", ch2)
-	go reciever2("2.goroutin", ch2)
-	go reciever2("3.goroutin", ch2)
-
+	timeSleep(3 * time.Second)
+}
 ```
+
+## チャネル for
+
+```go
+ch1 := make(chan int, 3)
+ch1 <- 1
+ch1 <- 2
+ch1 <- 3
+
+for i := range ch1 {
+  fmt.Println(i)
+}
+// 1
+// 2
+// 3
+// deadlock
+```
+
+要素数を超えるとdeadlockになる
+closeする
+```go
+ch1 := make(chan int, 3)
+ch1 <- 1
+ch1 <- 2
+ch1 <- 3
+close(ch1)
+
+for i := range ch1 {
+  fmt.Println(i)
+}
+// 1
+// 2
+// 3
+```
+
+## チャネル select
+
+```go
+ch1 := make(chan int, 30)
+ch2 := make(chan string, 20)
+
+ch2 <- "AAA"
+
+e1 := <-ch1
+e2 := <-ch2
+fmt.Println(e1)
+fmt.Println(e2)
+// ch1 値がないのでdeadlock
+// ch2 ch1がdeadlockなので到達できずにdeadlock
+```
+
+`select`: 複数チャネルでゴルーチンを停止させることなく動作させる
+
+```go
+ch1 := make(chan int, 30)
+ch2 := make(chan string, 20)
+
+ch2 <- "AAA"
+
+select {
+case e1 := 
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
