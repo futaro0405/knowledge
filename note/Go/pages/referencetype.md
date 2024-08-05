@@ -75,6 +75,42 @@ fmt.Println(cap(sl3))
 
 ## sliceのコピー
 
+```go
+sl := []int{100, 200}
+sl2 := sl
+sl2[0] = 1000
+fmt.Println(sl)
+fmt.Println(sl2)
+// [1000 200]
+// [1000 200]
 ```
+
+参照型のデータ型はこのように値を渡すと同じアドレスが格納されます。
+そのため、両方更新される
+参照型： slice map channel
+
+```go
+sl := []int{1, 2, 3, 4, 5}
+sl2 := make([]int, 5, 10)
+
+
+n := copy(sl2, sl)
+
+fmt.Println(n, sl2)
+// 5 [1 2 3 4 5]
 ```
+
+nはコピーに成功した数
+
+## slice for
+
+```go
+sl := []stirng("A", "B", "C")
+fmt.Println(sl)
+
+for i := range sl {
+}
+
+for i := 0; i < len(sl); i++ {
+}
 ```
