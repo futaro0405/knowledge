@@ -188,7 +188,26 @@ switch x.(type) {
 }
 ```
 
+```go
+func anything(a interface{}) {
+  switch v := a.(type) {
+    case string:
+      fmt.Println(v + "!?")
+    case int:
+      fmt.Println(v + 1000)
+  }
+}
 
+func main() {
+  anything("aaa")
+  anything(1)
+}
+
+// aaa!?
+// 1001
+```
+
+## ラベル付きfor
 
 
 
