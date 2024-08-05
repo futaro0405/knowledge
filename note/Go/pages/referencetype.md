@@ -413,11 +413,21 @@ ch2 := make(chan string, 20)
 ch2 <- "AAA"
 
 select {
-case e1 := 
+case e1 := <-ch1:
+	fmt.Println(e1 + 1000)
+case e2 := <-ch2:
+	fmt.Println(e2 + "!?")
+default:
+	fmt.Println("どちらでもない")
 }
 ```
 
+```go
+ch1 := make(chan string, 5)
+ch2 := make(chan string, 5)
+ch3 := make(chan string, 5)
 
+```
 
 
 
