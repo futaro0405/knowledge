@@ -340,7 +340,75 @@ func main() {
 	panic("runtime error")
 	fmt.Println("START")
 }
+// rungime error
 ```
+
+`panic`:
+強制的にエラーを発生させる
+`recover`:
+ランタイムエラーから復帰する。`defer`と合わせて使う
+
+## `go`文
+goルーチンとも呼ばれいる。
+goの並行処理の機能
+goルーチンはスレッドよりも小さい処理単位で、暗黙的に並行処理を行ってくれる。
+
+```go
+func sub() {
+  for {
+    fmt.Println("sub Loop")
+    time.Sleep(100 * time.Millisecond)
+  }
+}
+
+func main() {
+  sub()
+
+  for {
+    fmt.Println("Main Loop")
+    time.Sleep(200 * time.Millisecond)
+  }
+}
+// sub Loop
+// sub Loop
+// sub Loop
+// ...
+```
+
+```go
+func sub() {
+  for {
+    fmt.Println("sub Loop")
+    time.Sleep(100 * time.Millisecond)
+  }
+}
+
+func main() {
+  go sub()
+
+  for {
+    fmt.Println("Main Loop")
+    time.Sleep(200 * time.Millisecond)
+  }
+}
+// Main Loop
+// sub Loop
+// sub Loop
+// Main Loop
+// sub Loop
+// ...
+```
+
+## `init`
+
+
+
+
+
+
+
+
+
 
 
 
