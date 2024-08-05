@@ -181,6 +181,35 @@ delete(m4, 3)
 // 要素数
 len(m)
 ```
+## map for
+```go
+m := map[string]int{
+  "apple": 100,
+  "Banana": 200,
+}
+
+for _, v := range m {
+}
+
+for k := range m {
+}
+```
+
+## channel
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
