@@ -242,10 +242,60 @@ ch3 := make(chan int, 5)
 データを送る
 ```go
 ch3 <- 1
+fmt.Println("len", len(ch3))
+// len 1
+
+ch3 <- 2
+ch3 <- 3
+ch3 <- 4
+
+i := <-ch3
+fmt.Println(i)
+fmt.Println("len", len(ch3))
+// 1
+// len 3
+
+fmt.Println(<-c2)
+fmt.Println("len", len(ch3))
+// 2
+// len 2
 ```
 
+バッファサイズを超えた場合デッドロック
 
+## チャネルとゴルーチン
 
+```go
+func reciver(c chan int) {
+  for {
+    i := <-c
+    fmt.Println(i)
+  }
+}
+
+func main() {
+  ch1 := make(chan int)
+  ch2 := make(chan int)
+
+  go reciver(ch1)
+  go reciver(ch2)
+
+  i := 0
+  for i < 100 {
+    ch1 <- i
+    ch2 <- i
+    time.Sleep(50 * time.Millisecond)
+    i++
+  }
+}
+// 0
+// 0
+// 1
+// 1
+// 2
+// 2
+// ...
+```
 
 
 
