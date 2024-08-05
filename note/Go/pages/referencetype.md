@@ -113,4 +113,71 @@ for i := range sl {
 
 for i := 0; i < len(sl); i++ {
 }
+
+
 ```
+
+## 可変長引数
+
+```go
+func Sum(s ...int) int {
+  n := 0
+  for _, v := range s {
+    n += v
+  }
+  return n
+}
+
+func main() {
+  fmt.Println(Sum(1, 2, 3))
+  // 6
+  fmt.Println(Sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+  // 55
+  fmt.Println(Sum())
+  // 0
+
+  sl := []int{1, 2, 3}
+  fmt.Println(Sum(sl...))
+  // 6
+}
+```
+
+## map
+key, valueの形式で配列を作ることができる
+
+```go
+var m = map[string]int{"A": 100, "B": 200}
+fmt.Println(Sum())
+// map["A":100  "B":200]
+
+// 改行しても使える
+m := map[string]int{
+  "A": 100,
+  "B": 200
+}
+
+// make関数を使って空のmapを作る
+m := make(map[int]string)
+// map[]
+m[1] = "JAPAN"
+m[2] = "USA"
+// map[1:JAPAN 2:USA]
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
