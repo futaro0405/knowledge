@@ -400,8 +400,21 @@ func main() {
 ```
 
 ## `init`
+パッケージの初期化を目的にした特殊な関数のユニットを定義する
 
+```go
+func init() {
+  fmt.Println("init")
+}
 
+func main() {
+  fmt.Println("main")
+}
+// init
+// main
+```
+
+初期化処理を確実に実行するときに使う
 
 
 
