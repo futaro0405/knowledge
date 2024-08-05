@@ -196,15 +196,53 @@ for k := range m {
 ```
 
 ## channel
+複数のgoルーチン間でデータの受け渡しを行うために設計されたデータ構造
 
+```go
+var ch1 chan int
+```
 
+サブタイプを指定することで送信専用、受信専用のチャネルを指定することができる
 
+```go
+// 受信専用
+var ch2 <-chan int
+// 送信専用
+var ch2 chan<- int
+```
 
+このnilチャネルをmake関数を使用して機能を持たせる
 
+```go
+var ch1 chan int
+ch1 = make(chan int)
+```
 
+チャネルの生成と初期化が行われるので書き込みと読み込みが可能になる
 
+make関数を使って直接宣言することもできる
 
+```go
+ch2 := make(chan int)
+```
 
+この時、容量は0
+
+```go
+fmt.Println(cap(ch2))
+// 0
+```
+
+このバッファサイズを指定して生成する
+
+```go
+ch3 := make(chan int, 5)
+```
+
+データを送る
+```go
+ch3 <- 1
+```
 
 
 
