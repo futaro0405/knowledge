@@ -119,10 +119,64 @@ func main() {
 
 コピーに対してsetNameを行ってしまっている
 
+```go
+func (u *User) setName(name string) {
+  u.Name = name
+}
+```
+
+メソッドのレシーバをポインタ型に修正するとsetされる
+キホンはポインタ型にするほうがいい
+
+## 構造体の埋め込み
+構造体はフィールドに構造体を埋め込むことができる
 
 
+```go
+type T struct {
+  User User
+}
 
+type User struct {
+  Name string
+  Age int
+}
 
+func main() {
+  t := T{User : User{Name: "user1", Age: 10}}
+  fmt.Println(t)
+  // {{user1 10}}
+
+  fmt.Println(t.User)
+  // {user1 10}
+
+  fmt.Println(t.User.NAme)
+  // user1
+}
+```
+
+型名を省略できる
+その場合は呼び出しを省略できる
+
+```go
+type T struct {
+  User
+}
+
+func main() {
+  t := T{User : User{Name: "user1", Age: 10}}
+
+  fmt.Println(t.NAme)
+  // user1
+}
+```
+
+Userフィールドのメソッドも使用できる
+```go
+func (u *User) SetName() {
+  u.Name = "A"
+}
+```
 
 
 
