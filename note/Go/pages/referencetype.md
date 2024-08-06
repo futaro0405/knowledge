@@ -429,7 +429,30 @@ ch3 := make(chan int)
 
 // reciever
 go func() {
-  
+  fot {
+    i := <-ch1
+    ch2 <- i * 2
+  }
+}()
+
+go func() {
+  for {
+    i2 := <-ch4
+    ch4 <- i2 - 1
+  }
+}()
+
+n := 0
+for {
+  select {
+  case ch1 <- n:
+    n++
+   case i3 := <-ch3:
+    fmt.Println("recieved", i3)
+  }
+  if n > 100 {
+    break
+  }
 }
 ```
 
