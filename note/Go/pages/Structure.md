@@ -76,7 +76,59 @@ func UpdateUser2(user *User) {
   user.Name = "A"
   user.Age = 100
 }
+
+func main() {
+  user1 := User{Name: "user1", Age: 10}
+  user8 := &User{}
+  
+  UpdateUser(user1)
+  // {user1 10}
+  // 更新されていない
+  UpdateUser2(user2)
+  // &{A 100}
+  // 更新されている
+}
 ```
+
+## 構造体のメソッド
+任意の型に特化した関数を定義するための仕組み
+
+```go
+type User struct {
+  Name string
+  Age int
+}
+
+func(u User) SayName() {
+  fmt.Println(u.Name)
+}
+
+func(u User) SatName(name string) {
+  u.Name = name
+}
+
+func main() {
+  user1 = User{Name: "user1"}
+  user1.SayName()
+  user1.SatName("A")
+  user1.SayName()
+}
+// user1
+// user1
+```
+
+コピーに対してsetNameを行ってしまっている
+
+
+
+
+
+
+
+
+
+
+
 
 
 
