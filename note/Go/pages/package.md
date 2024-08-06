@@ -160,7 +160,21 @@ bsをReadで読み込んだ内容を書き込む
 `O_CREATE`：ファイルがなければ作成
 `O_TRUNC`：可能であればファイルの内容をオープン時に空にする
 
+`0666`パーミッション
+`|`を用いて複数のフラグをしてすることもできる。
 
+```go
+f, err := os.Openfile("foo.txt", os.O_RDWR|O_CREATE, 0666)
+if err != nil {
+	log.Fatalln(err)
+}
+defer f.Close()
+
+bs := make([]byte, 128)
+n, err := f.Read(bs)
+fmt.Println(n)
+fmt.Println(string(bs))
+```
 
 
 
