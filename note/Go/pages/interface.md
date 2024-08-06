@@ -94,7 +94,9 @@ type Point struct {
   B string
 }
 
-func
+func (p *Point) String() string {
+  return fmt.Sprintf("<<%v, %v>>", p.A, p.B)
+}
 
 func main() {
    p := &Point{100, "ABC"}
