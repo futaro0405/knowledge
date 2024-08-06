@@ -47,3 +47,64 @@ module example.com/go-mod-test go 1.16
 プログラムコードの任意の場所でどのような変数や定数、関数が参照可能かはscopeによって決まる。
 goにおけるscopeはパッケージ、ファイル、関数、ブロック、制御構文により決められる。
 関数や変数、定数、型といったプログラムの構成要素はパッケージに属しているため、パッケージのscopeを理解することは要素の可視性のコントロールのためにも重要である。
+
+アプリケーション開発においてパッケージ間の変数、関数の共有や、逆に隠蔽する場合の可視範囲のコントロールに使用する。
+
+```go:foo.go
+package foo
+
+const (
+  Max = 100
+  min = 1
+)
+
+func ReturnMin() int {
+  return min
+}
+```
+
+```go:main.go
+package main
+
+import (
+  "fmt"
+  "lesson/foo"
+)
+
+func main() {
+  fmt.Println(foo.Max)
+  fmt.Println(foo.min)
+
+  fmt.Println(foo.ReturnMin())
+}
+// 100
+// error
+```
+
+この時、定数`min`がイニシャル小文字のため参照不可となる
+
+importパッケージの命名
+`.`で省略可能
+
+```go
+import (
+  f "fmt"
+  ."lesson/foo"
+)
+
+func main() {
+  f.Println(Max)
+}
+```
+
+インポート順はアルファベット順
+標準パッケージと独自パッケージを分ける
+などす
+
+
+
+
+
+
+
+
