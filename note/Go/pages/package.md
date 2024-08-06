@@ -69,7 +69,10 @@ $ ./getargs 123 456 789
 456
 789
 length=4
-
+0 ./getargs
+1 123
+2 456
+3 789
 ```
 
 引数ありで実行する
@@ -77,7 +80,49 @@ length=4
 注意点として`Args[0]`はコマンドライン名が入る。
 `Args[1]`から引数が格納される。
 
+### ファイル操作
+#### `Open`
 
+```go
+func main() {
+	f, err := os.Open("test.txt")
+	if err != nil {
+		lig.Fatalln(err)
+	}
+
+	defer f.Close()
+}
+```
+
+#### `Create`
+新規ファイルを作成する
+既に存在する場合は削除されて新規で作成されるため注意
+
+```go
+func main() {
+  f, _ := os.Create("foo.txt")
+  f.Write([]byte("Hello\n"))
+  f.WriteAt([]byte("Golang"), 6)
+  f.Seek(0, os.SEEK_END)
+  f.WriteString("Yeah")
+}
+```
+
+`Write`： 書き込み
+`WriteAt`： ofset1を6文字目に指定して書き込み
+`Seek`：`SEEK_END`を指定することでファイルの末尾にoffsetを移動
+`WriteString`： 文字列を書き込み
+
+```file
+Hello
+GolangYeah
+```
+#### `Read`
+```go
+func main() {
+	f, err := os.Open("foo.txt")
+}
+```
 
 
 
