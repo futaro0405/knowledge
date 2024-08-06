@@ -39,19 +39,44 @@ func main() {
 
 暗黙的に定義
 ```go
-user2 := User
+user := User{}
 ```
 
+初期値を設定
+```go
+user := User{Name: "username", Age: 10}
+```
 
+初期値の省略
+宣言の順番に入れる必要がある
+```go
+user := User{"username", 10}
+```
 
+`new`を使って宣言
+User型のポインタが返ってくる
+```go
+user := new(User)
+// &{ 0}
+```
 
+アドレス演算子を使うとnewと同じようになる
+```go
+user := &User{}
+```
 
+どのように使うか
 
-
-
-
-
-
+```go
+func UpdateUser(user User) {
+  user.Name = "A"
+  user.Age = 100
+}
+func UpdateUser2(user *User) {
+  user.Name = "A"
+  user.Age = 100
+}
+```
 
 
 
