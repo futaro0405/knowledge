@@ -121,14 +121,44 @@ GolangYeah
 ```go
 func main() {
 	f, err := os.Open("foo.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer f.Close()
+	
+	bs := make([]byte, 128)
+	n, err := f.Read(bs)
+	fmt.Println(n)
+	fmt.Println(string(bs))
+
+	bs2 := make([]byte, 128)
+	nn, err := f.ReadAt(bs2, 10)
+	fmt.Println(nn)
+	fmt.Printlln(string(bs2))
 }
+
+// 16
+// Hello
+// GolangYeah
+// 6
+// ngYeah
 ```
 
+`f.Read(bs)`
+bsをReadで読み込んだ内容を書き込む
+戻り値として読み込んだバイト数とエラーを返す
 
+`f.ReadAt(bs2, 10)`
+10byte目から読み込む
 
+## `Openfile`
 
-
-
+`O_RDONLY`：読み込み専用
+`O_WRONLY`：書き込み専用
+`O_RDWR`：読み書き可能
+`O_APPEND`：ファイル末尾に追記
+`O_CREATE`：ファイルがなければ作成
+`O_TRUNC`：可能であればファイルの内容をオープン時に空にする
 
 
 
