@@ -264,16 +264,40 @@ func main() {
     1: {Name: "user1", Age: 10},
     2: {Name: "user2", Age: 20},
   }
-  fmt.Println(m)
 
   m2 := map[User]string{
-    {Name: "user1", Age: 10}
+    {Name: "user1", Age: 10}: "Tokyo",
+    {Name: "user2", Age: 20}: "LA",
+  }
+
+  m3 := make(map[int]User)
+  m3[1] = User{Name: "user3"}
+  // map[1: {user3 0}]
+
+  for _, v := range m {
+    fmt.Println(v)
   }
 }
 
 ```
 
+## struct 独自型
 
+```go
+type Myint int
+
+func main() {
+  var m1 MyInt
+  fmt.Println(m)
+  fmt.Println("%T\n", m1)
+
+  i := 100
+  fmt.Println(m1 + i)
+  // error
+}
+```
+
+独自宣言したMyInt型とint型は計算できない
 
 
 
