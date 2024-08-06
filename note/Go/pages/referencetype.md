@@ -423,10 +423,14 @@ default:
 ```
 
 ```go
-ch1 := make(chan string, 5)
-ch2 := make(chan string, 5)
-ch3 := make(chan string, 5)
+ch1 := make(chan int)
+ch2 := make(chan int)
+ch3 := make(chan int)
 
+// reciever
+go func() {
+  
+}
 ```
 
 
