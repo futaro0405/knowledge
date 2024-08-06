@@ -176,7 +176,28 @@ Userフィールドのメソッドも使用できる
 func (u *User) SetName() {
   u.Name = "A"
 }
+
+func main() {
+  t := T{User : User{Name: "user1", Age: 10}}
+
+  t.User.SetName()
+  fmt.Println(t.Name)
+  // A
+}
 ```
+
+## 構造体のコンストラクタ
+
+
+
+
+
+
+
+
+
+
+
 
 
 
