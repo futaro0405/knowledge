@@ -55,13 +55,53 @@ type MyError struct {
   Message string
   ErrCode int
 }
-func (e *MyError) Error
+func (e *MyError) Error() string {
+  return e.Message
+}
+
+func RaisError() error {
+  return &MyError{Message: "カスタムエラーが発生しました", ErrCode: 1234}
+}
+
+func main() {
+  err := RaisError()
+  fmt.Println(err.Error())
+  // カスタムエラーが発生しました
+  fmt.Println(err)
+  // err
+  // MyErrorのフィールドにアクセスしたい場合は型アサーションを使用してアクセスする必要がある
+
+  e, ok := err.(*MyError)
+  if ok {
+    fmt.Println(e.ErrCode)
+  }
+  // 1234
+}
 ```
 
+## interface Stringer
+ fmtパッケージに定義されているStringer型もinterfaceのひとつ
+ 
+```go
+type Stringer interface {
+  String() string
+}
+```
 
+```go
+type Point struct {
+  A int
+  B string
+}
 
+func
 
-
+func main() {
+   p := &Point{100, "ABC"}
+   fmt.Pringln(p)
+   // &{100 ABC}
+}
+```
 
 
 
