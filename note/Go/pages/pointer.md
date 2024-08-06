@@ -78,9 +78,25 @@ func main() {
 // 400
 ```
 
+値型のデータ型はこのようにポインタを使用する必要がある
+sliceなどの参照型のデータ型はこの機能を含んでいる
+参照型はもともと参照渡しの機能がある
 
+```go
+func Double(s []int) {
+  for i, v := range s {
+    s[i] = v * 2
+  }
+}
 
+func main() {
+  var sl []int = []int{1, 2, 3}
 
+  Double(sl)
+  fmt.Println(sl)
+}
+// [2 4 6]
+```
 
 
 
