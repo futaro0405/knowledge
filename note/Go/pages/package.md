@@ -243,101 +243,59 @@ time.Duration型はtime.Time型と合わせて使用すると威力を発揮す�
 time.Time型に任意の時間間隔を与えることができる
 
 ```go
+// 現在時刻の2分15秒後
 t3 := time.Now()
 t3 = t3.Add(2*time.Minute + 15*time.Second)
 fmt.Println(t3)
+```
 
+時間の比較
+
+```go
+// 時間の比較
 t5 := time.Date(2020, 7, 24, 0, 0, 0, 0, time.Local)
 t6 := time.Now()
 
+// t5 - t6
 d2 := t5.Sub(t6)
 fmt.Println(d2)
 
+// 時刻を比較する 戻り値はtrue、false
+// t6はt5より前か
 fmt.Println(t6.Before(t5))
+// t6はt5より後か
 fmt.Println(t6.After(t5))
-fmt.Println(t5.Before(t6))
-fmt.Println(t5.After(t6))
-
-t7 := time.Date(2020, 10, 1, 9, 0, 0, 0, time.Local)
-t8 := time.Date(2020, 10, 1, 0, 0, 0, 0, time.UTC)
-fmt.Println(t7.Equal(t8))
-//fmt.Println(t7.Equal(t6))
-
-t9 := t5.AddDate(1, 0, 0)
-t10 := t5.AddDate(0, -1, 0)
-t11 := t5.AddDate(0, 0, 1)
-t12 := t5.AddDate(0, 2, -12)
-fmt.Println(t9)
-fmt.Println(t10)
-fmt.Println(t11)
-fmt.Println(t12)
-
-t13, err := time.Parse("2006/01/02", "2020/06/10")
-if err != nil {
-	log.Fatal(err)
-}
-fmt.Println(t13)
-
-t14, err := time.Parse(time.RFC822, "27 Nov 15 18:00 JST")
-if err != nil {
-	log.Fatal(err)
-}
-fmt.Println(t14)
-
-fmt.Printf("%T\n", t13.Format("2006/01/02"))
-
-utc := t14.UTC()
-fmt.Println(utc)
-
-jst := t.Local()
-fmt.Println(jst)
-
-unix := t13.Unix()
-fmt.Println(unix)
-
-time.Sleep(5 * time.Second)
-fmt.Println("5秒停止後表示")
-
-ch := time.Tick(3 * time.Second)
-for {
-	t15 := <-ch
-	fmt.Println(t15)
-}
-
-ch2 := time.After(5 * time.Second)
-fmt.Println(<-ch2)
-OuterLoop:
-for {
-	select {
-	case m := <-ch:
-		fmt.Println(m)
-	case <-time.After(2 * time.Second):
-		fmt.Println("Timed Out")
-		break OuterLoop
-	}
-}
 ```
 
+指定時間のスリープ
 
+```go
+// 5秒間停止
+time.Sleep(5 * time.Second)
+fmt.Println("5秒停止後表示")
+```
 
+## math
+数学に関連した機能
 
+mathパッケージの定数
 
+```go
+// 円周率
+fmt.Println(math.Pi)
+// 2の平方根
+fmt.Println(math.sqrt2)
+// 数値型に関する定数
+// float32で表現可能な最大値
+fmt.Println(math.MaxFloat32)
+// float32で表現可能な0でない最小値
+fmt.Println(math.SmallesNonzeroFloat32)
+// float64で表現可能な最大値
+fmt.Println(math.MaxFloat64)
+// float64で表現可能な0でない最小値
+fmt.Println(math.SmallestNonzeroFloat64)
 
+fmt.Println(math.MaxInt64)
+fmt.Println(math.MinInt64)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
