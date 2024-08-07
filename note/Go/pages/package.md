@@ -1040,16 +1040,55 @@ fmt.Println(match)
 
 幅を持たない正規表現のパターン
 
-|     | パターン一覧              |
-| --- | ------------------- |
-| ^   | 文頭（mフラグが有効な場合は行頭にも） |
+|      | パターン一覧              |
+| ---- | ------------------- |
+| `^`  | 文頭（mフラグが有効な場合は行頭にも） |
+| `$`  | 文末（mフラグが有効な場合は行末にも） |
+| `\A` | 文頭                  |
+| `\z` | 文末                  |
+| `\b` | ASCIIによるワード協会       |
+| `\B` | 非ASCIIによるワード協会      |
 
 ```go
 re4 := regexp.MustCompile(`^ABC$`)
 match = re4.MatchString("ABC")
 fmt.Println(match)
+
 match = re4.MatchString("  ABC  ")
 fmt.Println(match)
+
+// true
+// false
+```
+
+繰り返しを表す正規表現
+
+|           | 繰り返しのパターン             |
+| --------- | --------------------- |
+| `x*`      | 0回以上は繰り返すx（最大マッチ）     |
+| `x+`      | 1回以上は繰り返すx（最大マッチ）     |
+| `x?`      | 0回以上1回以下は繰り返すx        |
+| `X{n, m}` | n回以上m回以下は繰り返すx（最大マッチ） |
+| `x{n, }`  | n回以上は繰り返すx（最大マッチ）     |
+| `x{n}`    | n回繰り返すx（最大マッチ）        |
+| `x*?`     | 0回以上繰り返すx（最小マッチ）      |
+| `x+?`     | 1回以上繰り返すx（最小マッチ）      |
+| `x??`     | 0回以上1回以下は繰り返すx（0回優先）  |
+| `x{n,m}?` | n回以上m回以下は繰り返すx（最小マッチ） |
+| `x{n, }?` | n回以上繰り返すx（最小マッチ）      |
+| `x{n}?`   | n回繰り返すx（最小マッチ）        |
+
+```go
+re6 := regexp.MustCompile("a+b*")
+fmt.Println(re6.MatchString("ab"))
+fmt.Println(re6.MatchString("a"))
+fmt.Println(re6.MatchString("aaaabbbbbbbb"))
+fmt.Println(re6.MatchString("b"))
+
+// true
+// true
+// true
+// false
 ```
 
 /*
@@ -1064,11 +1103,7 @@ fmt.Println(match)
 match = re5.MatchString("\n")
 fmt.Println(match)
 
-re6 := regexp.MustCompile("a+b*")
-fmt.Println(re6.MatchString("ab"))
-fmt.Println(re6.MatchString("a"))
-fmt.Println(re6.MatchString("aaaabbbbbbbb"))
-fmt.Println(re6.MatchString("b"))
+
 
 re7 := regexp.MustCompile("A+?A+?X")
 fmt.Println(re7.MatchString("AAX"))
