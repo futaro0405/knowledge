@@ -294,8 +294,59 @@ fmt.Println(math.SmallesNonzeroFloat32)
 fmt.Println(math.MaxFloat64)
 // float64で表現可能な0でない最小値
 fmt.Println(math.SmallestNonzeroFloat64)
-
+// int64
 fmt.Println(math.MaxInt64)
 fmt.Println(math.MinInt64)
+```
+
+mathパッケージの関数
+
+```go
+// 絶対値
+fmt.Println(math.Abs(100))
+fmt.Println(math.Abs(-100))
+// 累乗を求める
+fmt.Println(math.Pow(0, 2))
+fmt.Println(math.Pow(2, 2))
+// 平方根、立方根
+fmt.Println(math.Sqrt(2))
+fmt.Println(math.Cbrt(8))
+// 最大値、最小値
+fmt.Println(math.Max(1, 2))
+fmt.Println(math.Min(1, 2))
+```
+
+小数点以下の切り捨て、切り上げ
+
+```go
+// 数値の正負を問わず、小数点以下を単純に切り捨てる
+fmt.Println(math.Trunc(3.14))
+fmt.Println(math.Trunc(-3.14))
+
+// 3
+// -3
+
+// 引数の数値より小さい最大の整数を返す
+fmt.Println(math.Floor(3.5))
+fmt.Println(math.Floor(-3.5))
+
+// 3
+// -4
+
+// 引数の数値より大きい最小の整数を返す
+fmt.Println(math.Ceil(3.5))
+fmt.Println(math.Ceil(-3.5))
+
+// 4
+// -3
+```
+
+## rand
+疑似乱数を生成する機能がまとめられたパッケージ。
+ランタイム全体で共有される疑似乱数生成と、任意のシード値を元にした疑似乱数生成などができる。
+最も単純な使い方は、`rand.Seed`へ任意のint64の数値を渡してデフォルトの疑似乱数生成器のシードを設定する方法
+rand.Float64はデフォルトの疑似乱数生成器を使って、0.0<=n<1.0　の条件を満たす疑似乱数を生成する。
+
+```go
 
 ```
