@@ -1013,18 +1013,44 @@ match = re2.MatchString("ABC")
 fmt.Println(match)
 ```
 
-//regexp.MustCompile("\\d")
-//regexp.MustCompile(`\d`)
+文字クラスを通常の文字リテラルに埋め込む
 
-re3 := regexp.MustCompile(`(?i)abc`)
+```go
+regexp.MustCompile("\\d")
+regexp.MustCompile(`\d`)
+```
+
+正規表現のフラグ
+
+|     | フラグ一覧                              |
+| --- | ---------------------------------- |
+| i   | 大文字小文字を区別しない                       |
+| m   | マルチラインモード（^と&が文頭、文末に加えて行頭、行末にマッチ）  |
+| s   | .が`\n`にマッチ                         |
+| U   | 最小マッチへの変換（`x*`は`x*?`へ、`x+`は`x+?`へ） |
+
+```go
+// i有効 ms無効
+re3 := regexp.MustCompile(`(?i-ms)abc`)
 match = re3.MatchString("ABC")
 fmt.Println(match)
 
+// true
+```
+
+幅を持たない正規表現のパターン
+
+|     | パターン一覧              |
+| --- | ------------------- |
+| ^   | 文頭（mフラグが有効な場合は行頭にも） |
+
+```go
 re4 := regexp.MustCompile(`^ABC$`)
 match = re4.MatchString("ABC")
 fmt.Println(match)
 match = re4.MatchString("  ABC  ")
 fmt.Println(match)
+```
 
 /*
 	re := regexp.MustCompile("ab")
