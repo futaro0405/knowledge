@@ -644,17 +644,58 @@ log.Panicf("Log%d\n", 3)
 ```
 
 任意のファイルを作成し、出力先に指定
+`on.Create`: ファイルを作成
 
 ```go
 f, err := os.Create("test.log")
 if err != nil {
 	return	
 }
+// 作成したio.Write型のファイルを出力先に指定
 log.SetOutput(f)
 log.Println("ファイルに書き込む")
 ```
 
+ログのフォーマットを指定
 
+```go
+log.SetOutput(os.Stdout)
+// ログのフォーマットを指定する
+// 標準のログフォーマット
+log.SetFlags(log.LstdFlags)
+log.Println("A")
+
+// マイクロ秒を追加
+log.SetFlags(log.Ldate | log.Ltime | log.Lmicroseconds)
+log.Printlln("B")
+
+// 時刻とファイルの行番号（短縮形）
+log.SetFlags(log.Ltime | log.Lshortfile)
+log.Printlln("C")
+
+log.setFlags(log.LstdFlags)
+// ログのプリフィックスを設定
+log.SetPrifix("[LOG]")
+log.Printlln("E")
+
+// 2024/07/07 01:02:03 A
+// 2024/07/07 01:02:03.655117 B
+// 01:02:03 main.go:24: C
+// [LOG]2024/07/07 01:02:03 E
+```
+
+ロガーの生成
+
+```go
+logger := log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
+logger.Fatalln("message")
+
+_, err = os.Open("fdafdsafa")
+
+if err != nil {
+	log.Fatalln("Exit", err)
+}
+```
 
 
 
