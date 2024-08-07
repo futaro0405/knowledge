@@ -413,11 +413,76 @@ var (
 
 // IntVar 整数オプション
 flag.IntVar(&max, "n", 32, "処理数の最大値")
+// StringVar 文字列のオプション
 flag.StringVar(&msg, "m", "", "処理メッセージ")
+// BoolVar bool型のオプション コマンドラインに与えられたらtrue なければfalse
 flag.BoolVar(&x, "x", false, "拡張オプション")
+
+// コマンドラインをパース
 flag.Parse()
 
 fmt.Println("処理数の最大値 =", max)
 fmt.Println("処理メッセージ =", msg)
 fmt.Println("拡張オプション =", x)
 ```
+
+## fmt
+
+```go
+// fmt標準
+fmt.Print("Hello")
+// 改行
+fmt.Println("Hello!")
+```
+
+Println系
+各々の文字列は半角スペースで区切られ、文字列の最後に改行を追加
+
+```go
+fmt.Println("Hello", "world!")
+fmt.Println("Hello", "world!")
+// Hello world!
+// Hello world!
+```
+
+Printf系
+フォーマットを指定
+
+```go
+fmt.Printf("%s\n", "Hello")
+fmt.Printf("%#v\n", "Hello")
+
+// Hello
+// "Hello"
+```
+
+Sprint系
+出力ではなくフォーマットした結果を文字列で返す
+
+```go
+s   := fmt.Sprint("Hello")
+s1 := fmt.Sprintf("%v\n", "Hello")
+s2 := fmt.Sprintln("Hello")
+
+fmt.Sprint(s)
+fmt.Sprintf(s1)
+fmt.Sprintln(s2)
+
+// Hello
+
+fmt.Fprint(os.Stdout, "Hello")
+fmt.Fprintf(os.Stdout, "Hello")
+fmt.Fprintln(os.Stdout, "Hello")
+```
+
+
+
+
+
+
+
+
+
+
+
+
