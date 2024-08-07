@@ -804,46 +804,87 @@ fmt.Println(fl1, fl2, fl3, fl4, fl5)
 文字列操作の機能がまとめられたパッケージ
 文字列の検索、結合、置換、その他処理
 
-#### 文字列の結合
+### 文字列の結合
 ```go
 s1 := strings.Join([]string{"A", "B", "C"}, ",")
 s2 := strings.Join([]string{"A", "B", "C"}, "")
 fmt.Println(s1, s2)
+
+// A,B,C ABC
 ```
 
-  
-  i1 := strings.Index("ABCDE", "A")
-  i2 := strings.Index("ABCDE", "D")
-  fmt.Println(i1, i2)
+### 文字列の検索
 
-  i3 := strings.LastIndex("ABCDABCD", "BC")
-  fmt.Println(i3)
+```go
+// 文字列が含まれる部分文字列を検索する
+// 含まれている場合Int型でindex番号を返す
+i1 := strings.Index("ABCDE", "A")
+i2 := strings.Index("ABCDE", "D")
+fmt.Println(i1, i2)
 
-  i4 := strings.IndexAny("ABC", "ABC")
-  i5 := strings.LastIndexAny("ABC", "ABC")
-  fmt.Println(i4, i5)
+// 0 3
 
-  b1 := strings.HasPrefix("ABC", "A")
-  b2 := strings.HasSuffix("ABC", "C")
-  fmt.Println(b1, b2)
+// 検索対象の文字列が複数含まれる場合
+// 最後の部分文字列が開始されるidex返す
+i3 := strings.LastIndex("ABCDABCD", "BC")
+fmt.Println(i3)
 
-  b3 := strings.Contains("ABC", "B")
-  b4 := strings.ContainsAny("ABCDE", "BD")
-  fmt.Println(b3, b4)
+// 5
 
-  i6 := strings.Count("ABCABC", "B")
-  i7 := strings.Count("ABCABC", "")
-  fmt.Println(i6, i7)
+// 検索対象のどれかが最初に現れるindexを返す
+i4 := strings.IndexAny("ABC", "ABC")
+// 検索対象のどれかが最後に現れるindexを返す
+i5 := strings.LastIndexAny("ABC", "ABC")
+fmt.Println(i4, i5)
 
-  s3 := strings.Repeat("ABC", 4)
-  s4 := strings.Repeat("ABC", 0)
-  fmt.Println(s3, s4)
+// 0 2
 
-  s5 := strings.Replace("AAAAAA", "A", "B", 1)
-  s6 := strings.Replace("AAAAAA", "A", "B", -1)
-  fmt.Println(s5, s6)
+// 検索対象の文字列が指定した文字列から開始されるか
+b1 := strings.HasPrefix("ABC", "A")
+// 検索対象の文字列が指定した文字列で終わるか
+b2 := strings.HasSuffix("ABC", "C")
+fmt.Println(b1, b2)
 
-  s7 := strings.Split("A,B,C,D,E", ",")
+// true true
+
+// 指定した文字列が含まれているか
+b3 := strings.Contains("ABC", "B")
+// 指定した文字列の中でいづれかの文字列が含まれるか
+b4 := strings.ContainsAny("ABCDE", "BD")
+fmt.Println(b3, b4)
+
+// true true
+
+// 指定した文字列が何回出現するか
+i6 := strings.Count("ABCABC", "B")
+// この場合文字列の長さ+1
+i7 := strings.Count("ABCABC", "")
+fmt.Println(i6, i7)
+
+// 2 7
+```
+
+### 文字列を繰り返し結合
+
+```go
+s3 := strings.Repeat("ABC", 4)
+s4 := strings.Repeat("ABC", 0)
+fmt.Println(s3, s4)
+
+// ABCABCABCABC
+```
+
+### 文字列の置換
+
+```go
+s5 := strings.Replace("AAAAAA", "A", "B", 1)
+s6 := strings.Replace("AAAAAA", "A", "B", -1)
+fmt.Println(s5, s6)
+
+// BAA
+```
+
+s7 := strings.Split("A,B,C,D,E", ",")
   fmt.Println(s7)
   s8 := strings.SplitAfter("A,B,C,D,E", ",")
   fmt.Println(s8)
