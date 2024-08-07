@@ -609,7 +609,7 @@ Goの文法上のエスケープをした文字列で出力する(ダブルク�
 シンプルなログ作成のための機能がまとめられたパッケージ
 
 ```go
-// ログの出力先を変更
+// ログの出力先を標準出力に変更
 log.SetOutput(os.Stdout)
 
 log.Print("Log\n")
@@ -620,3 +620,51 @@ log.Printf("Log%d\n", 3)
 // 2024/07/07 01:02:03 Log2
 // 2024/07/07 01:02:03 Log3
 ```
+
+```go
+log.SetOutput(os.Stdout)
+
+log.Fatal("Log\n")
+log.Fatalln("Log2")
+log.Fatalf("Log%d\n", 3)
+
+// 2024/07/07 01:02:03 Log
+// exit status 1
+```
+
+ログのfatalはosのExitを伴った処理となるのでこの段階で終了される
+
+panicは文字列を出力してパニック状態にしてプログラムを強制終了させる
+```go
+log.SetOutput(os.Stdout)
+
+log.Panic("Log\n")
+log.Panicln("Log2")
+log.Panicf("Log%d\n", 3)
+```
+
+任意のファイルを作成し、出力先に指定
+
+```go
+f, err := os.Create("test.log")
+if err != nil {
+	return	
+}
+log.SetOutput(f)
+log.Println("ファイルに書き込む")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
