@@ -877,34 +877,85 @@ fmt.Println(s3, s4)
 ### 文字列の置換
 
 ```go
-s5 := strings.Replace("AAAAAA", "A", "B", 1)
-s6 := strings.Replace("AAAAAA", "A", "B", -1)
+s5 := strings.Replace("AAAAA", "A", "B", 1)
+s6 := strings.Replace("AAAAA", "A", "B", -1)
 fmt.Println(s5, s6)
 
-// BAA
+// BAAAA BBBBB
 ```
 
+### 文字列の分割
+
+```go
+// セパレータ（,）で分割
 s7 := strings.Split("A,B,C,D,E", ",")
-  fmt.Println(s7)
-  s8 := strings.SplitAfter("A,B,C,D,E", ",")
-  fmt.Println(s8)
-  s9 := strings.SplitN("A,B,C,D,E", ",", 2)
-  fmt.Println(s9)
-  s10 := strings.SplitAfterN("A,B,C,D,E", ",", 4)
-  fmt.Println(s10)
+fmt.Println(s7)
+// セパレータ（,）を残して分割
+s8 := strings.SplitAfter("A,B,C,D,E", ",")
+fmt.Println(s8)
+// 2分割
+s9 := strings.SplitN("A,B,C,D,E", ",", 2)
+fmt.Println(s9)
+// セパレータを残して4分割
+s10 := strings.SplitAfterN("A,B,C,D,E", ",", 4)
+fmt.Println(s10)
 
-  s11 := strings.ToLower("ABC")
-  s12 := strings.ToLower("E")
+// [A B C D E]
+// [A, B, C, D, E]
+// [A B C, D E]
+// [A, B, C, D,E]
+```
 
-  s13 := strings.ToUpper("abc")
-  s14 := strings.ToUpper("e")
-  fmt.Println(s11, s12, s13, s14)
+#### 大文字小文字の変換
 
-  s15 := strings.TrimSpace("    -    ABC    -    ")
-  s16 := strings.TrimSpace("\tABC\r\n")
-  s17 := strings.TrimSpace("　　　　ABC　　　　")
-  fmt.Println(s15, s16, s17)
+```go
+s11 := strings.ToLower("ABC")
+s12 := strings.ToLower("E")
 
-  s18 := strings.Fields("a b c")
-  fmt.Println(s18)
-  fmt.Println(s18[1])
+s13 := strings.ToUpper("abc")
+s14 := strings.ToUpper("e")
+fmt.Println(s11, s12, s13, s14)
+
+// abc ABC E
+```
+
+### 文字列から空白を取り除く
+
+```go
+s15 := strings.TrimSpace("    -    ABC    -    ")
+// 全角空白
+s16 := strings.TrimSpace("　　　　ABC　　　　")
+fmt.Println(s15, s16)
+
+// -    ABC    - ABC
+```
+
+### スペースで区切られたフィールドの取得
+
+```go
+s18 := strings.Fields("a b c")
+fmt.Println(s18)
+fmt.Println(s18[1])
+
+// [a b c]
+// b
+```
+
+## bufio
+基本的な入出力処理
+
+```go
+// 標準入出力を行単位で読み込む
+// 標準入力をソースにしたスキャナの作成
+scanner := bufio.NewScanner(os.Stdin)
+
+// 入力のスキャンが成功する限り繰り返す
+for scanner.Scan() {
+	fmt.Println(scanner.Text())
+}
+
+// スキャンにエラーが発生した場合は
+if err := scanner.Err(); err != nil {
+	fmt.Println(os.Stderr)
+}
+```
