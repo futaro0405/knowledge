@@ -705,59 +705,55 @@ goの基本的なデータとストリング型の相互変換をサポートす
 ```go
 bt := true
 fmt.Printf("%T\n", strconv.FormatBool(bt))
+
+// string
+```
+
+整数を文字列に変換
+
+```go
+ // -100を10進数の文字列に変換
+i := strconv.FormatInt(-100, 10)
+fmt.Printf("%v, %T\n", i, i)
+// 上と同じ
+i2 := strconv.Itoa(100)
+fmt.Printf("%v, %T\n", i2, i2)
+
+// -100 string
+// 100 string
+  ```
+
+浮動小数点型を文字列に変換
+第1引数： データ
+第2引数： 浮動小数点型の書式を表す文字でフォーマットパッケージにおける書式指定子と同様の意味
+第3引数： 桁数の制限。-1を指定した場合、文字列化に必要な桁数が自動で設定される
+第4引数： 文字列化する浮動小数点型の精度。ビット数。
+
+```go
+// 浮動小数点型を文字列に変換
+fmt.Println(strconv.FormatFloat(123.456, 'E', -1, 64))
+// 指数表現による文字列化（小数点以下2桁まで）
+fmt.Println(strconv.FormatFloat(123.456, 'e', 2, 64))
+// 実数表現による文字列化
+fmt.Println(strconv.FormatFloat(123.456, 'f', -1, 64))
+// 実数表現による文字列化（小数点2桁まで）
+fmt.Println(strconv.FormatFloat(123.456, 'f', 2, 64))
+// 指数部の大きさで変動する表現による文字列化
+fmt.Println(strconv.FormatFloat(123.456, 'g', -1, 64))
+fmt.Println(strconv.FormatFloat(123456789.123, 'f', -1, 64))
+// 指数部の大きさで変動する表現による文字列化（仮数部全体が4桁まで）
+fmt.Println(strconv.FormatFloat(123.456, 'g', 4, 64))
+// 指数部の大きさで変動する表現による文字列化（仮数部全体が8桁まで）
+fmt.Println(strconv.FormatFloat(123456789.123, 'G', 8, 64))
+```
+
+文字列を真偽値に変換
+```go
+
 ```
 
 
-
-
 ```go
-  /*
-    bt := true
-    fmt.Printf("%T\n", strconv.FormatBool(bt))
-  */
-
-  /*
-    i := strconv.FormatInt(-100, 10)
-    fmt.Printf("%v, %T\n", i, i)
-
-    i2 := strconv.Itoa(100)
-    fmt.Printf("%v, %T\n", i2, i2)
-  */
-
-  /*
-    fmt.Println(strconv.FormatFloat(123.456, 'E', -1, 64))
-    fmt.Println(strconv.FormatFloat(123.456, 'e', 2, 64))
-    fmt.Println(strconv.FormatFloat(123.456, 'f', -1, 64))
-    fmt.Println(strconv.FormatFloat(123.456, 'f', 2, 64))
-    fmt.Println(strconv.FormatFloat(123.456, 'g', -1, 64))
-    fmt.Println(strconv.FormatFloat(123456789.123, 'f', -1, 64))
-    fmt.Println(strconv.FormatFloat(123.456, 'g', 4, 64))
-    fmt.Println(strconv.FormatFloat(123456789.123, 'G', 8, 64))
-  */
-
-  /*
-    bt1, _ := strconv.ParseBool("true")
-    fmt.Printf("%v, %T\n", bt1, bt1)
-    bt2, _ := strconv.ParseBool("1")
-    bt3, _ := strconv.ParseBool("t")
-    bt4, _ := strconv.ParseBool("T")
-    bt5, _ := strconv.ParseBool("TRUE")
-    bt6, _ := strconv.ParseBool("True")
-    fmt.Println(bt2, bt3, bt4, bt5, bt6)
-
-    bf1, ok := strconv.ParseBool("false")
-    if ok != nil {
-      fmt.Println("Convert Error")
-    }
-    fmt.Printf("%v, %T\n", bf1, bf1)
-    bf2, _ := strconv.ParseBool("0")
-    bf3, _ := strconv.ParseBool("f")
-    bf4, _ := strconv.ParseBool("F")
-    bf5, _ := strconv.ParseBool("FALSE")
-    bf6, _ := strconv.ParseBool("False")
-    fmt.Println(bf2, bf3, bf4, bf5, bf6)
-  */
-
   /*
     i3, _ := strconv.ParseInt("12345", 10, 0)
     fmt.Printf("%v, %T\n", i3, i3)
