@@ -6,3 +6,14 @@
 GoでのCRUD(Create, Read, Update, Delete)処理について、学習します。
 デザインは非常にシンプルなので、各自カスタマイズしていただけると嬉しいです。
 
+## configの設定
+
+config.ini作成
+config.go作成
+configList
+LoadConfig
+init
+main.go作成
+
+## logの設定
+utils/logging.go作成
