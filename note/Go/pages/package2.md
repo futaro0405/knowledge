@@ -48,7 +48,6 @@ func main() {
 	fmt.Println(re1.Split("aaaaaaaaaa     bbbbbbb  cccccc", -1))
 }
 ```
-
 # sync
 goの非同期処理における排他作業や同期処理を支援する機能がまとめられたパッケージ。
 
@@ -101,8 +100,9 @@ var st2 struct{ A, B, C int }
 
 var mutex *sync.Mutex
 
-// Mu
+// Mutexを保持するパッケージ変数
 func UpdateAndPrint(n int) {
+	// ロック
 	mutex.Lock()
 
 	st2.A = n
@@ -113,6 +113,7 @@ func UpdateAndPrint(n int) {
 	time.Sleep(time.Microsecond)
 	fmt.Println(st2)
 
+	// アンロック
 	mutex.Unlock()
 }
 
@@ -128,6 +129,85 @@ func main() {
 	}
 	for {
 	}
+}
+// ...
+ // [996 996 996]
+ // ...
+```
+
+ロックしている間はひとつのゴルーチンしか処理を行えない
+そのため、`UpdateAndPrint()`は常にひとつのゴルーチンが一貫性をもって実行できるようになる
+
+## ゴルーチンの処理を待ち受ける
+ゴルーチンを待ち受けることで無限ループを行わないと実行されない状態を脱却する
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+// ゴルーチンの終了を待ち受ける
+func main() {
+	// sync.waitGroupを生成
+	wg := new(sync.WaitGroup)
+	// 待ち受けるゴルーチンの数は3
+	wg.Add(3)
+
+	go func() {
+		for i := 0; i < 100; i++ {
+			fmt.Println("1st Goroutine")
+		}
+		// 完了
+		wg.Done()
+	}()
+	go func() {
+		for i := 0; i < 100; i++ {
+			fmt.Println("2nd Goroutine")
+		}
+		// 完了
+		wg.Done()
+	}()
+	go func() {
+		for i := 0; i < 100; i++ {
+			fmt.Println("3rd Goroutine")
+		}
+		// 完了
+		wg.Done()
+	}()
+
+	wg.Wait()
+}
+```
+
+# crypt
+MD5ハッシュ値を生成
+
+```go
+package main
+
+import (
+	"crypto/md5"
+	"fmt"
+	"io"
+)
+
+func main() {
+// 
+	h := md5.New()
+	io.WriteString(h, "ABCDE")
+
+	//b := []byte{12, 34, 55, 3}
+
+	fmt.Println(h.Sum(nil))
+	//fmt.Println(h.Sum(b))
+
+	//fmt.Println(b)
+
+	s := fmt.Sprintf("%x", h.Sum(nil))
+	fmt.Println(s)
 }
 ```
 
