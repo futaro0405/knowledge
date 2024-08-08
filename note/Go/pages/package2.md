@@ -67,6 +67,67 @@ import (
 var st struct{ A, B, C int }
 
 func UpdateAndPrint(n int) {
+	st.A = n
+	time.Sleep(time.Microsecond)
+	st.B = n
+	time.Sleep(time.Microsecond)
+	st.C = n
+	time.Sleep(time.Microsecond)
+	fmt.Println(st)
+}
 
+func main() {
+	for i := 0; i < 5; i++ {
+		go func() {
+			for i := 0; i < 1000; i++ {
+				UpdateAndPrint(i)
+			}
+		}()
+	}
+	for {
+
+	}
+}
+// ...
+// [996 996 999]
+// ...
+```
+
+Mutexによる同期処理
+`sync.Mutex`を使用して書き換える
+
+```go
+var st2 struct{ A, B, C int }
+
+var mutex *sync.Mutex
+
+// Mu
+func UpdateAndPrint(n int) {
+	mutex.Lock()
+
+	st2.A = n
+	time.Sleep(time.Microsecond)
+	st2.B = n
+	time.Sleep(time.Microsecond)
+	st2.C = n
+	time.Sleep(time.Microsecond)
+	fmt.Println(st2)
+
+	mutex.Unlock()
+}
+
+func main() {
+	mutex = new(sync.Mutex)
+
+	for i := 0; i < 5; i++ {
+		go func() {
+			for i := 0; i < 1000; i++ {
+				UpdateAndPrint(i)
+			}
+		}()
+	}
+	for {
+	}
 }
 ```
+
