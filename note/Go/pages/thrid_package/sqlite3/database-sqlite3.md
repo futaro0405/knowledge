@@ -82,7 +82,7 @@ type Person struct {
 
 func main() {
 	cmd := "SELECT * FROM persons where age = ?"
-	// QueryRow 1レコードしゅ
+	// QueryRow 1レコード取得
 	row := DbConnection.QueryRow(cmd, 25)
 	var p Person
 	err = row.Scan(&p.Name, &p.Age)
@@ -96,3 +96,58 @@ func main() {
 	fmt.Println(p.Name, p.Age)
 }
 ```
+
+## 複数のデータの取得
+
+```go
+var DbConnection *sql.DB
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	cmd := "SELECT * FROM persons"
+	// Query() 条件にあうものすべて取得
+	rows, _ := DbConnection.Query(cmd)
+	defer rows.Close()
+
+	var pp []Person
+	for rows.Next() {
+		var p Person
+		err := rows.Scan(&p.Name, &p.Age)
+		if err != nil {
+			log.Println(err)
+		}
+		pp = append(pp, p)
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for _, p := range pp {
+		fmt.Println(p.Name, p.Age)
+	}
+}
+```
+
+## データの削除
+
+```go
+var DbConnection *sql.DB
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	cmd := "DELETE FROM persons WHERE name = ?"
+	_, err := DbConnection.Exec(cmd, "Nancy")
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+```
+
