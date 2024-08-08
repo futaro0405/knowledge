@@ -394,10 +394,11 @@ func main() {
 
 	var u2 User
 
-	if err := json.Unmarshal(bs, &u2); err != nil {
+	if err := json.Unmarshal(bs, u2); err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(u2)
 }
 
 ```
+
