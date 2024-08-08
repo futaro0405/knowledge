@@ -519,3 +519,58 @@ func main() {
 	fmt.Println(lt)
 }
 ```
+
+# context
+APIのサーバやクライアントを使う際にコンテキストを提供してキャンセルやタイムアウトを行える仕組み
+```go
+func longProcess(ctx context.Context, ch chan string) {
+	fmt.Println("開始")
+	time.Sleep(2 * time.Second)
+	fmt.Println("終了")
+	ch <- "実行結果"
+}
+
+func main() {
+	ch := make(chan string)
+	// context作成
+	ctx := context.Background()
+	// 1秒間のタイムアウトを付与して再定義
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+
+	go longProcess(ctx, ch)
+
+L:
+	for {
+		select {
+		case <-ctx.Done():
+			fmt.Println("##########Error###########")
+			fmt.Println(ctx.Err())
+			break L
+		case s := <-ch:
+			fmt.Println(s)
+			fmt.Println("success")
+			break L
+		}
+	}
+	fmt.Println("ループ抜けた")
+}
+```
+
+# net/url
+URL文字列を処理する機能を備えたパッケージ
+URLのパースや生成ができる
+
+## URLのパース
+
+```go
+u, _ := url.Parse("http://example.com/search?a=1&b=2#top")
+fmt.Println(u.Scheme)
+fmt.Println(u.Host)
+fmt.Println(u.Path)
+fmt.Println(u.RawQuery)
+fmt.Println(u.Fragment)
+
+fmt.Println(u.IsAbs())
+fmt.Println(u.Query())
+```
