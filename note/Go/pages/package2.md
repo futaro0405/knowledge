@@ -473,3 +473,49 @@ func main() {
 
 // [{A 20} {F 40} {b 10} {c 30} {i 30} {t 15} {w 30} {y 30}]
 ```
+
+sliceとslicetableのsortは何が異なるか
+違いは安定ソートであるかどうか
+ソートのアルゴリズムのうち同等なデータのソートがソート前の順番とソート後で保存されているか
+ソート途中の各状態で常に順番の位置関係を保っていること
+
+## カスタムsort
+
+```go
+type Entry struct {
+	Name  string
+	Value int
+}
+type List []Entry
+
+func (l List) Len() int {
+	return len(l)
+}
+func (l List) Swap(i, j int) {
+	l[i], l[j] = l[j], l[i]
+}
+// ここをカスタマイズする
+func (l List) Less(i, j int) bool {
+	if l[i].Value == l[j].Value {
+		return (l[i].Name < l[j].Name)
+	} else {
+		return (l[i].Value < l[j].Value)
+	}
+}
+
+func main() {
+	m := map[string]int{"ada": 1, "hoge": 4, "basha": 3, "poeni": 3}
+	
+	lt := List{}
+	for k, v := range m {
+		e := Entry{k, v}
+		lt = append(lt, e)
+	}
+	// Sort
+	sort.Sort(lt)
+	fmt.Println(lt)
+	// Reverse
+	sort.Sort(sort.Reverse(lt))
+	fmt.Println(lt)
+}
+```
