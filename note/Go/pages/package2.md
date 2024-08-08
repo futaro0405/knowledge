@@ -265,11 +265,15 @@ import (
 type A struct{}
 
 type User struct {
+//	ID         int              `json:"id,string"` string型
+//	ID         int              `json:"-"` 表示しない
 	ID         int              `json:"id"`
 	Name    string         `json:"name"`
 	Email     string        `json:"email"`
 	Created  time.Time `json:"created"`
 	A           *A            `json:"A",omitempty`
+	// omitempty 値を隠す
+	// stractはポインタを渡して隠す
 }
 
 func main() {
@@ -279,22 +283,32 @@ func main() {
 	u.Email = "example@example.com"
 	u.Created = time.Now()
 
+	// Marshal JSONに変換
+	// bs: 構造体をJSONに変換した値をbyteのsliceで受け取る
 	bs, err := json.Marshal(u)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(bs)
+	
 	fmt.Println(string(bs))
-
-	fmt.Printf("%T\n", bs)
-
-	var u2 User
-
-	if err := json.Unmarshal(bs, &u2); err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(u2)
 }
 
+// {"id":1, name:"test", "email":"example@example.com", created: "2024-01-01 20:00:00"}
 ```
+
+## JSONから構造体へ変換
+
+```go
+
+fmt.Printf("%T\n", bs)
+
+u2 :＝ new(User)
+
+// Unmarshal JSONをデータに変換
+if err := json.Unmarshal(bs, &u2); err != nil {
+	fmt.Println(err)
+}
+fmt.Println(u2)
+```
+
+## Marshalのカスタム
