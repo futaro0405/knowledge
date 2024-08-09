@@ -88,3 +88,22 @@ func (u *User) GetTodosByUser() (todos []Todo, err error) {
 
 		return todos, err
 }
+
+func (t *Todo) UpdateTodo() error {
+	cmd := `update todos set content = ?, user_id = ?
+		where id = ?`
+	_, err = Db.Exec(cmd, t.Content, t.UserID, t.ID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return err
+}
+
+func (t *Todo) DeleteTodo() error {
+	cmd := `delete from todos where id = ?`
+	_, err = Db.Exec(cmd, t.ID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return err
+}

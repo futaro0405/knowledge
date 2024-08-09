@@ -32,4 +32,8 @@ config..goのinitにloggingSettingsを設定
 5. Todoの取得（マルチセレクト２）
 6. Todoの更新（Update)
 7. Todoの削除（Delete)
+# 4.Server
+1. サーバーを呼び出す
+2. JqueryとBootstarapを設定する
+3. よく使うレイアウトを共通化する
 
