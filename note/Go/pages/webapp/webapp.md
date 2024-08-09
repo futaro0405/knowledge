@@ -51,6 +51,14 @@ config..goのinitにloggingSettingsを設定
 templates := template.Must(template.ParseFiles(files...))
 ```
 **template.ExecuteTamplate**
+```go
+//difineでテンプレートを定義した場合、ExecuteTemplateでlayoutを明示的に指定する必要がある
+ templates.ExecuteTemplate(writer, "layout", data)
+```
 
-1.     //difineでテンプレートを定義した場合、ExecuteTemplateでlayoutを明示的に指定する必要がある
-2.     templates.ExecuteTemplate(writer, "layout", data)
+# 5.authenticate
+1. ユーザーの登録ページの作成
+2. ユーザーのログインページの作成
+3. ユーザーのログアウト１
+4. ユーザーのログアウト２
+
