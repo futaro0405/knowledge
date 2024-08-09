@@ -24,9 +24,12 @@ config..goのinitにloggingSettingsを設定
 4. ユーザーの更新（Update）
 5. ユーザーの削除（Delete)
 
-## DBの作成 + Userテーブルの設定、作成
-app/models/base.goの作成
-## ユーザーの作成（Create）
-app/models/user.goの作成
-UUIDとpasswordを作成する関数の作成
-## ユーザーの取得（Read）
+# 3.Todo
+1. Todoテーブルの作成
+2. Todoの作成（Create）
+3. Todoの取得（シングルセレクト）（Read）
+4. Todoの取得（マルチセレクト）
+5. Todoの取得（マルチセレクト２）
+6. Todoの更新（Update)
+7. Todoの削除（Delete)
+
