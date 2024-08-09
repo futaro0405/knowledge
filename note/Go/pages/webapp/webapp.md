@@ -26,3 +26,7 @@ config..goのinitにloggingSettingsを設定
 
 ## DBの作成 + Userテーブルの設定、作成
 app/models/base.goの作成
+## ユーザーの作成（Create）
+app/models/user.goの作成
+UUIDとpasswordを作成する関数の作成
+## ユーザーの取得（Read）
