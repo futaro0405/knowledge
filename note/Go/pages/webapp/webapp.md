@@ -23,3 +23,6 @@ config..goのinitにloggingSettingsを設定
 3. ユーザーの取得（Read）
 4. ユーザーの更新（Update）
 5. ユーザーの削除（Delete)
+
+## DBの作成 + Userテーブルの設定、作成
+app/models/base.goの作成
