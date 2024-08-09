@@ -37,3 +37,20 @@ config..goのinitにloggingSettingsを設定
 2. JqueryとBootstarapを設定する
 3. よく使うレイアウトを共通化する
 
+## difine
+`{‌{difine "layout"}}{‌{end}}`や`{‌{template "content"}}{‌{end}}`などはGoのテンプレートエンジンの記法です。
+この例ではlayoutテンプレートとして定義し、その中で部品となるcontentテンプレートをincludeしています。
+### GenelateHTMLの中身
+
+**template.Must**
+```go
+//テンプレートのキャッシュを作成
+//template.Must()は独自にエラーチェックを行うため、errorを返り値には持たず、ハンドリングする必要がありません。
+//つまりParseFilesがエラーの場合、panicになる。
+//template.ParseFiles()は可変長引数をとり、その引数としてキャッシュさせたいファイルの名前を指定します。
+templates := template.Must(template.ParseFiles(files...))
+```
+**template.ExecuteTamplate**
+
+1.     //difineでテンプレートを定義した場合、ExecuteTemplateでlayoutを明示的に指定する必要がある
+2.     templates.ExecuteTemplate(writer, "layout", data)
