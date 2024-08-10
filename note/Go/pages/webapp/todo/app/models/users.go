@@ -85,4 +85,16 @@ func GetUserByEmail(email string) (user User, err error) {
 		&user.PassWord,
 		&user.CreatedAt,
 	)
+	return user, err
+}
+
+func (u *User) CreateSession() (session Session, err error) {
+	session = Session{}
+	cmd1 := `insert into sessions (
+		uuid,
+		email,
+		user_id,
+		created_at
+) values (?, ?, ?, ?
+	)`
 }
