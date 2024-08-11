@@ -91,10 +91,47 @@ func GetUserByEmail(email string) (user User, err error) {
 func (u *User) CreateSession() (session Session, err error) {
 	session = Session{}
 	cmd1 := `insert into sessions (
-		uuid,
-		email,
-		user_id,
-		created_at
-) values (?, ?, ?, ?
-	)`
+			uuid,
+			email,
+			user_id,
+			created_at
+		) values (?, ?, ?, ?)`
+
+	_, err = Db.Exec(cmd1, createUUID(), u.Email, u.ID, time.Now())
+	if err != nil {
+		log.Println(err)
+	}
+	cmd2 := `select id,uuid, email, user_id, created_at
+		from sessions where user_id = ? and email = ?`
+
+	err = Db.QueryRow(cmd2, u.ID, u.Email).Scan(
+		&session.ID,
+		&session.UUID,
+		&session.Email,
+		&session.UserID,
+		&session.CreatedAt,
+	)
+
+	return session, err
+}
+
+func (sess *Session) CheckSession() (valid bool, err error) {
+	cmd := `select id, uuid, email, user_id, created_at
+	from sessions where uuid = ?`
+
+	err = Db.QueryRow(cmd, sess.UUID).Scan(
+		&sess.ID,
+		&sess.UUID,
+		&sess.Email,
+		&sess.UserID,
+		&sess.CreatedAt,
+	)
+	if err != nil {
+		valid = false
+		return
+	}
+	if sess.ID != 0 {
+		valid = true
+	}
+	return valid, err
 }
