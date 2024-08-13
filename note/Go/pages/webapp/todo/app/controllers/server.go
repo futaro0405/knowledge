@@ -26,6 +26,24 @@ func sessin(w http.ResponseWriter, r *http.Request) (sess models.Session, err er
 	return sess, err
 }
 
+var validPath = regexp.MustCompile("^/todos/(edit|update)/([0-9]+)$")
+
+func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		q := validPath.FindStringSubmatch(r.URL.Path)
+		if q == nil {
+			http.NotFound(w, r)
+			return
+		}
+		qi, err := strconv.Atoi(q[2])
+		if err != nil {
+			http.NotFound(w, r)
+			return
+		}
+		fn(w, r, qi)
+	}
+}
+
 func StartMainServer() error {
 	files := http.FileServer(http.Dir(config.Config.Static))
 
