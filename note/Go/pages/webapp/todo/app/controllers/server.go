@@ -56,5 +56,6 @@ func StartMainServer() error {
 	http.HandleFunc("/todos", index)
 	http.HandleFunc("/todos/new", todoNew)
 	http.HandleFunc("/todos/save", todoSave)
+	http.HandleFunc("/todos/edit", parseURL(todoEdit))
 	return http.ListenAndServe(":"+config.Config.Port, nil)
 }
