@@ -61,4 +61,9 @@ templates := template.Must(template.ParseFiles(files...))
 2. ユーザーのログインページの作成
 3. ユーザーのログアウト１
 4. ユーザーのログアウト２
+# 6.route_main
+1. Todoの一覧ページの作成
+2. Todoの作成ページの作成
+3. Todoの更新ページの作成
+4. Todoの削除の作成
 
