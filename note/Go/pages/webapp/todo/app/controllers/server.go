@@ -25,3 +25,14 @@ func StartMainServer() error {
 	http.HandleFunc("/authenticate", authenticate)
 	return http.ListenAndServe(":"+config.Config.Port, nil)
 }
+
+func sessin(w http.ResponseWriter, r *http.Request) (sess models.Session, err error) {
+	cookie, err := r,Cookie("_cookie")
+	if err == nil {
+		sess = models.Session{UUID: cookie.Value}
+		if ok, _ := sess.CheckSeesion(); :ok {
+			err = fmt.Errorf("Invalid session")
+		}
+	}
+	return sess, err
+}
