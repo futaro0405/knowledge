@@ -77,3 +77,53 @@ go mod tidy
 go run main.go
 ```
 で実行可能です
+
+# herokuで公開準備
+## github登録
+gitについては、レクチャー３gitをインストールするを参考にしてください。
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_00-56-31-9efcc4ce4e8aecfccaac01abed5aba13.png)
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_00-56-31-26331b2725e709236c9ffdd062d06263.png)
+
+Username Email PassWordを入力して、アカウントを作成します。
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_00-56-31-e21be2667dab36444b7eb5cd90e78fee.png)
+
+無料プランを選択します。
+
+  
+
+アカウントを作成したら、リポジトリを作成します。
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_03-11-32-d2153001acc60743c2a88a053caac7f2.png)
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_03-12-04-17b38cdc8002c82e181adea5f3e38a88.PNG)
+
+リポジトリを作成しましたら、下記のようになります。
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_03-12-21-81188cb15209e17ab64e6b613010fb22.PNG)
+
+**次回で使用するコマンド**
+
+...or create a new repository on the command lineの中のコマンドを使用して、githubに保存します。
+
+  
+
+> heroku登録
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_00-57-07-18c404bc3f239a4a975812050018079d.PNG)
+
+アカウントを作成します。
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_00-57-08-d958a3a884c6adacf16dfacf085fcf3a.PNG)
+
+OSに合わせてインストールします。
+
+下記画像を参考に進めてください。
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_00-57-07-a028e560d5b86a446e319052a727bf37.PNG)
+
+コマンドラインツールをインストールしたら、ターミナルもしくはコマンドラインで確認します。
+
+![](https://img-c.udemycdn.com/redactor/raw/article_lecture/2021-03-28_00-57-07-60ddb7cbfd57ab7929bb77e784f33c7a.PNG)
