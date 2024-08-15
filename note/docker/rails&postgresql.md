@@ -10,12 +10,12 @@ tags: docker ruby-on-Rails postgresql
 # 開発環境について
 構築する開発環境は以下のようになります。
 
-| App名 | バージョン |
-|:-- |:--:|
-| Ruby | 3.2.2 |
-| Ruby on Rails | 7.0.6 |
-| postgres | 12 |
-| docker-compose | 3.9 |
+| App名           | バージョン |
+| :------------- | :---: |
+| Ruby           | 3.2.2 |
+| Ruby on Rails  | 7.0.6 |
+| postgres       |  12   |
+| docker-compose |  3.9  |
 
 # 構築手順
 ## 1. 必要なファイルを作成
