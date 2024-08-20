@@ -21,13 +21,6 @@ VueではHTMLをベースとしたテンプレート構文を使用していま�
 <p>Using text interpolation: {{ rawHtml }}</p>
 <p>Using v-html directive: <span v-html="rawHtml"></span></p>
 ```
-
-```
-Using text interpolation: <span style="color: red">This should be red.</span>
-
-Using v-html directive: This should be red.
-```
-
 ## 属性バインディング
 HTML属性の中ではマスタッシュ構文は使用できません。
 代わりに `v-bind` ディレクティブを使用します。
