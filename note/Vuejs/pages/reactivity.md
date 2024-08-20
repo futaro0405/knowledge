@@ -1,55 +1,21 @@
 # リアクティビティの基礎
-## `ref()`
+リアクティビティとは、javascriptの状態の変化を自動的に追跡して、変化が起こった際に効率的にDOMを更新する機能のこと。
+## リアクティビティの宣言
 `ref()`関数を用いてリアクティブな状態の宣言を行います。
+```
+```
 
 ```js
-import { ref } from 'vue'
-
-const count = ref(0)
-```
-
-コンポーネントのテンプレート内で`ref`にアクセスするためには`setup()`関数を宣言します。
-
-```js
-import { ref } from 'vue'
-
-export default {
-  setup() {
-    const count = ref(0)
-
-    // ref をテンプレートに公開します
-    return {
-      count
-    }
-  }
-}
-```
-
-```html
-<div>{{ count }}</div>
-```
-
-## `<script setup>`
-`setup()`は単一コンポーネントでは`<script setup>`によって短縮することができます。
-
-```vue
 <script setup>
-import { ref } from 'vue'
+	import { ref } from 'vue'
 
-const count = ref(0)
-
-function increment() {
-  count.value++
-}
+	const count = ref(0)
 </script>
 
 <template>
-  <button @click="increment">
-    {{ count }}
-  </button>
+<div>{{ count }}</div>
 </template>
 ```
-
 ### ref を使う理由
 Vueのリアクティビティを理解するために普通の変数と`ref()`の違いを理解します。
 
