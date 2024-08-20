@@ -21,7 +21,8 @@ const count = ref(0)
 </template>
 ```
 
-この例では、`<script setup>`ブロック内で状態を管理し、`<template>`ブロックでUIを定義しています。ボタンをクリックすると、`count`の値が増加します。
+この例では、`<script setup>`ブロック内で状態を管理し、`<template>`ブロックでUIを定義しています。
+ボタンをクリックすると、`count`の値が増加します。
 
 ### JavaScriptオブジェクトによるコンポーネント定義
 ビルドステップを使用しない場合、VueコンポーネントはプレーンなJavaScriptオブジェクトとして定義できます。
