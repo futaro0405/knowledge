@@ -31,3 +31,16 @@ Add Prettier for code formatting? ... No / Yes
 Add Vue DevTools 7 extension for debugging? (experimental) » No / Yes
 ```
 
+これで開発環境が整いました。
+
+vite.config.js
+viteの設定ファイル
+
+
+```bash
+cd vue-lesson
+npm install
+npm run format
+npm run dev
+```
+
