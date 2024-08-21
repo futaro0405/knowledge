@@ -1,6 +1,6 @@
 # 初級
 - [[note/TypeScript/pages/beginner/typeScript|TypeScriptとは]]
-- [[environment|環境構築]]
+- [[note/TypeScript/pages/beginner/environment|環境構築]]
 - [[compare|TypeScriptのコンパイル]]
 - [[setting|TypeScriptの設定]]
 - [[基本的な型宣言]]
