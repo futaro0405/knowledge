@@ -19,7 +19,15 @@ vuejs公式がviteを使ってvuejsの環境を構築するコマンドをあら
 ```bash
 npm run create vue@latest
 
-Project name:
-Add TypeScript?
-
+Project name: ... vue-lesson
+Add TypeScript? ... No / Yes
+Add JSX Support? ... No / Yes
+Add Vue Router for Single Page Application development? ... No / Yes
+Add Pinia for state management? ... No / Yes
+Add Vitest for Unit Testing? ... No / Yes
+Add an End-to-End Testing Solution? » No
+Add ESLint for code quality? ... No / Yes
+Add Prettier for code formatting? ... No / Yes
+Add Vue DevTools 7 extension for debugging? (experimental) » No / Yes
 ```
+
