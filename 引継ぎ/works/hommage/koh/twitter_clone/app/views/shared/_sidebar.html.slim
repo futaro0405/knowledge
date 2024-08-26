@@ -1,0 +1,50 @@
+- if user_signed_in?
+  .col-3.px-sm-2.px-0.text-dark.border.border-top-0
+    .d-flex.flex-column.align-items-center.align-items-sm-start.px-1.pt-2.min-vh-100
+      ul.nav.nav-pills.flex-column.mb-0.align-items-center.align-items-sm-start
+        li
+          = link_to root_path, data: { turbo: false }, class: "nav-link align-middle text-dark px-0 d-flex align-items-center"
+            i.fs-4.bi-house.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | ホーム
+        li
+          a.nav-link.align-middle.text-dark.px-0.d-flex.align-items-center[href="#"]
+            i.fs-4.bi-search.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | 話題を検索
+        li
+          = link_to notifications_path, data: { turbo: false }, class: "nav-link align-middle text-dark px-0 d-flex align-items-center"
+            i.fs-4.bi-bell.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | 通知
+        li
+          = link_to rooms_path, data: { turbo: false }, class: "nav-link align-middle text-dark px-0 d-flex align-items-center"
+            i.fs-4.bi-envelope.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | メッセージ
+        li
+          = link_to bookmarks_path, data: { turbo: false }, class: "nav-link align-middle text-dark px-0 d-flex align-items-center"
+            i.fs-4.bi-bookmark.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | ブックマーク
+        li
+          a.nav-link.align-middle.text-dark.px-0.d-flex.align-items-center[href="#"]
+            i.fs-4.bi-twitter.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | Twitter Blue
+        li
+          = link_to user_path(current_user), data: { turbo: false }, class: "nav-link align-middle text-dark px-0 d-flex align-items-center"
+            i.fs-4.bi-person.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | プロフィール
+        li
+          a.nav-link.align-middle.text-dark.px-0.d-flex.align-items-center[href="#"]
+            i.fs-4.bi-three-dots.mx-2
+            span.ms-1.d-none.d-sm-inline[style="font-size:1.5rem"]
+              | もっと見る
+      hr
+      = link_to "ツイートする", posts_path, data: { turbo: false }, class: "btn btn-primary text-white fw-bold mx-auto"
+      hr
+      a.d-flex.text-dark.align-items-center.text-decoration-none[href="#"]
+        span.d-none.d-sm-inline.mx-1.fw-bold
+          = user.name

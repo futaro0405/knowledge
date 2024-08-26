@@ -1,0 +1,55 @@
+<!-- Navigation-->
+<%= render 'shared/navigation', :cart_size => @cart_size %>
+<!-- Product section-->
+<section class="py-5 my-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+      <div class="col-md-6"><%= image_tag @product.image, class: "img-fluid" %></div>
+      <div class="col-md-6">
+        <div class="small mb-1"><%= @product.sku %></div>
+        <h1 class="display-7 fw-bolder"><%= @product.name %></h1>
+        <div class="fs-5 mb-5">
+          <span><%= convert_to_jpy(@product.price) %></span>
+        </div>
+        <p class="lead"><%= @product.description %></p>
+        <div class="fs-5">在庫数<%= @product.stock %></div>
+        <%= form_with url: cart_products_path(product_id: @product.id), method: :post, data: { turbo: false }  do |f| %>
+          <div class="row">
+            <% if @product.stock.zero? %>
+              <div class="col-auto my-3">
+                <button class="btn btn-secondary mt-auto" disabled >SOLD OUT</button>
+              </div>
+            <% else %>
+              <div class="col-auto my-3">
+                <%= f.select :quantity, [*1..@product.stock], {}, class: "form-control text-center" %>
+              </div>
+              <div class="col-auto my-3">
+                <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+                  <i class="bi-cart-fill me-1"></i>
+                  カートに入れる
+                </button>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Related items section-->
+<section class="py-5 bg-light">
+  <div class="container px-4 px-lg-5 mt-5">
+    <h2 class="fw-bolder mb-4">一緒に購入されている商品</h2>
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      <% @recommended_products.each do |product| %>
+        <%= render product %>
+      <% end %>
+    </div>
+  </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; KOKOTOWN 2023</p>
+  </div>
+</footer>

@@ -1,0 +1,32 @@
+.container-fluid
+  = render 'shared/navigation'
+  .row.flex-nowrap
+    = render 'shared/sidebar', :user => current_user
+    .col
+      = render "users/shared/error_messages", resource: current_user
+      h3.fw-bold.mt-2
+        | プロフィールを編集
+      = form_with model: current_user, url: user_path(current_user), data: { turbo: false, "turbo-method": :put }  do |f|
+        .form-group.my-3
+          = f.label :name, class: "mb-2 block text-sm text-gray-600"
+          = f.text_field :name, class: "form-control"
+        .form-group.my-3
+          = f.label :introduction, class: "mb-2 block text-sm text-gray-600"
+          = f.text_area :introduction, class: "form-control"
+        .form-group.my-3
+          = f.label :place, class: "mb-2 block text-sm text-gray-600"
+          = f.text_field :place, class: "form-control"
+        .form-group.my-3
+          = f.label :website, class: "mb-2 block text-sm text-gray-600"
+          = f.text_field :website, class: "form-control"
+        .form-group.my-3
+          = f.label :photo, class: "mb-2 block text-sm text-gray-600"
+          = f.file_field :photo, class: "form-control"
+        .form-group.my-3
+          = f.label :header_photo, class: "mb-2 block text-sm text-gray-600"
+          = f.file_field :header_photo, class: "form-control"
+        .text-center.my-3
+          = link_to "戻る", user_path(current_user), data: { turbo: false }, class: "btn btn-outline-dark mx-1 fw-bold"
+          button.btn.btn-dark.mt-auto.text-white.fw-bold[type="submit"]
+            | 保存
+

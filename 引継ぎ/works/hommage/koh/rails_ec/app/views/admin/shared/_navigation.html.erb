@@ -1,0 +1,9 @@
+<nav class="navbar navbar-expand-lg navbar-danger bg-danger fixed-top">
+  <div class="container px-4 px-lg-5">
+    <%= link_to "管理者用設定", admin_products_path, class: "navbar-brand fw-bolder" %>
+    <div class="justify-content-beetween">
+      <%= link_to "購入明細一覧", admin_orders_path, class: "btn btn-primary mt-auto" %>
+      <%= link_to "新規作成", new_admin_product_path, class: "btn btn-primary mt-auto" %>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,43 @@
+.card
+  .card-body.container-grid.text-dark
+    .row.my-2
+      .col-1
+        - if post.user.photo.attached?
+          = image_tag post.user.photo, class: "rounded-circle img-fluid", style: " max-width: 100%; height: auto;"
+      .col
+        p.card-title.fw-bold
+          = post.user_name
+        p.card-subtitle.text-muted.d-flex.align-items-center
+          | @
+          = post.user_user_name
+      .col-1
+        - if user_signed_in?
+          .dropdown.pb-4
+            a.text-muted[href="#" data-bs-toggle="dropdown" aria-expanded="false"]
+              i.fs-4.bi-three-dots.mx-2
+            ul.dropdown-menu.text-small.shadow.px-2.text-nowrap
+              li
+                - if current_user.followee(post.user).present?
+                  = link_to user_follow_path(post.user, current_user), data: { "turbo-method": :delete }, class: "text-dark text-decoration-none d-flex align-items-center text-center"
+                    i.bi-person-dash.mx-2
+                    = "@#{post.user_user_name}さんのフォローを解除"
+                - elsif post.user != current_user
+                  = link_to user_follows_path(post.user), data: { "turbo-method": :post }, class: "text-dark text-decoration-none d-flex align-items-center"
+                    i.bi-person-add.mx-2
+                    = "@#{post.user_user_name}さんをフォロー"
+              li
+                - if post.user != current_user
+                  = link_to user_rooms_path(post.user), data: { "turbo-method": :post }, class: "text-dark text-decoration-none d-flex align-items-center text-center"
+                    i.bi-envelope.mx-2
+                    = "@#{post.user_user_name}さんにメッセージを送る"
+      .d-flex.flex-row
+      - if post.content?
+        span.card-text.my-2
+          = safe_join(post.content.split("\n"),tag(:br))
+      - if post.images.attached?
+        .d-flex.flex-row.my-2
+        - post.images.each do |image|
+          = image_tag image, class: "img-fluid", style: " max-width: 50%; height: auto;"
+      p.card-subtitle.text-muted.d-flex.align-items-center
+        = l post.created_at
+    = render "posts/post_footer", post:, user:

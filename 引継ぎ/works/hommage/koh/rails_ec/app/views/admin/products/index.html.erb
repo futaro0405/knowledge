@@ -1,0 +1,22 @@
+<!-- Navigation-->
+<%= render 'admin/shared/navigation' %>
+<!-- Flash-->
+<%= render 'shared/flash' %>
+<!-- Header-->
+<header class="text-center py-5 my-5">
+  <h1 class="display-6 fw-bolder">商品一覧</h1>
+</header>
+<!-- Section-->
+<section>
+  <div class="container px-4 px-lg-5 mt-5">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      <%= render @products %>
+    </div>
+  </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; KOKOTOWN 2023</p>
+  </div>
+</footer>

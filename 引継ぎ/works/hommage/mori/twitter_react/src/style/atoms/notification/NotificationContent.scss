@@ -1,0 +1,37 @@
+.notification {
+    .notification-nice {
+        display: flex;
+        align-items: center;
+        gap: 0 10px;
+        border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+        padding: 20px;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .notification-follow {
+        display: flex;
+        align-items: center;
+        gap: 0 10px;
+        border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+        padding: 20px;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    .notification-comment {
+        display: flex;
+        align-items: center;
+        gap: 0 10px;
+        border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+        padding: 20px;
+
+        p {
+            margin: 0;
+        }
+    }
+}

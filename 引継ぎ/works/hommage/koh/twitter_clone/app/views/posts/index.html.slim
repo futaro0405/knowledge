@@ -1,0 +1,26 @@
+.container-fluid
+  = render 'shared/navigation'
+  .row.flex-nowrap
+    = render 'shared/sidebar', :user => @user
+    .col
+      = render "users/shared/error_messages", resource: @post
+      = render 'shared/flash'
+      h3.fw-bold.my-3
+        | ホーム
+      ul#pills-tab.nav.nav-pills.w-100.nav-justified.border-bottom.mb-3
+        li.nav-item
+          button#pills-home-tab.fw-bold.nav-link.active[data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"]
+            |  おすすめ
+        li.nav-item
+          button#pills-profile-tab.fw-bold.nav-link[data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"]
+            |  フォロー中
+      #pills-tabContent.tab-content
+        = render 'form', :user => @user, :post => @post
+        #pills-home.tab-pane.fade.show.active
+          = paginate @posts, :param_name => 'posts_page'
+          - @posts.each do |post|
+            = render post, :user => @user
+        #pills-profile.tab-pane.fade
+          = paginate @followee_posts, :param_name => 'followee_page'
+          - @followee_posts.each do |post|
+            = render post, :user => @user

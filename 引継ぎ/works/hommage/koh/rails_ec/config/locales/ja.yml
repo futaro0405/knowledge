@@ -1,0 +1,27 @@
+ja:
+  activerecord:
+    attributes:
+      product:
+        name: 名前
+        sku: 商品コード（SKU）
+        description: 商品説明
+        price: 価格（円）
+        stock: 在庫数
+        image: 商品画像
+      order:
+        last_name: 姓
+        first_name: 名
+        user_name: ユーザ名
+        email: メールアドレス
+        country: 国
+        prefecture: 都道府県
+        zip_code: 郵便番号
+        address1: 住所1
+        address2: 住所2
+        credit_name: 名義
+        credit_number: カード番号
+        credit_expiration: 有効期限
+        credit_cvv: CVV
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"

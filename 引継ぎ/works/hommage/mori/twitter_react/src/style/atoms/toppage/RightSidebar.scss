@@ -1,0 +1,66 @@
+input {
+    background-color: rgba(184, 174, 174, 0.232);
+    border-radius: 200px;
+    border: none;
+    padding: 10px 10px;
+    width: 90%;
+}
+
+.subscribe-area {
+    background-color: rgba(184, 174, 174, 0.232);
+    border-radius: 20px;
+    text-align: left;
+    padding: 10px 20px;
+    width: 90%;
+
+    h4 {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    p {
+        font-weight: 0.875rem;
+    }
+
+    button {
+        border-radius: 200px;
+        padding: 0 10px;
+        background-color: rgb(29, 155, 240);
+        color: #fff;
+        border: none;
+    }
+}
+
+.happening-area {
+    background-color: rgba(184, 174, 174, 0.232);
+    border-radius: 20px;
+    width: 90%;
+    padding: 10px 20px;
+    text-align: left;
+
+    h4 {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    p {
+        font-weight: 0.875rem;
+    }
+}
+
+.who-to-follow {
+    background-color: rgba(184, 174, 174, 0.232);
+    border-radius: 20px;
+    width: 90%;
+    padding: 10px 20px;
+    text-align: left;
+
+    h4 {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    p {
+        font-weight: 0.875rem;
+    }
+}

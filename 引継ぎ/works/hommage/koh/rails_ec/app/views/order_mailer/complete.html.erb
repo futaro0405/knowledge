@@ -1,0 +1,10 @@
+<header class="text-center py-5 my-5">
+  <h1 class="display-6 fw-bolder">ご注文内容</h1>
+</header>
+<div class="container px-4 px-lg-5 mb-5">
+  <div class="row gx-4 gx-lg-5 align-items-center">
+    <h1 class="display-5 fw-bolder"><%= "#{@order.last_name} #{@order.first_name}様" %></h1>
+    <p>ご購入ありがとうございます。購入明細をお送りいたしますので、下記内容にてご確認ください。</p>
+  </div>
+  <%= render 'shared/ordered_cart_products', :ordered_cart_products => @ordered_cart_products, :total => @total, :promotion_code => @promotion_code %>
+</div>

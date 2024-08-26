@@ -1,0 +1,33 @@
+<!-- Navigation-->
+<%= render 'admin/shared/navigation' %>
+<!-- Display alert if product is discarded-->
+<% if @product.discarded? %>
+  <p class="text-center alert alert-danger mt-5">削除済みの商品のため編集できません</p>
+<% end %>
+<!-- Product section-->
+<section class="py-5 my-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+      <div class="col-md-6"><%= image_tag @product.image, class: "img-fluid" %></div>
+      <div class="col-md-6">
+        <div class="small mb-1"><%= @product.sku %></div>
+        <h1 class="display-5 fw-bolder"><%= @product.name %></h1>
+        <div class="fs-5 mb-5">
+          <span><%= convert_to_jpy(@product.price) %></span>
+        </div>
+        <p class="lead"><%= @product.description %></p>
+        <div class="fs-5">在庫数<%= @product.stock %></div>
+        <%= link_to "一覧へ戻る", admin_products_path, class: "btn btn-secondary mt-auto" %>
+        <% if @product.undiscarded? %>
+          <%= link_to "編集", edit_admin_product_path(@product), class: "btn btn-primary mt-auto" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; KOKOTOWN 2023</p>
+  </div>
+</footer>

@@ -1,0 +1,46 @@
+.tweet-detail-area {
+    .header {
+        display: flex;
+        gap: 0 40px;
+        align-items: center;
+        padding: 10px 20px;
+        border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+
+        .arrow {
+            cursor: pointer;
+        }
+
+        h4 {
+            font-weight: bold;
+            margin: 0;
+            font-size: 1.25rem;
+        }
+    }
+
+    .tweet {
+        border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+        padding: 20px 20px;
+    }
+
+    .reply-form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0 20px;
+        padding: 20px 0;
+        border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+
+        input {
+            background-color: #fff;
+            width: 70%;
+        }
+
+        button {
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 200px;
+            border: none;
+            background-color: rgb(29, 155, 240);
+        }
+    }
+}

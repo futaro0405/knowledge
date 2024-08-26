@@ -1,0 +1,38 @@
+p {
+    margin: 0;
+}
+
+.bookmark-content {
+    display: flex;
+    gap: 0 20px;
+    border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+    padding: 20px;
+
+    .profile-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    .bookmark-name-content {
+        .bookmark-tweet-content {
+            margin-top: 10px;
+
+            .bookmark-tweet-images {
+                width: 300px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+
+                img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

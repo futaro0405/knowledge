@@ -1,0 +1,85 @@
+.container-fluid
+  = render 'shared/navigation'
+  .row.flex-nowrap
+    = render 'shared/sidebar', :user => current_user
+    .col
+      = render 'shared/flash'
+      h3.fw-bold.mt-2
+        = @user.name
+      .text-muted.my-1
+        | #{@user.posts.size}件のツイート
+      .card.border-0.container-fluid
+        .profile-images
+          - if @user.header_photo.attached?
+            = image_tag @user.header_photo, class: "upper"
+          - if @user.photo.attached?
+            = image_tag @user.photo, class: "rounded-circle profile"
+        .text-end
+          = link_to "プロフィールを編集する", edit_user_path(current_user), data: { turbo: false, "turbo-method": :post }, class: "btn btn-outline-dark m-2 fw-bold"
+        .profile-content
+          .mt-5
+            h1.mb-0
+              = @user.name
+            span.text-muted.d-block.mb-2
+              = "\@#{@user.user_name}"
+            - if @user.introduction?
+              span
+                = safe_join(@user.introduction.split("\n"),tag(:br))
+            .container-grid.w-75.text-muted
+              .row
+                - if @user.place?
+                  .col
+                    i.bi-geo-alt.mx-2
+                    = @user.place
+                - if @user.website?
+                  .col
+                    i.bi-link-45deg.mx-2
+                    = @user.website
+                - if @user.birthdate?
+                  .col
+                    i.bi-balloon.mx-2
+                    | 誕生日：
+                    = l @user.birthdate
+              .row
+                .col
+                  i.bi-calendar.mx-2
+                  = l @user.created_at, format: :profile
+                  | からTwitterを利用しています
+              .row.text-dark.fw-bold
+                .col
+                  = @user.followees.size
+                  | フォロー中
+                .col
+                  = @user.followers.size
+                  | フォロワー
+      ul#pills-tab.nav.nav-pills.w-100.nav-justified.border-bottom.my-3
+        li.nav-item
+          button#pills-post-tab.fw-bold.nav-link.active[data-bs-toggle="pill" data-bs-target="#pills-post" type="button" role="tab" aria-controls="pills-post" aria-selected="true"]
+            |  ツイート
+        li.nav-item
+          button#pills-like-tab.fw-bold.nav-link[data-bs-toggle="pill" data-bs-target="#pills-like" type="button" role="tab" aria-controls="pills-like" aria-selected="false"]
+            |  いいね
+        li.nav-item
+          button#pills-repost-tab.fw-bold.nav-link[data-bs-toggle="pill" data-bs-target="#pills-repost" type="button" role="tab" aria-controls="pills-repost" aria-selected="false"]
+            |  リツイート
+        li.nav-item
+          button#pills-comment-tab.fw-bold.nav-link[data-bs-toggle="pill" data-bs-target="#pills-comment" type="button" role="tab" aria-controls="pills-comment" aria-selected="false"]
+            |  コメント
+      #pills-tabContent.tab-content
+        #pills-post.tab-pane.fade.show.active
+          = paginate @posts, :param_name => 'posts_page'
+          - @posts.each do |post|
+            = render post, :user => current_user
+        #pills-like.tab-pane.fade
+          = paginate @liking_posts, :param_name => 'like_page'
+          - @liking_posts.each do |post|
+            = render post, :user => current_user
+        #pills-repost.tab-pane.fade
+          = paginate @reposting_posts, :param_name => 'repost_page'
+          - @reposting_posts.each do |post|
+            = render post, :user => current_user
+        #pills-comment.tab-pane.fade
+          = paginate @commenting_posts, :param_name => 'comment_page'
+          - @commenting_posts.each do |post|
+            = render post, :user => current_user
+

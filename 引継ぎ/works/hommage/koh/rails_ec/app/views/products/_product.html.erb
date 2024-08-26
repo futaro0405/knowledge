@@ -1,0 +1,33 @@
+<div class="col mb-5">
+  <div class="card h-100">
+    <!-- Product image-->
+    <%= image_tag product.image %>
+    <!-- Product details-->
+    <div class="card-body p-4">
+      <div class="text-center">
+        <!-- Product name-->
+        <h5 class="fw-bolder">
+          <%= link_to product.name, product_path(product), class: "link-dark" %>
+        </h5>
+        <!-- Product price-->
+        <div>
+          <%= convert_to_jpy(product.price) %>
+        </div>
+        <!-- Product stock-->
+        <div>
+          在庫数<%= product.stock %>
+        </div>
+      </div>
+    </div>
+    <!-- Product actions-->
+    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+      <div class="text-center">
+        <% if product.stock.zero? %>
+          <button class="btn btn-secondary mt-auto" disabled >SOLD OUT</button>
+        <% else %>
+          <%= link_to "カートに入れる", cart_products_path(product_id: product.id, quantity: 1), data: { "turbo-method": :post }, class: "btn btn-outline-dark mt-auto" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.card
+  div class="card-body container-grid #{'bg-light' if params[:id].to_i == room_info[:room].id}"
+    = link_to room_path(room_info[:room].id), data: { turbo: false }, class: "row post text-dark"
+      .col-3.d-flex.align-items-center
+        - if room_info[:user].photo.attached?
+          = image_tag room_info[:user].photo, class: "rounded-circle img-fluid", style: " max-width: 100%; height: auto;"
+      .col
+        .d-flex
+          p.fw-bold
+            = room_info[:user].name
+          p.text-muted.mx-2
+            | @
+            = room_info[:user].user_name
+        .text-muted
+          = l room_info[:room].created_at

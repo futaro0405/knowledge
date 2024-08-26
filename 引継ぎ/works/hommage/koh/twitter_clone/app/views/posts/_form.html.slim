@@ -1,0 +1,17 @@
+- if user_signed_in?
+  = form_with url: posts_path, model: post, data: { turbo: false }, locale: true do |f|
+    .card.mb-3
+      .card-body.container-grid
+        .row
+          .col-1
+            - if user.photo.attached?
+              = link_to user_path(current_user), data: { turbo: false }
+                = image_tag user.photo, class: "rounded-circle img-fluid", style: " max-width: 100%; height: auto;"
+          .col
+            = f.text_area :content, class: 'form-control', placeholder: 'いまどうしてる？', rows: 5
+        .d-flex.justify-content-between.mt-4
+          = f.label :images
+            i.fs-3.bi-image.text-primary[style="cursor: pointer"]
+            = f.file_field :images, multiple: true, style: "display: none"
+          button.btn.btn-primary.px-4.text-white.fw-bold[type="submit"]
+            | ツイートする

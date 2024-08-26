@@ -1,0 +1,54 @@
+aside {
+    padding: 0 20px 0 100px;
+
+    .sidebar-menu {
+        display: flex;
+        align-items: center;
+        gap: 0 25px;
+        margin-bottom: 10px;
+
+        a {
+            text-decoration: none;
+            color: #000;
+
+            p {
+                font-size: 1.4rem;
+                margin-bottom: 0;
+            }
+        }
+
+        p.withdrawal {
+            font-size: 1.4rem;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+    }
+
+    button {
+        width: 100%;
+        border-radius: 200px;
+        padding: 10px 0;
+        background-color: rgb(29, 155, 240);
+        color: #fff;
+        border: none;
+    }
+
+    .name-area {
+        display: flex;
+        align-items: center;
+        gap: 0 20px;
+        margin-top: 80px;
+
+        p {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .sidebar-menu {
+        p {
+            display: none;
+        }
+    }
+}

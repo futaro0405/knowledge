@@ -1,0 +1,11 @@
+.container-fluid
+  = render 'shared/navigation'
+  .row.flex-nowrap
+    = render 'shared/sidebar', :user => @user
+    .col-3.border-end
+      = render 'shared/flash'
+      h3.fw-bold.my-3
+        | メッセージ
+      - @room_infos.each do |room_info|
+        = render 'room_info', room_info:
+    .col

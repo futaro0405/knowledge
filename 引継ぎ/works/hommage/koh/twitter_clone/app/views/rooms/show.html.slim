@@ -1,0 +1,24 @@
+.container-fluid
+  = render 'shared/navigation'
+  .row.flex-nowrap
+    = render 'shared/sidebar', :user => @user
+    .col-3.border-end
+      = render 'shared/flash'
+      h3.fw-bold.my-3
+        | メッセージ
+      - @room_infos.each do |room_info|
+        = render 'room_info', room_info:
+    .col
+      h3.fw-bold.my-3
+        | メッセージ詳細
+      = render 'shared/flash'
+      - @messages.each do |message|
+        = render message
+      = paginate @messages
+      = form_with url: messages_path(room_id: params[:id]), model: Message.new , data: { turbo: false }, locale: true do |f|
+        .card.mb-3
+          .card-body
+            = f.text_area :content, class: 'form-control', placeholder: '新しいメッセージを作成', rows: 1
+            button.btn.btn-primary.text-white.rounded-circle.fw-bold.float-end.my-2[type="submit"]
+              i.bi-send
+

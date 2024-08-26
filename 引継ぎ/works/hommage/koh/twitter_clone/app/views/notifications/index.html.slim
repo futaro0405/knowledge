@@ -1,0 +1,11 @@
+.container-fluid
+  = render 'shared/navigation'
+  .row.flex-nowrap
+    = render 'shared/sidebar', :user => @user
+    .col
+      = render 'shared/flash'
+      h3.fw-bold.my-3
+        | 通知
+      = paginate @notifications
+      - @notifications.each do |notification|
+        = render notification

@@ -1,0 +1,17 @@
+.comment {
+    border-bottom: solid 1px rgba(203, 197, 197, 0.23);
+    padding: 20px 20px;
+
+    .comment-name-dot {
+        display: flex;
+        justify-content: space-between;
+
+        .three-dots {
+            cursor: pointer;
+        }
+    }
+
+    .comment-text {
+        overflow-wrap: break-word;
+    }
+}

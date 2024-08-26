@@ -1,0 +1,135 @@
+<!-- Navigation-->
+<%= render 'shared/navigation', :cart_size => @cart_size %>
+<!-- Flash-->
+<%= render 'shared/flash' %>
+<!-- ErrorMessages-->
+<% if @order %>
+  <%= render 'shared/error_messages', :resource => @order %>
+<% end %>
+<!-- Cart section-->
+<div class="container px-4 px-lg-5 py-5 my-5">
+  <main>
+    <div class="row g-5">
+      <div class="col-md-5 col-lg-6 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">カート</span>
+          <span class="badge bg-primary rounded-pill">
+            <%= @cart_products.size %>
+          </span>
+        </h4>
+        <ul class="list-group mb-3">
+          <% @cart_products.each do |cart_product| %>
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0"><%= cart_product.product_name %></h6>
+                <span class="text-body-secondary">数量：<%= cart_product.quantity %></span>
+              </div>
+              <div>
+                <span class="text-body-secondary"><%= convert_to_jpy(cart_product.product_price) %></span>
+                <%= link_to cart_product_path(cart_product), data: {"turbo-method": :delete }, class: "btn btn-outline-danger" do %>
+                  <i class="bi-trash"></i>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+          <% if @promotion_code %>
+            <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+              <div class="text-success">
+                <h6 class="my-0">プロモコード</h6>
+                <small><%= @promotion_code.code %></small>
+              </div>
+              <div>
+                <span class="text-success">-<%= convert_to_jpy(@promotion_code.discount)%></span>
+                <%= link_to cancel_promotion_code_path, data: {"turbo-method": :post }, class: "btn btn-outline-danger" do %>
+                  <i class="bi-trash"></i>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>お支払い金額</span>
+            <strong><%= convert_to_jpy(@total) %></strong>
+          </li>
+        </ul>
+        <%= form_with url: register_promotion_code_path, method: :post, data: { turbo: false }, class: "card p-2" do |f| %>
+          <div class="input-group">
+            <%= f.text_field :code, class: "form-control", placeholder: "プロモコードを入力" %>
+            <button class="btn btn-secondary" type="submit">利用する</button>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-md-7 col-lg-6">
+        <h4 class="mb-3">お届け先情報</h4>
+        <%= form_with model: @order, url: orders_path, method: :post, data: { turbo: false } do |f| %>
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <%= f.label :last_name, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :last_name, class: "form-control", placeholder: "田中" %>
+            </div>
+            <div class="col-sm-6">
+              <%= f.label :first_name, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :first_name, class: "form-control", placeholder: "太郎" %>
+            </div>
+            <div class="col-12">
+              <%= f.label :user_name, class: "mb-2 block text-sm text-gray-600" %>
+              <div class="input-group has-validation">
+                <span class="input-group-text" style="border-top-right-radius:0; border-bottom-right-radius:0;">@</span>
+                <%= f.text_field :user_name, class: "form-control", placeholder: "Username" %>
+              </div>
+            </div>
+            <div class="col-12">
+              <%= f.label :email, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :email, class: "form-control", placeholder: "example@example.com" %>
+            </div>
+            <div class="col-md-3">
+              <%= f.label :zip_code, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :zip_code, class: "form-control", placeholder: "012-3456" %>
+            </div>
+            <div class="col-md-5">
+              <%= f.label :country, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :country, class: "form-control", value: "日本" %>
+            </div>
+            <div class="col-md-4">
+              <%= f.label :prefecture, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :prefecture, class: "form-control", placeholder: "東京都" %>
+            </div>
+            <div class="col-12">
+              <%= f.label :address1, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :address1, class: "form-control", placeholder: "新宿区西新宿" %>
+            </div>
+            <div class="col-12">
+              <%= f.label :address2, class: "mb-2 block text-sm text-gray-600" %>
+              <%= f.text_field :address2, class: "form-control", placeholder: "２丁目８−１" %>
+            </div>
+          </div>
+          <hr class="my-4">
+          <h4 class="mb-3">クレジットカード情報</h4>
+          <div class="my-3">
+            <div class="row gy-3">
+              <div class="col-md-6">
+                <%= f.label :credit_name, class: "mb-2 block text-sm text-gray-600" %>
+                <%= f.text_field :credit_name, class: "form-control", placeholder: "TARO TANAKA" %>
+              </div>
+              <div class="col-md-6">
+                <%= f.label :credit_number, class: "mb-2 block text-sm text-gray-600" %>
+                <%= f.text_field :credit_number, class: "form-control", placeholder: "1111 2222 3333 4444" %>
+              </div>
+              <div class="col-md-3">
+                <%= f.label :credit_expiration, class: "mb-2 block text-sm text-gray-600" %>
+                <%= f.text_field :credit_expiration, class: "form-control", placeholder: "MM/YY" %>
+              </div>
+              <div class="col-md-3">
+                <%= f.label :credit_cvv, class: "mb-2 block text-sm text-gray-600" %>
+                <%= f.text_field :credit_cvv, class: "form-control", placeholder: "012" %>
+              </div>
+            </div>
+            <hr class="my-4">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">購入する</button>
+          </div>
+        <% end %>
+      </div>
+    </main>
+    <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+      <p class="mb-1">Copyright &copy; KOKOTOWN 2023</p>
+    </footer>
+  </div>

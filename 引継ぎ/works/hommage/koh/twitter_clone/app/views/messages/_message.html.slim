@@ -1,0 +1,20 @@
+- if message.user != current_user
+  .container-grid.my-2
+    .row
+      .col-7
+        .card.border.rounded.bg-light
+          .card-body
+            = safe_join(message.content.split("\n"),tag(:br))
+        .text-muted
+          = l message.created_at
+      .col
+- else
+  .container-grid.my-2
+    .row
+      .col
+      .col-7.align-self-end
+        .card.border.rounded.bg-primary
+          .card-body.text-white
+            = safe_join(message.content.split("\n"),tag(:br))
+        .text-muted.text-end
+          = l message.created_at

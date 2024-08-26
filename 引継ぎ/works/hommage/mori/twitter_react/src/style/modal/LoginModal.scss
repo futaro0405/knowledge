@@ -1,0 +1,15 @@
+.login-form {
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px 0;
+    }
+
+    .modal-footer {
+        display: block;
+
+        button {
+            width: 100%;
+        }
+    }
+}

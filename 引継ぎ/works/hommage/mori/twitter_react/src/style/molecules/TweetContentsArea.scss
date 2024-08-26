@@ -1,0 +1,12 @@
+.tweet-content {
+    .tweet {
+        border-bottom: solid 1px rgba(203, 197, 197, 0.5);
+        padding: 10px 20px;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 0 10px;
+        justify-content: center;
+    }
+}

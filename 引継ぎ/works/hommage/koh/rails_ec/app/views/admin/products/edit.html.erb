@@ -1,0 +1,18 @@
+<!-- Navigation-->
+<%= render 'admin/shared/navigation' %>
+<!-- ErrorMessages-->
+<% if @updated_product %>
+  <%= render 'shared/error_messages', :resource => @updated_product %>
+<% end %>
+<!-- Header-->
+<header class="text-center py-5 my-5">
+  <h1 class="display-6 fw-bolder">商品編集</h1>
+</header>
+<!-- form-->
+<%= render 'form', :product => @product, :url => admin_product_path(@product) %>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; KOKOTOWN 2023</p>
+  </div>
+</footer>

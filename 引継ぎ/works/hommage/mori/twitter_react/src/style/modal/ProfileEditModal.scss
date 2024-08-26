@@ -1,0 +1,25 @@
+.overlay {
+    .modal {
+        .arrow {
+            cursor: pointer;
+        }
+
+        .edit-profile-form {
+            .modal-body {
+                display: flex;
+                flex-direction: column;
+                gap: 20px 0;
+
+                input {
+                    width: 100%;
+                }
+            }
+
+            .modal-footer {
+                button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

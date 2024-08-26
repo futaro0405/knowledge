@@ -1,0 +1,9 @@
+nav.navbar.navbar-expand-lg.bg-white.border-bottom.sticky-top
+  .container
+    = link_to '<p class="bi bi-twitter fs-4 my-auto"> Twitterクローン</p>'.html_safe, posts_path, data: { turbo: false }, class: "text-decoration-none fw-bolder"
+    .justify-content-beetween
+      - if user_signed_in?
+        = link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-primary mt-auto text-white fw-bold"
+      - else
+        = link_to "ログイン", new_user_session_path, data: { turbo: false }, class: "btn btn-outline-primary mx-1 fw-bold"
+        = link_to "新規登録", new_user_registration_path, data: { turbo: false }, class: "btn btn-primary mx-1 text-white fw-bold"

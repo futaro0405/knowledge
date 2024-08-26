@@ -1,0 +1,11 @@
+.container-fluid
+  = render 'shared/navigation'
+  .row.flex-nowrap
+    = render 'shared/sidebar', :user => @user
+    .col
+      = render 'shared/flash'
+      h3.fw-bold.my-3
+        | ブックマーク
+      = paginate @bookmarking_posts
+      - @bookmarking_posts.each do |post|
+        = render post, :user => @user

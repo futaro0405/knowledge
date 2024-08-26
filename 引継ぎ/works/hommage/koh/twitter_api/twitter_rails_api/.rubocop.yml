@@ -1,0 +1,33 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-hc
+Style/Documentation:
+  Enabled: false
+AllCops:
+  NewCops: enable
+RSpec/MultipleExpectations:
+  Max: 2
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - "db/migrate/*"
+    - "app/controllers/api/v1/auth/confirmations_controller.rb"
+Metrics/AbcSize:
+  Max: 32
+  Exclude:
+    - "db/migrate/*"
+Metrics/BlockLength:
+  Exclude:
+    - config/environments/*.rb
+    - config/routes.rb
+Layout/LineLength:
+  Exclude:
+    - config/initializers/devise.rb
+    - db/migrate/*.rb
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - db/migrate/*.rb
+Hc/RailsSpecificActionName:
+  Exclude:
+    - app/controllers/api/v1/posts_controller.rb

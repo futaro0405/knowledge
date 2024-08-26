@@ -1,0 +1,42 @@
+- if notification.action_type == 'Like'
+  .card
+    .card-body.container-grid
+      = link_to post_path(notification.action.post), data: { turbo: false}, class: "row post text-dark"
+        .row
+          .col-1.text-center.d-flex.align-items-center
+            i.bi-heart-fill.already-liking[style="font-size: 2rem"]
+          .col
+            - if notification.sender.photo.attached?
+              = image_tag notification.sender.photo, class: "rounded-circle img-fluid", style: " max-width: 7%; height: auto;"
+        .row
+          .col
+            = link_to "#{notification.sender.name}さん", user_path(notification.sender), data: { turbo: false}, class: "text-dark text-decoration-none fw-bold"
+            = "があなたの投稿をいいねしました"
+- elsif notification.action_type == 'Comment'
+  .card
+    .card-body.container-grid
+      = link_to post_path(notification.action.post), data: { turbo: false}, class: "row post text-dark"
+        .row
+          .col-1.text-center.d-flex.align-items-center
+            i.bi-chat.text-muted[style="font-size: 2rem"]
+          .col
+            - if notification.sender.photo.attached?
+              = image_tag notification.sender.photo, class: "rounded-circle img-fluid", style: " max-width: 7%; height: auto;"
+        .row
+          .col
+            = link_to "#{notification.sender.name}さん", user_path(notification.sender), data: { turbo: false}, class: "text-dark text-decoration-none fw-bold"
+            = "があなたの投稿にコメントしました"
+- elsif notification.action_type == 'Repost'
+  .card
+    .card-body.container-grid
+      = link_to post_path(notification.action.post), data: { turbo: false}, class: "row post text-dark"
+        .row
+          .col-1.text-center.d-flex.align-items-center
+            i.bi-repeat.already-reposting[style="font-size: 2rem"]
+          .col
+            - if notification.sender.photo.attached?
+              = image_tag notification.sender.photo, class: "rounded-circle img-fluid", style: " max-width: 7%; height: auto;"
+        .row
+          .col
+            = link_to "#{notification.sender.name}さん", user_path(notification.sender), data: { turbo: false}, class: "text-dark text-decoration-none fw-bold"
+            = "があなたの投稿をリツイートしました"

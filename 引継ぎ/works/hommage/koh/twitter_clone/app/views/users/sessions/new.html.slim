@@ -1,0 +1,23 @@
+= render 'shared/navigation'
+header.text-center.pt-5.mt-5
+  h1.display-6.fw-bolder
+    | ログイン
+.container.px-4.px-lg-5.w-75.m-auto
+  = form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f|
+    = render 'shared/flash'
+    .form-group.my-3
+      = f.label :email, class: "mb-2 block text-sm text-gray-600"
+      br
+      = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+    .form-group.my-3
+      = f.label :password, class: "mb-2 block text-sm text-gray-600"
+      br
+      = f.password_field :password, autocomplete: "current-password", class: "form-control"
+    .actions.text-center.my-3
+      = f.submit "ログイン", class: "btn btn-outline-primary fw-bold"
+  - if devise_mapping.omniauthable?
+    - resource_class.omniauth_providers.each do |provider|
+      div.text-center
+        p または
+        = button_to omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "btn btn-dark mt-auto"
+          div.bi.bi-github.fs-6.mx-2 #{OmniAuth::Utils.camelize(provider)}でログイン

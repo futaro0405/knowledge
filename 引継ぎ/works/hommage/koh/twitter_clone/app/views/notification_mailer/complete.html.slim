@@ -1,0 +1,7 @@
+h1 Twitterクローン通知
+- if @notification.action_type == 'Like'
+  = "#{@notification.sender.name}さんがあなたの投稿をいいねしました"
+- elsif @notification.action_type == 'Comment'
+  = "#{@notification.sender.name}さんがあなたの投稿にコメントしました"
+- elsif @notification.action_type == 'Repost'
+  = "#{@notification.sender.name}さんがあなたの投稿をリツイートしました"
