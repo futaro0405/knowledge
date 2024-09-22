@@ -14,11 +14,12 @@ func Plus(x, y int) int {
 func Div(x, y int) (int, int) {
   q := x / y
   r := x % y
+  return q, r
 }
 
 func main() {
   i, i2 := Div(9, 3)
-  fmt.Println(i, i3)
+  fmt.Println(i, i2)
   // 3, 0
 }
 ```
@@ -96,6 +97,10 @@ func Later() func(string) string {
 func main() {
   f := Later()
   fmt.Println(f("Hello"))
+  fmt.Println(f("My"))
+  fmt.Println(f("name"))
+  fmt.Println(f("is"))
+  fmt.Println(f("Golang"))
 }
 
 // Hello
@@ -104,6 +109,7 @@ func main() {
 // is
 ```
 
+最後のGolangが表示されていないことに注目
 ## ジェネレータとは
 何らかのルールに従って連続した値を返し続ける仕組みのこと
 

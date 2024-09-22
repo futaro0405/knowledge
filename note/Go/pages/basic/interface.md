@@ -1,7 +1,12 @@
+# interface型
+異なる型に共通の性質を付与する。
+
+PersonとCarそれぞれに同盟のToString関数を作成する  
+このとき、
 ```go
 type Person struct {
-  name string
-  Age int
+  name  string
+  Age   int
 }
 
 func (p *Person) ToString() string {
@@ -9,18 +14,18 @@ func (p *Person) ToString() string {
 }
 
 type Car struct {
-  Number string
-  Model    string
+  Number  string
+  Model   string
 }
 
 func (c *Car) ToString() string {
   return fmt.Sprintf("Number=%v, Model=%v", p.Number, p.Model)
 }
 ```
-
-このとき、PersonとCarのToStringメソッドは型が違うためまとめられない
+このとき、PersonとCarのToStringメソッドは型が違うため、まとめて一つのメソッドとすることができない
 
 ```go
+// StringfyメソッドでToStringをまとめる
 type Stringfy interface {
   ToString() string
 }
@@ -42,6 +47,7 @@ func main() {
 ## カスタムエラー
 
 goにはerrorというソースコードのインターフェースが存在する
+
 ```go
 type error interface {
   Error() string
@@ -55,10 +61,12 @@ type MyError struct {
   Message string
   ErrCode int
 }
+
 func (e *MyError) Error() string {
   return e.Message
 }
 
+// 実際に使ってみる
 func RaisError() error {
   return &MyError{Message: "カスタムエラーが発生しました", ErrCode: 1234}
 }
@@ -80,15 +88,14 @@ func main() {
 ```
 
 ## interface Stringer
- fmtパッケージに定義されているStringer型もinterfaceのひとつ
- 
-```go
-type Stringer interface {
-  String() string
-}
-```
+fmtパッケージに定義されているStringer型もinterfaceのひとつ  
+文字列を返すメソッドのstringのみが定義されている  
 
 ```go
+// type Stringer interface {
+//   String() string
+// }
+
 type Point struct {
   A int
   B string
@@ -101,7 +108,9 @@ func (p *Point) String() string {
 func main() {
    p := &Point{100, "ABC"}
    fmt.Pringln(p)
-   // &{100 ABC}
+   // <<100, ABC>>
+
+   // &{100 ABC} と表示されるところをカスタマイズしている
 }
 ```
 

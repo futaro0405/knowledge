@@ -1,3 +1,4 @@
+# 参照型
 ## slice
 配列によく似たデータ型
 配列と違い、`[]`内に要素数を指定しない。
@@ -5,10 +6,11 @@
 ```go
 var sl []int
 var sl2 []int = []int{100, 200}
+
 sl3 := []string{"A", "B"}
 ```
 
-make関数を使用してsliceを生成する
+make関数を使用してsliceを生成することもできる
 
 ```go
 sl := make([]int, 5)
@@ -37,17 +39,23 @@ fmt.Println(sl3[1: len(sl3)-1])
 
 ## append
 sliceは可変長の配列になっているので要素を追加することができる
+`append`を使用してsliceの最後に要素を追加できる
 
 ```go
 sl := []int{1, 2}
 // [1 2]
+
+// 要素を追加する
 sl = append(sl, 3)
 // [1 2 3]
+
+// 要素を複数追加する
 sl = append(sl, 4, 5, 6)
 // [1 2 3 4 5 6]
 ```
 
-`append`を使用してsliceの最後に要素を追加できる
+`make`を使用してint型の要素を５つ格納する
+この時、初期値０で生成される
 
 ```go
 sl2 := make([]int, 5)
@@ -55,44 +63,77 @@ fmt.Println(sl2)
 // [0 0 0 0 0]
 ```
 
-sliceにはキャパシティが存在し、メモリを気にする必要がある開発では設定する
-```go
-fmt.Println(cap(sl2))
-// 5
-sl3 := make([]int, 5, 10)
-fmt.Println(len(sl2))
-// 5
-fmt.Println(cap(sl3))
-// 10
-```
+sliceにはキャパシティというものが存在する。メモリを気にする必要がある場合は設定する。
 
-要領以上の要素が追加されるとメモリの消費が倍になってしまいます。
+容量以上の要素が追加されるとメモリの消費が倍になってしまいます。
 メモリーを気にするような開発の場合は、容量にも気をつけます。
 最初は気にせずやるほうがいいと思います。
+
+```go
+// 要素数を調べてみる
+fmt.Println(len(sl2))
+// 5
+
+// キャパシティを調べてみる
+fmt.Println(cap(sl2))
+// 5
+
+// キャパシティも合わせて設定してみる
+sl3 := make([]int, 5, 10)
+
+fmt.Println(len(sl3))
+// 要素数は5
+fmt.Println(cap(sl3))
+// キャパシティは10
+
+sl3 = append(sl3, 1, 2, 3, 4, 5, 6)
+
+fmt.Println(len(sl3))
+// 要素数は12
+fmt.Println(cap(sl3))
+// キャパシティは20
+```
 
 過剰にメモリを確保してしまうと実行速度が落ちたりする。
 良質なパフォーマンスを実現するには、容量の管理も気にします。
 
 ## sliceのコピー
+参照型のデータ型は値を渡すと同じアドレスが格納されます。
+そのため、両方更新される
+参照型は`slice`、`map`、`channel`など
 
 ```go
 sl := []int{100, 200}
+
+// アドレスが格納される
 sl2 := sl
+
 sl2[0] = 1000
+
+// 両方更新されている
 fmt.Println(sl)
-fmt.Println(sl2)
 // [1000 200]
+fmt.Println(sl2)
 // [1000 200]
 ```
 
-参照型のデータ型はこのように値を渡すと同じアドレスが格納されます。
-そのため、両方更新される
-参照型： slice map channel
+参照型ではなく、int型の場合の例も確認してみます。
+
+```go
+var i int = 10
+i2 := i
+i2 = 100
+
+// i2だけ更新されている
+fmt.Println(i, i2)
+// 10 100
+```
+
+参照型をコピーする場合はcopyを使う。
 
 ```go
 sl := []int{1, 2, 3, 4, 5}
 sl2 := make([]int, 5, 10)
-
 
 n := copy(sl2, sl)
 
@@ -100,24 +141,45 @@ fmt.Println(n, sl2)
 // 5 [1 2 3 4 5]
 ```
 
-nはコピーに成功した数
+この時、nはコピーに成功した数が格納されます。
 
 ## slice for
 
+forループを用いて、sliceの要素を表示してみます。
+
 ```go
 sl := []stirng("A", "B", "C")
-fmt.Println(sl)
 
-for i := range sl {
+// i:インデックス番号
+// v:要素
+for i, v := range sl {
+	fmt.Println(i, v)
 }
-
-for i := 0; i < len(sl); i++ {
-}
-
-
+// 0 A
+// 1 B
+// 2 C
 ```
 
+少し工夫した書き方もあります。
+
+```go
+sl := []stirng("A", "B", "C")
+
+// 書き方その１
+for i := range sl {
+	fmt.Println(i, sl[i])
+}
+
+// 書き方その２
+for i := 0; i < len(sl); i++ {
+	fmt.Println(i, sl[i])
+}
+```
+
+どちらも同じ結果が得られます。
+
 ## 可変長引数
+可変長の引数を許容するようなSum関数を作成してみます。
 
 ```go
 func Sum(s ...int) int {
@@ -129,16 +191,17 @@ func Sum(s ...int) int {
 }
 
 func main() {
-  fmt.Println(Sum(1, 2, 3))
-  // 6
-  fmt.Println(Sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
-  // 55
-  fmt.Println(Sum())
-  // 0
+	fmt.Println(Sum(1, 2, 3))
+	// 6
+	fmt.Println(Sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+	// 55
+	fmt.Println(Sum())
+	// 0
 
-  sl := []int{1, 2, 3}
-  fmt.Println(Sum(sl...))
-  // 6
+	// sliceを引数として渡すことも可能
+	sl := []int{1, 2, 3}
+	fmt.Println(Sum(sl...))
+	// 6
 }
 ```
 
@@ -151,52 +214,74 @@ fmt.Println(Sum())
 // map["A":100  "B":200]
 
 // 改行しても使える
-m := map[string]int{
+m2 := map[string]int{
   "A": 100,
-  "B": 200
+  "B": 200,
 }
 
 // make関数を使って空のmapを作る
-m := make(map[int]string)
+m3 := make(map[int]string)
 // map[]
-m[1] = "JAPAN"
-m[2] = "USA"
+m3[1] = "JAPAN"
+m3[2] = "USA"
 // map[1:JAPAN 2:USA]
 
 // 値の取り出し
-fmt.Println(m["A"])
-// 100
+fmt.Println(m[1])
+// JAPAN
 
 // エラーハンドリングもある
 s, ok := m[1]
 fmt.Println(s, ok)
 // JAPAN true
+if !ok {
+	fmt.Println("error")
+}
 
 s, ok := m[3]
 //  false
 
-// 削除
+// mapから要素を削除
 delete(m4, 3)
 
-// 要素数
+// 要素数を調べる
 len(m)
 ```
 ## map for
+
+forループを使ってmapの値を取り出す
+
 ```go
 m := map[string]int{
   "apple": 100,
   "Banana": 200,
 }
 
-for _, v := range m {
+// k: キー
+// v: 値
+for k, v := range m {
+	fmt.Println(k, v)
 }
+// apple 100
+// Banana 200
 
+// キーだけ取り出す
 for k := range m {
+	fmt.Println(k)
 }
+// apple
+// Banana
 ```
 
 ## channel
+### チャネルのイメージ
+![[Pasted image 20240912215335.png]]
+
+チャネルを使って、ゴールーチン間でデータの送受信を行う。
+
 複数のgoルーチン間でデータの受け渡しを行うために設計されたデータ構造
+
+### チャネルの宣言
 
 ```go
 var ch1 chan int
@@ -207,28 +292,30 @@ var ch1 chan int
 ```go
 // 受信専用
 var ch2 <-chan int
+
 // 送信専用
 var ch2 chan<- int
 ```
 
-このnilチャネルをmake関数を使用して機能を持たせる
+この宣言はnilチャネルなので、make関数を使用して機能を持たせる
+make関数を使用すると、チャネルの生成と初期化が行われるので書き込みと読み込みが可能になる
 
 ```go
+// nilのチャネル
 var ch1 chan int
+
+// make関数で機能を持たせる
 ch1 = make(chan int)
 ```
 
-チャネルの生成と初期化が行われるので書き込みと読み込みが可能になる
-
 make関数を使って直接宣言することもできる
+この時、容量は0で作成される
 
 ```go
 ch2 := make(chan int)
-```
 
-この時、容量は0
-
-```go
+fmt.Println(cap(ch1))
+// 0
 fmt.Println(cap(ch2))
 // 0
 ```
@@ -239,29 +326,61 @@ fmt.Println(cap(ch2))
 ch3 := make(chan int, 5)
 ```
 
-データを送る
+### チャネルの操作
+チャネルはデータの送受信を行うデータ型なのでチャネルからデータを送ったり、受け取ることが可能
+
+データをチャネルに送る
+
 ```go
+// チャネルにデータを送る
 ch3 <- 1
+
+// 要素数が１増える
 fmt.Println("len", len(ch3))
 // len 1
 
+// 要素を３つ追加
 ch3 <- 2
 ch3 <- 3
 ch3 <- 4
 
-i := <-ch3
-fmt.Println(i)
+// このとき要素数は4
 fmt.Println("len", len(ch3))
-// 1
-// len 3
+// len 4
 
-fmt.Println(<-c2)
-fmt.Println("len", len(ch3))
+i := <-ch3
+i2 := <-ch3
+fmt.Println(i)
+fmt.Println(i2)
+// 1
 // 2
+
+// 送信した要素分、要素数が減っている
+fmt.Println("len", len(ch3))
 // len 2
+
+// 直接受信することもできる
+fmt.Println(<-ch3)
+fmt.Println("len", len(ch3))
+// 3
+// len 1
 ```
 
-バッファサイズを超えた場合デッドロック
+このように先に入れたものから順番に取り出される
+
+バッファサイズを超えた場合デッドロックになる
+
+```go
+ch3 := make(chan int, 5)
+
+ch3 <- 1
+ch3 <- 2
+ch3 <- 3
+ch3 <- 4
+ch3 <- 5
+ch3 <- 6
+// fatal error: all goroutines are asleep - deadlock!
+```
 
 ## チャネルとゴルーチン
 
@@ -297,21 +416,24 @@ func main() {
 // ...
 ```
 
-
 ## チャネル close
 送受信が終わったチャネルを明示的に閉じる
 
 ```go
 ch1 := make(chan int, 2)
+
 close(ch1)
+
 i, ok := <- ch1
 fmt.Println(i, ok)
+// 0 false
 ```
 
-チャネルのバッファないが空かつ、closeされた状態ならokにfalseが返る
+チャネルのバッファ内が空かつ、closeされた状態ならokにfalseが返る
 
 ```go
 ch1 := make(chan int, 2)
+
 ch1 <- 1
 close(ch1)
 
@@ -319,13 +441,16 @@ i, ok := <- ch1
 fmt.Println(i, ok)
 // 1 true
 
+
 i2, ok := <- ch1
 fmt.Println(i2, ok)
 // 0 false
 ```
 
-```go
+ゴールーチンとcloseの実例を示す
 
+```go
+// チャネルのバッファが空になるかつcloseされるまでループを繰り返す関数
 func reciever(name string, ch <-chan int) {
 	for {
 		i, ok := <-ch
@@ -403,6 +528,7 @@ fmt.Println(e2)
 // ch1 値がないのでdeadlock
 // ch2 ch1がdeadlockなので到達できずにdeadlock
 ```
+このように複数のゴールーチンを扱う場合、予期せずに停止してしまう恐れがある
 
 `select`: 複数チャネルでゴルーチンを停止させることなく動作させる
 
@@ -429,7 +555,7 @@ ch3 := make(chan int)
 
 // reciever
 go func() {
-  fot {
+  for {
     i := <-ch1
     ch2 <- i * 2
   }
@@ -437,8 +563,8 @@ go func() {
 
 go func() {
   for {
-    i2 := <-ch4
-    ch4 <- i2 - 1
+    i2 := <-ch2
+    ch3 <- i2 - 1
   }
 }()
 
@@ -455,9 +581,6 @@ for {
   }
 }
 ```
-
-
-
 
 
 

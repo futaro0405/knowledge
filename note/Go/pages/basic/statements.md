@@ -4,7 +4,7 @@
 a := 1
 if a == 1 {
   fmt.Println("one")
-} else if a == 1 {
+} else if a == 2 {
   fmt.Println("two")
 } else {
   fmt.Println("I don't know")
@@ -93,7 +93,7 @@ for _, v := range arr {
 }
 ```
 
-## switch
+## switch 式
 ```go
 n := 4
 switch n {
@@ -170,7 +170,7 @@ if x == nil {
 } else if i, isInt := x.(int); isInt {
 	fmt.Println(i, "x is int")
 } else if s, isString := x.(string); isString {
-	fmt.Println(s)
+	fmt.Println(s, isString)
 } else {
 	fmt.Println("対応していない型")
 }
@@ -208,6 +208,10 @@ func main() {
 ```
 
 ## ラベル付きfor
+ラベル付き文を使用することで任意の位置まで文をスキップできます。
+
+以下のfor文は一番深いネストの`for`からのみ抜けるため無限ループになる
+
 ```go
 for {
   for {
@@ -228,7 +232,7 @@ fmt.Println("END")
 // ...
 ```
 
-この場合`break`は一番深いネストの`for`からのみ抜けるため無限ループになる
+Loopのラベルを付けることで`break Loop`で全体から抜けることができる
 
 ```go
 Loop:
@@ -247,8 +251,6 @@ Loop:
 // START
 // END
 ```
-
-Loopのラベルを付けることで`break Loop`で全体から抜けることができる
 
 continueの場合も考える
 ```go
@@ -349,7 +351,7 @@ func main() {
 ランタイムエラーから復帰する。`defer`と合わせて使う
 
 ## `go`文
-goルーチンとも呼ばれいる。
+goルーチンとも呼ばれている。
 goの並行処理の機能
 goルーチンはスレッドよりも小さい処理単位で、暗黙的に並行処理を行ってくれる。
 

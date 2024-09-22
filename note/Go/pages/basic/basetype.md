@@ -1,4 +1,4 @@
-integer型
+## integer型
 
 ```go
 var i int = 100
@@ -76,6 +76,7 @@ nan := zero / zero
 fmt.Println(nan)
 // NaN
 ```
+
 ## 論理値型
 
 ```go
@@ -83,6 +84,7 @@ var t, f bool = true, false
 fmt.Println(t, f)
 // true, false
 ```
+
 ## 文字列型
 ```go
 var s string = "Hello, Golang"
@@ -126,7 +128,9 @@ fmt.Println(string(byteA))
 c := []byte("HI")
 fmt.Println(c)
 ```
+
 ## 配列型
+
 要素数を変更することができない
 後から変更したい場合はスライス型を使う
 
@@ -303,27 +307,3 @@ fmt.Println(b)
 h2 := string(b)
 fmt.Println(h2)
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

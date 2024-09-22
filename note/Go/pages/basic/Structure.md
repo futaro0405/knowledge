@@ -1,6 +1,6 @@
 # 構造体
 オブジェクト指向のプログラミング言語のクラスのような存在
-複数の任意の方の値をひとつにまとめたもの
+複数の任意の型の値をひとつにまとめたもの
 
 ```go
 type User struct {
@@ -16,19 +16,20 @@ type Name struct {
 }
 ```
 
+定義したuser型を使用してみる
 
 ```go
 type User struct {
   Name string
-  Age int
+  Age  int
 }
 
 func main() {
   var user1 User
 
   fmt.Println(user1)
-// { 0}
-// 初期値が表示される
+  // 初期値が表示される（空文字と0）
+  // { 0}
 
   user1.Name = "username"
   user1.Age = 10
@@ -37,32 +38,51 @@ func main() {
 }
 ```
 
-暗黙的に定義
+暗黙的に定義方法
 ```go
-user := User{}
+type User struct {
+  Name string
+  Age  int
+}
+
+func main() {
+  user := User{}
+
+  // 初期値を設定
+  user := User{Name: "username", Age: 10}
+}
 ```
 
-初期値を設定
+初期値を省略して設定することもできる。
+注意が必要で、宣言の順番に入れる必要がある
 ```go
-user := User{Name: "username", Age: 10}
+type User struct {
+  Name string
+  Age  int
+}
+
+func main() {
+  user := User{}
+
+  // 初期値を設定
+  user := User{"username", 10}
+}
 ```
 
-初期値の省略
-宣言の順番に入れる必要がある
-```go
-user := User{"username", 10}
-```
+`new`を使って宣言することもできる  
+User型のポインタが返ってくるため、`&`がついている
 
-`new`を使って宣言
-User型のポインタが返ってくる
 ```go
-user := new(User)
+user2 := new(User)
+fmt.Println(user2)
 // &{ 0}
 ```
 
 アドレス演算子を使うとnewと同じようになる
 ```go
-user := &User{}
+user3 := &User{}
+fmt.Println(user3)
+// &{ 0}
 ```
 
 どのように使うか
@@ -72,6 +92,8 @@ func UpdateUser(user User) {
   user.Name = "A"
   user.Age = 100
 }
+
+// こちらはポインタ型で引数を取得
 func UpdateUser2(user *User) {
   user.Name = "A"
   user.Age = 100
@@ -79,11 +101,12 @@ func UpdateUser2(user *User) {
 
 func main() {
   user1 := User{Name: "user1", Age: 10}
-  user8 := &User{}
+  user2 := &User{}
   
   UpdateUser(user1)
   // {user1 10}
   // 更新されていない
+
   UpdateUser2(user2)
   // &{A 100}
   // 更新されている
@@ -103,14 +126,15 @@ func(u User) SayName() {
   fmt.Println(u.Name)
 }
 
-func(u User) SatName(name string) {
+func(u User) SetName(name string) {
   u.Name = name
 }
 
 func main() {
   user1 = User{Name: "user1"}
   user1.SayName()
-  user1.SatName("A")
+
+  user1.SetName("A")
   user1.SayName()
 }
 // user1
@@ -159,6 +183,7 @@ func main() {
 その場合は呼び出しを省略できる
 
 ```go
+// フィールドの宣言を省略する場合
 type T struct {
   User
 }
@@ -252,6 +277,7 @@ func main() {
 ```
 
 ## mapと構造体
+mapと構造体を組み合わせることも可能  
 
 ```go
 type User struct {
@@ -264,19 +290,24 @@ func main() {
     1: {Name: "user1", Age: 10},
     2: {Name: "user2", Age: 20},
   }
+  // map[1: {Name: "user1", Age: 10} 2: {Name: "user2", Age: 20},]
 
   m2 := map[User]string{
     {Name: "user1", Age: 10}: "Tokyo",
     {Name: "user2", Age: 20}: "LA",
   }
 
+  // makeを使って宣言することも可能
   m3 := make(map[int]User)
   m3[1] = User{Name: "user3"}
   // map[1: {user3 0}]
 
+  // forループでmapの中身を取り出す
   for _, v := range m {
     fmt.Println(v)
   }
+  // {Name: "user1", Age: 10}
+  // {Name: "user2", Age: 20}
 }
 
 ```
@@ -291,31 +322,19 @@ func main() {
   fmt.Println(m)
   fmt.Println("%T\n", m1)
 
+  // Myint型とint型は計算ができない
   i := 100
   fmt.Println(m1 + i)
   // error
 }
 ```
 
+関数に用いることもできる
+
+```go
+func (mi MyInt) Print() {
+  fmt.Println(mi)
+}
+```
+
 独自宣言したMyInt型とint型は計算できない
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

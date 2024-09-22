@@ -15,6 +15,12 @@ func main() {
 }
 ```
 
+```bash
+$ go run main.go
+
+exit status 1
+```
+
 `defer`文も実行されない
 
 ```go
@@ -22,8 +28,12 @@ defer func() {
 	fmt.Println("defer")
 }
 os.Exit(0)
+```
 
-// exit status 0
+```bash
+$ go run main.go
+
+exit status 1
 ```
 
 ログのフィルタ
@@ -59,8 +69,9 @@ func main() {
 ```
 
 ビルドして実行ファイルにする
+ビルドを行うと`getargs`ファイルが作成されるので実行する
 
-```tarminal
+```bash
 $ go build -o getargs main.go
 $ ./getargs 123 456 789
 
@@ -95,7 +106,7 @@ func main() {
 ```
 
 #### `Create`
-新規ファイルを作成する
+新規ファイルを作成する  
 既に存在する場合は削除されて新規で作成されるため注意
 
 ```go
@@ -108,10 +119,10 @@ func main() {
 }
 ```
 
-`Write`： 書き込み
-`WriteAt`： ofset1を6文字目に指定して書き込み
-`Seek`：`SEEK_END`を指定することでファイルの末尾にoffsetを移動
-`WriteString`： 文字列を書き込み
+`Write`： 書き込み  
+`WriteAt`： ofset1を6文字目に指定して書き込み  
+`Seek`：`SEEK_END`を指定することでファイルの末尾にoffsetを移動  
+`WriteString`： 文字列を書き込み  
 
 ```file
 Hello
@@ -153,14 +164,15 @@ bsをReadで読み込んだ内容を書き込む
 
 ## `Openfile`
 
-`O_RDONLY`：読み込み専用
-`O_WRONLY`：書き込み専用
-`O_RDWR`：読み書き可能
-`O_APPEND`：ファイル末尾に追記
-`O_CREATE`：ファイルがなければ作成
-`O_TRUNC`：可能であればファイルの内容をオープン時に空にする
+`O_RDONLY`：読み込み専用  
+`O_WRONLY`：書き込み専用  
+`O_RDWR`：読み書き可能  
+`O_APPEND`：ファイル末尾に追記  
+`O_CREATE`：ファイルがなければ作成  
+`O_TRUNC`：可能であればファイルの内容をオープン時に空にする  
 
-`0666`パーミッション
+`0666`パーミッション  
+
 `|`を用いて複数のフラグをしてすることもできる。
 
 ```go

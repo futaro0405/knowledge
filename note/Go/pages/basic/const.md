@@ -20,7 +20,7 @@ func main() {
 複数の定数を定義
 ```go
 const (
-  URL         = "http://xxx.co.jp"
+  URL      = "http://xxx.co.jp"
   SiteName = "test"
 )
 ```
