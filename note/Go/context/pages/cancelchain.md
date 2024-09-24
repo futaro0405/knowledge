@@ -204,3 +204,18 @@ func main() {
 それらの関係と、それぞれに引数として渡されているcontextは以下のようになっています。  
 
 ![](https://storage.googleapis.com/zenn-user-upload/ce6205c05e055f5d9e008c79.png)
+
+`ctx2`のキャンセルのみを実行すると、`ctx2`のもつG2と、その子である`ctx3`を持つG3が揃って終了します。  
+一方、`ctx2`の親である`ctx1`を持つG1は生きたままとなります。  
+
+```bash
+$ go run main.go
+
+G2 canceled
+G3 canceled
+```
+
+![](https://storage.googleapis.com/zenn-user-upload/42852339abb449f4650e247f.png)
+
+これで、「親contextがキャンセルされたら、子のcontextにまで波及する」ということが確認できました。  
+
