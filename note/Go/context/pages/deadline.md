@@ -185,3 +185,48 @@ closedなチャネルをcloseしようとするとpanicになりますが、そ�
 そのため、ドキュメントでは「タイムアウト設定をしていた場合にも、明示的にcancelを呼ぶべき」という記述があります。  
 
 ## `Deadline`メソッドによるタイムアウト有無・時刻の確認
+あるcontextにタイムアウトが設定されているかどうか確認したい、ということもあるでしょう。  
+そのような場合は`Deadline`メソッドを使います。  
+
+contextの`Deadline`メソッドの定義を確認してみましょう。　　
+```go
+type Context interface {
+	Deadline() (deadline time.Time, ok bool)
+}
+```
+
+第二返り値のbool値を確認することで「そのcontextにタイムアウトが設定されているか」を評判することができます。  
+設定されていれば、true、されていなければfalseです。  
+設定されている場合は第一返り値にはタイムアウト時刻が格納されます。  
+
+```go
+ctx := context.Background()
+fmt.Println(ctx.Deadline())
+
+fmt.Println(time.Now())
+ctx, _ := context.WithTimeout(ctx, 2*time.Second)
+fmt.Println(ctx.Deadline())
+```
+
+```bash
+0001-01-01 00:00:00 +0000 UTC false
+2021-08-22 20:03:53.352015 +0900 JST m=+0.000228979
+2021-08-22 20:03:55.352177 +0900 JST m=+2.000391584 true
+```
+
+## まとめ
+contextでタイムアウトを行う場合のポイントは以下4つです。
+
+- 自動タイムアウトさせるためのcontextは`WithDeadline`関数・`WithTimeout`関数で作れる
+- タイムアウトが設定されているcontextは、指定時刻にDoneメソッドチャネルがcloneされる
+- `WithDeadline`関数・`WithTimeout`関数それぞれから得られるcancel関数で、タイムアウト前後にもキャンセルを明示的に指示することができる
+- そのcontextのタイムアウト時刻・そもそもタイムアウトが設定されているかどうかは`Deadline`メソッドで確認できる
+
+```go
+type Context interface {
+	Deadline() (deadline time.Time, ok bool)
+}
+
+func WithDeadline(parant Context, d time.Time) (Context, CancelFunc)
+func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+```
