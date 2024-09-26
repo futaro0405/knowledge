@@ -53,3 +53,6 @@ ireru
 | device | true |
 | --
 app: true
+
+
+https://newtrishstaging.page.link/?service=asken&code=962f2379eb4ca4db6f5e439fe6d10c4c39ecadb7&state=joYaFnC6OpfbDPvyvkj3bsLYL4HgYfkPX06MSXffvsmLqaAedZmH7Qzp3zj6eOwPpEfKEIFID95bhlGh3kJhiRuZIluPX5iXbyAay8oEBV0WfacRUMbacfoMj64Zfqlc&error&error_description&_imcp=1
