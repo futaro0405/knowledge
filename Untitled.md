@@ -49,3 +49,7 @@ ireru
 ![[Pasted image 20240918111549.png]]
 
 ![[Pasted image 20240918111648.png]]
+
+| device | true |
+| --
+app: true
