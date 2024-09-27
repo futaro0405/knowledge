@@ -162,3 +162,29 @@ func main() {
 ここでは、`context.Background()`を使って基本的な`context`を作成し、それを`MyFunc`に渡しています。  
 しかし、`MyFunc`のコンテキスト対応が完全かどうか不明な場合の対処法については、追加の確認や対策が必要になる可能性があります。  
 
+#### 悪い例：nilを渡す
+
+```go
+func main() {
+    // argを準備
+    mypkg.MyFunc(nil, arg)
+}
+```
+
+これは危険です。nilコンテキストのメソッド呼び出しでプログラムがクラッシュする可能性があります。
+
+#### 良い例：TODOを渡す
+「`MyFunc`の第一引数が`context`にはなっているけれども、`context`対応が本当に終わっているか分からない」という場合に使うべきものが、contextパッケージ内には用意されています。  
+それがcontext.TODOです。  
+
+```go
+func main() {
+	ctx := context.TODO()
+	// argを準備
+	mypkg.MyFunc(nil, arg)
+	mypkg.MyFunc(ctx, arg)
+}
+```
+
+TODOはBackgroundのように空のcontextを返す関数です。
+
