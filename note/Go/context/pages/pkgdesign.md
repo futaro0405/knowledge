@@ -188,3 +188,53 @@ func main() {
 
 TODOはBackgroundのように空のcontextを返す関数です。
 
+## 標準パッケージにおけるcontext導入状況
+さて、これで既存パッケージにcontextを導入する際には「contextを構造体フィールドに入れるのではなく、関数の第一引数として明示的に渡すべき」という原則を知りました。  
+contextパッケージがGoに導入されたのはバージョン1.7からです。
+そのため、それ以前からあった標準パッケージはcontext対応を何かしらの形で行っています。  
+ここからは、二つの標準パッケージがどうcontextに対応させたのか、という具体例を見ていきましょう。  
+
+## database/sqlの場合
+`database/sql`パッケージは、まさに「`context`を関数の第一引数の形で明示的に渡す」という方法を使って`context`対応を行いました。
+
+```go
+type DB
+	func (db *DB) Exec(query string, args ...interface{}) (Result, error)
+	func (db *DB) ExecContext(ctx context.Context, query string, args ...interface{}) (Result, error)
+
+	func (db *DB) Ping() error
+	func (db *DB) PingContext(ctx context.Context) error
+
+	func (db *DB) Prepare(query string) (*Stmt, error)
+	func (db *DB) PrepareContext(ctx context.Context, query string) (*Stmt, error)
+
+	func (db *DB) Query(query string, args ...interface{}) (*Rows, error)
+	func (db *DB) QueryContext(ctx context.Context, query string, args ...interface{}) (*Rows, error)
+
+	func (db *DB) QueryRow(query string, args ...interface{}) *Row
+	func (db *DB) QueryRowContext(ctx context.Context, query string, args ...interface{}) *Row
+```
+
+`context`導入以前に書かれたコードの後方互換性を保つために古い`context`なしの関数`Xxxx`も残しつつも、context対応した`XxxxContext`関数を新たに作ったのです。  
+
+## net/httpの場合
+`net/http`パッケージは、あえて「構造体の中にcontextを持たせる」というアンチパターンを採用しました。  
+例えば`http.Request`型の中には、非公開ではありますがctxフィールドが確認できます。
+
+```go
+type Request struct {
+	ctx context.Context
+	// (以下略)
+}
+```
+
+なぜそのようなことをしたのでしょうか。実はこれも後方互換性の担保のためなのです。  
+`net/http`の中に、引数・返り値何らかの形で`Request`型が含まれている関数・メソッドの数は、公開されているものだけでも数十にのぼります。`http`パッケージ内部のみで使われている非公開関数・メソッドまで含めるとその数はかなりのものになるのは想像に難くないでしょう。  
+
+そのため、それらをすべて「contextを第一引数に持つように」改修するのは非現実的でした。  
+`database/sql`のように「後方互換性のために古い関数Xxxを残した上で、新しくXxxContextを作る」というのをやるのなら、それはもう新しく`httpcontext`というパッケージを作るようなものでしょう。並大抵の労力ではできません。  
+
+「非公開フィールドとして`context`を追加する」という方法ならば、後方互換性を保った`context`対応が比較的簡単に行えます。  
+そのため、`net/http`パッケージではあえてこのアンチパターンが採用されたのです。  
+
+[Go公式ブログ - Contexts and structs](https://go.dev/blog/context-and-structs)ではnet/httpの例を取り上げて、「これが構造体の中にcontextを入れて許される唯一の例外パターンである」と述べています。  
