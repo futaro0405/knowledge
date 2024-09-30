@@ -116,8 +116,120 @@ what is today's lucky number?
 Today's your lucky number is 7!
 ```
 
-![](https://static.zenn.studio/images/copy-icon.svg)![](https://static.zenn.studio/images/wrap-icon.svg)
-
 今日のラッキーナンバーが表示されて、ちゃんと「サブのゴールーチンが終わるまでメインを待たせる」という期待通りの挙動を得ることができました。  
 いわゆる「同期をとる」という作業をここで実現させています。  
-![](https://storage.googleapis.com/zenn-user-upload/323ed9976be33eebf94c7f60.png)
+![[Pasted image 20240930212028.png]]
+
+## チャネルとは
+チャネルは、Go言語における並行処理の重要な概念の一つです。
+簡単に言えば、チャネルは「異なるゴールーチン間でデータをやりとりするための通路」です。
+
+### チャネルの特徴
+
+#### 型付きの通信路
+チャネルは特定の型のデータのみを扱います。
+例えば、int型のチャネルは整数のみをやりとりできます。
+#### 送受信の仕組み
+チャネル演算子 `<-` を使ってデータの送受信を行います。
+- 送信：`channel <- value`
+- 受信：`value := <- channel`
+#### ゴールーチン間の同期
+チャネルを使うことで、ゴールーチン間の処理のタイミングを調整できます。
+データの送受信は、送り手と受け手の両方が準備できるまでブロックされます。
+#### 安全な通信
+チャネルを使うことで、複数のゴールーチン間での安全なデータ共有が可能になります。
+データ競合（race condition）のリスクを減らすことができます。
+
+このように、チャネルを使うことで、異なるゴールーチン間で安全かつ効率的にデータをやりとりし、処理の流れを制御することができます。
+
+## チャネルを使った値の送受信
+### 仕様変更
+今までは「標準出力にラッキーナンバーを表示する」機構は、`getLuckyNum`の方にありました。
+
+```go
+func getLuckyNum() {
+	// (略)
+	fmt.Printf("Today's your lucky number is %d!\n", num)
+}
+```
+
+これを、メインゴールーチンの方で行うように仕様変更することを考えます。
+
+```go
+func getLuckyNum() {
+	// (略)
+	fmt.Printf("Today's your lucky number is %d!\n", num)
+	// メインゴールーチンにラッキーナンバーnumをどうにかして伝える
+}
+
+func main() {
+	fmt.Println("what is today's lucky number?")
+	go getLuckyNum()
+
+	// ゴールーチンで起動したgetLuckyNum関数から
+	// ラッキーナンバーを変数numに取得してくる
+
+	fmt.Printf("Today's your lucky number is %d!\n", num)
+}
+```
+
+この仕様変更によって
+
+- `getLuckyNum`関数を実行しているゴールーチンからメインゴールーチンに値を送信する
+- メインゴールーチンが`getLuckyNum`関数を実行しているゴールーチンから値を受信する
+
+という2つの機構が必要になりました。  
+これを実装するのに、「異なるゴールーチン同士のやり取り」を補助するチャネルはぴったりの要素です。
+
+### 実装
+実際にチャネルを使って実装した結果は以下の通りです。
+
+```go
+func getLuckyNum(c chan<- int) {
+	fmt.Println("...")
+
+	// ランダム占い時間
+	rand.Seed(time.Now().Unix())
+	time.Sleep(time.Duration(rand.Intn(3000)) * time.Millisecond)
+
+	num := rand.Intn(10)
+	c <- num
+}
+
+func main() {
+	fmt.Println("what is today's lucky number?")
+
+	c := make(chan int)
+	go getLuckyNum(c)
+
+	num := <-c
+
+	fmt.Printf("Today's your lucky number is %d!\n", num)
+
+	// 使い終わったチャネルはcloseする
+	close(c)
+}
+```
+
+やっていることとしては
+
+1. `make(chan int)`でチャネルを作成 → `getLuckyNum`関数に引数として渡す
+2. `getLuckyNum`関数内で得たラッキーナンバーを、チャネル`c`に送信(`c <- num`)
+3. メインゴールーチンで、チャネル`c`からラッキーナンバーを受信(`num := <-c`)
+
+です。  
+![[Pasted image 20240930212801.png]]
+
+これを実行してみると、以下のように期待通りの挙動をすることが確認できます。
+
+```bash
+(実行結果)
+what is today's lucky number?
+...
+Today's your lucky number is 3!
+```
+
+メインゴールーチンはチャネル`c`から値を受信するまでブロックされるので、「ラッキーナンバー取得前にプログラムが終了する」ということはありません。  
+そのため、これは`sync.WaitGroup`を使った待ち合わせを行わなくてOKです。  
+このように、チャネルにも「同期」の性質がある、という話は次章に取りあげます。
+
