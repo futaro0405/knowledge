@@ -157,3 +157,118 @@ func Serve(queue chan *Request) {
 - ゴールーチンの数を管理しやすい
 
 このパターンは、リーキーバケットアルゴリズムなど、レート制限の実装にも応用できます。
+
+## FanIn
+FanInは、複数のチャネルからの入力を1つのチャネルにまとめる並行処理パターンです。
+
+## 基本(Google I/O 2012 ver.)
+まとめたいチャネルの数が固定の場合は、`select`文を使って簡単に実装できます。
+
+```go
+func fanIn1(done chan struct{}, c1, c2 <-chan int) <-chan int {
+	result := make(chan int)
+
+	go func() {
+		defer fmt.Println("closed fanin")
+		defer close(result)
+		for {
+			// caseはfor文で回せないので(=可変長は無理)
+			// 統合元のチャネルがスライスでくるとかだとこれはできない
+			// →応用編に続く
+			select {
+			case <-done:
+				fmt.Println("done")
+				return
+			case num := <-c1:
+				fmt.Println("send 1")
+				result <- num
+			case num := <-c2:
+				fmt.Println("send 2")
+				result <- num
+			default:
+				fmt.Println("continue")
+				continue
+			}
+		}
+	}()
+
+	return result
+}
+```
+
+このFanInを使用例は、例えばこんな感じになります。
+
+```go
+func main() {
+	done := make(chan struct{})
+
+	gen1 := generator(done, 1) // int 1をひたすら送信するチャネル(doneで止める)
+	gen2 := generator(done, 2) // int 2をひたすら送信するチャネル(doneで止める)
+
+	result := fanIn1(done, gen1, gen2) // 1か2を受け取り続けるチャネル
+	for i := 0; i < 5; i++ {
+		<-result
+	}
+	close(done)
+	fmt.Println("main close done")
+
+	// これを使って、main関数でcloseしている間に送信された値を受信しないと
+	// チャネルがブロックされてしまってゴールーチンリークになってしまう恐れがある
+	for {
+		if _, ok := <-result; !ok {
+			break
+		}
+	}
+}
+```
+
+ポイント：
+
+- `select`文を使用して複数チャネルを同時に監視
+- `done`チャネルでゴールーチンの終了を制御
+- メインルーチン終了後も残った値を適切に処理し、リークを防ぐ
+
+FanInパターンは、複数のデータソースを効率的に1つのストリームにまとめる際に有用です。
+## 応用(並行処理本ver.)
+
+FanInでまとめたいチャネル群が可変長変数やスライスで与えられている場合は、`select`文を直接使用することができません。  
+このような場合でも動くようなFanInが、並行処理本の中にあったので紹介します。
+
+```go
+func fanIn2(done chan struct{}, cs ...<-chan int) <-chan int {
+	result := make(chan int)
+
+	var wg sync.WaitGroup
+	wg.Add(len(cs))
+
+	for i, c := range cs {
+		// FanInの対象になるチャネルごとに
+		// 個別にゴールーチンを立てちゃう
+		go func(c <-chan int, i int) {
+			defer wg.Done()
+
+			for num := range c {
+				select {
+				case <-done:
+					fmt.Println("wg.Done", i)
+					return
+				case result <- num:
+					fmt.Println("send", i)
+				}
+			}
+		}(c, i)
+	}
+
+	go func() {
+		// selectでdoneが閉じられるのを待つと、
+		// 個別に立てた全てのゴールーチンを終了できる保証がない
+		wg.Wait()
+		fmt.Println("closing fanin")
+		close(result)
+	}()
+
+	return result
+}
+```
+
+![](https://static.zenn.studio/images/copy-icon.svg)![](https://static.zenn.studio/images/wrap-icon.svg)
