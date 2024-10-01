@@ -117,3 +117,43 @@ default:  // どっちも受信できないとき
 }
 ```
 
+## バッファありチャネルはセマフォの役割
+バッファありチャネルは、並行処理の数を制限するセマフォ[^1]として使用できます。
+
+[^1]:セマフォは、共有（保護された）リソース上で同時に操作できるタスクの数を制限する方法
+
+主なポイントは
+
+1. **同時実行数の制御**
+    - チャネルのバッファサイズが同時実行可能な処理数を決定
+2. **ブロッキングの利用**
+    - バッファが満杯になると、追加の送信操作がブロック
+    - これにより、並行処理の数を自動的に制限
+
+```go
+var sem = make(chan int, MaxOutstanding)
+
+func handle(r *Request) {
+    sem <- 1    // Wait for active queue to drain.
+    process(r)  // May take a long time.
+    <-sem       // Done; enable next request to run.
+}
+
+func Serve(queue chan *Request) {
+    for {
+        req := <-queue
+        go handle(req)  // Don't wait for handle to finish.
+    }
+}
+```
+
+動作：
+- `sem`チャネルが満杯になると、新しい`handle`の実行がブロック
+- 処理が完了すると、チャネルから値を取り出し、新しい処理を許可
+
+利点：
+- シンプルな実装で並行処理数を制御
+- リソースの過剰使用を防止
+- ゴールーチンの数を管理しやすい
+
+このパターンは、リーキーバケットアルゴリズムなど、レート制限の実装にも応用できます。
