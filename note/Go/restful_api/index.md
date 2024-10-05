@@ -209,11 +209,9 @@ gorilla/muxの利点：
 
 # ルーターの構築
 既存の`main.go`ファイルを更新し、標準ライブラリのHTTPルーターを`gorilla/mux`ベースのルーターに置き換えます。
-
 `handleRequests`関数を以下のように修正して、新しいルーターを作成します：
 
 **main.go**
-
 ```go
 package main
 
@@ -225,30 +223,31 @@ import (
     "github.com/gorilla/mux"
 )
 
-// ... 既存のコード
-
+… // Existing code from above
 func handleRequests() {
-    // muxルーターの新しいインスタンスを作成
+    // creates a new instance of a mux router
     myRouter := mux.NewRouter().StrictSlash(true)
-    // http.HandleFuncをmyRouter.HandleFuncに置き換え
+    // replace http.HandleFunc with myRouter.HandleFunc
     myRouter.HandleFunc("/", homePage)
     myRouter.HandleFunc("/all", returnAllArticles)
-    // 最後に、nilの代わりに新しく作成したルーターを
-    // 第2引数として渡す
+    // finally, instead of passing in nil, we want
+    // to pass in our newly created router as the second
+    // argument
     log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
 
 func main() {
-    fmt.Println("REST API v2.0 - Mux Routers")
+    fmt.Println("Rest API v2.0 - Mux Routers")
     Articles = []Article{
-        Article{Title: "こんにちは", Desc: "記事の説明", Content: "記事の内容"},
-        Article{Title: "こんにちは 2", Desc: "記事の説明", Content: "記事の内容"},
+        Article{Title: "Hello", Desc: "Article Description", Content: "Article Content"},
+        Article{Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
     }
     handleRequests()
 }
 ```
 
-このコードを実行すると、システムの動作に大きな変化はありません。同じポートで起動し、アクセスするエンドポイントに応じて同じ結果を返します。
+このコードを実行すると、システムの動作に大きな変化はありません。
+同じポートで起動し、アクセスするエンドポイントに応じて同じ結果を返します。
 
 主な違いは、gorilla/muxルーターを使用することで、このチュートリアルの後半でパスやクエリパラメータを簡単に取得できるようになることです。
 
@@ -258,4 +257,85 @@ func main() {
 REST API v2.0 - Mux Routers
 ```
 
-この変更により、APIの機能性が大幅に向上しました。次のステップでは、gorilla/muxの高度な機能を活用して、より複雑なルーティングやパラメータの処理を実装していきます。これにより、より柔軟で強力なAPIを構築することができます。
+# パス変数の使用
+ここまでで、ホームページと全記事を返す簡単なREST APIを作成しました。
+では、1つの記事だけを表示したい場合はどうすればよいでしょうか？
+
+`gorilla/mux`ルーターのおかげで、パスに変数を追加し、その変数に基づいて返す記事を選択できます。
+`handleRequests()`関数内の`/articles`ルートの下に新しいルートを追加しましょう：
+
+```go
+myRouter.HandleFunc("/article/{id}", returnSingleArticle)
+```
+
+パスに`{id}`を追加しました。
+これは、特定の記事を返すときに使用するID変数を表します。
+
+まず、`Article`構造体にIdプロパティを追加します：
+
+```go
+type Article struct {
+	Id      string `json:"Id"`
+	Title   string `json:"Title"`
+	Desc    string `json:"desc"`
+	Content string `json:"content"`
+}
+```
+
+次に、`main`関数を更新して`Articles`配列のId値を設定します：
+
+```go
+func main() {
+	Articles = []Article{
+		Article{Id: "1", Title: "Hello", Desc: "Article Description", Content: "Article Content"},
+		Article{Id: "2", Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
+	}
+	handleRequests()
+}
+```
+
+`returnSingleArticle`関数でURLから`{id}`値を取得し、その条件に一致する記事を返すことができるようになりました。
+データをどこにも保存していないため、まずはブラウザに渡されたIDを返すだけにしましょう。
+
+```go
+func returnSingleArticle(w http.ResponseWriter, r *http.Request){
+    vars := mux.Vars(r)
+    key := vars["id"]
+
+    fmt.Fprintf(w, "キー: " + key)
+}
+```
+
+このコードを実行し、`http://localhost:1000/article/1`にアクセスすると、ブラウザに`キー: 1`と表示されるはずです。
+
+次に、この`key`値を使用して、そのキーに一致する特定の記事を返すようにしましょう。
+
+```go
+func returnSingleArticle(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    key := vars["id"]
+
+    // すべての記事をループで回す
+    // article.Idが渡されたキーと一致する場合
+    // その記事をJSONでエンコードして返す
+    for _, article := range Articles {
+        if article.Id == key {
+            json.NewEncoder(w).Encode(article)
+        }
+    }
+}
+```
+
+`go run main.go`でこのコードを実行し、ブラウザで`http://localhost:10000/article/1`を開きます：
+
+**`http://localhost:10000/article/1`のレスポンス**
+
+js
+
+Copy
+
+`{ "Id": "1", "Title": "こんにちは", "desc": "記事の説明", "content": "記事の内容" }`
+
+これで、キー`1`に一致する記事がJSON形式で返されるのが確認できます。
+
+この実装により、特定のIDを持つ記事を個別に取得できるようになりました。これはRESTful APIの重要な機能の一つで、リソースの個別取得を可能にします。次のステップでは、記事の作成、更新、削除機能を追加して、完全なCRUD操作を実現する方法を学んでいきましょう。
