@@ -190,3 +190,33 @@ func deleteUser(w http.ResponseWriter, r *http.Request) {
 
 この関数では、指定された名前のユーザーを検索し、見つかった場合に削除します。
 
+# ユーザー更新エンドポイント
+データベース内の既存のユーザーを更新する必要がある場合、GORMを使用すると非常に簡単に行えます。
+基本的には、一意のnameを使用して特定のユーザーを検索します。
+
+ユーザーが見つかったら、通常のGoオブジェクトと同様にUserオブジェクトを更新します。
+更新が完了したら、db.Save(&user)を呼び出して変更をデータベースに保存します。
+
+```go
+func updateUser(w http.ResponseWriter, r *http.Request) {
+    db, err := gorm.Open("sqlite3", "test.db")
+    if err != nil {
+        panic("データベース接続に失敗しました")
+    }
+    defer db.Close()
+
+    vars := mux.Vars(r)
+    name := vars["name"]
+    email := vars["email"]
+
+    var user User
+    db.Where("name = ?", name).Find(&user)
+
+    user.Email = email
+
+    db.Save(&user)
+    fmt.Fprintf(w, "ユーザーが正常に更新されました")
+}
+```
+
+この関数では、指定された名前のユーザーを検索し、見つかった場合にメールアドレスを更新します。
