@@ -441,20 +441,42 @@ REST APIでデータを削除するには、識別子を受け取り、それに
 
 `main.go`ファイルに`deleteArticle`関数を追加します：
 
-go
-
-Copy
-
-`func deleteArticle(w http.ResponseWriter, r *http.Request) {     vars := mux.Vars(r)    id := vars["id"]     for index, article := range Articles {        if article.Id == id {            Articles = append(Articles[:index], Articles[index+1:]...)        }    } }`
+```go
+func deleteArticle(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	
+	for index, article := range Articles {
+		if article.Id == id {
+			Articles = append(Articles[:index], Articles[index+1:]...)
+		}
+	}
+}
+```
 
 `handleRequests`関数にこの新しい`deleteArticle`関数へのルートを追加します：
 
-go
-
-Copy
-
-`func handleRequests() {     myRouter := mux.NewRouter().StrictSlash(true)    myRouter.HandleFunc("/", homePage)    myRouter.HandleFunc("/articles", returnAllArticles)    myRouter.HandleFunc("/article", createNewArticle).Methods("POST")    // 新しいDELETEエンドポイントを追加    myRouter.HandleFunc("/article/{id}", deleteArticle).Methods("DELETE")    myRouter.HandleFunc("/article/{id}", returnSingleArticle)    log.Fatal(http.ListenAndServe(":10000", myRouter)) }`
+```go
+func handleRequests() {
+	myRouter := mux.NewRouter().StrictSlash(true)
+	myRouter.HandleFunc("/", homePage)
+	myRouter.HandleFunc("/articles", returnAllArticles)
+	myRouter.HandleFunc("/article", createNewArticle).Methods("POST")
+	// 新しいDELETEエンドポイントを追加
+	myRouter.HandleFunc("/article/{id}", deleteArticle).Methods("DELETE")
+	myRouter.HandleFunc("/article/{id}", returnSingleArticle)
+	log.Fatal(http.ListenAndServe(":10000", myRouter))
+}
+```
 
 `http://localhost:10000/article/2`にHTTP DELETEリクエストを送信して試してみてください。
 
 注意：この実装は単純化のためグローバル変数を更新しています。スレッドセーフにするには、Mutexの使用を検討してください。
+
+# 記事の更新
+最後に実装するのは更新エンドポイントです。
+このエンドポイントはHTTP PUTメソッドを使用し、DELETE エンドポイントと同様に `Id` パスパラメータを取ります。
+また、JSONリクエストボディも必要です。
+
+この PUT リクエストのボディにあるJSONには、更新したい記事の新しいバージョンが含まれます。
+
