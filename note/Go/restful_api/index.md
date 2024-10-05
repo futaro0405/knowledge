@@ -329,13 +329,132 @@ func returnSingleArticle(w http.ResponseWriter, r *http.Request) {
 `go run main.go`でこのコードを実行し、ブラウザで`http://localhost:10000/article/1`を開きます：
 
 **`http://localhost:10000/article/1`のレスポンス**
-
-js
-
-Copy
-
-`{ "Id": "1", "Title": "こんにちは", "desc": "記事の説明", "content": "記事の内容" }`
+```js
+{
+"Id": "1",
+"Title": "こんにちは",
+"desc": "記事の説明",
+"content": "記事の内容"
+}
+```
 
 これで、キー`1`に一致する記事がJSON形式で返されるのが確認できます。
 
-この実装により、特定のIDを持つ記事を個別に取得できるようになりました。これはRESTful APIの重要な機能の一つで、リソースの個別取得を可能にします。次のステップでは、記事の作成、更新、削除機能を追加して、完全なCRUD操作を実現する方法を学んでいきましょう。
+# 記事の作成と更新
+このチュートリアルのパートでは、CRUD REST APIの「Create（作成）」、「Update（更新）」、「Delete（削除）」の部分を構築します。
+すでに「Read（読み取り）」については、単一の記事と全記事の両方を読み取る機能を実装しました。
+
+## 新しい記事の作成
+新しい記事を作成する機能を実装するため、`main.go`ファイルに`createNewArticle()`関数を追加します。
+
+```go
+func createNewArticle(w http.ResponseWriter, r *http.Request) {
+	// POSTリクエストのボディを取得
+	// リクエストボディを含む文字列レスポンスを返す
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	fmt.Fprintf(w, "%+v", string(reqBody))
+}
+```
+
+この関数を定義したら、`handleRequests`関数内のルートリストに新しいルートを追加できます。
+今回は、`.Methods("POST")`をルートの末尾に追加して、このルートがHTTP POSTリクエストのみに応答するように指定します：
+
+```go
+func handleRequests() {
+	myRouter := mux.NewRouter().StrictSlash(true)
+	myRouter.HandleFunc("/", homePage)
+	myRouter.HandleFunc("/articles", returnAllArticles)
+	// 注意：ここでの順序が重要です！他の `/article` エンドポイントより
+	// 先にこれを定義する必要があります。
+	myRouter.HandleFunc("/article", createNewArticle).Methods("POST")
+	myRouter.HandleFunc("/article/{id}", returnSingleArticle)
+	log.Fatal(http.ListenAndServe(":10000", myRouter))
+}
+```
+
+このコードを実行し、以下のような内容のPOSTリクエストを送信してみてください：
+
+```js
+{
+    "Id": "3", 
+    "Title": "Newly Created Post", 
+    "desc": "The description for my new post", 
+    "content": "my articles content" 
+}
+```
+
+このエンドポイントが呼び出され、リクエストボディの内容がそのままエコーバックされるはずです。
+
+新しいエンドポイントが正しく動作することを確認したら、`createNewArticle`関数を更新して、リクエストボディのJSONを新しい`Article`構造体にアンマーシャルし、それを`Articles`配列に追加するようにしましょう：
+
+```go
+func createNewArticle(w http.ResponseWriter, r *http.Request) {
+    // POSTリクエストのボディを取得
+    // これを新しいArticle構造体にアンマーシャル
+    // その後、Articles配列に追加
+    reqBody, _ := ioutil.ReadAll(r.Body)
+    var article Article 
+    json.Unmarshal(reqBody, &article)
+    // グローバルなArticles配列を更新して
+    // 新しいArticleを含める
+    Articles = append(Articles, article)
+
+    json.NewEncoder(w).Encode(article)
+}
+```
+
+このコードを実行し、同じPOSTリクエストをアプリケーションに送信すると、以前と同じJSON形式でレスポンスが返されますが、新しい記事が`Articles`配列に追加されていることも確認できます。
+
+これを`http://localhost:10000/articles`にアクセスして確認してください：
+
+**`http://localhost:10000/articles`のレスポンス**
+
+```js
+[
+	{
+		"Id": "1",
+		"Title": "こんにちは",
+		"desc": "記事の説明",
+		"content": "記事の内容"
+	},
+	{
+		"Id": "2",
+		"Title": "こんにちは 2",
+		"desc": "記事の説明",
+		"content": "記事の内容"
+	},
+	{
+		"Id": "3",
+		"Title": "新しく作成された投稿",
+		"desc": "新しい投稿の説明",
+		"content": "記事の内容"
+	}
+]
+```
+
+これで、REST APIに「Create（作成）」機能を追加することに成功しました！
+
+次のセクションでは、記事を削除できる新しいAPIエンドポイントの追加方法を学びます。
+
+# 記事の削除
+REST APIでデータを削除するには、識別子を受け取り、それに関連するものを削除する`DELETE`エンドポイントを公開する必要があります。
+
+`main.go`ファイルに`deleteArticle`関数を追加します：
+
+go
+
+Copy
+
+`func deleteArticle(w http.ResponseWriter, r *http.Request) {     vars := mux.Vars(r)    id := vars["id"]     for index, article := range Articles {        if article.Id == id {            Articles = append(Articles[:index], Articles[index+1:]...)        }    } }`
+
+`handleRequests`関数にこの新しい`deleteArticle`関数へのルートを追加します：
+
+go
+
+Copy
+
+`func handleRequests() {     myRouter := mux.NewRouter().StrictSlash(true)    myRouter.HandleFunc("/", homePage)    myRouter.HandleFunc("/articles", returnAllArticles)    myRouter.HandleFunc("/article", createNewArticle).Methods("POST")    // 新しいDELETEエンドポイントを追加    myRouter.HandleFunc("/article/{id}", deleteArticle).Methods("DELETE")    myRouter.HandleFunc("/article/{id}", returnSingleArticle)    log.Fatal(http.ListenAndServe(":10000", myRouter)) }`
+
+`http://localhost:10000/article/2`にHTTP DELETEリクエストを送信して試してみてください。
+
+注意：この実装は単純化のためグローバル変数を更新しています。スレッドセーフにするには、Mutexの使用を検討してください。
