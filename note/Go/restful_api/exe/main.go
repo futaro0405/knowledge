@@ -62,7 +62,7 @@ func updateArticle(w http.ResponseWriter, r http.Request) {
 	json.Unmarshal(reqBody, &updatedEvent)
 	for i, article := range Articles {
 		if article.Id == id {
-			article.Title = updatedEvent.Title
+¬			article.Title = updatedEvent.Title
 			article.Desc = updatedEvent.Desc
 			article.Content = updatedEvent.Content
 			Articles[i] = article
