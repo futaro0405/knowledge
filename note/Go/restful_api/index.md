@@ -101,24 +101,161 @@ func main() {
 
 これから作成するREST APIは、Webサイト上の記事の作成（CREATE）、読み取り（READ）、更新（UPDATE）、削除（DELETE）を可能にします。これらの操作をまとめて「CRUD」と呼びます。
 
-まず、`Article`構造体を定義しましょう。Goの構造体（struct）は、このシナリオに最適です。以下のように、タイトル、説明（desc）、内容（content）を持つ`Article`構造体を作成します：
+まず、`Article`構造体を定義しましょう。
+Goの構造体（struct）は、このシナリオに最適です。
+以下のように、タイトル、説明（desc）、内容（content）を持つ`Article`構造体を作成します：
 
-go
+```go
+type Article struct {
+    Title string `json:"Title"`
+    Desc string `json:"desc"`
+    Content string `json:"content"`
+}
 
-Copy
+// let's declare a global Articles array
+// that we can then populate in our main function
+// to simulate a database
+var Articles []Article
+```
 
-``type Article struct {     Title string `json:"Title"`    Desc string `json:"desc"`    Content string `json:"content"` } // グローバルなArticles配列を宣言します // これをmain関数内で初期化し、データベースを模倣します var Articles []Article``
+この構造体は、サイト上の記事を表現するために必要な3つのプロパティを含んでいます。
+これを機能させるために、インポートリストに"`encoding/json`"パッケージを追加する必要があります。
 
-この構造体は、サイト上の記事を表現するために必要な3つのプロパティを含んでいます。これを機能させるために、インポートリストに`"encoding/json"`パッケージを追加する必要があります。
+`main`関数を更新して、`Articles`変数にダミーデータを追加しましょう。
+これにより、後でデータの取得と変更ができるようになります：
 
-次に、`main`関数を更新して、`Articles`変数にダミーデータを追加しましょう。これにより、後でデータの取得と変更ができるようになります：
+```go
+func main() {
+	Articles = []Article{
+		Article{Title: "Hello", Desc: "Article Description", Content: "Article Content"},
+		Article{Title: "Hello 2", Desc: "Article Description", Content: "Article Content"},
+	}
+	handleRequests()
+}
+```
 
-go
+これで準備が整いました。
+次は、ここで定義したすべての記事を返す`/articles`エンドポイントを作成しましょう。
 
-Copy
+# 全記事の取得
+このパートでは、HTTP GETリクエストを受け取ると、サイトの全記事を返す新しいRESTエンドポイントを作成します。
 
-`func main() {     Articles = []Article{        Article{Title: "こんにちは", Desc: "記事の説明", Content: "記事の内容"},        Article{Title: "こんにちは 2", Desc: "記事の説明", Content: "記事の内容"},    }    handleRequests() }`
+まず、`returnAllArticles`という新しい関数を作成します。
+この関数は、先ほど作成した`Articles`変数をJSON形式でエンコードして返す単純なタスクを行います：
 
-これで準備が整いました。次は、ここで定義したすべての記事を返す`/articles`エンドポイントを作成しましょう。
+**main.go**
+```go:main.go
+func returnAllArticles(w http.ResponseWriter, r *http.Request){
+    fmt.Println("Endpoint Hit: returnAllArticles")
+    json.NewEncoder(w).Encode(Articles)
+}
+```
 
-このステップにより、APIが扱うデータの基本構造が定義され、初期データが設定されました。次は、これらのデータをAPIを通じて操作する方法を実装していきます。
+`json.NewEncoder(w).Encode(Articles)`の呼び出しにより、Articles配列がJSON文字列にエンコードされ、レスポンスの一部として書き込まれます。
+
+この機能を動作させるには、`handleRequests`関数に新しいルートを追加する必要があります。
+これにより、`http://localhost:10000/articles`へのアクセスが新しく定義した関数にマッピングされます：
+
+```go
+func handleRequests() {
+    http.HandleFunc("/", homePage)
+    // add our articles route and map it to our 
+    // returnAllArticles function like so
+    http.HandleFunc("/articles", returnAllArticles)
+    log.Fatal(http.ListenAndServe(":10000", nil))
+}
+```
+
+これで準備が整いました。
+`go run main.go`でコードを実行し、ブラウザで`http://localhost:10000/articles`を開くと、記事リストのJSON表現が以下のように表示されるはずです：
+
+**response**
+```js
+[
+  {
+    Title: "Hello",
+    desc: "Article Description",
+    content: "Article Content"
+  },
+  {
+    Title: "Hello 2",
+    desc: "Article Description",
+    content: "Article Content"
+  }
+];
+```
+
+これで最初のAPIエンドポイントが正常に定義されました。
+
+次のパートでは、従来の`net/http`ルーターの代わりに`gorilla/mux`ルーターを使用するようにREST APIを更新します。
+ルーターを変更することで、後で必要になる着信HTTPリクエスト内のパスやクエリパラメータの解析などのタスクをより簡単に実行できるようになります。
+
+# ルーターの導入
+標準ライブラリは、シンプルなREST APIを立ち上げて実行するために必要なすべてを提供していますが、基本的な概念を理解したところで、サードパーティのルーターパッケージを導入する時期が来たと思います。
+
+最も注目され、広く使用されているのは「gorilla/mux」ルーターです。
+
+gorilla/muxの利点：
+1. より柔軟なルーティング機能
+2. パスやクエリパラメータの簡単な取得
+3. HTTPメソッドに基づいたルーティング
+
+このパッケージを導入することで、より高度で柔軟なAPIの開発が可能になります。
+標準ライブラリから移行することで、以下のような利点があります：
+
+1. コードの可読性の向上
+2. より複雑なルーティングルールの実装が容易に
+3. ミドルウェアの使用が簡単
+
+# ルーターの構築
+既存の`main.go`ファイルを更新し、標準ライブラリのHTTPルーターを`gorilla/mux`ベースのルーターに置き換えます。
+
+`handleRequests`関数を以下のように修正して、新しいルーターを作成します：
+
+**main.go**
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "encoding/json"
+    "github.com/gorilla/mux"
+)
+
+// ... 既存のコード
+
+func handleRequests() {
+    // muxルーターの新しいインスタンスを作成
+    myRouter := mux.NewRouter().StrictSlash(true)
+    // http.HandleFuncをmyRouter.HandleFuncに置き換え
+    myRouter.HandleFunc("/", homePage)
+    myRouter.HandleFunc("/all", returnAllArticles)
+    // 最後に、nilの代わりに新しく作成したルーターを
+    // 第2引数として渡す
+    log.Fatal(http.ListenAndServe(":10000", myRouter))
+}
+
+func main() {
+    fmt.Println("REST API v2.0 - Mux Routers")
+    Articles = []Article{
+        Article{Title: "こんにちは", Desc: "記事の説明", Content: "記事の内容"},
+        Article{Title: "こんにちは 2", Desc: "記事の説明", Content: "記事の内容"},
+    }
+    handleRequests()
+}
+```
+
+このコードを実行すると、システムの動作に大きな変化はありません。同じポートで起動し、アクセスするエンドポイントに応じて同じ結果を返します。
+
+主な違いは、gorilla/muxルーターを使用することで、このチュートリアルの後半でパスやクエリパラメータを簡単に取得できるようになることです。
+
+**$ go run main.go**を実行すると、以下のように表示されます：
+
+```
+REST API v2.0 - Mux Routers
+```
+
+この変更により、APIの機能性が大幅に向上しました。次のステップでは、gorilla/muxの高度な機能を活用して、より複雑なルーティングやパラメータの処理を実装していきます。これにより、より柔軟で強力なAPIを構築することができます。
