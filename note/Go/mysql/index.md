@@ -68,3 +68,74 @@ func main() {
 ```
 
 このコードで、MySQLデータベースへの基本的な接続が設定されます。
+
+# 結果からの構造体への格納
+データベースから結果セットを取得するだけでなく、それらの結果を読み取り、既存のstructsに格納して簡単に解析・修正できるようにする必要があります。  
+複数の行を解析するには、.Scan(args...)メソッドを使用します。  
+これは任意の数の引数を受け取り、複合オブジェクトに値を格納できます。  
+
+```go
+// Tag - シンプルな構造体
+type Tag struct {
+    ID   int    `json:"id"`
+    Name string `json:"name"`
+}
+```
+
+```go
+func main() {
+    // データベース接続を開く
+    db, err := sql.Open("mysql", "root:pass1@tcp(127.0.0.1:3306)/tuts")
+    if err != nil {
+        log.Print(err.Error())
+    }
+    defer db.Close()
+
+    // クエリを実行
+    results, err := db.Query("SELECT id, name FROM tags")
+    if err != nil {
+        panic(err.Error()) // 実際のアプリではpanicではなく適切なエラー処理を行う
+    }
+
+    for results.Next() {
+        var tag Tag
+        // 各行の結果をtag複合オブジェクトにスキャン
+        err = results.Scan(&tag.ID, &tag.Name)
+        if err != nil {
+            panic(err.Error()) // 実際のアプリではpanicではなく適切なエラー処理を行う
+        }
+        // tagのName属性を出力
+        log.Printf(tag.Name)
+    }
+}
+```
+
+この例では、tagsデータベースから2つのカラムを取得し、.Scanを使用してtagオブジェクトに値を格納しています。  
+
+注意：データベースから3つのフィールドを取得し、Scanに2つのパラメータしかない場合、失敗します。正確に一致する必要があります。  
+
+# 単一行のクエリ
+IDを使って単一の行を検索し、構造体に格納する場合は以下のようにします：
+
+```go
+var tag Tag
+// クエリを実行
+err = db.QueryRow("SELECT id, name FROM tags where id = ?", 2).Scan(&tag.ID, &tag.Name)
+if err != nil {
+    panic(err.Error()) // 実際のアプリではpanicではなく適切なエラー処理を行う
+}
+
+log.Println(tag.ID)
+log.Println(tag.Name)
+```
+
+# 結論
+このチュートリアルでは、以下のことを行いました：
+
+- MySQLへの接続設定
+- 簡単なクエリの実行
+- 返された結果をstructまたはstructsの配列にマッピング
+
+これらの基本を理解することで、MySQLを使用したGoアプリケーションの開発を進めることができます。  
+このチュートリアルが役立った場合や、さらに支援が必要な場合は、コメント欄でお知らせください。  
+
