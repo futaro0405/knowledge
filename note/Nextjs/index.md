@@ -31,3 +31,4 @@ Nextjsはサーバーサイド側でレンダリングする
 
 ![[Pasted image 20241007205024.png]]
 
+SSGとSSRとは
