@@ -71,3 +71,19 @@ next.jsの雛形を作る際の次のコマンドがあります。
 
 これはNext.js14のバージョン(appディレクトリを含む)で雛形を作ってしまいます。  
 この雛形のパターンには本講座は対応しておりませんので、お気をつけくださいませ。
+# 開発用フォルダを作ってNextjsの雛形を作成しよう
+
+```
+mkdir nextjs
+cd nextjs/.
+
+npx create-next-app nextjs-microblog
+cd ./nextjs-microblog
+code .
+
+npm run dev
+```
+
+# Next.jsファイル群の中身を説明
+`./.next`
+nextjsを構築するファイル群
