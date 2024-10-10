@@ -114,11 +114,44 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 この子要素はページまたは別のレイアウトになります。  
 この場合、`/dashboard`内のページは自動的に`<Layout />`内にネストされます。  
 
+![[Pasted image 20241010213631.png]]
+
 変更を保存し、localhostで確認して、すべてが正しく動作しているか確認してください。  
 以下のように表示されるはずです。  
 
+![[Pasted image 20241010213750.png]]
 
+Next.jsでレイアウトを使用する利点の1つは、ナビゲーション時にページコンポーネントのみが更新され、レイアウトは再レンダリングされないことです。  
+これを[部分的レンダリング](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#4-partial-rendering)と呼びます。  
 
-Next.jsでレイアウトを使用する利点の1つは、ナビゲーション時にページコンポーネントのみが更新され、レイアウトは再レンダリングされないことです。これを部分的レンダリングと呼びます：
+![[Pasted image 20241010214039.png]]
 
-[アニメーションが表示されるはずですが、この環境では表示できません]
+# ルートレイアウト
+chapter3で、別のレイアウト `/app/layout.tsx` に `Inter` フォントをインポートしました。  
+以下が参考です。
+
+**/app/layout.tsx**
+```typescript
+import '@/app/ui/global.css';
+import { inter } from '@/app/ui/fonts';
+ 
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>{children}</body>
+    </html>
+  );
+}
+```
+
+これは[ルートレイアウト](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required)と呼ばれ必須です。  
+
+ルートレイアウトに追加したUIは、アプリケーションの**すべての**ページで共有されます。  
+ルートレイアウトを使用して `<html>` と `<body>` タグを修正したり、メタデータを追加したりできます（メタデータについては後の章で詳しく学びます）。  
+
+作成したばかりの新しいレイアウト（`/app/dashboard/layout.tsx`）はダッシュボードページに固有のものなので、上記のルートレイアウトにUIを追加する必要はありません。  
+
