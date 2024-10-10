@@ -181,12 +181,5 @@ export default function InvoiceStatus({ status }: { status: string }) {
 - Sass：`.css`ファイルと`.scss`ファイルをインポートできます。
 - CSS-in-JSライブラリ：styled-jsx、styled-components、emotionなどがあります。
 
-詳細については、CSSドキュメントをご覧ください。
+詳細については、[CSSドキュメント](https://nextjs.org/docs/app/building-your-application/styling)をご覧ください。
 
-**2** 第2章を完了しました
-
-お疲れ様でした！Next.jsアプリケーションをスタイリングする様々な方法について学びました。
-
-次のチャプター 3: フォントと画像の最適化
-
-ヒーロー画像とカスタムフォントを追加して、ホームページの作業を続けます。
