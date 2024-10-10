@@ -115,16 +115,9 @@ export default function Page() {
 リモート画像の最適化やローカルフォントファイルの使用などが含まれます。  
 フォントと画像についてさらに深く掘り下げたい場合は、以下を参照してください。
 
-- 画像最適化ドキュメント
-- フォント最適化ドキュメント
-- 画像によるWeb性能の改善（MDN）
-- Webフォント（MDN）
-- Core Web VitalsがSEOに与える影響
+- [画像最適化ドキュメント](https://nextjs.org/docs/app/building-your-application/optimizing/images)
+- [フォント最適化ドキュメント](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
+- [画像によるWeb性能の改善（MDN）](https://developer.mozilla.org/en-US/docs/Learn/Performance/Multimedia)
+- [Webフォント（MDN）](https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts)
+- [Core Web VitalsがSEOに与える影響](https://vercel.com/blog/how-core-web-vitals-affect-seo)
 
-There's a lot more to learn about these topics, including optimizing remote images and using local font files. If you'd like to dive deeper into fonts and images, see:
-
-- [Image Optimization Docs](https://nextjs.org/docs/app/building-your-application/optimizing/images)
-- [Font Optimization Docs](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
-- [Improving Web Performance with Images (MDN)](https://developer.mozilla.org/en-US/docs/Learn/Performance/Multimedia)
-- [Web Fonts (MDN)](https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Web_fonts)
-- [How Core Web Vitals Affect SEO](https://vercel.com/blog/how-core-web-vitals-affect-seo)
