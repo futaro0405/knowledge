@@ -292,6 +292,42 @@ const {
 
 このパターンは必ずしも悪いわけではありません。  
 次のリクエストを行う前に条件を満たしたい場合など、ウォーターフォールが必要な場合もあります。  
-例えば、まずユーザーのIDとプロフィール情報を取得し、IDを取得した後に友達リストを取得するような場合です。この場合、各リクエストは前のリクエストから返されたデータに依存しています。
+例えば、まずユーザーのIDとプロフィール情報を取得し、IDを取得した後に友達リストを取得するような場合です。  
+この場合、各リクエストは前のリクエストから返されたデータに依存しています。  
 
-しかし、この動作が意図せずに発生し、パフォーマンスに影響を与えることもあります。
+しかし、この動作が意図せずに発生し、パフォーマンスに影響を与えることもあります。  
+
+# 並列データフェッチング
+ウォーターフォールを避ける一般的な方法は、すべてのデータリクエストを同時に - つまり並列に - 開始することです。  
+
+JavaScriptでは、 [`Promise.all()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) や [`Promise.allSettled()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)関数を使用して、すべてのプロミスを同時に開始できます。  
+例えば、`data.ts`の`fetchCardData()`関数では`Promise.all()`を使用しています：  
+
+**/app/lib/data.ts**
+```javascript
+export async function fetchCardData() {
+  try {
+    const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
+    const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
+    const invoiceStatusPromise = sql`SELECT
+         SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
+         SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
+         FROM invoices`;
+ 
+    const data = await Promise.all([
+      invoiceCountPromise,
+      customerCountPromise,
+      invoiceStatusPromise,
+    ]);
+    // ...
+  }
+}
+```
+
+このパターンを使用することで以下が可能になります：  
+
+- すべてのデータフェッチを同時に実行開始し、パフォーマンス向上につながる可能性があります。
+- どのライブラリやフレームワークにも適用できるネイティブなJavaScriptパターンを使用できます。
+
+しかし、このJavaScriptパターンのみに依存することには**1つの欠点**があります：1つのデータリクエストが他のすべてよりも遅い場合、どうなるでしょうか？  
+
