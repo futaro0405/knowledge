@@ -514,4 +514,80 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 }
 ```
 
-`<Pagination>`コンポーネント内に`createPageURL`という新しい関数を作成してください。検索と同様に、`URLSearchParams`を使用して新しいページ番号を設定し、`pathName`を使用してURL文字列を作成します。
+`<Pagination>`コンポーネント内に`createPageURL`という新しい関数を作成してください。検索と同様に、`URLSearchParams`を使用して新しいページ番号を設定し、`pathName`を使用してURL文字列を作成します。  
+
+**/app/ui/invoices/pagination.tsx**
+```tsx
+'use client';
+ 
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { generatePagination } from '@/app/lib/utils';
+import { usePathname, useSearchParams } from 'next/navigation';
+ 
+export default function Pagination({ totalPages }: { totalPages: number }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+ 
+  const createPageURL = (pageNumber: number | string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
+  };
+ 
+  // ...
+}
+```
+
+以下は、何が起こっているかの詳細説明です：  
+
+- `createPageURL`は現在の検索パラメータのインスタンスを作成します。
+- 次に、"page"パラメータを提供されたページ番号に更新します。
+- 最後に、パス名と更新された検索パラメータを使用して完全なURLを構築します。
+
+`<Pagination>`コンポーネントの残りの部分は、スタイリングと異なる状態（最初、最後、アクティブ、無効など）を扱います。  
+このコースでは詳細に触れませんが、`createPageURL`がどこで呼び出されているかを見るためにコードを確認してみてください。  
+
+最後に、ユーザーが新しい検索クエリを入力したときに、ページ番号を1にリセットしたいと思います。  
+これは`<Search>`コンポーネントの`handleSearch`関数を更新することで実現できます：  
+
+**/app/ui/search.tsx**
+```tsx
+'use client';
+ 
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
+ 
+export default function Search({ placeholder }: { placeholder: string }) {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
+ 
+  const handleSearch = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', '1');
+    if (term) {
+      params.set('query', term);
+    } else {
+      params.delete('query');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+ 
+```
+
+# まとめ
+おめでとうございます！  
+URLパラメータとNext.jsのAPIを使用して検索とページネーションを実装しました。  
+
+この章のまとめ：  
+
+- クライアントの状態ではなく、URL検索パラメータを使用して検索とページネーションを処理しました。
+- サーバー上でデータを取得しました。
+- よりスムーズなクライアントサイドの遷移のために`useRouter`フックを使用しています。
+
+これらのパターンは、クライアントサイドのReactで作業する際に慣れているものとは異なりますが、URL検索パラメータを使用し、この状態をサーバーに持ち上げることの利点をより理解できたことと思います。  
+
