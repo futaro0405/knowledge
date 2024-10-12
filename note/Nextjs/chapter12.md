@@ -257,3 +257,172 @@ export async function createInvoice(formData: FormData) {
 }
 ```
 
+`amount` フィールドは、文字列から数値に強制的に変換（変更）されるように特に設定されており、その型も検証されます。   
+その後、`rawFormData` を `CreateInvoice` に渡して型を検証できます。  
+
+**/app/lib/actions.ts**
+```ts
+// ...
+export async function createInvoice(formData: FormData) {
+  const { customerId, amount, status } = CreateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+}
+```
+
+### 値をセントで保存する
+通常、JavaScriptの浮動小数点エラーを排除し、より高い精度を確保するために、金銭的な値はセント単位でデータベースに保存するのが良いプラクティスです。
+
+では、金額をセントに変換しましょう。  
+
+**/app/lib/actions.ts**
+```ts
+// ...
+export async function createInvoice(formData: FormData) {
+  const { customerId, amount, status } = CreateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+  const amountInCents = amount * 100;
+}
+```
+
+### 新しい日付を作成する  
+最後に、請求書の作成日用に「YYYY-MM-DD」形式の新しい日付を作成しましょう。  
+
+**/app/lib/actions.ts**
+```ts
+// ...
+export async function createInvoice(formData: FormData) {
+  const { customerId, amount, status } = CreateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+  const amountInCents = amount * 100;
+  const date = new Date().toISOString().split('T')[0];
+}
+```
+
+# データベースへのデータ挿入  
+必要な値がすべて揃ったので、新しい請求書をデータベースに挿入するためのSQLクエリを作成し、変数を渡すことができます：  
+
+**/app/lib/actions.ts**
+```typescript
+import { z } from 'zod';
+import { sql } from '@vercel/postgres';
+ 
+// ...
+ 
+export async function createInvoice(formData: FormData) {
+  const { customerId, amount, status } = CreateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+  const amountInCents = amount * 100;
+  const date = new Date().toISOString().split('T')[0];
+ 
+  await sql`
+    INSERT INTO invoices (customer_id, amount, status, date)
+    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
+}
+```
+
+現在のところ、エラー処理は行っていません。  
+次の章でそれを行います。それでは、次のステップに進みましょう。  
+
+# 再検証とリダイレクト  
+Next.jsには、[クライアントサイドのルーターキャッシュ](https://nextjs.org/docs/app/building-your-application/caching#router-cache)があり、ルートセグメントをユーザーのブラウザに一定時間保存します。  
+[プリフェッチ](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#1-prefetching)とともに、このキャッシュはユーザーがルート間を迅速に移動できるようにし、サーバーへのリクエスト数を減少させます。  
+
+請求書のルートに表示されているデータを更新しているため、このキャッシュをクリアしてサーバーへの新しいリクエストをトリガーしたいと考えています。  
+これを実現するためには、Next.jsの[`revalidatePath`](https://nextjs.org/docs/app/api-reference/functions/revalidatePath)関数を使用します：  
+
+**/app/lib/actions.ts**
+```typescript
+'use server';
+ 
+import { z } from 'zod';
+import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
+ 
+// ...
+ 
+export async function createInvoice(formData: FormData) {
+  const { customerId, amount, status } = CreateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+  const amountInCents = amount * 100;
+  const date = new Date().toISOString().split('T')[0];
+ 
+  await sql`
+    INSERT INTO invoices (customer_id, amount, status, date)
+    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
+ 
+  revalidatePath('/dashboard/invoices');
+}
+```
+
+データベースが更新されると、`/dashboard/invoices`パスが再検証され、サーバーから新しいデータが取得されます。  
+
+また、この時点でユーザーを`/dashboard/invoices`ページにリダイレクトしたいと考えています。  
+これにはNext.jsの [`redirect`](https://nextjs.org/docs/app/api-reference/functions/redirect)関数を使用します：  
+
+**/app/lib/actions.ts**
+```typescript
+'use server';
+ 
+import { z } from 'zod';
+import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+ 
+// ...
+ 
+export async function createInvoice(formData: FormData) {
+  // ...
+ 
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}
+```
+
+おめでとうございます！  
+初めてのサーバーアクションを実装しました。  
+新しい請求書を追加してテストしてみてください。  
+すべてが正常に動作していれば、次のことが期待できます：  
+
+- 送信後、`/dashboard/invoices`ルートにリダイレクトされる。
+- テーブルの一番上に新しい請求書が表示される。
+
+# 請求書の更新  
+請求書を更新するフォームは、請求書を作成するフォームと似ていますが、データベース内のレコードを更新するために請求書IDを渡す必要があります。  
+では、請求書IDを取得して渡す方法を見ていきましょう。  
+
+請求書を更新するために行う手順は次のとおりです：  
+
+1. 請求書IDを使用して新しい動的ルートセグメントを作成します。
+2. ページパラメーターから請求書IDを読み取ります。
+3. データベースから特定の請求書を取得します。
+4. 請求書データでフォームを事前に入力します。
+5. データベース内の請求書データを更新します。
+
+## 請求書IDを使用した動的ルートセグメントの作成  
+Next.jsでは、正確なセグメント名がわからない場合やデータに基づいてルートを作成したい場合に、動的ルートセグメントを作成できます。  
+これは、ブログ投稿のタイトルや製品ページなどに利用されます。  
+動的ルートセグメントは、フォルダ名を角括弧で囲むことで作成できます。  
+たとえば、`[id]`、`[post]`、または`[slug]`などです。  
+
+`/invoices`フォルダ内に`[id]`という新しい動的ルートを作成し、その中に`edit`という新しいルートを作成して`page.tsx`ファイルを追加します。  
+ファイル構成は次のようになります：  
+
+![[Pasted image 20241012184800.png]]
+
