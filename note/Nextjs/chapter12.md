@@ -428,16 +428,92 @@ Next.jsでは、正確なセグメント名がわからない場合やデータ�
 
 `<Table>`コンポーネントでは、請求書のIDをテーブルレコードから受け取る`<UpdateInvoice />`ボタンがあります。
 
-typescript
+**/app/ui/invoices/table.tsx**
+```typescript
+export default async function InvoicesTable({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  return (
+    // ...
+    <td className="flex justify-end gap-2 whitespace-nowrap px-6 py-4 text-sm">
+      <UpdateInvoice id={invoice.id} />
+      <DeleteInvoice id={invoice.id} />
+    </td>
+    // ...
+  );
+}
+```
 
-コードをコピーする
+次に、`<UpdateInvoice />`コンポーネントに移動し、`Link`の`href`を更新してIDプロップを受け取るようにします。  
+テンプレートリテラルを使用して、動的ルートセグメントへのリンクを作成できます：  
 
-`// /app/ui/invoices/table.tsx  export default async function InvoicesTable({   query,   currentPage, }: {   query: string;   currentPage: number; }) {   return (     // ...     <td className="flex justify-end gap-2 whitespace-nowrap px-6 py-4 text-sm">       <UpdateInvoice id={invoice.id} />       <DeleteInvoice id={invoice.id} />     </td>     // ...   ); }`
+**/app/ui/invoices/buttons.tsx**
+```tsx
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+ 
+// ...
+ 
+export function UpdateInvoice({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/invoices/${id}/edit`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <PencilIcon className="w-5" />
+    </Link>
+  );
+}
+```
 
-次に、`<UpdateInvoice />`コンポーネントに移動し、`Link`の`href`を更新してIDプロップを受け取るようにします。テンプレートリテラルを使用して、動的ルートセグメントへのリンクを作成できます：
+## ページパラメーターから請求書IDを読み取る  
+`<Page>`コンポーネントに以下のコードを追加します：
 
-typescript
+**/app/dashboard/invoices/[id]/edit/page.tsx**
+```typescript
+import Form from '@/app/ui/invoices/edit-form';
+import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import { fetchCustomers } from '@/app/lib/data';
+ 
+export default async function Page() {
+  return (
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Invoices', href: '/dashboard/invoices' },
+          {
+            label: 'Edit Invoice',
+            href: `/dashboard/invoices/${id}/edit`,
+            active: true,
+          },
+        ]}
+      />
+      <Form invoice={invoice} customers={customers} />
+    </main>
+  );
+}
+```
 
-コードをコピーする
+このコードは、`/create`ページに似ていますが、異なるフォーム（`edit-form.tsx`ファイル）をインポートしている点が異なります。  
+このフォームには、顧客名、請求金額、ステータスのデフォルト値が事前入力されるべきです。  
+フォームフィールドにデータを事前入力するには、IDを使用して特定の請求書を取得する必要があります。  
 
-``// /app/ui/invoices/buttons.tsx  import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'; import Link from 'next/link';  // ...  export function UpdateInvoice({ id }: { id: string }) {   return (     <Link       href={`/dashboard/invoices/${id}/edit`}       className="rounded-md border p-2 hover:bg-gray-100"     >       <PencilIcon className="w-5" />     </Link>   ); }``
+`page`コンポーネントは、`searchParams`に加えて`params`というプロップも受け取ることができ、これを使用してIDにアクセスします。  
+以下のように`<Page>`コンポーネントを更新して、`params`プロップを受け取るようにします：  
+
+**/app/dashboard/invoices/[id]/edit/page.tsx**
+```typescript
+import Form from '@/app/ui/invoices/edit-form';
+import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import { fetchCustomers } from '@/app/lib/data';
+ 
+export default async function Page({ params }: { params: { id: string } }) {
+  const id = params.id;
+  // ...
+}
+```
+
