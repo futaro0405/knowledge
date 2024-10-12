@@ -185,6 +185,8 @@ export default async function Page() {
 }
 ```
 
+最後に、`<RevenueChart>`コンポーネントを更新して独自のデータをフェッチし、渡されていたプロップを削除します。  
+
 **/app/ui/dashboard/revenue-chart.tsx**
 ```tsx
 import { generateYAxis } from '@/app/lib/utils';
@@ -208,5 +210,9 @@ export default async function RevenueChart() { // Make component async, remove t
     // ...
   );
 }
- 
 ```
+
+これでページを更新すると、`<RevenueChart>`にフォールバックスケルトンが表示されている間に、ダッシュボード情報がほぼ即座に表示されるはずです：
+
+![[Pasted image 20241012120300.png]]
+
