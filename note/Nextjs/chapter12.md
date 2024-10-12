@@ -62,3 +62,198 @@ Server Actionsは、Next.jsの[キャッシング](https://nextjs.org/docs/app/b
 5. データを挿入し、エラーを処理する。
 6. キャッシュを再検証し、ユーザーを請求書ページにリダイレクトする。
 
+## 新しいルートとフォームの作成
+まず、`/invoices`フォルダ内に、`page.tsx`ファイルを持つ`/create`という新しいルートセグメントを追加します：  
+
+![[Pasted image 20241012172557.png]]
+
+新しい請求書を作成するためにこのルートを使用します。  
+`page.tsx`ファイル内に以下のコードを貼り付け、内容を確認してください：  
+
+**/dashboard/invoices/create/page.tsx**
+```jsx
+import Form from '@/app/ui/invoices/create-form';
+import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import { fetchCustomers } from '@/app/lib/data';
+ 
+export default async function Page() {
+  const customers = await fetchCustomers();
+ 
+  return (
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Invoices', href: '/dashboard/invoices' },
+          {
+            label: 'Create Invoice',
+            href: '/dashboard/invoices/create',
+            active: true,
+          },
+        ]}
+      />
+      <Form customers={customers} />
+    </main>
+  );
+}
+```
+
+このページは`customers`をフェッチし、それを`<Form>`コンポーネントに渡すサーバーコンポーネントです。  
+時間を節約するために、`<Form>`コンポーネントは既に作成されています。  
+
+`<Form>`コンポーネントに移動すると、フォームには以下の要素があることがわかります：  
+
+- **customers**のリストを持つ1つの`<select>`（ドロップダウン）要素。
+- **amount**用の`type="number"`の`<input>`要素1つ。
+- statusのための`type="radio"`の`<input>`要素2つ。
+- `type="submit"`のボタン1つ。
+
+`http://localhost:3000/dashboard/invoices/create` で、以下のUIが表示されるはずです：
+
+![[Pasted image 20241012172707.png]]
+
+## Server Actionの作成
+素晳らしいです。次に、フォームが送信されたときに呼び出されるServer Actionを作成しましょう。   
+
+`lib`ディレクトリに移動し、`actions.ts`という新しいファイルを作成します。  
+このファイルの先頭にReactの`use server`ディレクティブを追加します：  
+
+**/app/lib/actions.ts**
+```typescript
+'use server';
+```
+
+`'use server'`を追加することで、ファイル内のすべてのエクスポートされた関数をServer Actionsとしてマークします。  
+これらのサーバー関数は、クライアントコンポーネントとサーバーコンポーネントの両方でインポートして使用できます。  
+
+Server Actionsをサーバーコンポーネント内に直接記述することもできますが、このコースでは別のファイルにまとめて管理します。  
+
+`actions.ts`ファイルに、`formData`を受け取る新しい非同期関数を作成します：  
+
+**/app/lib/actions.ts**
+```typescript
+'use server';
+ 
+export async function createInvoice(formData: FormData) {}
+```
+
+次に、`<Form>`コンポーネントで、`actions.ts`ファイルから`createInvoice`をインポートします。  
+`<form>`要素に`action`属性を追加し、`createInvoice`アクションを呼び出します。  
+
+**/app/ui/invoices/create-form.tsx**
+```jsx
+import { customerField } from '@/app/lib/definitions';
+import Link from 'next/link';
+import {
+  CheckIcon,
+  ClockIcon,
+  CurrencyDollarIcon,
+  UserCircleIcon,
+} from '@heroicons/react/24/outline';
+import { Button } from '@/app/ui/button';
+import { createInvoice } from '@/app/lib/actions';
+ 
+export default function Form({
+  customers,
+}: {
+  customers: customerField[];
+}) {
+  return (
+    <form action={createInvoice}>
+      // ...
+  )
+}
+```
+
+### 知っておくと良いこと
+HTMLでは、`action`属性にURLを渡します。  
+このURLは、フォームデータが送信される先（通常はAPIエンドポイント）です。  
+しかし、Reactでは、`action`属性は特別なプロップとみなされます  
+つまり、Reactはその上に構築してアクションを呼び出せるようにしています。  
+裏側では、Server Actionsは`POST` APIエンドポイントを作成します。  
+これが、Server Actionsを使用する際に手動でAPIエンドポイントを作成する必要がない理由です。  
+
+## `formData`からのデータ抽出
+`actions.ts`ファイルに戻り、`formData`の値を抽出する必要があります。  
+[いくつかの方法](https://developer.mozilla.org/en-US/docs/Web/API/FormData/append)がありますが、この例では [`.get(name)`](https://developer.mozilla.org/en-US/docs/Web/API/FormData/get)メソッドを使用しましょう。  
+
+**/app/lib/actions.ts**
+```typescript
+'use server';
+ 
+export async function createInvoice(formData: FormData) {
+  const rawFormData = {
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  };
+  // Test it out:
+  console.log(rawFormData);
+}
+```
+
+### ヒント
+多くのフィールドがあるフォームを扱っている場合は、JavaScriptの [`Object.fromEntries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries)と [`entries()`](https://developer.mozilla.org/en-US/docs/Web/API/FormData/entries)メソッドの使用を検討するとよいでしょう。  
+例： `const rawFormData = Object.fromEntries(formData.entries())`
+
+すべてが正しく接続されているか確認するために、フォームを試してみてください。  
+送信後、入力したデータがターミナルにログ出力されるはずです。  
+
+これでデータがオブジェクトの形になったので、扱いやすくなりました。  
+
+## データの検証と準備
+フォームデータをデータベースに送信する前に、正しい形式と正しい型であることを確認する必要があります。  
+以前のコースで説明したように、請求書テーブルは以下の形式のデータを期待しています：  
+
+**/app/lib/definitions.ts**
+```typescript
+export type Invoice = {
+  id: string; // Will be created on the database
+  customer_id: string;
+  amount: number; // Stored in cents
+  status: 'pending' | 'paid';
+  date: string;
+};
+```
+
+現時点では、フォームから`customer_id`、`amount`、`status`のみを取得しています。  
+
+### 型の検証と変換
+フォームからのデータがデータベースで期待される型と一致することを検証することが重要です。  
+例えば、アクション内に`console.log`を追加すると：  
+
+```
+console.log(typeof rawFormData.amount);
+```
+
+`amount`の型が`number`ではなく`string`であることに気づくでしょう。  
+これは、`type="number"`の`input`要素が実際には数値ではなく文字列を返すためです。  
+
+型の検証を処理するには、いくつかの選択肢があります。  
+手動で型を検証することもできますが、型検証ライブラリを使用すると時間と労力を節約できます。  
+この例では、TypeScriptファーストの検証ライブラリであるZodを使用します。  
+Zodはこのタスクを簡単にしてくれます。  
+
+`actions.ts`ファイルで、Zodをインポートし、フォームオブジェクトの形状に一致するスキーマを定義します。  
+このスキーマは、データベースに保存する前に`formData`を検証します。  
+
+**/app/lib/actions.ts**
+```ts
+'use server';
+ 
+import { z } from 'zod';
+ 
+const FormSchema = z.object({
+  id: z.string(),
+  customerId: z.string(),
+  amount: z.coerce.number(),
+  status: z.enum(['pending', 'paid']),
+  date: z.string(),
+});
+ 
+const CreateInvoice = FormSchema.omit({ id: true, date: true });
+ 
+export async function createInvoice(formData: FormData) {
+  // ...
+}
+```
+
