@@ -216,3 +216,106 @@ export default async function RevenueChart() { // Make component async, remove t
 
 ![[Pasted image 20241012120300.png]]
 
+# 練習：`<LatestInvoices>`のストリーミング
+今度はあなたの番です！  
+学んだことを実践して、`<LatestInvoices>`コンポーネントをストリーミングしてみましょう。  
+
+`fetchLatestInvoices()`をページから`<LatestInvoices>`コンポーネントに移動させてください。  
+コンポーネントを`<Suspense>`境界でラップし、`<LatestInvoicesSkeleton>`というフォールバックを使用してください。  
+
+## 回答
+Dashboard Page:
+
+**/app/dashboard/(overview)/page.tsx**
+```tsx
+import { Card } from '@/app/ui/dashboard/cards';
+import RevenueChart from '@/app/ui/dashboard/revenue-chart';
+import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
+import { lusitana } from '@/app/ui/fonts';
+import { fetchCardData } from '@/app/lib/data'; // Remove fetchLatestInvoices
+import { Suspense } from 'react';
+import {
+  RevenueChartSkeleton,
+  LatestInvoicesSkeleton,
+} from '@/app/ui/skeletons';
+ 
+export default async function Page() {
+  // Remove `const latestInvoices = await fetchLatestInvoices()`
+  const {
+    numberOfInvoices,
+    numberOfCustomers,
+    totalPaidInvoices,
+    totalPendingInvoices,
+  } = await fetchCardData();
+ 
+  return (
+    <main>
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Dashboard
+      </h1>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Card title="Collected" value={totalPaidInvoices} type="collected" />
+        <Card title="Pending" value={totalPendingInvoices} type="pending" />
+        <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+        <Card
+          title="Total Customers"
+          value={numberOfCustomers}
+          type="customers"
+        />
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+        <Suspense fallback={<RevenueChartSkeleton />}>
+          <RevenueChart />
+        </Suspense>
+        <Suspense fallback={<LatestInvoicesSkeleton />}>
+          <LatestInvoices />
+        </Suspense>
+      </div>
+    </main>
+  );
+}
+```
+
+`<LatestInvoices>` コンポーネントです。プロップスを削除することを忘れないでください！:
+
+**/app/ui/dashboard/latest-invoices.tsx**
+```tsx
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import Image from 'next/image';
+import { lusitana } from '@/app/ui/fonts';
+import { fetchLatestInvoices } from '@/app/lib/data';
+ 
+export default async function LatestInvoices() { // Remove props
+  const latestInvoices = await fetchLatestInvoices();
+ 
+  return (
+    // ...
+  );
+}
+```
+
+# コンポーネントのグループ化
+素晴らしい！あと少しです。  
+次は`<Card>`コンポーネントをSuspenseでラップする必要があります。  
+各カードのデータを個別にフェッチできますが、これによりカードが読み込まれる際にポッピング効果が生じる可能性があり、ユーザーにとって視覚的に不快になる可能性があります。  
+
+では、この問題にどのように取り組むべきでしょうか？  
+
+より_段階的な_効果を作成するために、ラッパーコンポーネントを使用してカードをグループ化できます。これにより、静的な`<SideNav/>`が最初に表示され、その後カードが表示されるなどの順序になります。
+
+`page.tsx`ファイルで以下の変更を行ってください：
+
+1. `<Card>`コンポーネントを削除します。
+2. `fetchCardData()`関数を削除します。
+3. `<CardWrapper />`という新しい**ラッパー**コンポーネントをインポートします。
+4. `<CardsSkeleton />`という新しい**スケルトン**コンポーネントをインポートします。
+5. `<CardWrapper />`をSuspenseでラップします。
+
+[コード例は省略します]
+
+次に、`/app/ui/dashboard/cards.tsx`ファイルに移動し、`fetchCardData()`関数をインポートして`<CardWrapper/>`コンポーネント内で呼び出します。このコンポーネント内の必要なコードのコメントを解除することを忘れないでください。
+
+[コード例は省略します]
+
+ページを更新すると、すべてのカードが同時に読み込まれるのが確認できるはずです。これは複数のコンポーネントを同時に読み込みたい場合に使用できるパターンです。
