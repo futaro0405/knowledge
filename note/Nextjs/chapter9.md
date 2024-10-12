@@ -302,9 +302,10 @@ export default async function LatestInvoices() { // Remove props
 
 では、この問題にどのように取り組むべきでしょうか？  
 
-より_段階的な_効果を作成するために、ラッパーコンポーネントを使用してカードをグループ化できます。これにより、静的な`<SideNav/>`が最初に表示され、その後カードが表示されるなどの順序になります。
+より_段階的な_効果を作成するために、ラッパーコンポーネントを使用してカードをグループ化できます。  
+これにより、静的な`<SideNav/>`が最初に表示され、その後カードが表示されるなどの順序になります。  
 
-`page.tsx`ファイルで以下の変更を行ってください：
+`page.tsx`ファイルで以下の変更を行ってください：  
 
 1. `<Card>`コンポーネントを削除します。
 2. `fetchCardData()`関数を削除します。
@@ -312,10 +313,97 @@ export default async function LatestInvoices() { // Remove props
 4. `<CardsSkeleton />`という新しい**スケルトン**コンポーネントをインポートします。
 5. `<CardWrapper />`をSuspenseでラップします。
 
-[コード例は省略します]
+**/app/dashboard/page.tsx**
+```tsx
+import CardWrapper from '@/app/ui/dashboard/cards';
+// ...
+import {
+  RevenueChartSkeleton,
+  LatestInvoicesSkeleton,
+  CardsSkeleton,
+} from '@/app/ui/skeletons';
+ 
+export default async function Page() {
+  return (
+    <main>
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Dashboard
+      </h1>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Suspense fallback={<CardsSkeleton />}>
+          <CardWrapper />
+        </Suspense>
+      </div>
+      // ...
+    </main>
+  );
+}
+```
 
-次に、`/app/ui/dashboard/cards.tsx`ファイルに移動し、`fetchCardData()`関数をインポートして`<CardWrapper/>`コンポーネント内で呼び出します。このコンポーネント内の必要なコードのコメントを解除することを忘れないでください。
+次に、`/app/ui/dashboard/cards.tsx`ファイルに移動し、`fetchCardData()`関数をインポートして`<CardWrapper/>`コンポーネント内で呼び出します。  
+このコンポーネント内の必要なコードのコメントを解除することを忘れないでください。  
 
-[コード例は省略します]
+**/app/ui/dashboard/cards.tsx**
+```tsx
+// ...
+import { fetchCardData } from '@/app/lib/data';
+ 
+// ...
+ 
+export default async function CardWrapper() {
+  const {
+    numberOfInvoices,
+    numberOfCustomers,
+    totalPaidInvoices,
+    totalPendingInvoices,
+  } = await fetchCardData();
+ 
+  return (
+    <>
+      <Card title="Collected" value={totalPaidInvoices} type="collected" />
+      <Card title="Pending" value={totalPendingInvoices} type="pending" />
+      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      <Card
+        title="Total Customers"
+        value={numberOfCustomers}
+        type="customers"
+      />
+    </>
+  );
+}
+```
 
-ページを更新すると、すべてのカードが同時に読み込まれるのが確認できるはずです。これは複数のコンポーネントを同時に読み込みたい場合に使用できるパターンです。
+
+ページを更新すると、すべてのカードが同時に読み込まれるのが確認できるはずです。  
+これは複数のコンポーネントを同時に読み込みたい場合に使用できるパターンです。  
+
+# Suspense境界の配置場所の決定
+Suspense境界をどこに配置するかは、以下の点によって異なります：  
+
+1. ページがストリーミングされる際にユーザーにどのような体験をさせたいか。
+2. どのコンテンツを優先させたいか。
+3. コンポーネントがデータフェッチに依存しているか。
+
+ダッシュボードページを見てみて、あなたなら何か異なる方法を取りましたか？  
+心配しないでください。正解はありません。  
+
+- `loading.tsx`で行ったように**ページ全体**をストリーミングすることもできますが、コンポーネントの1つのデータフェッチが遅い場合、読み込み時間が長くなる可能性があります。
+- **すべてのコンポーネント**を個別にストリーミングすることもできますが、準備ができたUIが画面に_ポップ_するように表示される可能性があります。
+- **ページセクション**をストリーミングすることで_段階的な_効果を作ることもできますが、ラッパーコンポーネントを作成する必要があります。
+
+Suspense境界の配置場所はアプリケーションによって異なります。  
+一般的に、データフェッチをそれを必要とするコンポーネントに移動し、そのコンポーネントをSuspenseでラップするのが良い方法です。  
+しかし、アプリケーションに必要な場合は、セクションや全体をストリーミングすることも問題ありません。  
+
+Suspenseを試してみて、何が最適かを見つけることを恐れないでください。  
+これは、より魅力的なユーザー体験を作り出すのに役立つ強力なAPIです。  
+
+# 今後の展望
+ストリーミングとサーバーコンポーネントは、データフェッチとローディング状態を処理する新しい方法を提供します。  
+最終的な目標は、エンドユーザーの体験を向上させることです。  
+
+次の章では、ストリーミングを念頭に置いて設計された新しいNext.jsのレンダリングモデルである「部分的プリレンダリング」について学びます。  
+
+この新しい技術により、アプリケーションのパフォーマンスと応答性をさらに向上させることができるでしょう。  
+次の章で詳しく探っていきましょう。  
+
