@@ -125,3 +125,228 @@ Developer Toolsでコンソールを開き、検索フィールドに入力し�
 素晴らしいです！ユーザーの検索入力を取得できています。  
 次は、検索語でURLを更新する必要があります。  
 
+## 検索パラメータでURLを更新する
+`'next/navigation'`から`useSearchParams`フックをインポートし、変数に割り当てます：
+
+**/app/ui/search.tsx**
+```javascript
+'use client';
+ 
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useSearchParams } from 'next/navigation';
+ 
+export default function Search() {
+  const searchParams = useSearchParams();
+ 
+  function handleSearch(term: string) {
+    console.log(term);
+  }
+  // ...
+}
+```
+
+`handleSearch`内で、新しい[`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams)インスタンスを作成します：  
+
+**/app/ui/search.tsx**
+```javascript
+'use client';
+ 
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useSearchParams } from 'next/navigation';
+ 
+export default function Search() {
+  const searchParams = useSearchParams();
+ 
+  function handleSearch(term: string) {
+    const params = new URLSearchParams(searchParams);
+  }
+  // ...
+}
+```
+
+`URLSearchParams`は、URLクエリパラメータを操作するためのユーティリティメソッドを提供するWeb APIです。複雑な文字列リテラルを作成する代わりに、これを使用して`?page=1&query=a`のようなパラメータ文字列を取得できます。
+
+次に、ユーザーの入力に基づいてパラメータ文字列を`set`します。入力が空の場合は、それを`delete`します：
+
+**/app/ui/search.tsx**
+```tsx
+'use client';
+ 
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useSearchParams } from 'next/navigation';
+ 
+export default function Search() {
+  const searchParams = useSearchParams();
+ 
+  function handleSearch(term: string) {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('query', term);
+    } else {
+      params.delete('query');
+    }
+  }
+  // ...
+}
+```
+
+これでクエリ文字列が準備できました。  
+Next.js の `useRouter` と `usePathname` フックを使って、URLを更新できます。  
+
+`next/navigation` から `useRouter` と `usePathname` をインポートし、`handleSearch` 内で `useRouter()` の `replace` メソッドを使ってください。  
+
+**/app/ui/search.tsx**
+```tsx
+'use client';
+ 
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+ 
+export default function Search() {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+ 
+  function handleSearch(term: string) {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('query', term);
+    } else {
+      params.delete('query');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }
+}
+```
+
+ここでの処理内容を分解すると次の通りです：  
+
+- `${pathname}` は現在のパスで、今回の場合だと `"/dashboard/invoices"` です。
+- ユーザーが検索バーに入力すると、`params.toString()` がその入力をURLに適した形式に変換します。
+- `replace(${pathname}?${params.toString()})` により、ユーザーの検索データを含むURLに更新されます。たとえば、ユーザーが「Lee」で検索した場合、URLは `/dashboard/invoices?query=lee` になります。
+- このURLの更新は、Next.jsのクライアントサイドナビゲーションによってページをリロードせずに行われます（ページ間のナビゲーションの章で学んだ内容です）。
+
+## URLと入力欄の同期を保つ
+URLと入力欄が同期され、共有時に入力欄が自動で入力されるようにするために、`searchParams`から値を読み取り、`defaultValue`として入力欄に渡すことができます：  
+
+**/app/ui/search.tsx**
+```jsx
+<input
+  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+  placeholder={placeholder}
+  onChange={(e) => {
+    handleSearch(e.target.value);
+  }}
+  defaultValue={searchParams.get('query')?.toString()}
+/>
+```
+
+### `defaultValue` と `value` / 制御されたコンポーネント vs. 非制御コンポーネント
+入力欄の値を状態で管理している場合、`value` 属性を使って制御されたコンポーネントにします。  
+これは、Reactが入力欄の状態を管理することを意味します。  
+
+しかし、状態を使用していない場合は`defaultValue`を使えます。  
+これにより、ネイティブの入力欄が自分の状態を管理します。  
+検索クエリを状態ではなくURLに保存するため、この方法で問題ありません。  
+
+## テーブルの更新
+最後に、検索クエリを反映するためにテーブルコンポーネントを更新する必要があります。  
+
+請求書のページに戻ってください。  
+
+ページコンポーネントは[`searchParams` というプロップを受け取る](https://nextjs.org/docs/app/api-reference/file-conventions/page)ので、現在のURLパラメータを `<Table>` コンポーネントに渡すことができます。  
+
+**/app/dashboard/invoices/page.tsx**
+```tsx
+import Pagination from '@/app/ui/invoices/pagination';
+import Search from '@/app/ui/search';
+import Table from '@/app/ui/invoices/table';
+import { CreateInvoice } from '@/app/ui/invoices/buttons';
+import { lusitana } from '@/app/ui/fonts';
+import { Suspense } from 'react';
+import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+ 
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+ 
+  return (
+    <div className="w-full">
+      <div className="flex w-full items-center justify-between">
+        <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
+      </div>
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <Search placeholder="Search invoices..." />
+        <CreateInvoice />
+      </div>
+      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+        <Table query={query} currentPage={currentPage} />
+      </Suspense>
+      <div className="mt-5 flex w-full justify-center">
+        {/* <Pagination totalPages={totalPages} /> */}
+      </div>
+    </div>
+  );
+}
+```
+
+`<Table>` コンポーネントに移動すると、`query` と `currentPage` の2つのプロップが `fetchFilteredInvoices()` 関数に渡されているのが確認できます。  
+この関数は、クエリに一致する請求書を返します。  
+
+**/app/ui/invoices/table.tsx**
+```tsx
+// ...
+export default async function InvoicesTable({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  const invoices = await fetchFilteredInvoices(query, currentPage);
+  // ...
+}
+```
+
+これらの変更が完了したら、実際に試してみましょう。  
+検索語句を入力するとURLが更新され、サーバーに新たなリクエストが送信され、サーバー上でデータが取得されます。  
+そして、クエリに一致する請求書のみが返されます。  
+
+### `useSearchParams()` フックと `searchParams` プロップの使い分け
+検索パラメータを抽出する方法が2つあることに気づいたかと思います。  
+どちらを使うかは、クライアント側とサーバー側のどちらで作業しているかによります。  
+
+- `<Search>` はクライアントコンポーネントなので、クライアントからパラメータにアクセスするために `useSearchParams()` フックを使用しました。
+- `<Table>` はサーバーコンポーネントで独自のデータを取得するため、ページから `searchParams` プロップを渡しています。
+
+一般的なルールとして、クライアントからパラメータを読み込みたい場合は `useSearchParams()` フックを使用すると、サーバーに戻る必要がないため便利です。  
+
+### ベストプラクティス：**デバウンシング**
+おめでとうございます！  
+Next.jsでの検索機能が実装できました！  
+ですが、最適化のためにできることがまだあります。  
+
+`handleSearch` 関数内に以下の `console.log` を追加してみてください。  
+
+**/app/ui/search.tsx**
+```tsx
+function handleSearch(term: string) {
+  console.log(`Searching... ${term}`);
+ 
+  const params = new URLSearchParams(searchParams);
+  if (term) {
+    params.set('query', term);
+  } else {
+    params.delete('query');
+  }
+  replace(`${pathname}?${params.toString()}`);
+}
+```
+
