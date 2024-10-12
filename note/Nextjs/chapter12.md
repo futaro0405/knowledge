@@ -426,3 +426,18 @@ Next.jsでは、正確なセグメント名がわからない場合やデータ�
 
 ![[Pasted image 20241012184800.png]]
 
+`<Table>`コンポーネントでは、請求書のIDをテーブルレコードから受け取る`<UpdateInvoice />`ボタンがあります。
+
+typescript
+
+コードをコピーする
+
+`// /app/ui/invoices/table.tsx  export default async function InvoicesTable({   query,   currentPage, }: {   query: string;   currentPage: number; }) {   return (     // ...     <td className="flex justify-end gap-2 whitespace-nowrap px-6 py-4 text-sm">       <UpdateInvoice id={invoice.id} />       <DeleteInvoice id={invoice.id} />     </td>     // ...   ); }`
+
+次に、`<UpdateInvoice />`コンポーネントに移動し、`Link`の`href`を更新してIDプロップを受け取るようにします。テンプレートリテラルを使用して、動的ルートセグメントへのリンクを作成できます：
+
+typescript
+
+コードをコピーする
+
+``// /app/ui/invoices/buttons.tsx  import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'; import Link from 'next/link';  // ...  export function UpdateInvoice({ id }: { id: string }) {   return (     <Link       href={`/dashboard/invoices/${id}/edit`}       className="rounded-md border p-2 hover:bg-gray-100"     >       <PencilIcon className="w-5" />     </Link>   ); }``
