@@ -379,3 +379,139 @@ Searching... Emil
 pnpm i use-debounce
 ```
 
+`<Search>`コンポーネントで、`useDebouncedCallback`という関数をインポートしてください：
+
+**/app/ui/search.tsx**
+```tsx
+// ...
+import { useDebouncedCallback } from 'use-debounce';
+ 
+// Inside the Search Component...
+const handleSearch = useDebouncedCallback((term) => {
+  console.log(`Searching... ${term}`);
+ 
+  const params = new URLSearchParams(searchParams);
+  if (term) {
+    params.set('query', term);
+  } else {
+    params.delete('query');
+  }
+  replace(`${pathname}?${params.toString()}`);
+}, 300);
+```
+
+この関数は`handleSearch`の内容をラップし、ユーザーが入力を停止してから特定の時間（300ミリ秒）後にのみコードを実行します。  
+
+検索バーに再度入力し、開発ツールのコンソールを開いてください。  
+以下のように表示されるはずです：  
+
+```Console
+Searching... Emil
+```
+
+デバウンスを使用することで、データベースに送信されるリクエストの数を減らし、リソースを節約できます。  
+
+# ページネーションの追加
+検索機能を導入した後、テーブルが一度に6件の請求書しか表示しないことに気づくでしょう。  
+これは`data.ts`の`fetchFilteredInvoices()`関数が1ページあたり最大6件の請求書を返すためです。  
+
+ページネーションを追加することで、ユーザーは異なるページを移動して全ての請求書を閲覧できます。  
+検索と同様に、URLパラメータを使用してページネーションを実装する方法を見ていきましょう。  
+
+`<Pagination/>`コンポーネントに移動すると、これがクライアントコンポーネントであることに気づくでしょう。  
+データベースのシークレットが露出する恐れがあるため、クライアントでデータを取得したくありません（APIレイヤーを使用していないことを覚えておいてください）。  
+代わりに、サーバーでデータを取得し、それをプロップとしてコンポーネントに渡すことができます。  
+
+`/dashboard/invoices/page.tsx`で、`fetchInvoicesPages`という新しい関数をインポートし、`searchParams`から`query`を引数として渡してください：  
+
+**/app/dashboard/invoices/page.tsx**
+```tsx
+// ...
+import { fetchInvoicesPages } from '@/app/lib/data';
+ 
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string,
+    page?: string,
+  },
+}) {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+ 
+  const totalPages = await fetchInvoicesPages(query);
+ 
+  return (
+    // ...
+  );
+}
+```
+
+`fetchInvoicesPages`は検索クエリに基づいて総ページ数を返します。  
+例えば、検索クエリに一致する請求書が12件あり、各ページに6件の請求書が表示される場合、総ページ数は2になります。  
+
+次に、`totalPages`プロップを`<Pagination/>`コンポーネントに渡してください：  
+
+**/app/dashboard/invoices/page.tsx**
+```tsx
+// ...
+ 
+export default async function Page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+ 
+  const totalPages = await fetchInvoicesPages(query);
+ 
+  return (
+    <div className="w-full">
+      <div className="flex w-full items-center justify-between">
+        <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
+      </div>
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <Search placeholder="Search invoices..." />
+        <CreateInvoice />
+      </div>
+      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+        <Table query={query} currentPage={currentPage} />
+      </Suspense>
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
+    </div>
+  );
+}
+```
+
+`<Pagination/>`コンポーネントに移動し、`usePathname`と`useSearchParams`フックをインポートしてください。  
+これらを使用して現在のページを取得し、新しいページを設定します。  
+また、このコンポーネント内のコードのコメントを解除してください。  
+`<Pagination/>`のロジックをまだ実装していないため、一時的にアプリケーションが動作しなくなりますが、心配しないでください。今からそれを実装しましょう！  
+
+**/app/ui/invoices/pagination.tsx**
+```tsx
+'use client';
+ 
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { generatePagination } from '@/app/lib/utils';
+import { usePathname, useSearchParams } from 'next/navigation';
+ 
+export default function Pagination({ totalPages }: { totalPages: number }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+ 
+  // ...
+}
+```
+
+`<Pagination>`コンポーネント内に`createPageURL`という新しい関数を作成してください。検索と同様に、`URLSearchParams`を使用して新しいページ番号を設定し、`pathName`を使用してURL文字列を作成します。
