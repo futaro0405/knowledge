@@ -517,3 +517,40 @@ export default async function Page({ params }: { params: { id: string } }) {
 }
 ```
 
+## 特定の請求書を取得する  
+次に、以下の手順を実行します：  
+
+- `fetchInvoiceById`という新しい関数をインポートし、IDを引数として渡します。
+- ドロップダウンの顧客名を取得するために`fetchCustomers`をインポートします。
+
+両方のデータを並行して取得するために`Promise.all`を使用します：
+
+**/dashboard/invoices/[id]/edit/page.tsx**
+```typescript
+import Form from '@/app/ui/invoices/edit-form';
+import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
+ 
+export default async function Page({ params }: { params: { id: string } }) {
+  const id = params.id;
+  const [invoice, customers] = await Promise.all([
+    fetchInvoiceById(id),
+    fetchCustomers(),
+  ]);
+  // ...
+}
+```
+
+コードをコピーする
+
+`// /dashboard/invoices/[id]/edit/page.tsx  import Form from '@/app/ui/invoices/edit-form'; import Breadcrumbs from '@/app/ui/invoices/breadcrumbs'; import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';  export default async function Page({ params }: { params: { id: string } }) {   const id = params.id;   const [invoice, customers] = await Promise.all([     fetchInvoiceById(id),     fetchCustomers(),   ]);   // ... }`
+
+現在、ターミナルで`invoice`プロップに一時的なTypeScriptエラーが表示されますが、これは`invoice`が未定義になる可能性があるためです。エラー処理を追加する次の章で解決しますので、今は気にしなくて大丈夫です。
+
+ここまで設定が正しく行われたか確認するために、`http://localhost:3000/dashboard/invoices`を開き、編集する請求書の鉛筆アイコンをクリックしてテストしましょう。遷移後、請求書の詳細が事前入力されたフォームが表示されるはずです。
+
+### UUID vs. オートインクリメントキー
+
+URLにはUUIDを使用し、インクリメントキー（例：1, 2, 3など）ではなくUUIDを利用しています。UUIDはURLが長くなるものの、IDの衝突リスクを排除し、グローバルに一意で、列挙攻撃のリスクも軽減されるため、大規模なデータベースに適しています。
+
+ただし、よりシンプルなURLを望む場合は、オートインクリメントキーを使用することも可能です。
