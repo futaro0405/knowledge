@@ -673,3 +673,9 @@ export async function deleteInvoice(id: string) {
 このアクションは、`/dashboard/invoices`パスで呼び出されるため、`redirect`を呼び出す必要はありません。  
 `revalidatePath`を呼び出すことで、新しいサーバーリクエストがトリガーされ、テーブルが再レンダリングされます。  
 
+# 追加学習
+この章では、サーバーアクションを使用してデータを操作する方法を学びました。  
+また、Next.jsのキャッシュを再検証するための`revalidatePath` APIと、ユーザーを新しいページにリダイレクトするための`redirect`の使い方も学びました。  
+
+さらに学習を深めるために、[サーバーアクションのセキュリティ](https://nextjs.org/blog/security-nextjs-server-components-actions)についての資料も参考にすると良いでしょう。  
+
