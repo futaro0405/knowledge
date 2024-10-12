@@ -541,16 +541,135 @@ export default async function Page({ params }: { params: { id: string } }) {
 }
 ```
 
-コードをコピーする
+現在、ターミナルで`invoice`プロップに一時的なTypeScriptエラーが表示されますが、これは`invoice`が未定義になる可能性があるためです。  
+エラー処理を追加する次の章で解決しますので、今は気にしなくて大丈夫です。  
 
-`// /dashboard/invoices/[id]/edit/page.tsx  import Form from '@/app/ui/invoices/edit-form'; import Breadcrumbs from '@/app/ui/invoices/breadcrumbs'; import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';  export default async function Page({ params }: { params: { id: string } }) {   const id = params.id;   const [invoice, customers] = await Promise.all([     fetchInvoiceById(id),     fetchCustomers(),   ]);   // ... }`
+ここまで設定が正しく行われたか確認するために、`http://localhost:3000/dashboard/invoices`を開き、編集する請求書の鉛筆アイコンをクリックしてテストしましょう。  
+遷移後、請求書の詳細が事前入力されたフォームが表示されるはずです。  
 
-現在、ターミナルで`invoice`プロップに一時的なTypeScriptエラーが表示されますが、これは`invoice`が未定義になる可能性があるためです。エラー処理を追加する次の章で解決しますので、今は気にしなくて大丈夫です。
+![[Pasted image 20241012220903.png]]
 
-ここまで設定が正しく行われたか確認するために、`http://localhost:3000/dashboard/invoices`を開き、編集する請求書の鉛筆アイコンをクリックしてテストしましょう。遷移後、請求書の詳細が事前入力されたフォームが表示されるはずです。
+URLも以下のようにIDを含む形式に更新されている必要があります：
+`http://localhost:3000/dashboard/invoices/uuid/edit`
 
 ### UUID vs. オートインクリメントキー
-
 URLにはUUIDを使用し、インクリメントキー（例：1, 2, 3など）ではなくUUIDを利用しています。UUIDはURLが長くなるものの、IDの衝突リスクを排除し、グローバルに一意で、列挙攻撃のリスクも軽減されるため、大規模なデータベースに適しています。
 
 ただし、よりシンプルなURLを望む場合は、オートインクリメントキーを使用することも可能です。
+
+## サーバーアクションにIDを渡す  
+最後に、サーバーアクションにIDを渡して、データベースの正しいレコードを更新できるようにします。  
+IDを引数として直接渡すことはできません：  
+
+**/app/ui/invoices/edit-form.tsx**
+```typescript
+// Passing an id as argument won't work
+<form action={updateInvoice(id)}>
+```
+
+代わりに、JavaScriptの`bind`を使用してサーバーアクションにIDを渡します。  
+これにより、サーバーアクションに渡されるすべての値がエンコードされます。  
+
+**/app/ui/invoices/edit-form.tsx**
+```typescript
+// ...
+import { updateInvoice } from '@/app/lib/actions';
+ 
+export default function EditInvoiceForm({
+  invoice,
+  customers,
+}: {
+  invoice: InvoiceForm;
+  customers: CustomerField[];
+}) {
+  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+ 
+  return (
+    <form action={updateInvoiceWithId}>
+      <input type="hidden" name="id" value={invoice.id} />
+    </form>
+  );
+}
+```
+
+> **注**: フォームに隠し入力フィールドを使用してIDを渡す方法も動作します。
+> （例: `<input type="hidden" name="id" value={invoice.id} />`）
+> ただし、IDなどの機密データがHTMLソースに表示されるため、この方法は推奨されません。
+
+次に、`actions.ts`ファイルで新しいアクション`updateInvoice`を作成します：
+
+**/app/lib/actions.ts**
+```typescript
+// Use Zod to update the expected types
+const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+ 
+// ...
+ 
+export async function updateInvoice(id: string, formData: FormData) {
+  const { customerId, amount, status } = UpdateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+ 
+  const amountInCents = amount * 100;
+ 
+  await sql`
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
+  `;
+ 
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}
+```
+
+この`updateInvoice`アクションは、`createInvoice`アクションと同様に以下の処理を行っています：  
+
+1. `formData`からデータを抽出。
+2. Zodを使用して型を検証。
+3. 金額をセントに変換。
+4. 変数をSQLクエリに渡す。
+5. `revalidatePath`を呼び出してクライアントキャッシュをクリアし、新しいサーバーリクエストを作成。
+6. `redirect`を呼び出してユーザーを請求書ページにリダイレクト。
+
+請求書の編集をテストしましょう。  
+フォームを送信すると、請求書ページにリダイレクトされ、請求書が更新されているはずです。  
+
+# 請求書の削除
+サーバーアクションを使用して請求書を削除するには、削除ボタンを`<form>`要素でラップし、`bind`を使ってIDをサーバーアクションに渡します。  
+
+**/app/ui/invoices/buttons.tsx**
+```typescript
+import { deleteInvoice } from '@/app/lib/actions';
+ 
+// ...
+ 
+export function DeleteInvoice({ id }: { id: string }) {
+  const deleteInvoiceWithId = deleteInvoice.bind(null, id);
+ 
+  return (
+    <form action={deleteInvoiceWithId}>
+      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Delete</span>
+        <TrashIcon className="w-4" />
+      </button>
+    </form>
+  );
+}
+```
+
+次に、`actions.ts`ファイルに新しいアクション`deleteInvoice`を作成します。
+
+**/app/lib/actions.ts**
+```typescript
+export async function deleteInvoice(id: string) {
+  await sql`DELETE FROM invoices WHERE id = ${id}`;
+  revalidatePath('/dashboard/invoices');
+}
+```
+
+このアクションは、`/dashboard/invoices`パスで呼び出されるため、`redirect`を呼び出す必要はありません。  
+`revalidatePath`を呼び出すことで、新しいサーバーリクエストがトリガーされ、テーブルが再レンダリングされます。  
+
