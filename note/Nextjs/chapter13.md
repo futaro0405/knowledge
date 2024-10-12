@@ -222,3 +222,47 @@ export default async function Page({ params }: { params: { id: string } }) {
 これで、特定の請求書が見つからない場合、`<Page>`はエラーをスローします。  
 ユーザーにエラーUIを表示するために、`/edit`フォルダ内に`not-found.tsx`ファイルを作成してください。  
 
+![[Pasted image 20241012225557.png]]
+
+次に、`not-found.tsx`ファイル内に以下のコードを貼り付けてください：  
+
+**/dashboard/invoices/[id]/edit/not-found.tsx**
+```typescript
+import Link from 'next/link';
+import { FaceFrownIcon } from '@heroicons/react/24/outline';
+ 
+export default function NotFound() {
+  return (
+    <main className="flex h-full flex-col items-center justify-center gap-2">
+      <FaceFrownIcon className="w-10 text-gray-400" />
+      <h2 className="text-xl font-semibold">404 Not Found</h2>
+      <p>Could not find the requested invoice.</p>
+      <Link
+        href="/dashboard/invoices"
+        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+      >
+        Go Back
+      </Link>
+    </main>
+  );
+}
+```
+
+ルートを更新すると、以下のようなUIが表示されるはずです：  
+
+![[Pasted image 20241012225730.png]]
+
+
+覚えておくべき点として、`notFound`は`error.tsx`よりも優先されるので、より具体的なエラーを処理したい場合に使用することができます！  
+
+# さらなる学習
+Next.jsのエラー処理についてさらに学ぶには、以下のドキュメントをご覧ください：  
+
+- エラー処理
+- `error.js` APIリファレンス
+- `notFound()` APIリファレンス
+- `not-found.js` APIリファレンス
+
+これらのリソースは、Next.jsにおけるエラー処理の詳細な情報や、各APIの使用方法について詳しく説明しています。  
+エラー処理をさらに深く理解し、アプリケーションの堅牢性を高めるのに役立つでしょう。  
+
