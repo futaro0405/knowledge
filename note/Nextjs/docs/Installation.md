@@ -91,36 +91,67 @@ export default function RootLayout({
 
 最後に、`app/page.tsx`にホームページを作成し、初期コンテンツを追加します：
 
-typescript
+**app/page.tsx**
+```typescript
+export default function Page() {
+  return <h1>Hello, Next.js!</h1>
+}
+```
 
-Copy
+> 補足
+> `layout.tsx`の作成を忘れた場合、`next dev`で開発サーバーを実行する際にNext.jsが自動的にこのファイルを作成します。
 
-`export default function Page() {   return <h1>Hello, Next.js!</h1> }`
+[Appルーターの使用](https://nextjs.org/docs/app/building-your-application/routing/defining-routes)についての詳細はドキュメントを参照してください。
 
-`pages`ディレクトリ（オプション） Appルーターの代わりにPagesルーターを使用する場合、プロジェクトのルートに`pages/`ディレクトリを作成できます。
+### `pages`ディレクトリ（オプション）
+Appルーターの代わりにPagesルーターを使用したい場合、プロジェクトのルートに`pages/`ディレクトリを作成できます。
 
-`pages`フォルダ内に`index.tsx`ファイルを追加します。これがホームページ（`/`）になります：
+`pages`フォルダ内に`index.tsx`ファイルを追加します。
+これがホームページ（`/`）になります：
 
-typescript
+```typescript
+export default function Page() {
+  return <h1>Hello, Next.js!</h1>
+}
+```
 
-Copy
+次に、`pages/`内に`_app.tsx`ファイルを追加してグローバルレイアウトを定義します。
+[カスタムAppファイル](https://nextjs.org/docs/pages/building-your-application/routing/custom-app)の詳細については、ドキュメントを参照してください。
 
-`export default function Page() {   return <h1>Hello, Next.js!</h1> }`
+**pages/_app.tsx**
+```typescript
+import type { AppProps } from 'next/app'
+ 
+export default function App({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />
+}
+```
 
-次に、`pages/_app.tsx`を追加してグローバルレイアウトを定義します：
+最後に、`pages/`内に`_document.tsx`ファイルを追加して、サーバーからの初期レスポンスを制御します。
+[カスタムDocumentファイル](https://nextjs.org/docs/pages/building-your-application/routing/custom-document)の詳細については、ドキュメントを参照してください。
 
-typescript
+**pages/_document.tsx**
+```typescript
+import { Html, Head, Main, NextScript } from 'next/document'
+ 
+export default function Document() {
+  return (
+    <Html>
+      <Head />
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  )
+}
+```
 
-Copy
+[Pagesルーターの使用](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts)についての詳細はドキュメントを参照してください。
 
-`import type { AppProps } from 'next/app' export default function App({ Component, pageProps }: AppProps) {   return <Component {...pageProps} /> }`
+> 補足
+> 同じプロジェクトで両方のルーターを使用できますが、`app`内のルートが`pages`より優先されます。
+> 混乱を避けるため、新しいプロジェクトでは1つのルーターのみを使用することをお勧めします。
 
-最後に、`pages/_document.tsx`を追加してサーバーからの初期レスポンスを制御します：
-
-typescript
-
-Copy
-
-`import { Html, Head, Main, NextScript } from 'next/document' export default function Document() {   return (    <Html>      <Head />      <body>        <Main />        <NextScript />      </body>    </Html>  ) }`
-
-`public`フォルダ（オプション） 画像やフォントなどの静的アセットを保存するために`public`フォルダを作成します。`public`ディレクトリ内のファイルはベースURL（`/`）から参照できます。
+### `public`フォルダ（オプション）
+画像やフォントなどの静的アセットを保存するために`public`フォルダを作成します。`public`ディレクトリ内のファイルは、ベースURL（`/`）からコード内で参照できます。
