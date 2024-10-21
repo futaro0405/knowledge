@@ -273,11 +273,19 @@
 - コントローラーにも同様の変更を加えます：
     - NotesIndex関数：現在サインインしているユーザーを取得し、そのユーザーに属するノートのみを取得します。
 
-
+![[Pasted image 20241020233640.png]]
 
 - コンテキストからユーザーIDを取得し、ユーザー情報を取得する処理を共通化します：
     - controllers/helpers ディレクトリを作成し、utils.goファイルを作成します。
     - GetUserFromRequest関数を実装し、gin.Contextを受け取り、現在のユーザーを返すようにします。
+
+![[Pasted image 20241020233917.png]]
+
+![[Pasted image 20241020234100.png]]
+
+![[Pasted image 20241020234232.png]]
+
+![[Pasted image 20241020234322.png]]
 
 1. コントローラーのNotesIndex関数に戻り、GetUserFromRequest関数を呼び出して現在のユーザーを取得します。
 2. ユーザーがサインインしていない場合、未認証アクセスとして処理します：
