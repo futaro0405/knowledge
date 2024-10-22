@@ -1,4 +1,7 @@
 # introduction
+
+![[Pasted image 20241022175021.png]]
+
 Go言語とGin Gonicを使用した完全なWeb開発ブートキャンプへようこそ。 
 私の名前はAmritで、このコースの講師を務めます。
 
