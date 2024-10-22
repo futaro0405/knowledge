@@ -23,6 +23,10 @@
 1. VS Code内でターミナルを開きます。
 2. ターミナルで「go get」コマンドを使ってパッケージを取得します。
 
+```terminal
+go get github.com/gin-gonic/gin
+```
+
 これで、プロジェクトにGinがインストールされました。
 # First route and HTML view
 
@@ -85,7 +89,10 @@ Bootstrapとは、レスポンシブなUIを構築するためのフロントエ
 Bootstrapの導入手順：
 
 1. Bootstrapのホームページからダウンロードページに移動します。
-2. コンパイル済みのCSSとJavaScriptファイルをダウンロードします（ソースファイルではなく）。
+
+https://getbootstrap.com/docs/5.3/getting-started/download/
+
+1. コンパイル済みのCSSとJavaScriptファイルをダウンロードします（ソースファイルではなく）。
 
 ![[Pasted image 20241019120051.png]]
 
