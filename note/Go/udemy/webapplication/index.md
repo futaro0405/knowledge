@@ -1,2 +1,5 @@
-[[note/Go/udemy/webapplication/introduction|introduction]]
-[[hellogin]]
+- [[note/Go/udemy/webapplication/introduction|introduction]]
+- [[hellogin]]
+- [[codestructure]]
+- [[notesapplication]]
+- 
