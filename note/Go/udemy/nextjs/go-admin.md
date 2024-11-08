@@ -183,6 +183,12 @@ docker compose up
 このコマンドをコピーして新しいタブで実行し、`Gorm`をインストールしました。
 
 SQLiteは使用せず、MySQLを使用します。これに対応するドライバーも追加しました。
+
+```bash
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/mysql
+```
+
 MySQLがマシンにインストールされていなくても問題ありません。
 なぜなら、Dockerコンテナ内にMySQLを追加するからです。
 Dockerの利点は、マシンに何かをインストールしていなくても、Docker内でセットアップが完結することです。
