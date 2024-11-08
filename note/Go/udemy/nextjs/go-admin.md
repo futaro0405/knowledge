@@ -344,3 +344,161 @@ connection refused
 **正しい接続方法**: Dockerコンテナ内では、サービス名（この場合は`mysql`）を使用します。Dockerはサービス名を使用して接続がデータベースに対するものであると認識します。
 
 これで、データベース接続が正常に機能していることを確認できます。
+# Migrations
+データベースへの接続が成功したので、次はそのデータベースにテーブルを追加できるか確認してみましょう。
+
+まず、データベースコンテナに接続します。ここではMySQLを使用します。`GoLand`を使用していない場合は、`MySQL Workbench`などを使用すると良いでしょう。
+
+`GoLand`には右側にデータベース接続用のタブがあり、30日間の無料トライアルを利用することもできます。`GoLand`は有料ソフトウェアですが、便利です。
+
+**接続設定**:
+
+- ポートは`33066`
+- ユーザーは`root`
+- パスワードは`root`
+- データベース名は`ambassador`
+
+この設定で接続を試み、成功しました。データベースが空でテーブルがないことを確認できます。
+
+**テーブルを追加する準備**: 新しいディレクトリを作成して、テーブルを管理します。
+
+1. プロジェクト内にsrcディレクトリを作成します。
+2. その中に`database`というフォルダを作成します。
+3. その中に`db.go`という名前のGoファイルを作成します。
+
+```bash
+mkdir -p models/database
+touch models/database/db.go
+```
+
+この`migrate.go`ファイルを使って、データベースにテーブルを追加するコードを書いていきます。
+
+これでパッケージが整いましたので、データベースとの接続を行う関数を作成します。
+
+1. **接続関数の作成**: `connect`関数を作成し、接続部分を移動します。
+
+```go
+package database
+
+import (
+    "gorm.io/driver/mysql"
+    "gorm.io/gorm"
+)
+
+var DB *gorm.DB
+
+func Connect() {
+    dsn := "root:root@tcp(mysql:3306)/ambassador?charset=utf8mb4&parseTime=True&loc=Local"
+    database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+    if err != nil {
+        panic("Failed to connect to database!")
+    }
+    DB = database
+}
+```
+
+2. **`main.go`で接続関数を使用**: `main.go`で`database.Connect()`を呼び出します。
+
+```go
+package main
+
+import (
+    "your_project/models/database"
+)
+
+func main() {
+    database.Connect()
+    // 他のコードはここに追加
+}
+```
+
+**インポートの忘れ**: `main.go`内で`database`をインポートしてください。
+
+3. **モデルの作成**: `models`ディレクトリを作成し、その中に`user.go`ファイルを作成します。
+
+```go
+package models
+
+type User struct {
+    ID        uint   `gorm:"primaryKey"`
+    FirstName string `gorm:"size:255"`
+    LastName  string `gorm:"size:255"`
+    Email     string `gorm:"unique;size:255"`
+    Password  string `gorm:"size:255"`
+    IsAmbassador bool `gorm:"default:false"`
+}
+```
+
+この構造体は`User`テーブルのカラムを表しており、`ID`はプライマリキー、`FirstName`や`LastName`は文字列型です。また、`IsAmbassador`は`bool`型で、この値によってユーザーが管理者かアンバサダーかを区別します。
+
+この後、`migrate.go`でこの構造体を使ってテーブルを自動生成するコードを記述します。
+
+まず、ユーザーテーブルをデータベースに作成するために、データベース接続で自動マイグレーションを行う関数を追加します。
+
+1. **`AutoMigrate`関数の作成**: `database`パッケージ内に`AutoMigrate`関数を作成し、`Gorm`を使ってテーブルを生成します。
+
+```go
+package database
+
+import (
+    "gorm.io/gorm"
+    "your_project/models"
+)
+
+func AutoMigrate() {
+    if err := DB.AutoMigrate(&models.User{}); err != nil {
+        panic("Failed to migrate database!")
+    }
+}
+```
+
+2. **`main.go`で`AutoMigrate`関数を使用**: `main.go`内でこの関数を呼び出し、テーブルを作成します。
+
+```go
+package main
+
+import (
+    "your_project/models/database"
+)
+
+func main() {
+    database.Connect()
+    database.AutoMigrate()
+    // その他のコードを追加
+}
+```
+
+3. **データベースを確認**: `docker-compose up --build`コマンドでDockerコンテナを再起動し、設定を反映させます。データベース内にテーブルが作成されるはずです。
+
+**確認手順**:
+
+- データベースツールまたは`GoLand`を使用してデータベースに接続し、`user`テーブルが作成されているか確認します。
+- テーブルには`ID`, `FirstName`, `LastName`, `Email`, `Password`, `IsAmbassador`のカラムが含まれ、`IsAmbassador`は`tinyint`として設定されています。
+
+**補足**: `AutoMigrate`関数は、構造体を元にデータベース内に対応するテーブルを作成し、設定も自動で行います。次のチュートリアルでは、ファイルの変更時に自動的に反映されるように設定する方法を紹介します。
+
+# Live Reloading
+この問題に対処するために、Go用のライブリローダーである`air`パッケージをインストールして、自動的にコード変更を反映できるようにします。
+
+1. **`air`パッケージのインストール**: Dockerコンテナ内で`air`を使用するために、`Dockerfile`に以下のコマンドを追加します。
+
+```Dockerfile
+RUN curl -fLo /usr/local/bin/air https://raw.githubusercontent.com/cosmtrek/air/master/bin/linux/air && \
+    chmod +x /usr/local/bin/air
+```
+
+2. **`main.go`の実行**: これにより、コンテナ内で`air`コマンドが使用できるようになります。`Dockerfile`内で`go run main.go`を削除し、代わりに`air`コマンドを使用してアプリケーションを実行します。
+
+```Dockerfile
+CMD ["air"]
+```
+
+3. **Dockerコンテナの再ビルドと実行**: `docker-compose up --build`コマンドを使用して、コンテナを再ビルド・再起動します。これにより、`air`パッケージがインストールされ、コードの変更が検知されると、自動的にアプリケーションが再実行されます。
+
+**確認**:
+
+- コンテナが再起動し、`air`が正しく動作しているか確認します。正常に動作していれば、コードを変更するたびにコンテナ内でアプリケーションが再実行されます。
+- `air`は、コード変更時にリアルタイムで再ビルドと再実行を行うため、手動でコンテナを再起動する必要がなくなります。
+
+これで、コードの変更が即座に反映されるようになり、開発効率が向上します。
+
