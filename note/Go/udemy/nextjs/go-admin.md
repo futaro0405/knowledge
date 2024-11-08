@@ -483,8 +483,7 @@ func main() {
 1. **`air`パッケージのインストール**: Dockerコンテナ内で`air`を使用するために、`Dockerfile`に以下のコマンドを追加します。
 
 ```Dockerfile
-RUN curl -fLo /usr/local/bin/air https://raw.githubusercontent.com/cosmtrek/air/master/bin/linux/air && \
-    chmod +x /usr/local/bin/air
+RUN curl -sSfL https://raw.githubusercontent.com/air-verse/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
 ```
 
 2. **`main.go`の実行**: これにより、コンテナ内で`air`コマンドが使用できるようになります。`Dockerfile`内で`go run main.go`を削除し、代わりに`air`コマンドを使用してアプリケーションを実行します。
@@ -502,3 +501,13 @@ CMD ["air"]
 
 これで、コードの変更が即座に反映されるようになり、開発効率が向上します。
 
+`air`パッケージの動作を確認し、問題が解決しました。コードを変更しても、アプリケーションが自動的に再実行されない場合は、以下のポイントを確認してください。
+
+1. **Dockerコンテナの再ビルド**: `Dockerfile`に変更を加えた後は、必ずコンテナを再ビルドする必要があります。`docker-compose up --build`コマンドを使用してコンテナを再ビルドし、最新の設定で再起動します。これにより、新しい`Dockerfile`が反映され、`air`が正しくインストールされます。
+    
+2. **`air`コマンドの確認**: `air`が正しく動作している場合、コードの保存時に自動的に再ビルドと再実行が行われるはずです。`main.go`ファイルに変更を加えて保存すると、`air`がコンテナ内で変更を検知し、自動的にアプリケーションを再実行します。
+    
+3. **変更の確認**: 例えば、`main.go`の出力を変更し、保存後に`air`が動作してプロジェクトが再起動されることを確認してください。
+    
+
+これで、コード変更をすぐに反映できるようになり、開発プロセスがスムーズになります。`air`パッケージは、開発中にコードの変更がリアルタイムで反映されるため、手動でコンテナを再起動する手間がなくなります。
