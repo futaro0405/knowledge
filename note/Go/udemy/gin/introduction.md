@@ -858,7 +858,7 @@ function HelloWorld() {
 				Toggle isTrue
 			</a>
 		</>
-	);
+	)
 }
 ```
 
@@ -866,4 +866,51 @@ function HelloWorld() {
 `href`に`#!`を設定することで、リンクをクリックしてもページの移動が発生しません。
 
 これを保存してブラウザで確認すると、スタイリングされたボタンが表示され、条件付きレンダリングの要素が表示されるかどうかは`isTrue`の値に依存します。
+
+このコードの意図を踏まえて、もう少し詳しく説明し、`toggleTrue`関数を見直します。
+意図的に詳細に書かれたこのコードは、`isTrue`の状態を反転する方法を説明しています。
+
+以下が、修正したコードです：
+
+```javascript
+import React, { useState } from 'react';
+
+function HelloWorld(props) {
+	const [isTrue, setIsTrue] = useState(false);
+
+	const toggleTrue = () => {
+		if (isTrue) {
+			setIsTrue(false);
+			return
+		}
+		setIsTrue(true)
+	}
+	
+	return (
+		<>
+			<h1 className="h1-green">{props.msg}</h1>
+			<hr />
+			{isTrue &&
+				<>
+					<p>The current value of isTrue is true</p>
+				</>
+			}
+			<a href="#!" className="btn btn-outline-secondary" onclick={toggleTrue}>
+				Toggle isTrue
+			</a>
+		</>
+	)
+}
+
+export default HelloWorld;
+
+```
+
+この`toggleTrue`関数は、`isTrue`が`true`の場合に`setIsTrue(false)`を呼び出して状態を`false`にし、処理を終了します。
+`isTrue`が`false`の場合は、`setIsTrue(true)`を呼び出して状態を`true`に変更します。
+
+このコードをブラウザで確認すると、ボタンをクリックするたびに`isTrue`の状態が反転し、条件付きレンダリングによって`<p>`タグが表示されたり消えたりします。
+
+開発者ツールで確認すると、`<p>`タグがDOMから削除されたり追加されたりすることがわかります。
+これが、Reactが状態を反映してDOMを更新する仕組みです。
 
