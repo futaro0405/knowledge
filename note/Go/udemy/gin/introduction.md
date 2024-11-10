@@ -921,24 +921,16 @@ Reactでは、`state`の値が変更されると、その`state`に依存して�
 コードの詳細を以下に示します：
 
 ```javascript
-
 {isTrue &&
-<>
-                    <p>The current value of isTrue is true</p>
-                </>
-            )}
-            {/* 短絡評価演算子を使った条件付き表示 */}
-            {isTrue ? <p>isTrue is true</p> : <p>isTrue is false</p>}
-            <hr />
-            {/* ボタン */}
-            <a href="#!" className="btn btn-outline-secondary" onClick={toggleTrue}>
-                Toggle isTrue
-            </a>
-        </>
-    );
+	<>
+		<p>The current value of isTrue is true</p>
+	</>
 }
-
-export default HelloWorld;
+{
+	isTrue
+	? <p>isTrue is true</p>
+	: <p>isTrue is false</p>
+}
 ```
 
 このコードには2つの条件付きレンダリング方法が含まれています：
@@ -946,6 +938,38 @@ export default HelloWorld;
 1. `isTrue && <p>...<p>` のような短絡評価演算子を使用して、`isTrue`が`true`の場合のみ要素を表示する。
 2. `isTrue ? <p>isTrue is true</p> : <p>isTrue is false</p>` という三項演算子を使って、`isTrue`が`true`なら「isTrue is true」、`false`なら「isTrue is false」を表示します。
 
-ブラウザで確認すると、ボタンをクリックするたびに`isTrue`の状態が反転し、ページ上の表示が2つの場所で同時に変わることがわかります。これは、`state`がアプリケーション内で一貫して管理され、すべての関連要素が同期されるためです。
+ブラウザで確認すると、ボタンをクリックするたびに`isTrue`の状態が反転し、ページ上の表示が2つの場所で同時に変わることがわかります。
+これは、`state`がアプリケーション内で一貫して管理され、すべての関連要素が同期されるためです。
 
-この基本的な例を使って、`state`を用いたリアクティブな表示の管理やイベントハンドリングを学ぶことができました。次は、より高度な`state`の操作や他のReactフックを組み合わせた実装を見ていきましょう。
+この基本的な例を使って、`state`を用いたリアクティブな表示の管理やイベントハンドリングを学ぶことができました。
+次は、より高度な`state`の操作や他のReactフックを組み合わせた実装を見ていきましょう。
+## React and State 2
+クラスコンポーネントで`state`や条件付きレンダリング、イベントを実装していきます。
+クラスコンポーネントは少し冗長ですが、Reactの基本として知っておくことは重要です。
+
+`AppClass.js`を以下のように修正して、`state`を持つクラスコンポーネントに変更します。
+
+- **コンストラクタ**: `constructor`内で`super(props)`を呼び出し、`this.state`を初期化します。これはクラスコンポーネントでの`state`の初期設定です。
+- **メソッドのバインド**: `toggleTrue`メソッドを`this`にバインドしています。これは、Reactのクラスコンポーネントでは`this`のコンテキストが正しく参照されるようにするために必要です。
+- **`setState`**: 状態を更新するために`this.setState`を使用し、`isTrue`の値を反転させます。
+- **レンダリング**: `state`に基づいて条件付きレンダリングを行い、`isTrue`の状態に応じて異なる内容を表示します。
+
+ブラウザで確認すると、クラスコンポーネントでも`isTrue`の状態がトグルされ、条件付きレンダリングが動作することがわかります。
+これで、関数コンポーネントとクラスコンポーネントの両方での`state`とイベントハンドリングの実装方法を理解できました。
+
+`constructor`内で`state`を初期化し、`toggleTrue`関数をクラスコンポーネント用に実装していきます。
+コード全体を確認し、適切な`this`の参照と`setState`の使用を意識して記述します。
+
+以下が修正後の`AppClass.js`コードです：
+
+```javascript
+
+```
+
+- **コンストラクタ**: `constructor`内で`super(props)`を呼び出し、`this.state`を初期化します。
+- **toggleTrueメソッド**: `this.state.isTrue`の状態をチェックし、`this.setState`を使って`isTrue`を反転させます。`this.setState`はReactクラスコンポーネントで`state`を更新するために使用されます。
+- **レンダリング**: `state`を使用して条件付きレンダリングを行い、状態に応じて表示を変更します。
+
+このコードを保存してブラウザで確認すると、`Toggle isTrue`ボタンをクリックするたびに、`state`が反転し、それに基づいて表示が更新されることが確認できます。
+クラスコンポーネントの構文は関数コンポーネントよりも少し冗長ですが、Reactの基本を理解するためには役立ちます。
+
