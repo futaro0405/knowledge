@@ -347,18 +347,30 @@ export default class AppClass extends Component {
 
 ターミナルを開くと、まだエラーが発生しているかもしれません。それは、`App`が定義されていないからです。`index.js`に戻って、次のようにインポート文を追加します：
 
-javascript
-
-コードをコピーする
-
-`import AppClass from './AppClass';`
+```javascript
+import AppClass from './AppClass';
+```
 
 これで、`AppClass`がインポートされました。次に、`index.js`内の`<App />`を`<AppClass />`に変更します。
 
-javascript
+```javascript
+root.render(
+    <React.StrictMode>
+        <AppClass />
+    </React.StrictMode>
+);
+```
 
-コードをコピーする
+これを保存すると、ターミナルでコンパイルが成功したメッセージが表示されるはずです。
+Webブラウザに戻ると、画面には「Hello, World」と表示されています。
 
-`root.render(     <React.StrictMode>         <AppClass />     </React.StrictMode> );`
+特に目新しさはないかもしれませんが、ご覧のとおり、使わないコードを削除してコードを整理しました。
+`index.js`を修正して、唯一のコンポーネントである`AppClass`をインポートし、`root.render`内の名前を`<AppClass />`に変更しました。
 
-これを保存すると、ターミナルでコンパイルが成功したメッセージが表示されるはずです。Webブラウザに戻ると、画面には「Hello, World」と表示されています。
+`AppClass`の定義は`./AppClass`にあり、これは`src`フォルダ内のこのファイルです。
+このクラスコンポーネントは非常にシンプルで、`<h1>`タグに囲まれた「Hello, World」を返します。
+これがクラスコンポーネントを作成する方法です。
+
+次の講義では、同じことを関数型コンポーネントを使って実現します。それでは、次に進みましょう。
+
+## Hello 
