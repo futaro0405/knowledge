@@ -756,3 +756,114 @@ Reactアプリケーションでは、`props`を使って情報を渡すこと�
 次の講義では、`state`について詳しく見ていきましょう。
 
 ## React and State 1
+`state`を試してみましょう。
+`state`を使用するためには、イベントや条件付きレンダリングといった他の概念も紹介します。
+まず、アプリケーションを少し簡素化してみましょう。
+
+現在、ブラウザでは2つのコンポーネントが表示されていますが、それを簡素化します。
+まず、`index.js`から`AppClass`コンポーネントを削除し、実際の`render`関数からも削除します。
+これにより、関連する`import`文も削除できます。
+
+これでブラウザに戻ると、アプリケーションがシンプルになり、「hello again」と水平線だけが表示されていることがわかります。
+この状態を基に、さらに追加していきます。
+
+次に、`HelloWorld.js`に移動し、`AppClass`を使用していないので、それを閉じて、不要なファイルも閉じておきます。
+これで、作業に集中できる状態になります。
+
+`HelloWorld`関数内で`state`を設定するために、`return`を呼び出す前に次のように記述します：
+
+```javascript
+import React, { useState } from 'react';
+
+function HelloWorld() {
+	// useStateフックを使ってstateを宣言
+	const [isTrue, setIsTrue] = useState(false);
+	
+	return (
+		<>
+			<h1 className="h1-green">{props.msg}</h1>
+			<hr />
+		</>
+	);
+}
+```
+
+このコードでは、`useState`フックを使って`isTrue`という`state`変数を宣言しています。
+この変数の初期値は`false`です。
+`useState`は、関数型コンポーネントで`state`を使用するためのフックであり、2つの要素（`state`変数とその値を更新するための関数）を返します。
+このため、分割代入の構文を使用して`isTrue`と`setIsTrue`を取得しています。
+
+この`state`は初期値として`false`を持ち、`setIsTrue`関数を使って`isTrue`の値を更新できます。
+変数名に「`set`」を付けることで、`state`を更新する関数であることが直感的にわかります。
+
+`isTrue`を使って、条件付きで表示を変更することもできます。
+この例では、`isTrue`が`true`の場合は「State is True!」と表示し、`false`の場合は「Hello, World」と表示されます。
+
+これまでのところ、`useState`を使用して`isTrue`という状態を設定しました。
+次に、この`isTrue`を利用して条件付きレンダリングを行います。
+
+`<Fragment>`の中に追加するコードは以下のようになります：
+
+```javascript
+function HelloWorld() {
+	const [isTrue, setIsTrue] = useState(false);
+	
+	return (
+		<>
+			<h1 className="h1-green">{props.msg}</h1>
+			<hr />
+			{isTrue &&
+				<>
+					<p>The current value of isTrue is true</p>
+				</>
+			}
+		</>
+	);
+}
+```
+
+ここでは、`{isTrue && (...)}`という構文を使用しています。
+この構文はJavaScriptの論理AND演算子を使用しており、`isTrue`が`true`の場合にのみ次の要素をレンダリングします。
+`isTrue`が`false`の場合、何も表示されません。
+
+`<p>`タグ内に「The current value of isTrue is true」というメッセージを表示し、`<Fragment>`を使用して要素をラップすることで、複数の要素が1つの親要素内に存在しているようにしています。
+これはJSXの要件です。
+
+これで、`isTrue`が`true`であれば「The current value of isTrue is true」と表示され、`false`であれば何も表示されません。
+
+`isTrue`が`false`に設定されている状態で、条件付きレンダリングが動作していることを確認しました。
+もし、`isTrue`を`true`に変更すると、条件付きで表示されるメッセージがブラウザに表示されます。
+これは、条件付きレンダリングの一例です。
+他の方法もありますが、後ほど紹介します。
+
+次に、条件付きレンダリングの下にさらに要素を追加し、ボタンを表示します。
+`<a>`タグをボタンのようにスタイリングするために、Bootstrapのクラスを使用します。
+
+以下のコードを`HelloWorld.js`に追加します：
+
+```javascript
+function HelloWorld() {
+	const [isTrue, setIsTrue] = useState(false);
+	
+	return (
+		<>
+			<h1 className="h1-green">{props.msg}</h1>
+			<hr />
+			{isTrue &&
+				<>
+					<p>The current value of isTrue is true</p>
+				</>
+			}
+			<a href="#!" className="btn btn-outline-secondary onclick={toggleTrue}>
+				Toggle isTrue
+			</a>
+		</>
+	);
+}
+```
+
+このコードでは、`<a>`タグに`href="#!"`を設定し、`btn`と`btn-outline-secondary`というBootstrapのクラスを使用して、リンクをボタンのように見せています。
+`href`に`#!`を設定することで、リンクをクリックしてもページの移動が発生しません。
+
+これを保存してブラウザで確認すると、スタイリングされたボタンが表示され、条件付きレンダリングの要素が表示されるかどうかは`isTrue`の値に依存します。
+
