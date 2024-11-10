@@ -914,3 +914,38 @@ export default HelloWorld;
 開発者ツールで確認すると、`<p>`タグがDOMから削除されたり追加されたりすることがわかります。
 これが、Reactが状態を反映してDOMを更新する仕組みです。
 
+この説明は`state`を使った状態管理の良い例です。
+Reactでは、`state`の値が変更されると、その`state`に依存しているコンポーネントや要素が即座に再レンダリングされ、DOMが更新されます。
+`state`を利用してDOM要素を条件付きでレンダリングすることにより、表示を完全に削除したり追加したりできます。
+
+コードの詳細を以下に示します：
+
+```javascript
+
+{isTrue &&
+<>
+                    <p>The current value of isTrue is true</p>
+                </>
+            )}
+            {/* 短絡評価演算子を使った条件付き表示 */}
+            {isTrue ? <p>isTrue is true</p> : <p>isTrue is false</p>}
+            <hr />
+            {/* ボタン */}
+            <a href="#!" className="btn btn-outline-secondary" onClick={toggleTrue}>
+                Toggle isTrue
+            </a>
+        </>
+    );
+}
+
+export default HelloWorld;
+```
+
+このコードには2つの条件付きレンダリング方法が含まれています：
+
+1. `isTrue && <p>...<p>` のような短絡評価演算子を使用して、`isTrue`が`true`の場合のみ要素を表示する。
+2. `isTrue ? <p>isTrue is true</p> : <p>isTrue is false</p>` という三項演算子を使って、`isTrue`が`true`なら「isTrue is true」、`false`なら「isTrue is false」を表示します。
+
+ブラウザで確認すると、ボタンをクリックするたびに`isTrue`の状態が反転し、ページ上の表示が2つの場所で同時に変わることがわかります。これは、`state`がアプリケーション内で一貫して管理され、すべての関連要素が同期されるためです。
+
+この基本的な例を使って、`state`を用いたリアクティブな表示の管理やイベントハンドリングを学ぶことができました。次は、より高度な`state`の操作や他のReactフックを組み合わせた実装を見ていきましょう。
