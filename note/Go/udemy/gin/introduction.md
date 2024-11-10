@@ -854,7 +854,7 @@ function HelloWorld() {
 					<p>The current value of isTrue is true</p>
 				</>
 			}
-			<a href="#!" className="btn btn-outline-secondary onclick={toggleTrue}>
+			<a href="#!" className="btn btn-outline-secondary" onclick={toggleTrue}>
 				Toggle isTrue
 			</a>
 		</>
