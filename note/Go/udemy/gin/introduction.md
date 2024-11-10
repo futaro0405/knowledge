@@ -532,10 +532,227 @@ h1 {
 これで`AppClass.js`に対応するCSSファイルを作成しましたが、まだ使用していません。
 `AppClass.js`に戻り、次のようにインポート文を追加します：
 
-javascript
+```javascript
+import './AppClass.css';
+```
 
-コードをコピーする
+これで`AppClass.js`内にCSSをインポートでき、スタイルが適用されるようになります。
+これを保存すると、ブラウザに戻ったときに`AppClass`コンポーネント内の`<h1>`要素が赤色で表示されるようになります。
 
-`import './AppClass.css';`
+ブラウザを見てみると、スタイルを1つのコンポーネントに適用したつもりでも、両方のコンポーネントに影響を与えていることがわかります。
+これは直感に反するようですが、ReactはCSSやJavaScriptをバンドルして1つのファイルにまとめるため、このようなことが起こります。
+この場合、特定のコンポーネントにのみ影響を与えたいのであれば、`h1`タグ全体を再定義するのは避けるべきです。
 
-これで`AppClass.js`内にCSSをインポートでき、スタイルが適用されるようになります。これを保存すると、ブラウザに戻ったときに`AppClass`コンポーネント内の`<h1>`要素が赤色で表示されるようになります。
+では、これを修正しましょう。
+`AppClass.css`に戻り、`h1`タグの代わりに次のようなクラスを作成します：
+
+```css
+.h1-red {
+	color: red;
+}
+```
+
+次に、`AppClass.js`に戻り、この`<h1>`タグにクラスを追加します。
+ただし、`class`属性は使わず、`className`属性を使います：
+
+```javascript
+<h1 className="h1-red">Hello, World</h1>
+```
+
+これで、ブラウザに戻ったときに、スタイルが指定したコンポーネントだけに適用されるようになります。
+
+さらに、このコンポーネントの`<h1>`タグを緑色に変更したい場合は、CSSファイルに新しいクラスを追加します：
+
+```css
+.h1-green {
+	color: green;
+}
+```
+
+そして、`AppClass.js`でクラスを更新します：
+
+```javascript
+<h1 className="h1-green">Hello, World</h1>
+```
+
+これで、この変更が保存され、ブラウザに表示された際に、指定されたコンポーネント内の`<h1>`タグが緑色になります。
+
+それは難しくありません。
+IDEに戻り、`src`フォルダ内に新しいCSSファイルを作成し、`HelloWorld.css`と名付けます。このファイルに次のように`h1`タグ用のクラスを宣言します：
+
+```css
+.h1-green {
+    color: green;
+}
+```
+
+次に、`HelloWorld.js`に移動し、このCSSファイルをインポートし、`<h1>`タグに適切なクラス名を適用します：
+
+```javascript
+import './HelloWorld.css';
+
+function HelloWorld() {
+	return (
+		<>
+			<h1 className="h1-green">Hello, World</h1>
+			<hr />
+		</>
+	);
+}
+```
+
+これで変更が保存され、ブラウザに戻ると、1つのコンポーネントは赤色、もう1つは緑色の`<h1>`タグが表示されていることを確認できます。
+
+CSSの変更時には、実際のHTMLタグそのものを再定義することが必ずしも良いとは限らないことを覚えておくことが重要です。コンポーネントごとに異なるスタイルを適用したい場合は、そのコンポーネント専用のクラスを作成し、明確な命名規則を使用してどのコンポーネントにどのスタイルが関連しているかを理解しやすくしましょう。
+
+次の講義では、プロジェクトをBootstrap（5.2や5.3などの最新バージョン）を使用するように修正します。それでは、次に進みましょう。
+
+# Using Bootstrap CSS
+
+# Using props:passing data to components 
+今回取り組むのは、`props`（プロパティ）の使用についてです。HTMLを書いたことがあれば、実は常に`props`を使用しています。例えば、`<img src="example.jpg" alt="description" />`では、`src`や`alt`はプロパティです。同じ構文をReactアプリケーションで使用します。
+
+現在、`index.js`には`AppClass`と`HelloWorld`の2つのコンポーネントがあります。`AppClass.js`を見てみると、このコンポーネントは単にメッセージを表示するクラスコンポーネントです。ここで、このメッセージをコンポーネント内で直接定義するのではなく、プロパティとして受け取るようにします。
+
+次に、`AppClass.js`内の`<h1>`タグの中身を削除し、その部分をプロパティの参照に置き換えます。次のようにコードを変更します：
+
+```javascript
+import React, { Component } from 'react';
+import './AppClass.css';
+
+export default class AppClass extends Component {
+	render() {
+		return (
+			<h1 className="h1-red">
+				{this.props.message}
+			</h1>
+		);
+	}
+}
+```
+
+これで、`props`を通じて`message`というプロパティを取得し、その内容を`<h1>`タグ内に表示します。
+
+次に、`index.js`でこの`AppClass`コンポーネントに`props`を渡します：
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import AppClass from './AppClass';
+import HelloWorld from './HelloWorld';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+	<React.StrictMode>
+		<AppClass message="Hello, from props!" />
+		<HelloWorld />
+	</React.StrictMode>
+);
+```
+
+これにより、`AppClass`コンポーネントは`props`として渡されたメッセージを受け取り、`<h1>`タグ内に表示します。
+ブラウザで確認すると、`AppClass`の表示が「Hello, from props!」に変更されているはずです。
+
+まず、`AppClass.js`の中で`<h1>`タグ内に次のようにプロパティを参照するコードを書きます：
+
+```javascript
+<h1 className="h1-red">
+	{this.props.msg}
+</h1>
+```
+
+これで、`this.props`オブジェクトを通じて、`msg`というプロパティを参照します。
+しかし、このプロパティはまだ設定していません。
+アプリケーションを再起動して（`npm start`を実行し）、ブラウザに切り替えると、何も表示されていないことが確認できます。
+これは、プロパティが設定されていないためです。
+
+次に、`index.js`に戻り、`AppClass`コンポーネントに`msg`プロパティを指定します：
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import AppClass from './AppClass';
+import HelloWorld from './HelloWorld';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+	<React.StrictMode>
+		<AppClass msg="hello world" />
+		<HelloWorld />
+	</React.StrictMode>
+);
+```
+
+これで、`msg`プロパティに「hello world」（小文字の`w`）が設定されました。
+`AppClass.js`では、このプロパティを`this.props.msg`として読み込んでいます。
+
+ブラウザに戻ると、「hello world」が小文字の`w`で表示されるはずです。
+これで、プロパティを使用してコンポーネントにデータを渡す方法が理解できました。
+
+クラスベースのコンポーネントでの`props`の使用方法を理解したところで、次に関数型コンポーネントでの使用方法を見ていきましょう。
+`HelloWorld.js`ファイルでは、`props`を関数のパラメータとして渡すだけです。
+これにより、非常に簡単に実装できます。
+
+次のように関数を修正します：
+
+```javascript
+function HelloWorld(props) {
+	return (
+		<>
+			<hr />
+			<h1 className="h1-green">{props.msg}</h1>
+		</>
+	);
+}
+```
+
+`props`を関数の引数として受け取り、その中の`msg`プロパティを`<h1>`タグ内でJavaScript式として使用しています。
+
+次に、`index.js`に移動して、この`HelloWorld`コンポーネントに`msg`プロパティを渡します：
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import AppClass from './AppClass';
+import HelloWorld from './HelloWorld';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+	<React.StrictMode>
+		<AppClass msg="hello world" />
+		<HelloWorld msg="hello again" />
+	</React.StrictMode>
+);
+```
+
+これで、`HelloWorld`コンポーネントは`props`として`msg`を受け取り、画面に「hello again」と表示されるようになります。
+
+ブラウザで確認すると、関数型コンポーネントの表示が期待通りに「hello again」となっていることがわかるはずです。
+
+一つ覚えておくべき点として、クラスベースの`AppClass`コンポーネントでは`this.props.msg`を使用していますが、関数型コンポーネントでは`props.msg`というシンプルな記法でプロパティを参照できます。
+これにより、関数型コンポーネントはより直感的で簡潔に書けることがわかります。
+
+クラスベースのコンポーネントであろうと関数型コンポーネントであろうと、`props`は読み取り専用です。
+つまり、このコンポーネントは`msg`プロパティの値を変更することはできません。
+`AppClass`や`HelloWorld`の中では、`props.msg`は読み取り専用であり、この関数の中ではその値を変更することはできません。
+
+これが`props`を渡す基本的な原則です。
+非常にシンプルで、Reactアプリケーションを構築する際、データを下流に押し込むという考え方が重要です。
+つまり、親コンポーネントから子コンポーネント、さらにその子コンポーネントへとデータを流します。
+
+今回の例では、`msg`プロパティの値は`index.js`内で設定されています。
+この値を`HelloWorld`コンポーネントが認識していますが、他のコンポーネントの`msg`には影響を与えません。
+`AppClass`の`msg`と`HelloWorld`の`msg`は互いに関連性がありません。
+
+このように、親コンポーネントから子コンポーネント、さらにはその子コンポーネントへとデータを渡すことで、データの流れが一方向に保たれます。
+Reactアプリケーションでは、`props`を使って情報を渡すことが一般的であり、これがデータを安全に管理し、アプリケーション全体を理解しやすくする方法です。
+
+`props`は、それを受け取るコンポーネントにとって読み取り専用です。
+ただし、この制限を回避する方法もありますが、それについては後ほど取り上げます。
+通常、コンポーネント間で変化する情報に`props`を使用することはあまりありません。
+
+その代わりに使用されるのが`state`です。
+`state`は、クラスコンポーネントと関数型コンポーネントでの扱いが異なります。
+次の講義では、`state`について詳しく見ていきましょう。
+
+## React and State 1
