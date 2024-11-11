@@ -963,6 +963,56 @@ Reactでは、`state`の値が変更されると、その`state`に依存して�
 以下が修正後の`AppClass.js`コードです：
 
 ```javascript
+import React, { Component } from 'react';
+import './AppClass.css';
+
+export default class AppClass extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isTrue: false, // 初期状態
+        };
+
+        // イベントハンドラのバインド
+        this.toggleTrue = this.toggleTrue.bind(this);
+    }
+
+    // stateをトグルするメソッド
+    toggleTrue() {
+        if (this.state.isTrue) {
+            this.setState({
+                isTrue: false,
+            });
+            return; // ここで処理を終了
+        } else {
+            this.setState({
+                isTrue: true,
+            });
+        }
+    }
+
+    render() {
+        return (
+            <>
+                <h1 className="h1-red">{this.props.msg}</h1>
+                <hr />
+                {/* 条件付きレンダリング */}
+                {this.state.isTrue && (
+                    <>
+                        <p>The current value of isTrue is true</p>
+                    </>
+                )}
+                {/* 三項演算子を使った条件付きレンダリング */}
+                {this.state.isTrue ? <p>isTrue is true</p> : <p>isTrue is false</p>}
+                <hr />
+                {/* ボタン */}
+                <a href="#!" className="btn btn-outline-secondary" onClick={this.toggleTrue}>
+                    Toggle isTrue
+                </a>
+            </>
+        );
+    }
+}
 
 ```
 
@@ -973,3 +1023,25 @@ Reactでは、`state`の値が変更されると、その`state`に依存して�
 このコードを保存してブラウザで確認すると、`Toggle isTrue`ボタンをクリックするたびに、`state`が反転し、それに基づいて表示が更新されることが確認できます。
 クラスコンポーネントの構文は関数コンポーネントよりも少し冗長ですが、Reactの基本を理解するためには役立ちます。
 
+アプリケーションは現在、関数コンポーネントやクラスコンポーネントを使用しても正常に動作しています。
+関数コンポーネントを使用する形に戻し、「Hello World Jazz」などの名前を意味のあるものに変更しました。
+React フックの `useEffect` を使って、リモート API を呼び出してデータを取得する状況をシミュレーションし、取得したデータをアプリの状態に格納しました。
+データはオブジェクトの配列で、一覧表示するために `map` を使用して JSX にレンダリングされます。
+次回は、フォームを使って新しいデータを追加できるコンポーネントを作成します。
+## React and state 4
+ID とクラス名を設定し、フォームの自動補完を無効化した入力フィールドを作成しました。
+入力したデータを React が取得できるようにするため、フォームの情報を保存する state を定義しました。
+`firstName`、`lastName`、`DOB`（生年月日）用に 3 つの state とその更新関数を作成し、それぞれ初期値を空の文字列に設定しました。
+フォームを送信するのではなく、React 内でデータをキャプチャして処理する形にしています。
+コードはコンパイルされますが、警告が表示されるかもしれません。
+
+```js
+const [firstName]
+<input
+	type="text"
+	name="first-name"
+	id="first-naem"
+	autoComplete="first-name-new"
+	className="form-control"
+></iput>
+```
