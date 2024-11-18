@@ -1639,3 +1639,285 @@ export default Login;
 
 このようにして、`Login`コンポーネントにエラーメッセージ表示とログイン成功時のリダイレクト機能を追加できます。これにより、ユーザー体験が向上し、使いやすいログインフォームが完成します。
 
+この`Alert`コンポーネントを使用するために、`App.js`に状態管理を追加し、アラートメッセージを表示できるように設定します。以下は`App.js`の修正版と説明です。
+
+### `App.js`の修正版
+
+```javascript
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Alert from './components/Alert';
+
+function App() {
+    const [jwtToken, setJwtToken] = useState('');
+    const [alertMessage, setAlertMessage] = useState(''); // アラートメッセージの状態を追加
+    const [alertClassName, setAlertClassName] = useState('danger'); // アラートクラス名の状態を追加
+
+    return (
+        <div>
+            {/* アラートメッセージの表示 */}
+            {alertMessage && <Alert message={alertMessage} className={alertClassName} />}
+            {/* ログイン/ログアウトボタンの条件付きレンダリング */}
+            {jwtToken === '' ? (
+                <a href="#!" onClick={() => setJwtToken('sample-jwt-token')}>
+                    Log In
+                </a>
+            ) : (
+                <a href="#!" onClick={() => setJwtToken('')} className="badge bg-danger">
+                    Log Out
+                </a>
+            )}
+            <h1>Go watch a movie</h1>
+            {/* コンテキストを渡す */}
+            <Outlet context={{ jwtToken, setJwtToken, setAlertMessage, setAlertClassName }} />
+        </div>
+    );
+}
+
+export default App;
+
+```
+
+### `Login.js`の修正版
+
+次に、`Login.js`で`setAlertMessage`と`setAlertClassName`を使用してエラーメッセージを表示できるようにします。
+
+```javascript
+import React, { useState } from 'react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import Input from './form/Input';
+
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { setJwtToken, setAlertMessage, setAlertClassName } = useOutletContext(); // コンテキストから関数を取得
+    const navigate = useNavigate();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // シンプルな認証処理のフェイク
+        if (email === 'admin@example.com') {
+            setJwtToken('ABC'); // トークンを設定
+            setAlertMessage('Login successful');
+            setAlertClassName('success'); // 成功時のクラス
+            console.log('Logged in');
+            navigate('/'); // ホームページへリダイレクト
+        } else {
+            setAlertMessage('Invalid credentials'); // エラーメッセージを設定
+            setAlertClassName('danger'); // エラー時のクラス
+        }
+    };
+
+    return (
+        <div className="col-md-6 offset-md-3">
+            <h2>Login</h2>
+            <hr />
+            <form onSubmit={handleSubmit}>
+                <Input
+                    title="Email Address"
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    autoComplete="email-new"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+                <Input
+                    title="Password"
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+                <hr />
+                <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Log In"
+                />
+            </form>
+        </div>
+    );
+}
+
+export default Login;
+
+```
+
+### 説明
+
+- **`alertMessage`と`alertClassName`の状態**: `App.js`に`alertMessage`と`alertClassName`の状態を追加して、アラートの内容とスタイルを制御します。
+- **`Alert`コンポーネントの使用**: `alertMessage`が設定されている場合にのみ`Alert`を表示します。
+- **ログイン成功/失敗時の処理**: `Login.js`で`setAlertMessage`と`setAlertClassName`を呼び出して、認証結果に応じたメッセージを表示します。
+
+これにより、ユーザーが正しくないログイン情報を入力した場合はエラーメッセージが表示され、正しい情報を入力した場合は成功メッセージと共にリダイレクトされるようになります。
+
+これでログイン処理のエラーメッセージ表示と、ログイン成功時のリダイレクトが実装できました。エラーメッセージが表示され、ログイン成功時には`/`（ホームページ）にリダイレクトされることが確認できました。次回は、ログアウトボタンがユーザーをログアウトできるようにして、完全な認証フローを実現します。
+
+### まとめ
+
+- **エラーメッセージの表示**: 誤った資格情報を入力すると、`Invalid credentials`メッセージが表示されます。
+- **成功時のリダイレクト**: 正しい情報を入力すると、`useNavigate`を使用してホームページにリダイレクトされます。
+- **次のステップ**: ログアウトボタンの機能を実装し、ユーザーがクリックしたときにログアウトし、適切なUIに戻るようにします。
+
+### `App.js` と `Login.js` の改善コード
+
+上記のコードは以下のようにまとめられます：
+
+#### `App.js`
+
+```javascript
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Alert from './components/Alert';
+
+function App() {
+    const [jwtToken, setJwtToken] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertClassName, setAlertClassName] = useState('d-none');
+
+    return (
+        <div>
+            {alertMessage && <Alert message={alertMessage} className={alertClassName} />}
+            {jwtToken === '' ? (
+                <a href="#!" onClick={() => setJwtToken('sample-jwt-token')}>
+                    Log In
+                </a>
+            ) : (
+                <a href="#!" onClick={() => setJwtToken('')} className="badge bg-danger">
+                    Log Out
+                </a>
+            )}
+            <h1>Go watch a movie</h1>
+            <Outlet context={{ jwtToken, setJwtToken, setAlertMessage, setAlertClassName }} />
+        </div>
+    );
+}
+
+export default App;
+
+```
+
+#### `Login.js`
+
+```javascript
+import React, { useState } from 'react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import Input from './form/Input';
+
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { setJwtToken, setAlertMessage, setAlertClassName } = useOutletContext();
+    const navigate = useNavigate();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (email === 'admin@example.com') {
+            setJwtToken('ABC');
+            setAlertMessage('');
+            setAlertClassName('d-none');
+            navigate('/'); // リダイレクト
+        } else {
+            setAlertMessage('Invalid credentials');
+            setAlertClassName('alert-danger');
+        }
+    };
+
+    return (
+        <div className="col-md-6 offset-md-3">
+            <h2>Login</h2>
+            <hr />
+            <form onSubmit={handleSubmit}>
+                <Input
+                    title="Email Address"
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    autoComplete="email-new"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+                <Input
+                    title="Password"
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+                <hr />
+                <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Log In"
+                />
+            </form>
+        </div>
+    );
+}
+
+export default Login;
+
+```
+
+このコードを使って、ログインの完全なエラーハンドリングとリダイレクトを備えたログイン機能が構築されました。次のステップでは、ログアウトボタンの機能を追加し、アプリケーション全体の状態管理をより洗練させていきます。
+
+## Logout
+
+これで、ログアウト機能を実装するためのコードが整いました。ログアウト時に`JWT`トークンを空にし、ユーザーをログイン画面へリダイレクトするようにします。
+
+### `App.js`の修正版
+
+```javascript
+import React, { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Alert from './components/Alert';
+
+function App() {
+    const [jwtToken, setJwtToken] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertClassName, setAlertClassName] = useState('d-none');
+    const navigate = useNavigate(); // useNavigate フックを使用
+
+    // ログアウト関数の実装
+    const logOut = () => {
+        setJwtToken(''); // トークンを空にしてユーザーをログアウト
+        setAlertMessage('Logged out successfully'); // ログアウト成功メッセージ
+        setAlertClassName('alert-success'); // メッセージのスタイル
+        navigate('/login'); // ログイン画面にリダイレクト
+    };
+
+    return (
+        <div>
+            {alertMessage && <Alert message={alertMessage} className={alertClassName} />}
+            {jwtToken === '' ? (
+                <a href="#!" onClick={() => setJwtToken('sample-jwt-token')}>
+                    Log In
+                </a>
+            ) : (
+                <a href="#!" onClick={logOut} className="badge bg-danger">
+                    Log Out
+                </a>
+            )}
+            <h1>Go watch a movie</h1>
+            <Outlet context={{ jwtToken, setJwtToken, setAlertMessage, setAlertClassName }} />
+        </div>
+    );
+}
+
+export default App;
+
+```
+
+### 説明
+
+- **`logOut`関数**:
+    - `setJwtToken('')`で`JWT`トークンを空にして、ユーザーをログアウト状態にします。
+    - `setAlertMessage('Logged out successfully')`でログアウト成功メッセージを設定し、`setAlertClassName('alert-success')`でメッセージのスタイルを指定します。
+    - `navigate('/login')`でユーザーをログイン画面にリダイレクトします。
+
+これにより、ログアウトボタンをクリックするとユーザーはログアウトされ、適切なメッセージと共にログイン画面に戻るようになります。次のステップでは、実際の`JWT`トークン管理やリフレッシュトークン処理の実装を進めていきます。
