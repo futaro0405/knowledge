@@ -1163,3 +1163,40 @@ export default App;
 - **`onClick`ハンドラ**: 「Log In」ボタンをクリックすると仮の`jwtToken`を設定し、「Log Out」ボタンをクリックすると`jwtToken`を空にしてログアウトします。
 
 これで、ユーザーのログイン状態に応じてメニュー項目やボタンを切り替えることができます。次のステップでは、実際の認証処理や`JWT`トークンの取り扱いを詳しく見ていきます。
+
+この変更により、`jwtToken`の値に基づいてログインリンクの表示が変わるようになりました。具体的には、`jwtToken`が空の文字列の場合は「Log In」が表示され、空でない場合は「Log Out」が表示されます。以下に、`App.js`の修正版を示します：
+
+```javascript
+import React, { useState } from 'react';
+
+function App() {
+    // JWTトークンを保持するstate変数を作成
+    const [jwtToken, setJwtToken] = useState(''); // 初期値は空の文字列
+
+    return (
+        <div>
+            {/* JWTトークンの状態による条件付きレンダリング */}
+            {jwtToken === '' ? (
+                <a href="#!" onClick={() => setJwtToken('sample-jwt-token')}>
+                    Log In
+                </a>
+            ) : (
+                <a href="#!" onClick={() => setJwtToken('')} className="badge bg-danger">
+                    Log Out
+                </a>
+            )}
+            <h1>Go watch a movie</h1>
+        </div>
+    );
+}
+
+export default App;
+
+```
+
+### 説明
+
+- **条件付きレンダリング**: `jwtToken`が空の場合、「Log In」リンクが表示され、クリックするとトークンが仮の値に設定されます。`jwtToken`が空でない場合、「Log Out」リンクが表示され、クリックするとトークンが空に設定されます。
+- **スタイリング**: `Log Out`リンクはBootstrapの`badge`クラスと`bg-danger`クラスを使ってスタイリングされます。
+
+これで、ブラウザで確認すると、初期状態では「Log In」が表示され、クリックすると「Log Out」に切り替わることが確認できるはずです。`Log Out`をクリックすると再び「Log In」に戻ります。
