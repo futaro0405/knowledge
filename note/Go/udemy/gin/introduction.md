@@ -1200,3 +1200,195 @@ export default App;
 - **スタイリング**: `Log Out`リンクはBootstrapの`badge`クラスと`bg-danger`クラスを使ってスタイリングされます。
 
 これで、ブラウザで確認すると、初期状態では「Log In」が表示され、クリックすると「Log Out」に切り替わることが確認できるはずです。`Log Out`をクリックすると再び「Log In」に戻ります。
+
+## Creating the login form
+`input.js`ファイルを完成させるために、以下のようにコードを記述します。このコンポーネントは、フォームの入力フィールドとして使用され、プロパティを受け取って表示を動的に制御できます。
+### 完成形の `input.js` コード
+
+```javascript
+import React, { forwardRef } from 'react';
+
+// 入力コンポーネントを作成
+const Input = forwardRef((props, ref) => {
+    return (
+        <div className="mb-3">
+            {/* ラベル */}
+            <label htmlFor={props.name} className="form-label">
+                {props.title}
+            </label>
+            {/* 入力フィールド */}
+            <input
+                type={props.type || 'text'} // プロパティで指定されたタイプ、なければ'text'
+                className="form-control"
+                id={props.name}
+                name={props.name}
+                placeholder={props.placeholder}
+                ref={ref}
+                onChange={props.onChange}
+                value={props.value}
+            />
+        </div>
+    );
+});
+
+export default Input;
+
+```
+
+### 説明
+
+- **`forwardRef`**: このコンポーネントは`ref`を受け取って転送できるように`forwardRef`を使用しています。これにより、親コンポーネントから`ref`を設定して、DOM要素を直接操作できるようになります。
+- **`props`**:
+    - `type`: 入力フィールドのタイプ（デフォルトは`text`）。
+    - `name`: 入力フィールドの`id`および`name`属性として使用。
+    - `title`: ラベルの表示テキスト。
+    - `placeholder`: 入力フィールドのプレースホルダー。
+    - `onChange`: 入力が変更された際のイベントハンドラ。
+    - `value`: 入力フィールドの値。
+- **`className`**: Bootstrapのクラス`mb-3`を使用して、入力フィールドの下に適度な余白を設定。
+
+この入力コンポーネントをログインフォームで再利用することで、より簡潔でモジュール化されたフォームを作成できます。
+
+次のステップでは、`Login`コンポーネントを作成し、`input.js`を利用してログインフォームを構築していきます。
+
+これで、フォーム入力コンポーネントがエラーメッセージ表示機能を持つようになります。完成形の`input.js`は次のようになります：
+
+### 修正版 `input.js`
+
+```javascript
+import React, { forwardRef } from 'react';
+
+// 入力コンポーネントを作成
+const Input = forwardRef((props, ref) => {
+    return (
+        <div className="mb-3">
+            {/* ラベル */}
+            <label htmlFor={props.name} className="form-label">
+                {props.title}
+            </label>
+            {/* 入力フィールド */}
+            <input
+                type={props.type || 'text'}
+                className={props.className || 'form-control'} // クラス名のデフォルト値
+                id={props.name}
+                name={props.name}
+                placeholder={props.placeholder}
+                ref={ref}
+                onChange={props.onChange}
+                autoComplete={props.autoComplete}
+                value={props.value}
+            />
+            {/* エラーメッセージ表示 */}
+            <div className={props.errorDiv}>
+                {props.errorMsg}
+            </div>
+        </div>
+    );
+});
+
+export default Input;
+
+```
+
+### 説明
+
+- **エラーメッセージ**: 入力フィールドの下に、`props.errorDiv`クラスを持つ`<div>`を追加し、`props.errorMsg`でエラーメッセージを表示できるようにしました。
+- **属性の使用**:
+    - `type`, `className`, `id`, `name`, `placeholder`, `ref`, `onChange`, `autoComplete`, `value`はすべて`props`から受け取ることができます。
+    - `errorDiv`と`errorMsg`はエラーメッセージのスタイリングと内容の設定に使用します。
+
+この入力コンポーネントは、ログインフォームなど複数のフォームで再利用可能で、汎用性の高い設計になっています。次のステップでは、`Login`コンポーネントを作成し、この`Input`コンポーネントを使用して実際のログインフォームを構築します。
+
+このようにして、フォームを中央に配置し、`email`と`password`を入力するための状態変数を設定しました。これからログインフォームを実装し、バリデーションやサブミット処理を行います。以下にログインフォームの構築を示します。
+
+### `Login.js` の実装
+
+javascript
+
+コードをコピーする
+
+`import React, { useState } from 'react'; import Input from './form/Input';  function Login() {     // Emailとパスワードのstateを設定     const [email, setEmail] = useState('');     const [password, setPassword] = useState('');      // フォーム送信ハンドラを作成     const handleSubmit = (event) => {         event.preventDefault(); // フォームのデフォルトの送信を防止         // 認証処理やバリデーションは後ほど追加         console.log('Form submitted:', { email, password });     };      return (         <div className="col-md-6 offset-md-3">             <h2>Login</h2>             <form onSubmit={handleSubmit}>                 {/* Emailフィールド */}                 <Input                     name="email"                     title="Email"                     type="email"                     placeholder="Enter your email"                     value={email}                     onChange={(e) => setEmail(e.target.value)}                 />                 {/* パスワードフィールド */}                 <Input                     name="password"                     title="Password"                     type="password"                     placeholder="Enter your password"                     value={password}                     onChange={(e) => setPassword(e.target.value)}                 />                 {/* サブミットボタン */}                 <button type="submit" className="btn btn-primary">                     Log In                 </button>             </form>         </div>     ); }  export default Login;`
+
+### 説明
+
+- **`useState` の利用**: `email`と`password`の入力値を管理するために`useState`を使用しています。
+- **`handleSubmit`関数**: フォームが送信されると呼び出され、`event.preventDefault()`でページの再読み込みを防止します。
+- **`<Input>`コンポーネントの使用**: 再利用可能な`Input`コンポーネントを使用して、`email`と`password`フィールドを作成しています。
+- **`value`と`onChange`**: `value`に状態変数を設定し、`onChange`で入力が変更された際に状態を更新します。
+
+### 次のステップ
+
+このフォームのバリデーションを追加し、入力が不正であればエラーメッセージを表示するようにします。また、認証のロジックを作成し、フォームが正常に送信されると`JWT`トークンを設定する機能を実装していきます。
+
+これで、ログインフォームのUIを完成させ、フォームの送信処理の準備が整いました。以下は修正版の`Login.js`全体です。
+
+### 修正版 `Login.js`
+
+```javascript
+import React, { useState } from 'react';
+import Input from './form/Input';
+
+function Login() {
+    // Emailとパスワードのstateを設定
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    // フォーム送信ハンドラ
+    const handleSubmit = (event) => {
+        event.preventDefault(); // デフォルトのフォーム送信を防止
+        console.log('Form submitted:', { email, password });
+        // ここで認証ロジックを追加する予定
+    };
+
+    return (
+        <div className="col-md-6 offset-md-3">
+            <h2>Login</h2>
+            <hr />
+            <form onSubmit={handleSubmit}>
+                {/* Email入力フィールド */}
+                <Input
+                    title="Email Address"
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    autoComplete="email-new"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+                {/* パスワード入力フィールド */}
+                <Input
+                    title="Password"
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+                <hr />
+                {/* ログインボタン */}
+                <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Log In"
+                />
+            </form>
+        </div>
+    );
+}
+
+export default Login;
+
+```
+
+### 説明
+
+- **`<Input>`コンポーネントの使用**: 再利用可能な`Input`コンポーネントを使って、`email`と`password`の入力フィールドを作成しています。
+- **`handleSubmit`関数**: フォームが送信されると呼び出され、`event.preventDefault()`でページの再読み込みを防止します。現在は、コンソールに入力されたデータを出力するようにしており、後で認証ロジックを追加します。
+- **`<input type="submit">`**: フォーム送信ボタンを作成し、Bootstrapの`btn`クラスでスタイリングしています。
+
+### 実行結果
+
+このコードをブラウザで確認すると、中央揃えされたログインフォームが表示され、`Email`と`Password`の入力フィールド、ログインボタンが揃っています。フォームを送信すると、`handleSubmit`関数が呼び出され、現在は入力された`email`と`password`がコンソールに表示されるはずです。
+
+次のステップでは、`handleSubmit`関数内で認証ロジックを追加し、成功した場合に`JWT`トークンを設定する機能を実装します。
