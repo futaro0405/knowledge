@@ -1392,3 +1392,250 @@ export default Login;
 このコードをブラウザで確認すると、中央揃えされたログインフォームが表示され、`Email`と`Password`の入力フィールド、ログインボタンが揃っています。フォームを送信すると、`handleSubmit`関数が呼び出され、現在は入力された`email`と`password`がコンソールに表示されるはずです。
 
 次のステップでは、`handleSubmit`関数内で認証ロジックを追加し、成功した場合に`JWT`トークンを設定する機能を実装します。
+
+これで、ログインフォームのUIが整い、基本的な動作を確認できました。次のステップとして、`App.js`にある`JWT`トークンの状態を`Login`コンポーネントで管理できるようにする必要があります。これを実現するために、`Outlet Context`を使用して親コンポーネントと子コンポーネント間で状態を共有します。
+
+### 次の手順
+
+- **`Outlet Context`の使用**: React Router v6の`Outlet`コンポーネントを使用して、親コンポーネントから子コンポーネントにデータを渡します。これにより、`App.js`で管理している`JWT`トークンの状態を`Login`コンポーネントで更新できるようになります。
+- **`Login`コンポーネントの`setJwtToken`関数の受け渡し**: `App.js`から`Login`コンポーネントに`setJwtToken`関数を渡して、認証成功時にトークンを設定できるようにします。
+
+次の講義で、`Outlet Context`を用いた状態管理と、ログイン時に`JWT`トークンをセットする方法を実装していきます。これにより、`Login`コンポーネントから`App.js`の`setJwtToken`を呼び出し、トークンを設定してログイン状態を管理できるようになります。
+
+これで、`App.js`の`setJwtToken`関数を`Login.js`でアクセスできるようになりました。React Routerの`Outlet`を使用し、コンテキストを介して親コンポーネントから子コンポーネントに情報を伝える方法を実装しました。以下に、具体的なコードの詳細を説明します。
+
+### `App.js`の修正
+
+`Outlet`に`context`を渡すようにしました：
+
+```javascript
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+
+function App() {
+    const [jwtToken, setJwtToken] = useState('');
+
+    return (
+        <div>
+            {/* ここでログイン状態による表示を行う */}
+            {jwtToken === '' ? (
+                <a href="#!" onClick={() => setJwtToken('sample-jwt-token')}>
+                    Log In
+                </a>
+            ) : (
+                <a href="#!" onClick={() => setJwtToken('')} className="badge bg-danger">
+                    Log Out
+                </a>
+            )}
+            <h1>Go watch a movie</h1>
+            {/* Outletでコンテキストを渡す */}
+            <Outlet context={{ jwtToken, setJwtToken }} />
+        </div>
+    );
+}
+
+export default App;
+
+```
+
+### `Login.js`の修正
+
+`useOutletContext`を使って`setJwtToken`を取得し、ログイン後にトークンを設定できるようにしました：
+
+```javascript
+import React, { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import Input from './form/Input';
+
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { setJwtToken } = useOutletContext(); // Outletからコンテキストを取得
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // シンプルな認証処理のフェイク
+        if (email === 'admin@example.com') {
+            setJwtToken('ABC'); // トークンを設定
+            console.log('Logged in');
+        } else {
+            console.log('Invalid credentials');
+        }
+    };
+
+    return (
+        <div className="col-md-6 offset-md-3">
+            <h2>Login</h2>
+            <hr />
+            <form onSubmit={handleSubmit}>
+                <Input
+                    title="Email Address"
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    autoComplete="email-new"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+                <Input
+                    title="Password"
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+                <hr />
+                <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Log In"
+                />
+            </form>
+        </div>
+    );
+}
+
+export default Login;
+
+```
+### 説明
+
+- **`useOutletContext`**: React Routerの`useOutletContext`フックを使用して、`Outlet`から渡されたコンテキストを取得しています。これにより、`setJwtToken`関数にアクセスできます。
+- **`setJwtToken`の使用**: フォーム送信時に、メールアドレスが`admin@example.com`の場合に`setJwtToken('ABC')`を呼び出して、トークンを設定しています。
+
+### 次のステップ
+
+この実装を基に、次はより実際的な認証ロジックや、`JWT`トークンをバックエンドから取得して設定するプロセスを作成していきます。また、`Login`コンポーネントが`App.js`の状態を適切に更新するための完全なフローを確立します。
+
+これで、ログインの実装が正しく動作していることを確認できました。ログイン成功時に`JWT`トークンが設定され、UIの状態が適切に変更されることも確認できました。次の改善点として、以下を実装します。
+
+### 次に取り組む内容
+
+1. **エラーメッセージの表示**:
+    
+    - 入力が正しくない場合に、ユーザーにエラーメッセージを表示します。これにより、ユーザーが間違った情報を入力したことが明確になります。
+2. **ログイン成功時のリダイレクト**:
+    
+    - 正しい認証情報が入力されたときに、ログイン画面から別のページへリダイレクトするようにします。
+
+### 概要
+
+- **エラーメッセージ**:
+    
+    - ログイン失敗時にエラーメッセージを表示するために、`Login.js`に状態変数`errorMessage`を追加します。
+    - `handleSubmit`関数内で認証情報が不正である場合にこのメッセージを設定し、入力フィールドの下に表示します。
+- **リダイレクト**:
+    
+    - `useNavigate`フックを使って、ログイン成功時に別のページ（例えば、ホームページやダッシュボード）へリダイレクトします。
+
+### 次回のコード実装案
+
+次の講義では、`Login.js`に`useNavigate`を追加し、認証失敗時にはエラーメッセージを設定し、成功時にはリダイレクトを行うコードを示します。
+
+これで、次の2つの改善点について説明ができました。
+
+1. **エラーメッセージの表示**:
+    
+    - 誤ったログイン情報を入力したときに、「無効な資格情報」といったエラーメッセージを表示します。これを実現するために、Bootstrapの`alert`クラスを使用してUIにメッセージを表示します。
+    - 再利用性を高めるために、別途`Alert`コンポーネントを作成し、`Login`コンポーネントで使用します。
+2. **ログイン成功時のリダイレクト**:
+    
+    - ログインが成功した場合に、`useNavigate`フックを使用してユーザーを別のページ（例えば、ホームページ）へリダイレクトします。
+
+### `Alert.js`コンポーネントの実装
+
+まず、再利用可能な`Alert`コンポーネントを作成します。
+
+```javascript
+import React from 'react';
+
+function Alert({ message, type = 'danger' }) {
+    return (
+        <div className={`alert alert-${type}`} role="alert">
+            {message}
+        </div>
+    );
+}
+
+export default Alert;
+
+```
+
+### `Login.js`の改善
+
+次に、`Login.js`に`Alert`コンポーネントを追加し、`useNavigate`を使用してリダイレクトを行います。
+
+```javascript
+import React, { useState } from 'react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import Input from './form/Input';
+import Alert from './Alert';
+
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // エラーメッセージのstate
+    const { setJwtToken } = useOutletContext(); // Outletからコンテキストを取得
+    const navigate = useNavigate(); // リダイレクト用フック
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // シンプルな認証処理のフェイク
+        if (email === 'admin@example.com') {
+            setJwtToken('ABC'); // トークンを設定
+            console.log('Logged in');
+            navigate('/'); // ホームページへリダイレクト
+        } else {
+            setErrorMessage('Invalid credentials'); // エラーメッセージを設定
+        }
+    };
+
+    return (
+        <div className="col-md-6 offset-md-3">
+            <h2>Login</h2>
+            {errorMessage && <Alert message={errorMessage} />} {/* エラーメッセージの表示 */}
+            <hr />
+            <form onSubmit={handleSubmit}>
+                <Input
+                    title="Email Address"
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    autoComplete="email-new"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+                <Input
+                    title="Password"
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+                <hr />
+                <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Log In"
+                />
+            </form>
+        </div>
+    );
+}
+
+export default Login;
+
+```
+
+### 説明
+
+- **`Alert`コンポーネント**: Bootstrapの`alert`クラスを使用してエラーメッセージをスタイリッシュに表示します。
+- **エラーメッセージの状態管理**: `errorMessage`の状態を管理し、誤った資格情報の場合にエラーメッセージを設定します。
+- **リダイレクト**: `useNavigate`を使用して、ログイン成功時に`/`（ホームページ）へリダイレクトします。
+
+このようにして、`Login`コンポーネントにエラーメッセージ表示とログイン成功時のリダイレクト機能を追加できます。これにより、ユーザー体験が向上し、使いやすいログインフォームが完成します。
+
