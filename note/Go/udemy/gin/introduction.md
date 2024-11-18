@@ -1116,3 +1116,50 @@ Apks のフォームの最後に戻ってきました。
 ただし、submit ボタンがそのままフォームを送信しないようにしたいので、別の動作を設定します。フォームタグの最初に戻り、onSubmit イベントリスナーを追加し、新しい handleSubmit 関数を呼び出すようにします。この関数はまだ存在していないので、これを作成する必要があります。
 
 次に、return 文の前で const handleSubmit を定義します。この関数はイベントを受け取り、矢印関数を使用します。関数の最初でフォームの実際の送信を防ぐため、event.preventDefault() を呼び出します。これをしないと、フォームはサーバーに送信されるか、ページが完全にリロードされてしまいます。
+
+# Setting up User Login
+## Working on the Login button
+`App.js`でログイン状態を管理するために、`JWT`トークンを`state`として扱います。これにより、ユーザーのログイン状態に応じてUIの表示を変更できます。`JWT`はこの後の講義で詳しく説明しますが、基本的には認証情報を含んだ暗号化されたトークンです。
+
+まず、`App.js`に`JWT`トークン用の`state`を追加します：
+
+
+```javascript
+import React, { useState } from 'react';
+
+function App() {
+    // JWTトークンを保持するstate変数を作成
+    const [jwtToken, setJwtToken] = useState('');
+
+    return (
+        <div>
+            {/* トークンが存在するかどうかで表示を切り替える */}
+            {jwtToken ? (
+                <>
+                    <button onClick={() => setJwtToken('')}>Log Out</button>
+                    <nav>
+                        <ul>
+                            <li>Manage Catalog</li>
+                            <li>Add Movie</li>
+                            <li>GraphQL</li>
+                        </ul>
+                    </nav>
+                </>
+            ) : (
+                <button onClick={() => setJwtToken('sample-jwt-token')}>Log In</button>
+            )}
+            <h1>Go watch a movie</h1>
+        </div>
+    );
+}
+
+export default App;
+
+```
+### 説明
+
+- **`jwtToken`の初期値**: `useState`を使用して、`jwtToken`の初期値を空の文字列に設定しています。これは、デフォルトでログインしていない状態を示します。
+- **条件付きレンダリング**: `jwtToken`が存在する場合に「Log Out」ボタンと管理ナビゲーションを表示し、存在しない場合に「Log In」ボタンを表示します。
+- **`onClick`ハンドラ**: 「Log In」ボタンをクリックすると仮の`jwtToken`を設定し、「Log Out」ボタンをクリックすると`jwtToken`を空にしてログアウトします。
+
+これで、ユーザーのログイン状態に応じてメニュー項目やボタンを切り替えることができます。次のステップでは、実際の認証処理や`JWT`トークンの取り扱いを詳しく見ていきます。
