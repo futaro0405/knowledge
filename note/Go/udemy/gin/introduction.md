@@ -2165,6 +2165,15 @@ go get -u github.com/go-chi/chi/v5
 
 このミドルウェアは、アプリケーションが何らかの理由でパニックを起こしたときに、その内容をログに記録し、エラートレースを表示して、エラーが発生した場所を特定できるようにします。また、HTTP 500（内部サーバーエラー）という必要なヘッダーを返し、アプリケーションが停止することなく復旧します。非常に有用なミドルウェアです。
 
+```go
+func (app *application) routes() http.Handler {
+	mux := chi.NewRouter()
+	mux.Use(middleware.Recoverer)
+
+	return mux
+}
+```
+
 では、この`routes`関数をどう使うかについて説明します。**main.go**に戻り、`nil`を渡していた箇所に`app.routes()`を渡します。この関数は`http.Handler`を返すので、これで問題ありません。
 
 これにより、`http.HandleFunc`の行は不要になります。その代わり、`app.routes()`で必要なルートをすべて設定し、次回の講義でそれを進めていきます。
