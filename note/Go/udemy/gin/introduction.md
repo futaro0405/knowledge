@@ -2342,8 +2342,314 @@ go run ./cmd/API
 
 `status`、`message`、`version`のフィールド名はすべて小文字であり、定義した構造体のJSONタグに一致しています。
 
+## Returning a list of movies as json
+
+今回の目標は、映画のリストをJSONとして返すハンドラーを作成することです。これが動作するようになったら、フロントエンドに接続して、すべてが正しく動作するかを確認します。現時点ではデータベースに接続せず、バックエンドでデータを仮定義します。データベースが準備できた段階でコードを完成させます。
+
+### ステップ1: ハンドラーの作成
+
+`handlers.go`ファイルに、すべての映画を返すシンプルなハンドラーを作成します。以下のように`app`のレシーバーを持つ`allMovies`関数を追加します。
+
+```go
+func (app *application) allMovies(w http.ResponseWriter, r *http.Request) {
+    // TODO: Add logic to return a list of movies
+}
+```
+
+このハンドラーは以下の2つのパラメータを取ります：
+
+- **`w`**: レスポンスを返すための`http.ResponseWriter`
+- **`r`**: リクエストを受け取るための`*http.Request`
+
+これでハンドラーの雛形が完成しました。
+
+---
+
+### ステップ2: ルートの設定
+
+`routes.go`ファイルに移動し、`/movies`エンドポイントを設定します。REST APIでは、アクション（GET、POSTなど）はHTTPメソッドで決まるため、ルート名には通常動詞を含めません。
+
+以下のコードを追加します：
+
+```go
+mux.Get("/movies", app.allMovies)
+```
+
+これにより、`/movies`へのGETリクエストが`allMovies`ハンドラーにルーティングされます。
+
+---
+
+以下は映画データモデルの拡張および映画データのハンドリングに関する具体的な手順です。
+
+---
+
+### ステップ1: 映画モデルの拡張
+
+`movie.go`に以下のフィールドを追加し、それぞれに対応するJSONタグを設定します。
+
+```go
+package models
+
+import "time"
+
+// Movie represents a single movie record
+type Movie struct {
+    ID          int       `json:"id"`
+    Title       string    `json:"title"`
+    ReleaseDate time.Time `json:"release_date"`
+    Runtime     int       `json:"runtime"`
+    MPAARating  string    `json:"mpaa_rating"`
+    Description string    `json:"description"`
+    Image       string    `json:"image"`
+    CreatedAt   time.Time `json:"-"` // JSONに含めない
+    UpdatedAt   time.Time `json:"-"` // JSONに含めない
+}
+```
+
+- **`Runtime`**: 映画の上映時間（整数型、JSONでは`runtime`）。
+- **`MPAARating`**: MPAAのレーティング（文字列型、JSONでは`mpaa_rating`）。
+- **`Description`**: 映画の説明（文字列型、JSONでは`description`）。
+- **`Image`**: 映画のポスター画像などのURL（文字列型、JSONでは`image`）。
+- **`CreatedAt`**と**`UpdatedAt`**: 作成・更新時刻（`time.Time`型）。JSONには含めないため、JSONタグに`"-"`を指定。
+
+これで、映画データをフロントエンドに送信する際に必要な情報だけを含むようにできます。
+
+---
+
+### ステップ2: 映画データの生成
+
+`handlers.go`に戻り、映画データを生成します。
+
+```go
+func (app *application) allMovies(w http.ResponseWriter, r *http.Request) {
+    // 映画データのスライスを作成
+    movies := []models.Movie{
+        {
+            ID:          1,
+            Title:       "Highlander",
+            ReleaseDate: time.Date(1986, 3, 7, 0, 0, 0, 0, time.UTC),
+            Runtime:     116,
+            MPAARating:  "R",
+            Description: "An immortal Scottish swordsman faces other immortals in a deadly centuries-old game.",
+            Image:       "highlander.jpg",
+        },
+        {
+            ID:          2,
+            Title:       "The Matrix",
+            ReleaseDate: time.Date(1999, 3, 31, 0, 0, 0, 0, time.UTC),
+            Runtime:     136,
+            MPAARating:  "R",
+            Description: "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
+            Image:       "matrix.jpg",
+        },
+    }
+
+    // JSON形式に変換
+    out, err := json.Marshal(movies)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    // ヘッダーの設定
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+
+    // JSONデータをレスポンスに書き込み
+    w.Write(out)
+}
+```
+
+---
+
+### ステップ3: 動作確認
+
+ターミナルでアプリケーションを起動します：
+
+```bash
+go run ./cmd/API
+```
+
+その後、ブラウザやAPIテストツール（例: Postman）で`http://localhost:8080/movies`にアクセスします。
+
+---
+
+### 出力の例
+
+以下のようなJSONレスポンスが確認できます：
+
+```json
+[
+    {
+        "id": 1,
+        "title": "Highlander",
+        "release_date": "1986-03-07T00:00:00Z",
+        "runtime": 116,
+        "mpaa_rating": "R",
+        "description": "An immortal Scottish swordsman faces other immortals in a deadly centuries-old game.",
+        "image": "highlander.jpg"
+    },
+    {
+        "id": 2,
+        "title": "The Matrix",
+        "release_date": "1999-03-31T00:00:00Z",
+        "runtime": 136,
+        "mpaa_rating": "R",
+        "description": "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
+        "image": "matrix.jpg"
+    }
+]
+```
+
+---
+
+これで映画のリストをJSON形式で返すハンドラーが完成しました。次はフロントエンドと連携し、データを取得して表示する部分に進みます。
+### ステップ2: 映画データの追加（Raiders of the Lost Ark）
+
+同様に、2つ目の映画データを作成します。変数名の衝突を避けるため、適切な名前を使用します。
+
+```go
+rd2, _ := time.Parse("2006-01-02", "1981-06-12") // "1981-06-12"をtime.Time型に変換
+movie2 := models.Movie{
+    ID:          2,
+    Title:       "Raiders of the Lost Ark",
+    ReleaseDate: rd2,
+    Runtime:     115,
+    MPAARating:  "PG-13",
+    Description: "An adventurous archaeologist races against time to find the Ark of the Covenant.",
+    Image:       "raiders.jpg",
+    CreatedAt:   time.Now(),
+    UpdatedAt:   time.Now(),
+}
+```
+
+---
+
+### ステップ3: スライスに映画を追加
+
+Goの`append`を使用して映画データをスライスに追加します。
+
+```go
+movies := []models.Movie{}
+movies = append(movies, movie1)
+movies = append(movies, movie2)
+```
+
+---
+
+### ステップ4: JSONレスポンスの生成と返却
+
+スライスをJSON形式に変換し、レスポンスとして返します。
+
+```go
+out, err := json.Marshal(movies) // スライスをJSON形式に変換
+if err != nil {
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+    return
+}
+
+w.Header().Set("Content-Type", "application/json") // JSONレスポンスとして返却
+w.WriteHeader(http.StatusOK)
+w.Write(out)
+```
+
+---
+
+### フルコード（`handlers.go`の`allMovies`関数）
+
+以下は全体のコードです：
+
+```go
+func (app *application) allMovies(w http.ResponseWriter, r *http.Request) {
+    rd, _ := time.Parse("2006-01-02", "1986-03-07")
+    movie1 := models.Movie{
+        ID:          1,
+        Title:       "Highlander",
+        ReleaseDate: rd,
+        Runtime:     116,
+        MPAARating:  "R",
+        Description: "An immortal Scottish swordsman faces other immortals in a deadly centuries-old game.",
+        Image:       "highlander.jpg",
+        CreatedAt:   time.Now(),
+        UpdatedAt:   time.Now(),
+    }
+
+    rd2, _ := time.Parse("2006-01-02", "1981-06-12")
+    movie2 := models.Movie{
+        ID:          2,
+        Title:       "Raiders of the Lost Ark",
+        ReleaseDate: rd2,
+        Runtime:     115,
+        MPAARating:  "PG-13",
+        Description: "An adventurous archaeologist races against time to find the Ark of the Covenant.",
+        Image:       "raiders.jpg",
+        CreatedAt:   time.Now(),
+        UpdatedAt:   time.Now(),
+    }
+
+    movies := []models.Movie{}
+    movies = append(movies, movie1)
+    movies = append(movies, movie2)
+
+    out, err := json.Marshal(movies)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    w.Write(out)
+}
+```
+
+---
+
+### ステップ5: 動作確認
+
+1. ターミナルでアプリケーションを再起動します：
+
+```bash
+go run ./cmd/API
+```
+
+2. ブラウザやAPIテストツール（例: Postman）で以下のURLにアクセスします：
+
+```
+http://localhost:8080/movies
+```
+
+---
+
+### 結果のJSONレスポンス
+
+以下のようなJSONデータが返されるはずです：
+
+```json
+[
+    {
+        "id": 1,
+        "title": "Highlander",
+        "release_date": "1986-03-07T00:00:00Z",
+        "runtime": 116,
+        "mpaa_rating": "R",
+        "description": "An immortal Scottish swordsman faces other immortals in a deadly centuries-old game.",
+        "image": "highlander.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Raiders of the Lost Ark",
+        "release_date": "1981-06-12T00:00:00Z",
+        "runtime": 115,
+        "mpaa_rating": "PG-13",
+        "description": "An adventurous archaeologist races against time to find the Ark of the Covenant.",
+        "image": "raiders.jpg"
+    }
+]
+```
+
 ---
 
 ### 次のステップ
 
-次回の講義では、映画のリストを返すハンドラーを作成します。最初はデータベースを使用せず、変数にサンプルデータを格納してそれを返す形式で進めます。その後、フロントエンドを修正して、バックエンドAPIからデータを取得するようにします。これには数回の講義を要しますが、次回から取り掛かりましょう。
+次回は、フロントエンドをバックエンドAPIに接続して映画リストを取得する仕組みを構築します。これにより、全体のフローが完成します。
