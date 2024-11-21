@@ -2653,3 +2653,426 @@ http://localhost:8080/movies
 ### 次のステップ
 
 次回は、フロントエンドをバックエンドAPIに接続して映画リストを取得する仕組みを構築します。これにより、全体のフローが完成します。
+
+# Connecting the front end to the back end API
+以下は、フロントエンドの`Movies.js`コンポーネントでバックエンドAPIに接続して映画リストを取得する方法の詳細です。
+
+---
+
+### ステップ1: `useEffect`の修正
+
+現在、`useEffect`フック内にハードコーディングされた映画リストがあります。それを削除して、バックエンドAPIにリクエストを送るコードを追加します。
+
+---
+
+### ステップ2: `fetch`を使ったデータ取得
+
+`fetch`関数を使用してバックエンドAPIからJSONデータを取得し、その結果を`setMovies`で状態に設定します。
+
+#### 修正後のコード例:
+
+```jsx
+import React, { useEffect, useState } from 'react';
+
+const Movies = () => {
+    const [movies, setMovies] = useState([]);
+
+    useEffect(() => {
+        // ヘッダーの作成
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        // リクエストオプションの作成
+        const requestOptions = {
+            method: "GET",
+            headers: headers,
+        };
+
+        // fetchリクエスト
+        fetch("http://localhost:8080/movies", requestOptions)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // JSONデータを解析
+            })
+            .then((data) => {
+                setMovies(data); // 映画リストを状態に設定
+            })
+            .catch((error) => {
+                console.error("Error fetching movies:", error);
+            });
+    }, []); // コンポーネントが初回レンダリング時に実行
+
+    return (
+        <div>
+            <h1>Movies</h1>
+            <ul>
+                {movies.map((movie) => (
+                    <li key={movie.id}>
+                        <h2>{movie.title}</h2>
+                        <p>Release Date: {new Date(movie.release_date).toLocaleDateString()}</p>
+                        <p>Runtime: {movie.runtime} minutes</p>
+                        <p>Rating: {movie.mpaa_rating}</p>
+                        <p>{movie.description}</p>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+export default Movies;
+```
+
+---
+
+### 詳細説明
+
+1. **ヘッダーの作成**:
+    
+    ```javascript
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    ```
+    
+    - `Content-Type`を`application/json`に設定します。
+2. **リクエストオプションの設定**:
+    
+    ```javascript
+    const requestOptions = {
+        method: "GET",
+        headers: headers,
+    };
+    ```
+    
+    - `GET`メソッドを指定し、作成したヘッダーをリクエストに追加します。
+3. **`fetch`リクエストの送信**:
+    
+    ```javascript
+    fetch("http://localhost:8080/movies", requestOptions)
+        .then((response) => response.json())
+        .then((data) => setMovies(data))
+        .catch((error) => console.error("Error fetching movies:", error));
+    ```
+    
+    - `http://localhost:8080/movies`にリクエストを送信。
+    - レスポンスが成功すればJSONを解析し、`setMovies`で映画リストを設定。
+    - エラーが発生した場合はコンソールにエラーメッセージを出力。
+4. **映画リストの表示**:
+    
+    - 状態`movies`をマップして映画リストをレンダリングします。
+    - 日付をフォーマットするために`Date`オブジェクトを使用。
+
+---
+
+### ステップ3: 動作確認
+
+1. **バックエンドの起動**:
+    
+    ```bash
+    go run ./cmd/API
+    ```
+    
+2. **フロントエンドの起動**: 開発サーバーを起動します（例: `npm start`）。
+    
+3. **ブラウザで確認**: `Movies.js`コンポーネントが正しく映画リストを表示することを確認します。
+    
+
+---
+
+### 結果の例
+
+以下のような映画リストが表示されます：
+
+```
+Movies
+- Highlander
+  Release Date: 03/07/1986
+  Runtime: 116 minutes
+  Rating: R
+  An immortal Scottish swordsman faces other immortals in a deadly centuries-old game.
+
+- Raiders of the Lost Ark
+  Release Date: 06/12/1981
+  Runtime: 115 minutes
+  Rating: PG-13
+  An adventurous archaeologist races against time to find the Ark of the Covenant.
+```
+
+---
+
+次回は、エラーハンドリングやフロントエンドでのローディング状態の管理を追加する方法について学びます。
+
+以下は、フロントエンドとバックエンド間で発生するCORS（Cross-Origin Resource Sharing）エラーの問題を説明し、解決する方法を解説します。
+
+---
+
+### 問題の概要
+
+1. フロントエンドは`http://localhost:3000`で動作。
+2. バックエンドは`http://localhost:8080`で動作。
+3. ブラウザは同一オリジンポリシー（Same-Origin Policy）に従い、異なるオリジン（ポートが異なる場合も別オリジンとみなされる）間のリソース共有を許可しない。
+
+結果として、次のエラーが発生：
+
+```
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource.
+Reason: CORS header ‘Access-Control-Allow-Origin’ missing.
+Status Code: 405
+```
+
+---
+
+### 解決策
+
+バックエンドにCORSミドルウェアを追加して、特定のオリジン（この場合、`http://localhost:3000`）からのリクエストを許可します。
+
+---
+
+### ステップ1: CORSミドルウェアの作成
+
+以下のコードをバックエンドのルート設定またはミドルウェア設定に追加します。
+
+#### GoでのCORSミドルウェア
+
+`routes.go`またはミドルウェア設定ファイルに以下を追加：
+
+```go
+package main
+
+import (
+    "net/http"
+)
+
+// CORSミドルウェア
+func enableCORS(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
+        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+        // Preflightリクエストへの応答
+        if r.Method == http.MethodOptions {
+            w.WriteHeader(http.StatusOK)
+            return
+        }
+
+        next.ServeHTTP(w, r)
+    })
+}
+```
+
+---
+
+### ステップ2: ミドルウェアをルートに適用
+
+ルート設定でCORSミドルウェアを適用します。`routes.go`で`mux`に追加：
+
+```go
+mux := chi.NewRouter()
+mux.Use(enableCORS) // CORSミドルウェアを適用
+```
+
+---
+
+### ステップ3: バックエンドの再起動
+
+変更を保存し、バックエンドを再起動します：
+
+```bash
+go run ./cmd/API
+```
+
+---
+
+### ステップ4: 動作確認
+
+1. **フロントエンドの起動**: 開発サーバーを起動（例: `npm start`）。
+2. **ブラウザで確認**: `http://localhost:3000`でフロントエンドにアクセスし、映画リストが正しく表示されるか確認します。
+3. **ブラウザのJavaScriptコンソールを確認**: エラーが消え、データが正しく取得されていることを確認。
+
+---
+
+### 期待する結果
+
+映画データがフロントエンドに正しく表示される：
+
+```json
+[
+    {
+        "id": 1,
+        "title": "Highlander",
+        "release_date": "1986-03-07T00:00:00Z",
+        "runtime": 116,
+        "mpaa_rating": "R",
+        "description": "An immortal Scottish swordsman faces other immortals in a deadly centuries-old game.",
+        "image": "highlander.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Raiders of the Lost Ark",
+        "release_date": "1981-06-12T00:00:00Z",
+        "runtime": 115,
+        "mpaa_rating": "PG-13",
+        "description": "An adventurous archaeologist races against time to find the Ark of the Covenant.",
+        "image": "raiders.jpg"
+    }
+]
+```
+
+---
+
+### 補足
+
+- 開発環境では特定のオリジンを許可（例: `http://localhost:3000`）。
+- 本番環境ではより厳密なセキュリティ設定が必要。
+
+次回は、エラー処理やCORS設定の拡張について解説します。
+
+# Enabling CORS middleware
+以下はCORS（Cross-Origin Resource Sharing）の設定をGoで行う方法と、Reactでプロキシを設定してフロントエンドとバックエンドを接続する手順について解説します。
+
+---
+
+### ステップ1: CORSミドルウェアの作成
+
+CORSミドルウェアを新しいファイル`middleware.go`に追加します。このミドルウェアは、すべてのリクエストに必要なCORSヘッダーを追加し、`OPTIONS`リクエスト（プリフライトリクエスト）に対応します。
+
+#### `middleware.go`
+
+```go
+package main
+
+import (
+    "net/http"
+)
+
+// EnableCORS adds CORS headers to the responses
+func (app *application) enableCORS(h http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        // CORSヘッダーを設定
+        w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS")
+        w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Authorization, X-CSRF-Token")
+        w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+        // OPTIONSリクエストへの対応
+        if r.Method == http.MethodOptions {
+            w.WriteHeader(http.StatusOK)
+            return
+        }
+
+        // 次のミドルウェアまたはハンドラーにリクエストを渡す
+        h.ServeHTTP(w, r)
+    })
+}
+```
+
+### コードの説明
+1. **`enableCORS`関数**:
+    - この関数は、`http.Handler`を受け取り、新しい`http.Handler`を返します。
+    - 返されたハンドラーは、CORSヘッダーをリクエストに追加します。
+2. **CORSヘッダーの設定**:
+    - `Access-Control-Allow-Origin`: `http://localhost:3000`を指定し、フロントエンドからのリクエストを許可。
+    - `Access-Control-Allow-Methods`: 許可するHTTPメソッドを指定（例: GET, POST, PUTなど）。
+    - `Access-Control-Allow-Headers`: 許可するヘッダー（例: `Content-Type`, `Authorization`）。
+    - `Access-Control-Allow-Credentials`: クッキーや認証情報を許可するため`true`を設定。
+3. **OPTIONSリクエストへの対応**:
+    - ブラウザはプリフライトリクエストとして`OPTIONS`リクエストを送信します。
+    - `OPTIONS`リクエストの場合、ステータスコード200を返して終了。
+4. **次のミドルウェアまたはハンドラーへの移行**:
+    - `h.ServeHTTP(w, r)`を呼び出して、次のハンドラーにリクエストを渡します。
+
+---
+### ステップ2: ミドルウェアをルートに適用
+
+CORSミドルウェアを`routes.go`に追加します。
+
+#### `routes.go`
+
+```go
+mux := chi.NewRouter()
+mux.Use(app.enableCORS) // CORSミドルウェアを適用
+```
+
+---
+
+### ステップ3: バックエンドを再起動
+
+ターミナルで以下を実行し、バックエンドを再起動します：
+
+```bash
+go run ./cmd/API
+```
+
+---
+
+### ステップ4: Reactでプロキシ設定
+
+Reactの開発環境でプロキシを設定し、フロントエンドからバックエンドへのリクエストを同一オリジンとして扱うようにします。
+
+#### プロキシ設定の追加
+
+1. プロジェクトのルートディレクトリに`package.json`ファイルを開きます。
+2. 以下を追加します：
+
+```json
+"proxy": "http://localhost:8080"
+```
+
+これにより、Reactの開発サーバー（`http://localhost:3000`）からのAPIリクエストが、自動的にバックエンドサーバー（`http://localhost:8080`）に転送されます。
+
+---
+
+### ステップ5: 動作確認
+
+1. **バックエンドの起動**:
+    
+    ```bash
+    go run ./cmd/API
+    ```
+    
+2. **フロントエンドの起動**:
+    
+    ```bash
+    npm start
+    ```
+    
+3. **ブラウザで確認**:
+    
+    - フロントエンドアプリケーションを開き、映画リストが正しく表示されるか確認します。
+
+---
+
+### 期待する結果
+
+CORSエラーが解消され、以下のような映画リストがフロントエンドに表示されます：
+
+```
+Movies
+- Highlander
+  Release Date: 03/07/1986
+  Runtime: 116 minutes
+  Rating: R
+  An immortal Scottish swordsman faces other immortals in a deadly centuries-old game.
+
+- Raiders of the Lost Ark
+  Release Date: 06/12/1981
+  Runtime: 115 minutes
+  Rating: PG-13
+  An adventurous archaeologist races against time to find the Ark of the Covenant.
+```
+
+---
+
+### 注意点
+
+- **本番環境**: 開発環境では`http://localhost:3000`を許可していますが、本番環境ではCORSヘッダーをセキュリティポリシーに基づいて厳密に設定する必要があります。
+    
+- **フロントエンドのプロキシ**: プロキシ設定は開発環境専用です。本番環境では、APIリクエストが正しいエンドポイントに向かうよう、適切に設定する必要があります。
+    
+
+---
+
+次回は、フロントエンドとバックエンドを連携させて、さらにエラー処理や状態管理を改善する方法について解説します。
