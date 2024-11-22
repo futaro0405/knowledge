@@ -3536,20 +3536,108 @@ func (m *PostgresDBRepo) AllMovies() ([]*models.Movie, error) {
 ```
 
 ### 説明
-
 1. **接続タイムアウト**  
     クエリの実行時間が3秒を超える場合に、接続をタイムアウトさせるように設定しています。
-    
 2. **SQLクエリ**  
     映画のデータを取得するSQLを記述しています。`COALESCE` 関数を使用して、`NULL` 値を空文字列に置き換えています。
-    
 3. **クエリ実行**  
     `QueryContext` メソッドを使用してクエリを実行し、取得した行を1つずつ処理しています。
-    
 4. **リソース解放**  
     クエリの結果である `rows` を `defer rows.Close()` で確実に閉じるようにしています。
+
+## Setting up a database repository 2
+現在、`postgres_dbrepo.go` ファイルは、`dbrepo` パッケージ内にあり、データベース接続プールを保持する型 `PostgresDBRepo` を定義しています。
+この型には、受信者 (`receiver`) が `*PostgresDBRepo` 型である `AllMovies` 関数が結び付けられています。
+
+また、`repository` パッケージ内には `DatabaseRepo` というインターフェースが定義されており、`AllMovies` 関数が必要な唯一のメソッドとして指定されています。このインターフェースを満たすために、`PostgresDBRepo` 型が使用されています。
+
+### アプリケーションの型変更
+
+次に、この `DatabaseRepo` を活用できるよう、アプリケーションの型を変更します。
+
+まず、`app` 構造体内の `DB` フィールドの型を、単なるデータベース接続プール (`*sql.DB`) から `repository.DatabaseRepo` に変更します。
+
+```go
+type Application struct {
+    DB repository.DatabaseRepo
+}
+```
+
+これにより、`main.go` 内で以下のような修正が必要になります。以前は接続プールを直接割り当てていましたが、`DBRepo` 型のインスタンスを使用して、データベース接続をラップする必要があります。
+
+```go
+app.DB = &dbrepo.PostgresDBRepo{
+    DB: con,
+}
+```
+
+これで、`app.DB` は `DatabaseRepo` インターフェースを満たす `PostgresDBRepo` 型になります。
+
+---
+
+### 接続を閉じる処理の変更
+
+以前は次のように直接接続を閉じていました。
+
+```go
+defer con.Close()
+```
+
+しかし、`DatabaseRepo` インターフェースを通じて操作するようになったため、代わりに以下のコードを使用します。
+
+```go
+defer app.DB.Connection().Close()
+```
+
+ただし、この時点では `DatabaseRepo` インターフェースに `Connection` メソッドが定義されていないため、これを追加します。
+
+---
+
+### 新しいインターフェースメソッドの追加
+
+`repository.go` に次のようなメソッドを追加します。
+
+```go
+type DatabaseRepo interface {
+    AllMovies() ([]*models.Movie, error)
+    Connection() *sql.DB
+}
+```
+
+これにより、`DatabaseRepo` インターフェースを満たすために、`PostgresDBRepo` 型に `Connection` メソッドを追加する必要があります。
+
+---
+
+### `PostgresDBRepo` に `Connection` メソッドを追加
+
+`postgres_dbrepo.go` に以下のコードを追加します。
+
+```go
+func (m *PostgresDBRepo) Connection() *sql.DB {
+    return m.DB
+}
+```
+
+これで、`PostgresDBRepo` 型が `DatabaseRepo` インターフェースを完全に満たし、`app.DB.Connection().Close()` を使用できるようになります。
+
+---
+
+### リポジトリパターンを使用するメリット
+
+リポジトリパターンを採用することで、以下の利点が得られます。
+
+1. **データベース切り替えの容易さ**  
+    別のデータベース（例: MongoDB）を使用する場合、`DBRepo` パッケージ内に新しい型（例: `MongoDBRepo`）を作成し、必要なメソッドを実装するだけで切り替えが可能です。
+    
+2. **テストの容易さ**  
+    実際のデータベース接続を必要としないテスト用リポジトリ（例: `TestDBRepo`）を簡単に作成できます。
+    
+3. **コードの再利用性とモジュール化**  
+    データベース操作のロジックを明確に分離できるため、アプリケーションの保守性が向上します。
     
 
 ---
 
-これでリポジトリパターンの基礎が整いました。次回はこのリポジトリをアプリケーションで使用する方法について説明します。
+次回は、`handlers.go` ファイルに移り、ハンドラー `AllMovies` を修正して、リポジトリからデータを取得する形に変更します。
+
+## Improving the allMovies handler to use our database
