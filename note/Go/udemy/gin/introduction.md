@@ -3425,17 +3425,131 @@ func main() {
 1. ターミナルを開いて画面をクリアします。
 2. PostgresイメージがDocker上で動作していることを確認します（起動していない場合は動作しません）。
 3. 以下のコマンドを入力してアプリケーションを実行します:
-    
-    ```
-    go run ./cmd/api
-    ```
-    
+
+```
+go run ./cmd/api
+```
 
 出力に「Connected to Postgres」と表示されれば成功です。
 
 これで良いスタートが切れました！  
 次回はPostgresを操作する具体的なメソッド（クエリの実行など）を実装していきます。
 
+## Setting up a database repository 1
+データベースに接続することに成功しました。
+
+さて、今すぐ対処しておきたいことがあります。
+これを前回の講義に含めるべきだったかもしれませんが、大した問題ではありません。
+
+データベース接続や接続プールを開いた場合（今回の例では `main.go` の28行目で `app.ConnectToDB` を呼び出し、それが `connectToDB` 関数を経由して `openDB` 関数を呼び出すことで接続を取得しています）、最後に必ずそれを閉じる必要があります。これを怠ると、リソースリークが発生し、不要な状態でもPostgresへの接続が開いたままになります。
+
+接続を閉じるタイミングとしては、アプリケーションが終了する直前が最適です。つまり、データベースをもう使用しないと確信したタイミングで接続プールを閉じる必要があります。以下のように実装できます。
+
+```go
+app.DB.Close()
+```
+
+ただし、現時点ではまだデータベース接続を使用しているので、すぐには閉じません。そこで、Goのキーワード `defer` を使います。このキーワードは「この後のコードを、関数の終了直前に実行する」という意味です。例えば、`defer app.DB.Close()` と書くと、`main` 関数が終了する直前にデータベース接続を閉じるようになります。
+
+これで接続が適切に閉じられるようになりました。次に、データベースを実際に操作するコードを書いていきます。
+
 ---
 
-ほかに疑問があればお知らせください！
+現状、アプリケーションの型に `DB` フィールドを埋め込んでおり、このフィールドは `*sql.DB` 型、つまりデータベース接続プールを指しています。
+これを「リポジトリパターン」に変更する絶好のタイミングです。
+
+### リポジトリのセットアップ
+まず、`internal` フォルダに新しいフォルダを作成し、`repository` と名前を付けます。
+その中に `repository.go` というファイルを作成し、以下のように記述します。
+
+```go
+package repository
+
+type DatabaseRepo interface {
+    AllMovies() ([]*models.Movie, error)
+}
+```
+
+ここで、`DatabaseRepo` というインターフェースを定義しました。このインターフェースを満たすためには、`AllMovies` というメソッドを持つ必要があります。このメソッドはパラメータを取らず、`models.Movie` 型へのポインタのスライスとエラーを返します。
+
+現時点ではこのインターフェースを満たす型がまだ存在していません。次に、その型を作成します。
+
+---
+
+`repository` フォルダ内にさらに `dbrepo` というフォルダを作成し、その中に `postgres_dbrepo.go` というファイルを作成します。
+
+```go
+package dbrepo
+
+import (
+    "database/sql"
+    "time"
+    "context"
+    "models"
+)
+
+type PostgresDBRepo struct {
+    DB *sql.DB
+}
+
+func (m *PostgresDBRepo) AllMovies() ([]*models.Movie, error) {
+    const dbTimeout = 3 * time.Second
+
+    ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+    defer cancel()
+
+    query := `
+        SELECT id, title, release_date, runtime, mpaa_rating, description,
+        COALESCE(image, ''), created_at, updated_at
+        FROM movies
+        ORDER BY title
+    `
+
+    rows, err := m.DB.QueryContext(ctx, query)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+
+    var movies []*models.Movie
+    for rows.Next() {
+        var movie models.Movie
+        err := rows.Scan(
+            &movie.ID,
+            &movie.Title,
+            &movie.ReleaseDate,
+            &movie.Runtime,
+            &movie.MPAARating,
+            &movie.Description,
+            &movie.Image,
+            &movie.CreatedAt,
+            &movie.UpdatedAt,
+        )
+        if err != nil {
+            return nil, err
+        }
+        movies = append(movies, &movie)
+    }
+
+    return movies, nil
+}
+```
+
+### 説明
+
+1. **接続タイムアウト**  
+    クエリの実行時間が3秒を超える場合に、接続をタイムアウトさせるように設定しています。
+    
+2. **SQLクエリ**  
+    映画のデータを取得するSQLを記述しています。`COALESCE` 関数を使用して、`NULL` 値を空文字列に置き換えています。
+    
+3. **クエリ実行**  
+    `QueryContext` メソッドを使用してクエリを実行し、取得した行を1つずつ処理しています。
+    
+4. **リソース解放**  
+    クエリの結果である `rows` を `defer rows.Close()` で確実に閉じるようにしています。
+    
+
+---
+
+これでリポジトリパターンの基礎が整いました。次回はこのリポジトリをアプリケーションで使用する方法について説明します。
