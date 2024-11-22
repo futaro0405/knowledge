@@ -3311,7 +3311,8 @@ func OpenDB(dsn string) (*sql.DB, error) {
     }
 
     // データベースへの接続確認
-    if err = db.Ping(); err != nil {
+    if err = db.Ping()
+    err != nil {
         return nil, err
     }
 
@@ -3320,16 +3321,12 @@ func OpenDB(dsn string) (*sql.DB, error) {
 ```
 
 ### コードの説明:
-
 1. `sql.Open`
-    
     - 最初のパラメータはドライバ名で、空識別子を使ってインポートした `pgx` ドライバを指定します。
     - 2つ目のパラメータは接続文字列（`dsn`）。
 2. エラーチェック
-    
     - 接続に失敗した場合はエラーを返します。
 3. `db.Ping`
-    
     - データベースへの接続をテストします。Pingが成功すれば接続が正常です。
     - エラーが発生した場合は、接続プールを返さずエラーを返します。
 
@@ -3341,22 +3338,21 @@ func OpenDB(dsn string) (*sql.DB, error) {
 
 ```go
 func (app *application) connectToDB() error {
-    db, err := OpenDB(app.DSN)
+    connection, err := OpenDB(app.DSN)
     if err != nil {
-        return err
+        return nil, err
     }
-    app.DB = db
-    return nil
+    return connection, nil
 }
 ```
 
 ### コードの説明:
-
 1. `app.DSN` を利用して `OpenDB` 関数を呼び出し、データベース接続プールを作成します。
 2. 接続成功時には `app.DB` に接続プールを設定します。
 3. エラーが発生した場合はエラーを返します。
 
-これで、データベース接続の準備が整いました。この流れでアプリケーションをPostgresデータベースに接続することができます。
+これで、データベース接続の準備が整いました。
+この流れでアプリケーションをPostgresデータベースに接続することができます。
 
 このデータベース関数はパラメータを受け取らず、戻り値として `*sql.DB`（データベース接続プールのポインタ）とエラーを返します。  
 関数のシグネチャからもそのように見て取れます。
@@ -3378,7 +3374,7 @@ func (app *application) connectToDB() error {
 ```go
 con, err := app.connectToDB()
 if err != nil {
-    log.Fatal(err) // 接続エラー時に終了
+    log.Fatal(err)
 }
 ```
 
