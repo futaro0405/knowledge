@@ -3641,3 +3641,80 @@ func (m *PostgresDBRepo) Connection() *sql.DB {
 次回は、`handlers.go` ファイルに移り、ハンドラー `AllMovies` を修正して、リポジトリからデータを取得する形に変更します。
 
 ## Improving the allMovies handler to use our database
+では、`AllMovies` ハンドラーを改善していきます。
+このハンドラーは現在、`cmd/api/handlers.go` ファイルに定義されています。
+以下は、その改修手順です。
+
+---
+
+### 1. ハードコードされた映画リストの削除
+
+`AllMovies` 関数内でハードコードされた映画リストを削除し、以下のように書き換えます。
+
+```go
+func (h *Handler) AllMovies(w http.ResponseWriter, r *http.Request) {
+    // 映画のリストを取得
+    movies, err := h.App.DB.AllMovies()
+    if err != nil {
+        // エラーが発生した場合はログを出力し、リクエストを終了
+        fmt.Println(err)
+        http.Error(w, "Failed to fetch movies", http.StatusInternalServerError)
+        return
+    }
+
+    // 正常に取得できた場合、JSON形式でレスポンスを返す
+    if err := json.NewEncoder(w).Encode(movies); err != nil {
+        http.Error(w, "Failed to encode movies to JSON", http.StatusInternalServerError)
+        return
+    }
+}
+```
+---
+### 2. 修正内容のポイント
+1. **リポジトリの利用**  
+    `h.App.DB.AllMovies()` を呼び出して、映画のデータをデータベースから取得します。`AllMovies` メソッドはエラーを返す可能性があるため、エラーチェックを行います。
+2. **エラー処理**  
+    データベースの操作が失敗した場合、`http.Error` を使用して適切なエラーメッセージをクライアントに返します。
+3. **JSONのエンコード**  
+    映画のリストをJSON形式に変換してクライアントに送信します。エンコードに失敗した場合も適切なエラーを返します。
+---
+### 3. 動作確認
+コードを保存した後、バックエンドを再起動します。
+
+```bash
+# 実行中のバックエンドを停止
+Ctrl+C
+# バックエンドを再起動
+go run ./cmd/api
+```
+
+---
+
+### 4. フロントエンドの確認
+フロントエンドが動作していない場合は、以下のコマンドで起動します。
+
+```bash
+npm start
+```
+
+その後、ブラウザでアプリケーションを開き、「Movies」タブまたはボタンをクリックして、映画リストが表示されるか確認します。
+
+---
+
+### 5. 日付フォーマットの改善
+リリース日が適切にフォーマットされていない場合、バックエンドでフォーマットを行う方法を後ほど実装します。例として、Goの`time`パッケージを使用してフォーマットを調整できます。
+
+```go
+releaseDate.Format("2006-01-02")
+```
+
+---
+### 6. 次のステップ
+
+現在、JSONのエンコードやエラー処理が複数箇所で重複しています。このコードの重複を解消するため、次回は以下を実装します。
+1. **ヘルパー関数の作成**  
+    JSONを読み書きする関数や、エラーをフォーマットして返す関数を作成します。
+2. **再利用性の向上**  
+    これにより、コードの可読性が向上し、メンテナンスが容易になります。
+
+次回は、ヘルパー関数の実装を開始します！
