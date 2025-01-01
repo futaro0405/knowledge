@@ -1,160 +1,173 @@
-以下では、**「ノートを新規作成するフォームページ」**に関する説明を、もう少し詳細に書き加えました。フォーム画面と、それを表示するためのルート設定がどのように連携しているか、またGo/Gin側でどのようにテンプレートが描画されているかなどを理解していただける内容になっています。
+
 
 ---
 
-## 新規作成フォームページを追加してみる
+## 4. Login and Logout
 
-ノートの新規作成用フォームが存在しないと、ユーザーが新しいノートを登録することはできません。そこで、**「フォームを表示する画面（GET）」** と **「フォーム送信を受け取って登録する処理（POST）」** を用意し、ユーザーがデータを入力して送信できる仕組みを整えます。
+ユーザーが一度アカウントを作ったら、次は**ログイン**して認証付きのページを閲覧できるようにします。また、**ログアウト**してセッションを切る仕組みも用意します。
 
-### 1. 「新規作成フォーム」を表示するためのルート
+### カスタムミドルウェアを活用したセッション管理
 
-`main.go` などのルーティング設定ファイルに、以下のようなルートを追加します。
+全APIでセッション状態を確認するのは面倒なので、**ミドルウェア**を使って共通処理を挟み込みます。
+
+1. `middleware/auth.go` に `AuthenticateUser()` 関数を定義。
+2. このミドルウェアで `sessions.Default(c)` からセッションを取得し、ユーザーIDを確認する。
+3. ユーザーIDが存在すれば、`c.Set("userID", user.ID)` や `c.Set("email", user.Email)` のように Ginのコンテキストに格納しておく。
+4. `r.Use(middleware.AuthenticateUser())` のように設定すると、すべてのリクエストでこの認証チェックが行われるようになる。
+
+### main.goでのセッションストア設定
 
 ```go
-r.GET("/notes/new", controllers.NotesNew)
+store := memstore.NewStore([]byte("secret"))
+r.Use(sessions.Sessions("mysession", store))
+r.Use(middleware.AuthenticateUser())
 ```
 
-この1行によって、`HTTP GET /notes/new` というリクエストが来たときに `NotesNew` というコントローラ関数を呼び出すようになります。ユーザーがブラウザで `/notes/new` にアクセスすると、新規作成画面が返されるわけです。
+- 最初にGinのsessionsミドルウェアを登録し、次にカスタムミドルウェアを登録。
+- これにより、`AuthenticateUser`関数内でセッションを正しく取得できる。
 
-### 2. コントローラ「NotesNew」
+### ログインの実装
 
-コントローラ関数の役割は「どのテンプレートをレンダリングするか」を決定することです。たとえば、以下のように実装します。
+`SessionsController` にて:
 
 ```go
-func NotesNew(c *gin.Context) {
-    c.HTML(http.StatusOK, "notes/new.html", nil)
+func Login(c *gin.Context) {
+    email := c.PostForm("email")
+    password := c.PostForm("password")
+
+    user := models.UserCheck(email, password)  // email と password を検証
+    if user == nil {
+        // エラー(ユーザーが見つからないorパスワード不一致)
+        c.Redirect(http.StatusFound, "/login")
+        return
+    }
+
+    // セッションにユーザーIDを保存してログイン状態を記録
+    SessionSet(c, user.ID)
+    c.Redirect(http.StatusFound, "/")
 }
 ```
 
-- `c.HTML(...)` は、Ginの機能を使ってHTMLテンプレートを描画するメソッドです。
-- 第1引数の `http.StatusOK` は、ステータスコード200を表します。
-- 第2引数 `"notes/new.html"` は、実際に使うテンプレートファイルのパス（もしくはファイル名）です。
-- 第3引数の `nil` は、テンプレートに渡すデータが何も無いことを示しています（ここでは新規作成フォームだけ表示すればよいので、特段データを渡す必要がない）。
+`UserCheck` 関数は、メールアドレスでユーザーを検索し、パスワードのハッシュをチェックする仕組みを内部で持ちます。
 
-このように、**ユーザーが `/notes/new` にアクセス → 「NotesNew」関数が呼ばれる → `new.html` テンプレートがブラウザに返される** という流れになります。
-
----
-
-## 「new.html」テンプレートの中身
-
-実際にフォームを配置するのが、この `templates/notes/new.html` ファイルです。例として、以下のように書きます。
-
-```html
-<h1>Create a New Note</h1>
-<hr>
-<form action="/notes" method="POST">
-  <p>Name: <input type="text" name="name"></p>
-  <p>Content: <textarea name="content"></textarea></p>
-  <button type="submit">Create</button>
-</form>
-```
-
-ここで注目していただきたいのは、`form` タグの `action` と `method` です。
-
-1. **action="/notes"**  
-    これは、フォームが送信されたときにアクセスされるURLパスを示しています。あとで `r.POST("/notes", controllers.NotesCreate)` というルートを作ることで、このURLに対するPOSTリクエストを受け取れるようになります。
-    
-2. **method="POST"**  
-    `POST` は、一般的に「サーバー側でデータを新規作成するとき」に使われるHTTPメソッドです。  
-    例えば `GET` メソッドは主に「データの取得」に用いますが、フォームからユーザーが入力したデータを送る場合は `POST` を使うのが標準的です。
-    
-3. **`<input type="text" name="name">`** / **`<textarea name="content"></textarea>`**  
-    これらの要素には `name` 属性が付与されており、フォーム送信時に `name` キーや `content` キーとしてサーバーへデータが渡されます（Gin側では、後述する `c.PostForm("name")` / `c.PostForm("content")` で受け取れる）。
-    
-
-このようにフォームを作成することで、ユーザーは「ノートの名前」や「ノートの内容」を入力し、Createボタンを押せばサーバーに送信できるようになります。ただし、この段階ではまだ受け口となるPOSTルートがないため、送信しても「404 Not Found」エラーになるでしょう。
-
----
-
-## 「新規ノートの作成処理」を実装する
-
-先ほどのフォームで指定した `action="/notes"` および `method="POST"` に対応するルートを作り、実際にノートのデータを保存しなければなりません。
-
-### 1. POST用ルートを登録する
-
-`main.go` などで以下のように記述すると、「POST /notes」が呼ばれた際には `NotesCreate` 関数が実行されます。
+### ログアウト
 
 ```go
-r.POST("/notes", controllers.NotesCreate)
-```
-
-### 2. コントローラ「NotesCreate」の中身
-
-実際にフォームから送られてきたデータ（`name` と `content`）を受け取って、モデルを呼び出して保存する処理を書きます。
-
-```go
-// controllers/notes_controller.go
-func NotesCreate(c *gin.Context) {
-    // フォームデータを受け取る
-    name := c.PostForm("name")
-    content := c.PostForm("content")
-
-    // モデルのCreate関数を呼び出してデータベースに保存
-    models.NotesCreate(name, content)
-
-    // 保存が終わったらノート一覧へリダイレクト
-    c.Redirect(http.StatusMovedPermanently, "/notes")
+func Logout(c *gin.Context) {
+    SessionClear(c)
+    c.Redirect(http.StatusFound, "/login")
 }
 ```
 
-- `c.PostForm("name")` は `<input name="name">` に入力された内容を文字列として受け取ります。
-- `models.NotesCreate(name, content)` は、ノートモデルを使って新規作成を行う関数。
-- 最後に、ノート一覧ページ（`/notes`）にリダイレクトすれば、「フォーム入力→保存→一覧表示」という流れがスムーズになります。
+メニューなどでログアウトを選ぶとセッションがクリアされ、その後は認証がない状態に戻ります。
 
-### 3. モデル側のCreate関数
+---
 
-コントローラから呼び出される関数として、モデル内に新規レコードを保存するロジックを定義します。具体的には、`Note` 構造体に値をセットして `Db().Create(&note)` を呼ぶだけです。
+## 5. add user id to the models
+
+認証機能が整っても、**今のままでは全ノートが全ユーザーに見えている**可能性があります。これをユーザーごとに保護するため、ノートモデルにユーザーIDを持たせ、所有者しか操作できないようにします。
+
+### ノートモデルにUserIDフィールドを追加
 
 ```go
-// note.go
-func NotesCreate(name, content string) {
-    note := Note{Name: name, Content: content}
+type Note struct {
+    ID        uint64         `gorm:"primaryKey"`
+    Name      string         `gorm:"size:255"`
+    Content   string         `gorm:"type:text"`
+    UserID    uint64         `gorm:"index"`
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+```
+
+- `UserID` がノートの所有者を示す。
+- すでに作られたテーブルにマイグレーションをかけると、新しいカラム`user_id`が追加される。
+- 古いノートは `user_id = null` になるため、あとで必要に応じてデータを更新します。
+
+### ノート取得/作成時にUserIDを考慮
+
+#### 例：NotesAll
+
+```go
+func NotesAll(userID uint64) []Note {
+    var notes []Note
+    Db().Where("deleted_at IS NULL AND user_id = ?", userID).
+         Order("updated_at desc").
+         Find(&notes)
+    return notes
+}
+```
+
+#### 例：NotesCreate
+
+```go
+func NotesCreate(userID uint64, name, content string) {
+    note := Note{
+        Name:    name,
+        Content: content,
+        UserID:  userID,
+    }
     Db().Create(&note)
 }
 ```
 
-ここでは `Db()` は自前で用意した「GORMのDB接続インスタンスを返す」関数ですが、人によってはグローバル変数にしたり、別の方法を用いたりしています。いずれにせよ、`Create(&note)` を呼ぶことでMySQL上に新しいノートの行が追加されます。
+### コントローラ側の変更
 
----
-
-## フォーム送信→ノート登録→リダイレクトの流れを確認
-
-1. ブラウザで `http://localhost:8080/notes/new` を開くと、新規作成用のフォームが表示される（**GETリクエスト**）。
-2. ユーザーが「Name」「Content」を入力し、「Create」ボタンを押すと、データが**POST `/notes`** に送られる。
-3. `NotesCreate` 関数が呼ばれ、`name` と `content` が取り出されて、モデルの `NotesCreate` が実行される。
-4. データベースに新規ノートがINSERTされた後、`/notes` に**リダイレクト**がかかる。
-5. 最終的にはノート一覧ページが表示され、今作ったノートがリストに含まれるようになる。
-
-もしリダイレクト先の`/notes`がまだ実装されていない場合や、DB接続周りが正しくセットアップされていない場合は、エラーが出るかもしれません。順を追って設定していけば、問題なく「Notesアプリ」でデータを登録できるようになるはずです。
-
----
-
-## time.Timeエラーが出る場合の対処
-
-稀に、`time.Time`型のパースエラーが出ることがあります。これはMySQLドライバとやり取りする際に、Goが時刻情報を正しく扱えないパターンです。そのときは、**接続文字列に `parseTime=True` を明示的に付ける**ように設定してみてください。
+`NotesIndex` などノート一覧を表示する関数で、**現在ログインしているユーザーID** をセッションまたはコンテキストから取得し、それをモデルのパラメータに渡します。
 
 ```go
-// setup.go
-dsn := "notes:tmp_pwd@tcp(127.0.0.1:3306)/notes?charset=utf8mb4&parseTime=True&loc=Local"
+func NotesIndex(c *gin.Context) {
+    userID := c.GetUint64("userID")
+    if userID == 0 {
+        c.HTML(http.StatusUnauthorized, "errors/401.html", gin.H{
+            "message": "未認証アクセスです",
+        })
+        return
+    }
+
+    notes := models.NotesAll(userID)
+    c.HTML(http.StatusOK, "notes/index.html", gin.H{
+        "notes": notes,
+    })
+}
 ```
 
-これで多くの場合は解決します。
+- こうすることで、ログイン済みユーザーのノートだけが表示されるようになる。
+- 他のAPI（詳細表示・新規作成・編集・削除）も同様に、**UserIDを必ずチェック**し、該当ユーザーのノートだけ操作できるようにします。
 
 ---
 
-## まとめ：新規作成画面から登録までの一連の仕組み
+## 6. 最終動作確認
 
-- **ルーティング（GET）**：`r.GET("/notes/new", controllers.NotesNew)`  
-    ユーザーがフォームページにアクセスしたときの処理
-- **コントローラ（GET）**：`NotesNew`  
-    上記ルートが呼び出されると、この関数が `new.html` テンプレートを返す
-- **テンプレート（HTML）**：`new.html`  
-    フォームの構造を持ち、`action="/notes"` / `method="POST"` でデータを送る
-- **ルーティング（POST）**：`r.POST("/notes", controllers.NotesCreate)`  
-    フォームデータが送られたときの受け口
-- **コントローラ（POST）**：`NotesCreate`  
-    `c.PostForm` で取得したデータをモデル層に引き渡し、保存したのちリダイレクト
-- **モデルのCreate関数**：`NotesCreate(name, content)`  
-    GORMの `Create(&note)` を呼んで実際のデータベースINSERTを行う
+1. **データベーススキーマの変更**
+    - `models/setup.go` に `Db().AutoMigrate(&Note{}, &User{})` のように追記し、ノートとユーザーテーブルを最新化。
+    - MySQLコンソールなどで `DESCRIBE notes;` を行い、`user_id` カラムが追加されたことを確認。
+2. **既存のノートの`user_id`を手動で設定**
+    - `UPDATE notes SET user_id = 1 WHERE ...` のようにSQLで複数レコードを更新し、様々なユーザーに分けて割り当て。
+3. **動作チェック**
+    - ログインしたユーザーは自分のノートだけが見える。
+    - 他のユーザーでログインすると、そのユーザーに紐づけられたノートしか見えない。
+    - ログアウトすればノート一覧にはアクセスできず、「未認証アクセス」などのメッセージが表示される。
 
-これらが連動して初めて、ユーザーの「新規ノート作成」という操作が完結します。Go/GinフレームワークでWebアプリを組むときは、このように**表示系（GET）と処理系（POSTなど）のルートを分ける**のがオーソドックスです。今後、編集や削除などの機能を追加するときも同じ流れを再利用するとよいでしょう。
+こうして**ユーザー単位でのノート管理**が実現し、アプリがよりセキュアかつ使いやすいものに仕上がります。
+
+---
+
+## まとめ
+
+今回の手順を通して、以下の機能がそろいました。
+
+1. **bcrypt** を用いた安全なパスワードハッシュ化
+2. **sessions** を用いたログイン状態の管理（サインアップ / ログイン / ログアウト）
+3. ノートモデルに `UserID` フィールドを追加し、**ユーザー専用のノート**を作成・閲覧できる仕組み
+4. カスタムミドルウェアでセッションをチェックして、認証必須ページへのアクセス制御を行う
+
+これらが揃うと、**複数ユーザーが同じアプリを使っても、お互いのノートが見えない**状態を作れます。さらに発展させるには、次のようなトピックを検討してみてください。
+
+- **パスワードリセット機能**（メール送信によるリセットリンク）
+- **トークン認証**（JWTなどを利用して、スケールしやすい分散環境に対応）
+- **OAuth**（GoogleやGitHubなどの外部サービスを使ったログイン）
+- **アクセスポリシーの厳密化**（APIレベルでさらにきめ細かい権限制御を行う）
+
+これらはさらにセキュアでリッチなユーザー体験を実装するための道筋です。今回の構成が**Go × Gin × GORM** での認証の基本形となるので、ぜひ活用してみてください。
