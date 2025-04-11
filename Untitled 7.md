@@ -11,20 +11,25 @@
 - 成功時:
 ```
 {
-  "status": 200,
+	account: {...},
+	csrf: {...}
 }
 ```
   
 - エラー時:
 ```
 {
-	"status": 400,
-	"errors": [
-		{"sheet": "alcohols", "row": 5, "message": "必須項目「Product_code」が入力されていません。"},
-		{"sheet": "alcohols", "row": 7, "message": "アルコール度数の値が妥当な範囲(0～100)外です。"},
-		{"sheet": "alcohols", "row": 9, "message": "データ形式が不正です。"}
-	],
-	"message": "検証エラーにより登録処理は中断されました。"
+	data: {
+		errors: [{
+			sheet: "alcohols",
+			row: x,
+			message: "xxxxxxx"
+		},{...}
+		],
+	    count: 2
+	},
+	account: {...},
+	csrf: {...}
 }
 ```
 ## バックエンド処理
@@ -33,14 +38,26 @@
 	- 拡張子（.xlsx）およびMIMEタイプの確認。
 	- 許容サイズ（最大5MB）を超えていないか検証。
 ### XLSXファイルのパース
-- ライブラリの選定:
-	- Pythonの場合：openpyxl または pandas、Node.jsの場合：xlsx ライブラリなどを利用。
+- ライブラリ:
+	- [excelize](https://xuri.me/excelize/ja/)を使用する。
 - テンプレート構成:
 	- ファイルは必ず「alcohols」シートと「makers」シートの2シート構成とする。
 ### 各行データの検証
 - 必須項目チェック:
-    - 「お酒」シート：例）銘柄名、カテゴリ、アルコール度数など
-    - 「メーカー」シート：例）メーカー名、所在地等
+    - `alcohols` シート
+        - `product_code
+        - `maker_id
+        - `genre_id`
+        - `product_name`
+        - `alcohol_content`
+        - `explanation`
+        - `product_information`
+        - `release_date`
+        - `product_page`
+        - `amazon_url`
+        - `rakuten_url`
+    - `makers` シート
+        - `brand_name	maker_name	maker_name_jp	country	founding_date	home_page
 - **データの値が妥当かのチェック:**
     - アルコール度数は0～100の範囲に収まっているか。
     - 日付や文字列のフォーマット、長さのチェックなど。
