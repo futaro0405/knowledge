@@ -45,37 +45,37 @@
 ### 各行データの検証
 - 必須項目チェック:
     - `alcohols` シート
-        - `product_code
-        - `maker_id
-        - `genre_id`
-        - `product_name`
-        - `alcohol_content`
-        - `explanation`
-        - `product_information`
-        - `release_date`
-        - `product_page`
-        - `amazon_url`
-        - `rakuten_url`
+        - ブランド名 `product_code`
+        - メーカー `maker`
+        - ジャンルID `genre`
+        - 商品名 `product_name`
+        - アルコール度数 `alcohol_content`
+        - 製品説明 `explanation`
+        - 製品情報 `product_information`
+        - 販売日 `release_date`
+        - 製品ページ `product_page`
+        - AmazonアフィリエイトURL `amazon_url`
+        - 楽天アフィリエイトURL `rakuten_url`
     - `makers` シート
-        - `brand_name	maker_name	maker_name_jp	country	founding_date	home_page
-- **データの値が妥当かのチェック:**
+        - メーカーブランド名 `brand_name`
+        - メーカー名 `maker_name`
+        - メーカー和名 `maker_name_jp`
+        - 国 `country`
+        - 創業日 `founding_date`
+        - メーカーホームページ `home_page`
+- データの値が妥当かのチェック:
     - アルコール度数は0～100の範囲に収まっているか。
-    - 日付や文字列のフォーマット、長さのチェックなど。
-    - その他、各項目について期待するデータ型・範囲に沿っているか判定。
+    - 日付や文字列のフォーマット。
+    - 各項目について期待するデータ型・範囲に沿っているか判定。
 - データ重複チェック:
-    - 既存データと同一キー（例：銘柄コード、メーカーIDなど）が存在しないか確認。
+    - 既存データと同一キーが存在しないか確認。
     - 重複が見られる場合はエラーに含める。      
-※ 各検証は、1行ずつループ処理により実施し、エラーが1件でもあれば登録処理は中断する。
-### **2.4. 一括登録処理（トランザクション管理）**
-
-- **全データ正常の場合のみ実行:**
-    
-    - 検証完了後、エラーが全くなければ、DBトランザクション内で一括更新／登録処理を開始。
-        
-    
+※ 各検証は、1行ずつループ処理により実施し、エラーのある行は登録処理を中断する。
+### 一括登録処理（トランザクション管理）
+- 全データ正常の場合のみ実行:
+	- 検証完了後、エラーがない行をDBトランザクション内で一括更新／登録処理を開始。
 - **データマッピング:**
-    
-    - 「お酒」シートのデータを以下のテーブルにマッピングする（例）:
+	- 「alcohols」シートのデータを以下のテーブルにマッピングする（例）:
         
         - alcohols
             
