@@ -18,12 +18,12 @@
 - エラー時:
 ```
 {
-  "status": "error",
-  "errors": [
-    {"row": 5, "message": "必須項目「銘柄名」が入力されていません。"},
-    {"row": 8, "message": "アルコール度数の値が範囲外です。"}
-  ],
-  "message": "検証エラーにより登録処理は中断されました。"
+	"status": 400,
+	"errors": [
+		{"row": 5, "message": "必須項目「Product_code」が入力されていません。"},
+		{"row": 8, "message": "makerがありません"}
+	],
+	"message": "検証エラーにより登録処理は中断されました。"
 }
 ```
 
