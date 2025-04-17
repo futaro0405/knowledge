@@ -1,20 +1,12 @@
 1. DB 初期化／マイグレーション
     - app/db/init.sql に、docs/db/db.md で決めた CREATE TABLE 文を書き込む。
-    - Docker Compose で MySQL（あるいは Postgres）が立ち上がることを確認し、docker-compose up → docker exec でテーブル定義が反映されるか確認。    
-2. **設定ファイルの整備**
-    
+    - Docker Compose で MySQL（あるいは Postgres）が立ち上がることを確認し、docker-compose up → docker exec でテーブル定義が反映されるか確認。
+2. 設定ファイルの整備
     - app/config/database.go で、環境変数（DB_HOST、DB_USER、DB_PASS、DB_NAME…）を読み込むように修正。
-        
     - main.go の起動処理で database.go の Connect 関数を呼び、エラーなく接続できるかテストログを出す。
-        
-    
 3. **モデル（構造体）の定義**
-    
     - app/models/user.go をはじめ、他テーブル分の Go 構造体を作る。
-        
-    - gorm／sqlx タグや JSON タグを付けて、DB カラムとマッピングできるようにする。
-        
-    
+    - gorm／sqlx タグや JSON タグを付けて、DB カラムとマッピングできるようにする。    
 4. **リポジトリ層の実装**
     
     - app/repositories/user_repository.go の中に、CRUD 用のメソッド（CreateUser、FindByID、UpdateUser など）を定義。
