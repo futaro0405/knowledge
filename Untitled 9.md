@@ -8,9 +8,7 @@
     - app/models/user.go をはじめ、他テーブル分の Go 構造体を作る。
     - gorm／sqlx タグや JSON タグを付けて、DB カラムとマッピングできるようにする。    
 4. **リポジトリ層の実装**
-    
     - app/repositories/user_repository.go の中に、CRUD 用のメソッド（CreateUser、FindByID、UpdateUser など）を定義。
-        
     - 他テーブル分のリポジトリも同様に作成。
         
     
