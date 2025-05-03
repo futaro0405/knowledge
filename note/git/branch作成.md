@@ -1,11 +1,11 @@
 ---
 tags: git
 ---
-## 作成元のブランチに切り替え
+# 作成元のブランチに切り替え
 ```powershell
 git checkout main
 ```
-## ローカルブランチ
+# ローカルブランチ
 ```powershell
 git checkout -b new-branch
 ```
